@@ -1,0 +1,57 @@
+/* src/pages/home/home.css */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+.mb-4 {
+    margin-bottom: 1rem;
+}
+
+.flex {
+    display: flex;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.border {
+    border: 1px solid #ccc;
+}
+
+.p-2 {
+    padding: 0.5rem;
+}
+
+.mr-2 {
+    margin-right: 0.5rem;
+}
+
+.bg-blue-500 {
+    background-color: #4299e1;
+}
+
+.text-white {
+    color: #fff;
+}
+
+.rounded {
+    border-radius: 0.25rem;
+}
+
+/* src/pages/home/home.css */
+.w-full {
+    width: 100%;
+}
+
+#root {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+}
