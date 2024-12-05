@@ -1,0 +1,80 @@
+.register-page {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom right, #28a745, #1e7e34); /* 绿色渐变背景，营造清新感觉 */
+}
+
+.register-form {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    width: 350px;
+}
+
+.register-form h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.register-form-group {
+    margin-bottom: 15px;
+}
+
+.register-form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #666;
+}
+
+.register-form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+}
+
+.register-form-group input:focus {
+    border-color: #28a745; /* 输入框获取焦点时边框变为绿色 */
+}
+
+.register-error-message {
+    color: #f00;
+    margin-bottom: 10px;
+}
+
+.register-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.register-button:hover {
+    background-color: #1e7e34; /* 按钮悬停时加深绿色 */
+}
+
+.register-redirect {
+    text-align: center;
+    margin-top: 10px;
+    color: #666;
+}
+
+.register-redirect a {
+    color: #28a745;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.register-redirect a:hover {
+    color: #1e7e34;
+}

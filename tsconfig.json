@@ -6,8 +6,13 @@
   ],
   "compilerOptions": {
     "baseUrl": ".",
+    "types": ["react", "react - dom", "react - router - dom"],
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "paths": {
       "@/*": ["./src/*"]
     }
+
   }
 }
