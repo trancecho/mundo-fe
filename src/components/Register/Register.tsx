@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
 interface RegisterPageProps {}
 
 const RegisterPage: React.FC<RegisterPageProps> = () => {
@@ -44,6 +43,8 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
     };
 
     return (
+        <>
+        
         <div className="register-page">
             <h2>注册</h2>
             <form onSubmit={handleRegister}>
@@ -79,6 +80,8 @@ const RegisterPage: React.FC<RegisterPageProps> = () => {
             </form>
             <p>已有账号？<a href="/login">去登录</a></p>
         </div>
+        </>
+        
     );
 };
 
