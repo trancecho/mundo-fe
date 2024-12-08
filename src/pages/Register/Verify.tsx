@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
-import { verifyEmail } from '../../router/api';
+import { verifyEmail } from '../../router/api.ts';
 import style from '../Login/Login.module.css';
 import { useAuth } from '../../context/AuthContext.tsx';
 const Verify: React.FC = () => {
