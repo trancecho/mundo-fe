@@ -1,0 +1,36 @@
+.answerWindow {
+    position: fixed;
+    bottom: 60px;
+    right: 20px;
+    width: 300px;
+    height: 500px;
+    background: linear-gradient(to bottom, #3085f3 20%, #6a9bf3 30%, #fff 70%);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+}
+
+.answerWindow_title {
+    color: #f6f3f3;
+    font-size: 1.5rem;
+    text-align: left;
+    font-weight: 700;
+}
+
+.box_styles_touchable {
+    @apply p-1 cursor-pointer rounded-md hover:bg-blue-100 transition-all w-full;
+    background-color: white;
+}
+
+.box_styles_contain {
+    @apply border border-gray-300 shadow;
+    @apply p-2 mt-2  rounded-md transition-all w-full;
+    background-color: white;
+}
+
+.font_styles {
+    @apply text-[#3085F3] text-sm text-left;
+}

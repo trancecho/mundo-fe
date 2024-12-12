@@ -1,10 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import QuestionList from './QuestionList'; 
+import QuestionList from './QuestionList';
 import { QQLink } from './QQLink';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card } from "@/components/ui/card";
 import AIChat from './AiChat';
+import styles from './AnswerWindow.module.css';
+
 const AnswerWindow: React.FC = () => {
     const windowRef = useRef(null);
 
@@ -18,33 +20,24 @@ const AnswerWindow: React.FC = () => {
     }, []);
 
     return (
-        
         <div
             ref={windowRef}
-            style={{
-                position: 'fixed',
-                bottom: '60px',
-                right: '20px',
-                width: '300px',
-                height: '500px',
-                background: 'linear-gradient(to bottom, #3085f3 10%, #6a9bf3 20%, #fff 60% )',
-                borderRadius: '10px',
-                boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
-                padding: '20px',
-                zIndex: 40,
-                display: 'flex',
-                flexDirection: 'column',
-            }}
+            className={styles.answerWindow}
         >
             <ScrollArea>
-                <h2><strong className="text-stone-50 text-2xl">
+                <div className={styles.answerWindow_title}>
                     常见问题
-                </strong></h2>
-                <Card className="p-2 mt-2 rounded-md">
+                </div>
+                <div className={styles.box_styles_contain}>
                     <QuestionList />
-                </Card>
-                <QQLink/>
-                <AIChat/>
+                </div>
+                <div className={styles.box_styles_contain}>
+                    <QQLink />
+                </div>
+                <div className={styles.box_styles_contain}>
+                    <AIChat />
+                </div>
+
             </ScrollArea>
         </div>
     );

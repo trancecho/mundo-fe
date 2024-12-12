@@ -14,7 +14,7 @@ const App: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleWindow = () => {
-        setIsOpen((prev) => !prev); // 切换答案窗口的显示和隐藏
+        setIsOpen((prev) => !prev); // 切换客服答案窗口的显示和隐藏
     };
     return (
         <AuthProvider>
