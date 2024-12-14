@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { AuthProvider } from './context/AuthContext';   
+import { AuthProvider } from './context/AuthContext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // import Home from '@/pages/home/page.tsx';
 import DashboardPage from '@/components/Dashboard/Dashboardpage'; // 这里替换为你实际的后台界面组件路径及名称
-
 import Login from '@/pages/Login/Login'; // 这里替换为你实际的登录界面组件路径及名称
 import RegisterPage from '@/pages/Register/Registerr'; // 导入Register组件
 import Verify from '@/pages/Register/Verify'; // 导入Register组件
@@ -17,17 +16,11 @@ import AnswerWindow from '@/components/CustomerService/AnswerWindow'; // 导入�
 import './App.css';
 
 const App: React.FC = () => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    const toggleWindow = () => {
-        setIsOpen((prev) => !prev); // 切换答案窗口的显示和隐藏
-    };
     return (
         <AuthProvider>
             <Router>
                 <div>
-                    <CustomerServiceButton onClick={toggleWindow} />
-                    {isOpen && <AnswerWindow />}
+                    <AnswerWindow /> {/*客服组件*/}
                     <Routes>
                         <Route path="/" element={<DashboardPage />} /> // 添加后台界面路由
                         {/* <Route path="/" element={<Home />} /> */}

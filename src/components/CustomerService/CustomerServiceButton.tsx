@@ -26,7 +26,7 @@ const CustomerServiceButton: React.FC<CustomerServiceButtonProps> = ({ onClick }
                 cursor: 'pointer',
                 transition: 'transform 0.3s ease', // 鼠标悬停时的动画
                 zIndex: 41, // 确保客服按钮位于上层
-            }}
+            }}/*作为单独的客服组件，所以直接采用内联样式，不考虑被复用 */
             onMouseEnter={(e) => {
                 // 鼠标悬停时放大按钮
                 e.currentTarget.style.transform = 'scale(1.1)';
@@ -44,6 +44,7 @@ const CustomerServiceButton: React.FC<CustomerServiceButtonProps> = ({ onClick }
         >
             <FaHeadset size={20} />
         </Button>
+
     );
 };
 
