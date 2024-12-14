@@ -26,11 +26,8 @@ const Login = () => {
     
     try {
       const data = await loginUser(email, password); // 调用登录函数
-      // 如果登录成功，将用户重定向到首页或其他页面
       console.log('登录成功:', data);
-      Navigate('/');
-      // 假设你想要重定向到 "dashboard" 页面
-    //   history.push('/dashboard');
+      Navigate('/qanda');
     } catch (err) {
       setError('登录失败，请检查您的电子邮件和密码');
     }

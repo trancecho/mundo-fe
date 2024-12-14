@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext.tsx';
-import { registerUser } from '../../router/api';
+import { registerUser } from '../../router/api.ts';
 import style from '../Login/Login.module.css';
 import { useNavigate , Link } from 'react-router-dom';
 
@@ -59,7 +59,6 @@ const Registerr: React.FC = () => {
                         />
                     </div>
                     <button className={style.loginBtn} onClick={handleRegister}>发送验证邮件</button>
-                    <Link to="/register/verify/v2">去yanzheng</Link>
 
                 </>
             )}  
