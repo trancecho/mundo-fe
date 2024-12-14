@@ -11,6 +11,7 @@
     z-index: 40;
     display: flex;
     flex-direction: column;
+
 }
 
 .answerWindow_title {
@@ -27,10 +28,30 @@
 
 .box_styles_contain {
     @apply border border-gray-300 shadow;
-    @apply p-2 mt-2  rounded-md transition-all w-full;
+    @apply p-2 mt-2 rounded-md transition-all w-full;
     background-color: white;
 }
 
 .font_styles {
     @apply text-[#3085F3] text-sm text-left;
+}
+
+.link_button {
+    margin-top: auto;
+    width: 100%;
+    text-align: center;
+}
+
+.qq_small_font {
+    font-size: 12px;
+}
+
+.confettiButton_style {
+    padding: 5px 5px;
+    font-size: 10px;
+}
+
+.confettiButton_position {
+    margin: auto;
+    margin-left: 0;
 }
