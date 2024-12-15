@@ -9,6 +9,7 @@ import CustomerServiceButton from '@/components/CustomerService/CustomerServiceB
 // import TypingAnimation from "@/components/ui/typing-animation";
 import BlurIn from "@/components/ui/blur-in";
 import { ConfettiButton } from "@/components/ui/confetti";
+import { HumanChat } from './HumanChat';
 
 const AnswerWindow: React.FC = () => {
 
@@ -45,12 +46,14 @@ const AnswerWindow: React.FC = () => {
                             word="有问题，就有答案"
                             duration={0.75}
                         />
-
                         <div className={styles.box_styles_contain}>
                             <QuestionList />
                         </div>
                         <div className={styles.box_styles_contain}>
                             <AIChat />
+                        </div>
+                        <div className={styles.box_styles_contain}>
+                            <HumanChat />
                         </div>
                     </ScrollArea>
                     <div className={styles.confettiButton_position} >

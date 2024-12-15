@@ -10,7 +10,6 @@ import DataStation from '@/pages/DataStation';
 import Forum from '@/pages/Forum';
 import QAndA from '@/pages/QAndA';
 import TeamUp from '@/pages/TeamUp';
-import CustomerServiceButton from '@/components/CustomerService/CustomerServiceButton'; // 导入按钮组件
 import AnswerWindow from '@/components/CustomerService/AnswerWindow'; // 导入答案窗口组件
 
 import './App.css';
