@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { AuthProvider } from './context/AuthContext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // import Home from '@/pages/home/page.tsx';
-
 import DashboardPage from '@/components/Dashboard/Dashboardpage'; //后台
 import Login from '@/pages/Login/Login'; // 登录
 import RegisterPage from '@/pages/Register/Registerr'; // 注册
@@ -12,7 +11,6 @@ import DataStation from '@/pages/DataStation';//资料站
 import Forum from '@/pages/Forum';//论坛
 import QAndA from '@/pages/QAndA';//答疑
 import TeamUp from '@/pages/TeamUp';//组队
-import CustomerServiceButton from '@/components/CustomerService/CustomerServiceButton'; // 导入按钮组件
 
 import AnswerWindow from '@/components/CustomerService/AnswerWindow'; // 导入答案窗口组件
 
