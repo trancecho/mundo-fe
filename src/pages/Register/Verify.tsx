@@ -9,11 +9,8 @@ const Verify: React.FC = () => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const { email }=useAuth();
-    //   const email = searchParams.get('email'); // 从 URL 获取 email
     const token = searchParams.get('token'); // 从 URL 获取 token
     console.log(email, token);
-    // const email = 'anhofa2.0@gmail.com'; // 从 URL 获取 email
-    // const token = '9a0b7051f39e961902bbe4085f477049'; // 从 URL 获取 token
 
     const handleVerify = async () => {
         if (!password || !email || !token) {
