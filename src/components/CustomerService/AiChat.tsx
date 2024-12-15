@@ -10,10 +10,10 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Card } from "@/components/ui/card";
 // import { useEffectOnce } from 'usehooks-ts';
 import * as base64 from 'base-64';
 import CryptoJs from 'crypto-js';
+import styles from './AnswerWindow.module.css';
 interface AIResponseChoice {
     content: string;
 }
@@ -155,11 +155,11 @@ const AIChat: React.FC = () => {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Card className="p-2 mt-2 cursor-pointer rounded-md hover:bg-blue-100 transition-all w-full text-left">
-                    <span className="text-base text-[#3085F3]">
+                <div className={styles.box_styles_touchable}>
+                    <div className={styles.font_styles}>
                         开始AI聊天
-                    </span>
-                </Card>
+                    </div>
+                </div>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]" >
                 <DialogHeader>
