@@ -11,7 +11,7 @@ import DataStation from '@/pages/DataStation';//资料站
 import Forum from '@/pages/Forum';//论坛
 import QAndA from '@/pages/QAndA';//答疑
 import TeamUp from '@/pages/TeamUp';//组队
-import CustomerServiceButton from '@/components/CustomerService/CustomerServiceButton'; // 导入按钮组件
+
 import AnswerWindow from '@/components/CustomerService/AnswerWindow'; // 导入答案窗口组件
 
 import './App.css';

@@ -11,7 +11,6 @@ export function QQLink() {
             className="w-full"
         >
             <PulsatingButton className={styles.qq_small_font}>问题无法解决？别怕！点我加群咨询！</PulsatingButton>
-
         </a>
 
 
