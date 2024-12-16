@@ -5,29 +5,45 @@ const api = axios.create({
   // baseURL: 'http://localhost:12349/api',
   // baseURL: 'http://116.198.207.159:12349/api',
   // baseURL:'https://7426c7fe.r27.cpolar.top/api',
-  baseURL:'https://altar-echo.top/api',
+  // baseURL:'https://altar-echo.top/api',
+  baseURL:'https://auth.altar-echo.top/api',
+  
   headers: {
     'Content-Type': 'application/json',
     "Authorization": "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Inl1dWtpMyIsInJvbGUiOiJ1c2VyIiwiaXNzIjoiVGltZXJNZTMiLCJleHAiOjE3MzIzNjIxMDAsImlhdCI6MTczMTc1NzMwMH0.2ZTfC6chnPfEBnl5NEf7l6yvrgkkS4vyvl4ZyR4htCU"
   },
 });
-
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error('请求失败:', error.response || error.message || error);
+    return Promise.reject(error);
+  }
+);
 // 发送注册请求，发送邮箱验证码
-export const registerUser = async (username: string, email: string) => {
-  const response = await api.post('/register/v2', { username, email });
-  return response.data; // 返回服务器响应
+export const registerUser = async (username: string, email: string,callback_url:string) => {
+  const response = await api.post('/register/v2', {
+     username, 
+     email,
+     callback_url
+  });
+  return response.data; 
 };
 
 // 激活用户邮箱
 export const verifyEmail = async (email: string, token: string, password: string) => {
   const response = await api.get('/verify/v2', {
-    params: { token, email, password }, // 将参数放入 `params` 中
+    params: { 
+      token,
+      email, 
+      password 
+    }, 
   });
-  return response.data; // 返回服务器响应
+  return response.data; 
 };
 
 
-// 登录函数
+// 邮箱密码登录函数
 export const loginUser = async (email: string, password: string) => {
   try {
     const response = await api.post('/login', {
@@ -36,9 +52,63 @@ export const loginUser = async (email: string, password: string) => {
     });
     return response.data; // 返回响应数据
   } catch (error) {
-    // 错误处理
     console.error('登录失败:', error);
     throw error; // 将错误抛出，以便在调用处处理
+  }
+};
+
+// 获取微信二维码登录地址
+export const getWechatLoginQR = async () => {
+  try {
+    const response = await api.get('/wechat/login');
+    return response.data;
+  } catch (error) {
+    console.error('获取微信二维码失败:', error);
+    throw error;
+  }
+};
+
+// 查询微信扫码登录状态
+export const checkWechatLoginCallback = async (ticket: string) => {
+  try {
+    const response = await api.get('/wechat/login/callback', {
+      params: { 
+        ticket,
+        service: 'mundo' 
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('查询扫码登录状态失败:', error);
+    throw error;
+  }
+};
+
+// 查询helper登录状态
+export const checkHelperLoginCallback = async (state: string,code: string) => {
+  try {
+    const response = await api.post('/user/third/hduhelp/callback', {
+      state,
+      code,
+      service: 'mundo' 
+    });
+    return response.data;
+  } catch (error) {
+    console.error('查询helper登录状态失败:', error);
+    throw error;
+  }
+};
+// 绑定邮箱
+export const bindEmail = async (token: string) => {
+  try {
+    const response = await api.get('/wechat/bind', {
+      headers: {
+        'Token': token, 
+      },
+    });
+    console.log(response.data);
+  } catch (error) {
+    console.error('绑定邮箱token失败', error);
   }
 };
 

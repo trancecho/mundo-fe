@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext.tsx';
-import { registerUser } from '../../router/api';
+import { registerUser } from '../../router/api.ts';
 import style from '../Login/Login.module.css';
 import { useNavigate , Link } from 'react-router-dom';
 
-const Registerr: React.FC = () => {
+const BindRegister: React.FC = () => {
     const {setEmailFunc}=useAuth();
     // const [username, setUsername] = useState('');
     // const [email, setEmail] = useState('');
@@ -19,7 +19,7 @@ const Registerr: React.FC = () => {
   
       try {
         console.log(inputEmail);
-        await registerUser(inputEmail, inputEmail);
+        await registerUser(inputEmail, inputEmail,'login');
         setIsEmailSent(true);
         alert('验证邮件已发送，请查收邮箱完成验证！');
         setEmailFunc(inputEmail);
@@ -33,7 +33,7 @@ const Registerr: React.FC = () => {
     return (
         <>
         <div className={style.loginBox}>
-            <h2 className={style.loginTitle}>Mundo 注册</h2>
+            <h2 className={style.loginTitle}>Mundo 绑定邮箱</h2>
             {isEmailSent ? (
             <p>验证邮件已发送，请前往邮箱完成验证。</p>
             ) : (
@@ -59,7 +59,6 @@ const Registerr: React.FC = () => {
                         />
                     </div>
                     <button className={style.loginBtn} onClick={handleRegister}>发送验证邮件</button>
-                    <Link to="/register/verify/v2">去yanzheng</Link>
 
                 </>
             )}  
@@ -70,4 +69,4 @@ const Registerr: React.FC = () => {
       
     );
   };
-export default Registerr;
+export default BindRegister;
