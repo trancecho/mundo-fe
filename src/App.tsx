@@ -11,7 +11,7 @@ import DataStation from '@/pages/DataStation';//资料站
 import Forum from '@/pages/Forum';//论坛
 import QAndA from '@/pages/QAndA';//答疑
 import TeamUp from '@/pages/TeamUp';//组队
-
+import Post from './components/center/post';
 import AnswerWindow from '@/components/CustomerService/AnswerWindow'; // 导入答案窗口组件
 
 import './App.css';
@@ -28,6 +28,7 @@ const App: React.FC = () => {
                         <Route path="/datastation" element={<DataStation />} />
                         <Route path="/forum" element={<Forum />} />
                         <Route path="/qanda" element={<QAndA />} />
+                        <Route path="/center" element={<Post />}/>
                         <Route path="/teamup" element={<TeamUp />} />
                         <Route path="/login" element={<Login />} /> 
                         <Route path="/register" element={<RegisterPage />} />

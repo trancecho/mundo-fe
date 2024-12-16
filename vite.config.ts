@@ -11,4 +11,9 @@ export default defineConfig({
       "react-router-dom": path.resolve(__dirname, "node_modules/react-router-dom")
     },
   },
+  css: {
+    modules: {
+      scopeBehaviour: 'local',
+    },
+  },
 })
