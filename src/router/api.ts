@@ -6,7 +6,9 @@ const api = axios.create({
   // baseURL: 'http://116.198.207.159:12349/api',
   // baseURL:'https://7426c7fe.r27.cpolar.top/api',
   // baseURL:'https://altar-echo.top/api',
-  baseURL:'https://auth.altar-echo.top/api',
+  // baseURL:'https://auth.altar-echo.top/api',
+  baseURL:'http://1d6775e0.r27.cpolar.top/api',
+  
   
   headers: {
     'Content-Type': 'application/json',
@@ -32,12 +34,10 @@ export const registerUser = async (username: string, email: string,callback_url:
 
 // 激活用户邮箱
 export const verifyEmail = async (email: string, token: string, password: string) => {
-  const response = await api.get('/verify/v2', {
-    params: { 
-      token,
-      email, 
-      password 
-    }, 
+  const response = await api.post('/verify/v2', {
+    email, 
+    token,
+    password 
   });
   return response.data; 
 };
@@ -103,7 +103,7 @@ export const bindEmail = async (token: string) => {
   try {
     const response = await api.get('/wechat/bind', {
       headers: {
-        'Token': token, 
+        "Authorization": "Bearer " +token,
       },
     });
     console.log(response.data);

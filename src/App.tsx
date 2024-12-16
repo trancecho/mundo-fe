@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { AuthProvider } from './context/AuthContext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // import Home from '@/pages/home/page.tsx';
-import DashboardPage from '@/components/Dashboard/Dashboardpage'; //后台
+// import DashboardPage from '@/components/Dashboard/Dashboardpage'; //后台
 import Login from '@/pages/Login/Login'; // 登录
 import RegisterPage from '@/pages/Register/Registerr'; // 注册
 import BindRegisterPage from '@/pages/Register/BindRegister'; // 注册
@@ -12,6 +12,8 @@ import Forum from '@/pages/Forum';//论坛
 import QAndA from '@/pages/QAndA';//答疑
 import TeamUp from '@/pages/TeamUp';//组队
 import Post from './components/center/post';
+
+import FrontPage from '@/pages/FrontPage.tsx';//首页
 import AnswerWindow from '@/components/CustomerService/AnswerWindow'; // 导入答案窗口组件
 
 import './App.css';
@@ -23,7 +25,8 @@ const App: React.FC = () => {
                 <div>
                     <AnswerWindow /> {/*客服组件*/}
                     <Routes>
-                        <Route path="/" element={<DashboardPage />} /> 
+                        <Route path="/" element={<FrontPage />} /> 
+                        {/* <Route path="/dashboard" element={<DashboardPage />} />  */}
                         {/* <Route path="/" element={<Home />} /> */}
                         <Route path="/datastation" element={<DataStation />} />
                         <Route path="/forum" element={<Forum />} />

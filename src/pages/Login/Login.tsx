@@ -1,8 +1,10 @@
 import React, { useState , useEffect} from 'react';
+import randomatic from 'randomatic';
 import style from './Login.module.css'; 
-import { loginUser, getWechatLoginQR, checkWechatLoginCallback,bindEmail,checkHelperLoginCallback } from '../../router/api'; // 导入登录函数
+// import { useAuth } from '../../context/AuthContext.tsx';
+import { loginUser, getWechatLoginQR, checkWechatLoginCallback,bindEmail,checkHelperLoginCallback,verifyEmail } from '../../router/api'; // 导入登录函数
 // import { useHistory } from 'react-router-dom'; // React Router 的 hook，确保在登录成功后跳转到其他页面
-import { useNavigate,useSearchParams,Link } from 'react-router-dom';
+import { useNavigate,useSearchParams,Link,useLocation } from 'react-router-dom';
 import { AxiosError } from 'axios'; // 导入 AxiosError 类型
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -16,10 +18,11 @@ const Login = () => {
   const [polling, setPolling] = useState<boolean>(false);
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
   const [bind,setBind]=useState<boolean>(false);
-  const token = searchParams.get('token'); // 从 URL 获取 token
+  const [token, setToken] = useState<string | null>(null);
+  const [token1, setToken1] = useState<string | null>(null);
   const code = searchParams.get('code'); // 从 URL 获取 code
   const state = searchParams.get('state'); // 从 URL 获取 state
-
+  const emailbind =searchParams.get('email'); // 从 URL 获取 email
   // 获取二维码
   const fetchQRCode = async () => {
     try {
@@ -48,6 +51,23 @@ const Login = () => {
   //   }
   // }, [qrCodeUrl]);  // 依赖 qrCodeUrl，当其变化时执行
   // 开启轮询检查扫码登录状态
+  useEffect(() => {
+    // 从 URL 获取 token 参数
+    const urlParams = new URLSearchParams(location.search);
+    const tokenFromUrl = urlParams.get('token');
+    
+    // 只有当 token 为空时才更新状态，避免重复设置
+    if (tokenFromUrl && token !== tokenFromUrl) {
+      setToken(tokenFromUrl); // 设置 token 状态
+    }
+  }, [location.search, token]); // 依赖 location.search 和 token
+
+  // 使用 useEffect 来监听 token1 的变化
+  useEffect(() => {
+    if (token1) {
+      console.log("更新后的 token1:", token1);
+    }
+  }, [token1]); // 每次 token1 更新时，执行此副作用
 
   const startPolling = () => {
     if (polling || !ticket) return;
@@ -177,16 +197,104 @@ const Login = () => {
       setError('登录失败，请检查您的电子邮件和密码');
     }
   };
-  const bindLogin = async () => {
-    try {
-      const data = await bindEmail(token); // 调用绑定邮箱函数
-      console.log('绑定邮箱成功:', data);
-      navigate('/qanda');
-    } catch (error) {
-      setStatus('绑定邮箱失败，请刷新重试');
-      console.error('绑定邮箱失败:', error);
+
+//   // 邮箱验证登录,激活邮箱
+//   const handleVerify = async () => {
+//     if (!emailbind || !token) {
+//       alert('缺少必要的信息，请检查链接或填写密码！');
+//       return null;
+//     }
+  
+//     const randomString = randomatic('a0', 6);
+  
+//     try {
+//       // 调用 verifyEmail，并获取返回的新 token
+//       const newData = await verifyEmail(emailbind, token, randomString);
+//       console.log('新 token:', newData.data.token);
+//       setToken1(newData.data.token); // 更新 token
+//       console.log("token1",token1);
+//       // alert('邮箱激活成功！');
+//       return newData.data.token;
+//     } catch (error) {
+//       console.error('激活失败:', error);
+//       alert('激活失败，请稍后再试！');
+//       null;
+//     }
+// };
+//   const bindLogin = async () => {
+//     try {
+//       const aaa = await handleVerify(); // 确保 handleVerify 完成后再继续
+//       // 等待 2 秒
+//       // await new Promise((resolve) => setTimeout(resolve, 2000));
+
+//       if (token1) {
+//         const data = await bindEmail(aaa); // 调用绑定邮箱函数
+//         console.log('绑定邮箱成功:', data);
+//         navigate('/qanda');
+//       } else {
+//         setStatus('token1 无效，请检查链接或重新激活邮箱');
+//       }
+
+//     } catch (error) {
+//       setStatus('绑定邮箱失败，请刷新重试');
+//       console.error('绑定邮箱失败:', error);
+//     }
+//   };
+  // 邮箱验证登录, 激活邮箱
+const handleVerify = () => {
+  return new Promise((resolve, reject) => {
+    if (!emailbind || !token) {
+      alert('缺少必要的信息，请检查链接或填写密码！');
+      reject('缺少必要的信息');
+      return;
     }
-  };
+
+    const randomString = randomatic('a0', 6);
+
+    // 调用 verifyEmail，并获取返回的新 token
+    verifyEmail(emailbind, token, randomString)
+      .then((newData) => {
+        console.log('新 token:', newData.data.token);
+        setToken1(newData.data.token); // 更新 token
+        console.log("token1", token1); // 这儿还会是之前的 token, 因为 setState 是异步的
+        resolve(newData.data.token); // 返回新 token
+      })
+      .catch((error) => {
+        console.error('激活失败:', error);
+        alert('激活失败，请稍后再试！');
+        reject('激活失败');
+      });
+  });
+};
+
+const bindLogin = () => {
+  handleVerify()
+    .then((newToken) => {
+      // 等待 2 秒
+      new Promise((resolve) => setTimeout(resolve, 2000))
+        .then(() => {
+          if (newToken) {
+            return bindEmail(newToken); // 调用绑定邮箱函数
+          } else {
+            setStatus('token1 无效，请检查链接或重新激活邮箱');
+            return Promise.reject('token1 无效');
+          }
+        })
+        .then((data) => {
+          console.log('绑定邮箱成功:', data);
+          navigate('/qanda');
+        })
+        .catch((error) => {
+          setStatus('绑定邮箱失败，请刷新重试');
+          console.error('绑定邮箱失败:', error);
+        });
+    })
+    .catch((error) => {
+      setStatus('绑定邮箱失败，请刷新重试');
+      console.error('激活失败或 token 无效:', error);
+    });
+};
+
   const handleHelperLogin = () => {
     const url=`https://api.hduhelp.com/oauth/authorize?response_type=code&client_id=jvbarBgwFKD78LMh&redirect_uri=http://localhost:5173/login&state=1a`
     window.location.href=url;//当前窗口打开
