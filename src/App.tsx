@@ -7,7 +7,7 @@ import Login from '@/components/Login/Login'; // 这里替换为你实际的登�
 import RegisterPage from '@/components/Register/Registerr'; // 导入Register组件
 import Verify from '@/components/Register/Verify'; // 导入Register组件
 import './App.css';
-import Post from './components/center.tsx/post';
+import Post from './components/center/post';
 function App() {
     return (
         <AuthProvider>
