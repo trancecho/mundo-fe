@@ -7,7 +7,7 @@ import Login from '@/components/Login/Login'; // 这里替换为你实际的登�
 import RegisterPage from '@/components/Register/Registerr'; // 导入Register组件
 import Verify from '@/components/Register/Verify'; // 导入Register组件
 import './App.css';
-
+import Post from './components/center.tsx/post';
 function App() {
     return (
         <AuthProvider>
@@ -15,7 +15,7 @@ function App() {
                 <Routes>
                 <Route path="/" element={<DashboardPage />} /> // 添加后台界面路由
                     {/* <Route path="/" element={<Home />} /> */}
-                    
+                    <Route path="/center" element={<Post />}/>
                     <Route path="/login" element={<Login />} /> // 添加登录界面路由
                     <Route path="/register" element={<RegisterPage />} />
                     <Route path="/register/verify/v2" element={<Verify />} />
