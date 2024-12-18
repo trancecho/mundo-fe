@@ -1,0 +1,94 @@
+/* 顶部 MUNDO后台区域 */
+.header {
+    width: 1440px;
+    height: 80px;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    padding-left: 80px;
+    font-family: 'PingFang SC', sans-serif;
+    font-weight: 600;
+    font-size: 36px;
+    color: #000000;
+    border-bottom: 1px solid #d9d9d9;
+  }
+  
+  /* 左侧导航栏 */
+  .sidebar {
+    position: absolute;
+    top: 110px;
+    left: 100px;
+    width: 200px;
+    height: 600px;
+    background-color: #ffffff;
+    border-radius: 5px 0 0 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .menuItem {
+    font-size: 16px;
+    color: #666;
+    cursor: pointer;
+  }
+  
+  .menuItem.active {
+    color: #000;
+    font-weight: bold;
+    background-color: #e6f7ff;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  
+  /* FAQ 区域容器 */
+  .faqContainer {
+    position: absolute;
+    top: 110px;
+    left: 320px;
+    width: 800px;
+    height: 914px;
+    background-color: #ffffff;
+    border-radius: 5px 0 0 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  /* FAQ 每个问题框 */
+  .faqItem {
+    width: 780px;
+    height: 100px;
+    background-color: #f5f9ff;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+  
+  /* FAQ 文本 */
+  .faqText {
+    font-size: 14px;
+    color: #333;
+  }
+  
+  /* FAQ 按钮 */
+  .faqButton {
+    width: 60px;
+    height: 30px;
+    background-color: #1677ff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  
+  .faqButton:hover {
+    background-color: #4096ff;
+  }
+  
