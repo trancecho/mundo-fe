@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../../style/Header.css';
 
+
 //Header组件，包含搜索框功能，接收搜索框输入变化和搜索按钮点击的事件处理函数属性
 interface HeaderProps {
     onSearchChange: React.ChangeEventHandler<HTMLInputElement>;
