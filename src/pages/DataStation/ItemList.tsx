@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Item from "./Item";
 
 interface ItemListProps {
@@ -19,27 +19,51 @@ interface ItemData {
 const ItemList: React.FC<ItemListProps> = ({ activeCategory, activeTab }) => {
   const [items, setItems] = useState<ItemData[]>([]);
   const [selectedTab, setSelectedTab] = useState<string>(activeTab);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
 
   useEffect(() => {
-    const fetchedItems: ItemData[] = [
-      { id: 1, title: "高数资料A", downloadLink: "#", hotness: 120, date: "2024-12-01", category: "高数" },
-      { id: 2, title: "大物资料B", downloadLink: "#", hotness: 150, date: "2024-12-02", category: "大物" },
-      { id: 3, title: "C语言资料C", downloadLink: "#", hotness: 100, date: "2024-12-03", category: "C语言" },
-      { id: 4, title: "其他资料D", downloadLink: "#", hotness: 200, date: "2024-12-04", category: "其他" },
-      { id: 5, title: "高数资料E", downloadLink: "#", hotness: 90, date: "2024-12-05", category: "高数" },
-    ];
+    // 请求后端获取资料数据
+    setLoading(true);
+    setError(null);
 
-    // 根据分类过滤数据
-    const filteredItems = fetchedItems.filter(item => item.category === activeCategory);
-
-    // 根据排序方式进行排序
-    const sortedItems =
-      selectedTab === "hot"
-        ? filteredItems.sort((a, b) => b.hotness - a.hotness)
-        : filteredItems.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-    setItems(sortedItems);
+    axios
+      .get(`http://your-backend-api.com/items?category=${activeCategory}`)
+      .then((response) => {
+        setItems(response.data); // 设置响应数据到状态
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setError("获取资料失败，请稍后再试");
+        setLoading(false);
+      });
   }, [activeCategory, selectedTab]);
+
+  //在前端排序
+  useEffect(() => {
+    if (selectedTab === "hot") {
+      // 热度排序
+      setItems((prevItems) =>
+        prevItems.sort((a, b) => b.hotness - a.hotness)
+      );
+    } else if (selectedTab === "new") {
+      // 日期排序
+      setItems((prevItems) =>
+        prevItems.sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+        )
+      );
+    }
+  }, [selectedTab]); // Runs every time selectedTab changes
+
+  const handleSort = (tab: string) => {
+    setSelectedTab(tab);
+  };
+
+  if (loading) return <p>加载中....</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <div
@@ -53,14 +77,22 @@ const ItemList: React.FC<ItemListProps> = ({ activeCategory, activeTab }) => {
     >
       <div style={{ marginBottom: "20px" }}>
         <button
-          onClick={() => setSelectedTab("hot")}
-          style={selectedTab === "hot" ? { ...activeTabStyle, boxShadow: "0 4px 8px rgb(16, 124, 248)" } : tabStyle}
+          onClick={() => handleSort("hot")}
+          style={
+            selectedTab === "hot"
+              ? { ...activeTabStyle, boxShadow: "0 4px 8px rgb(16, 124, 248)" }
+              : tabStyle
+          }
         >
           最热
         </button>
         <button
-          onClick={() => setSelectedTab("new")}
-          style={selectedTab === "new" ? { ...activeTabStyle, boxShadow: "0 4px 8px rgb(16, 124, 248)" } : tabStyle}
+          onClick={() => handleSort("new")}
+          style={
+            selectedTab === "new"
+              ? { ...activeTabStyle, boxShadow: "0 4px 8px rgb(16, 124, 248)" }
+              : tabStyle
+          }
         >
           最新
         </button>
