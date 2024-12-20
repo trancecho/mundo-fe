@@ -11,8 +11,10 @@ import DataStation from '@/pages/DataStation';//资料站
 import Forum from '@/pages/Forum';//论坛
 import QAndA from '@/pages/QAndA';//答疑
 import TeamUp from '@/pages/TeamUp';//组队
-import Post from './components/center/post';
+// import Post from './components/center/post';
+import Post from './components/center.tsx/post';
 import AnswerWindow from '@/components/CustomerService/AnswerWindow'; // 导入答案窗口组件
+import Review from '@/pages/Review/review'; // 审核
 
 import './App.css';
 
@@ -34,6 +36,8 @@ const App: React.FC = () => {
                         <Route path="/register" element={<RegisterPage />} />
                         <Route path="/bindregister" element={<BindRegisterPage />} />
                         <Route path="/register/verify/v2" element={<Verify />} />
+                        <Route path="/review" element={<Review />} />
+                        <Route path="/post" element={<Post />}/>
                         {/* 可以根据实际需求继续添加更多的路由配置 */}
                     </Routes>
                 </div>
