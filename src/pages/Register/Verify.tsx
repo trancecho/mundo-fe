@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { verifyEmail } from '../../router/api.ts';
 import style from '../Login/Login.module.css';
-import { useAuth } from '../../context/AuthContext.tsx';
+// import { useAuth } from '../../context/AuthContext.tsx';
 const Verify: React.FC = () => {
     const [password, setPassword] = useState('');
     const [isVerified, setIsVerified] = useState(false);
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
-    const { email }=useAuth();
+    const email= searchParams.get('email'); // 从 URL 获取 email
+    // const { email }=useAuth();
     const token = searchParams.get('token'); // 从 URL 获取 token
     console.log(email, token);
 

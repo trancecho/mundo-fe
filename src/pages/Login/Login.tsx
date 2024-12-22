@@ -1,8 +1,10 @@
 import React, { useState , useEffect} from 'react';
+import randomatic from 'randomatic';
 import style from './Login.module.css'; 
-import { loginUser, getWechatLoginQR, checkWechatLoginCallback,bindEmail,checkHelperLoginCallback } from '../../router/api'; // 导入登录函数
+import { useAuth } from '../../context/AuthContext.tsx';
+import { loginUser, getWechatLoginQR, checkWechatLoginCallback,bindWeChatEmail,bindHDUEmail,checkHelperLoginCallback,verifyEmail } from '../../router/api'; // 导入登录函数
 // import { useHistory } from 'react-router-dom'; // React Router 的 hook，确保在登录成功后跳转到其他页面
-import { useNavigate,useSearchParams,Link } from 'react-router-dom';
+import { useNavigate,useSearchParams,Link,useLocation } from 'react-router-dom';
 import { AxiosError } from 'axios'; // 导入 AxiosError 类型
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -16,10 +18,17 @@ const Login = () => {
   const [polling, setPolling] = useState<boolean>(false);
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
   const [bind,setBind]=useState<boolean>(false);
-  const token = searchParams.get('token'); // 从 URL 获取 token
-  const code = searchParams.get('code'); // 从 URL 获取 code
-  const state = searchParams.get('state'); // 从 URL 获取 state
-
+  const [token, setToken] = useState<string | null>(null);
+  const [authtokenflag, setAuthtokenflag] = useState<boolean>(false);
+  const [token1, setToken1] = useState<string | null>(null);
+  const {longtoken,setTokenFunc}=useAuth();
+  // const code = searchParams.get('code'); // 从 URL 获取 code
+  // const state = searchParams.get('state'); // 从 URL 获取 state
+  const [code, setCode] = useState<string | null>(null);
+  const [state, setState] = useState<string | null>(null);
+  const emailbind =searchParams.get('email'); // 从 URL 获取 email
+  const {external,setExternalFunc}=useAuth();
+  // const external=searchParams.get('external'); // 从 URL 获取 external
   // 获取二维码
   const fetchQRCode = async () => {
     try {
@@ -35,6 +44,39 @@ const Login = () => {
       console.error('获取微信二维码失败:', error);
     }
   };
+  // 使用 useEffect 来确保 URL 中的 external 被同步到 Context 中
+  useEffect(() => {
+    const urlExternal = searchParams.get('external');
+    if (urlExternal) {
+      console.log("external 更新:", external);
+      setExternalFunc(urlExternal);  // 如果 URL 中有 external，更新 Context 中的值
+    }
+  }, [location.search, setExternalFunc]);  // 依赖 location.search，确保 URL 变化时更新
+
+  useEffect(() => {
+    const updateParams = () => {
+      const searchParams = new URLSearchParams(window.location.search);
+      setCode(searchParams.get('code'));
+      setState(searchParams.get('state'));
+    };
+    // 初始化时读取参数
+    updateParams();
+    // 监听 URL 变化
+    window.addEventListener('popstate', updateParams);
+    // 清理监听器
+    return () => {
+      window.removeEventListener('popstate', updateParams);
+    };
+  }, []); // 空依赖数组只会在组件挂载时运行一次
+
+  //监听longtoken
+  useEffect(() => {
+    if (longtoken) {
+      // 当 longtoken 更新后执行的逻辑
+      console.log("longToken 更新:", longtoken);
+    }
+  }, [longtoken]);  // 依赖 longtoken，当 token 变化时会触发
+
   // 监听 ticket 的变化，一旦 ticket 更新，启动轮询
   // useEffect(() => {
   //   if (ticket) {
@@ -48,6 +90,23 @@ const Login = () => {
   //   }
   // }, [qrCodeUrl]);  // 依赖 qrCodeUrl，当其变化时执行
   // 开启轮询检查扫码登录状态
+  useEffect(() => {
+    // 从 URL 获取 token 参数
+    const urlParams = new URLSearchParams(location.search);
+    const tokenFromUrl = urlParams.get('token');
+    
+    // 只有当 token 为空时才更新状态，避免重复设置
+    if (tokenFromUrl && token !== tokenFromUrl) {
+      setToken(tokenFromUrl); // 设置 token 状态
+    }
+  }, [location.search, token]); // 依赖 location.search 和 token
+
+  // 使用 useEffect 来监听 token1 的变化
+  // useEffect(() => {
+  //   if (token1) {
+  //     console.log("更新后的 token1:", token1);
+  //   }
+  // }, [token1]); // 每次 token1 更新时，执行此副作用
 
   const startPolling = () => {
     if (polling || !ticket) return;
@@ -67,6 +126,7 @@ const Login = () => {
           setStatus('等待用户扫码或确认...');
         }
       } catch (error) {
+        const external="wechat"
         // 使用类型断言将 error 转换为 AxiosError 类型
         const axiosError = error as AxiosError;
         console.log('bind',bind);
@@ -74,7 +134,7 @@ const Login = () => {
         // 确保 response 和 data 存在后再访问 code
         if (axiosError.response?.data?.data.code === 400001) {
           setBind(true);
-          navigate('/bindregister'); // 使用 navigate() 进行路由跳转
+          navigate('/bindregister',{state:{ external }}); // 使用 navigate() 进行路由跳转
         } else {
           setStatus('检查登录状态失败，请稍后重试');
           setPolling(false);
@@ -101,9 +161,11 @@ const Login = () => {
   // 监听 helper 回传
   const startPollingHelper = () => {
     if (polling || !state || !code ) return;
-    
     setPolling(true);
     setStatus('正在检查登录状态...');
+    if(longtoken&&state&&code){
+      bindLogin();
+    }
     const id = setInterval(async () => {
       try {
         console.log('state',state,'code',code);
@@ -118,6 +180,7 @@ const Login = () => {
           setStatus('等待用户鉴权确认...');
         }
       } catch (error) {
+        const external="hduhelp"
         // 使用类型断言将 error 转换为 AxiosError 类型
         const axiosError = error as AxiosError;
         console.log('bind',bind);
@@ -125,8 +188,9 @@ const Login = () => {
         console.log('data',axiosError.response.data.data.code);
         // 确保 response 和 data 存在后再访问 code
         if (axiosError.response?.data?.data.code === 400001) {
+          
           setBind(true);
-          navigate('/bindregister'); // 使用 navigate() 进行路由跳转
+          navigate('/bindregister',{state:{ external }}); // 使用 navigate() 进行路由跳转
         } else {
           setStatus('检查登录状态失败，请稍后重试');
           setPolling(false);
@@ -177,21 +241,340 @@ const Login = () => {
       setError('登录失败，请检查您的电子邮件和密码');
     }
   };
-  const bindLogin = async () => {
-    try {
-      const data = await bindEmail(token); // 调用绑定邮箱函数
-      console.log('绑定邮箱成功:', data);
-      navigate('/qanda');
-    } catch (error) {
-      setStatus('绑定邮箱失败，请刷新重试');
-      console.error('绑定邮箱失败:', error);
+{
+//   // 邮箱验证登录,激活邮箱
+//   const handleVerify = async () => {
+//     if (!emailbind || !token) {
+//       alert('缺少必要的信息，请检查链接或填写密码！');
+//       return null;
+//     }
+  
+//     const randomString = randomatic('a0', 6);
+  
+//     try {
+//       // 调用 verifyEmail，并获取返回的新 token
+//       const newData = await verifyEmail(emailbind, token, randomString);
+//       console.log('新 token:', newData.data.token);
+//       setToken1(newData.data.token); // 更新 token
+//       console.log("token1",token1);
+//       // alert('邮箱激活成功！');
+//       return newData.data.token;
+//     } catch (error) {
+//       console.error('激活失败:', error);
+//       alert('激活失败，请稍后再试！');
+//       null;
+//     }
+// };
+//   const bindLogin = async () => {
+//     try {
+//       const aaa = await handleVerify(); // 确保 handleVerify 完成后再继续
+//       // 等待 2 秒
+//       // await new Promise((resolve) => setTimeout(resolve, 2000));
+
+//       if (token1) {
+//         const data = await bindWeChatEmail(aaa); // 调用绑定邮箱函数
+//         console.log('绑定邮箱成功:', data);
+//         navigate('/qanda');
+//       } else {
+//         setStatus('token1 无效，请检查链接或重新激活邮箱');
+//       }
+
+//     } catch (error) {
+//       setStatus('绑定邮箱失败，请刷新重试');
+//       console.error('绑定邮箱失败:', error);
+//     }
+//   };
+  // 邮箱验证登录, 激活邮箱
+}  
+//杭助跳转
+const handleHelperLogin = () => {
+  const url=`https://api.hduhelp.com/oauth/authorize?response_type=code&client_id=jvbarBgwFKD78LMh&redirect_uri=http://localhost:5173/login&state=1a`
+  window.location.href=url;//当前窗口打开
+  // window.open(url,'_blank');//新窗口打开
+}
+
+const handleVerify = () => {
+  return new Promise((resolve, reject) => {
+    if (!emailbind || !token) {
+      alert('缺少必要的信息，请检查链接或填写密码！');
+      reject('缺少必要的信息');
+      return;
     }
-  };
-  const handleHelperLogin = () => {
-    const url=`https://api.hduhelp.com/oauth/authorize?response_type=code&client_id=jvbarBgwFKD78LMh&redirect_uri=http://localhost:5173/login&state=1a`
-    window.location.href=url;//当前窗口打开
-    // window.open(url,'_blank');//新窗口打开
-  }
+    const randomString = randomatic('a0', 6);
+    // 调用 verifyEmail，并获取返回的新 token
+    verifyEmail(emailbind, token, randomString)
+      .then((newData) => {
+        console.log('新 token:', newData.data.token);
+        setTokenFunc(newData.data.token as string); 
+        // resolve("");
+        setToken1(newData.data.token); // 更新 token
+        console.log("token1", token1); // 这儿还会是之前的 token, 因为 setState 是异步的
+        setAuthtokenflag(true); // 设置 token 状态
+        resolve(newData.data.token as string); // 返回新 token
+      })
+      .catch((error) => {
+
+        console.error('激活失败:', error);
+        console.log('emailbind',emailbind,'token',token,'randomString',randomString,'external',external);
+        // alert('激活失败，请稍后再试！');
+        reject('激活失败');
+        console.log('verifyEmail激活失败');
+      });
+  });
+};
+{
+// const bindLogin = () => {
+//   handleVerify()
+//     .then((newToken) => {
+//       // 等待 2 秒
+//       new Promise((resolve) => setTimeout(resolve, 2000))
+//         .then(() => {
+//           if (newToken) {
+//             return bindWeChatEmail(newToken); // 调用绑定邮箱函数
+//           } else {
+//             setStatus('token1 无效，请检查链接或重新激活邮箱');
+//             return Promise.reject('token1 无效');
+//           }
+//         })
+//         .then((data) => {
+//           console.log('绑定邮箱成功:', data);
+//           navigate('/qanda');
+//         })
+//         .catch((error) => {
+//           setStatus('绑定邮箱失败，请刷新重试');
+//           console.error('绑定邮箱失败:', error);
+//         });
+//     })
+//     .catch((error) => {
+//       setStatus('绑定邮箱失败，请刷新重试');
+//       console.error('激活失败或 token 无效:', error);
+//     });
+// };
+}
+{
+// {const bindLogin = () => { 
+//   if(!authtokenflag){
+//     handleVerify()
+//     .then(() => {
+//       const {token}=useAuth();
+//       // 等待 2 秒
+//       new Promise((resolve) => setTimeout(resolve, 2000))
+//         .then(() => {
+//           if (token) {
+//             return bindWeChatEmail(token as string); // 尝试调用绑定微信邮箱函数
+//           } else {
+//             setStatus('token 无效，请检查链接或重新激活邮箱');
+//             return Promise.reject('token 无效');
+//           }
+//         })
+//         .then((data) => {
+//           console.log('绑定微信邮箱成功:', data);
+//           navigate('/qanda');
+//         })
+//         .catch((error) => {
+//           console.error('绑定微信邮箱失败:', error);
+//           console.log('准备调用 bindHDUEmail');
+//           console.log('token',token,'state',state,'code',code);
+//           if(!state || !code){
+//             return handleHelperLogin(); // 调用 HDUHelper 登录
+//           }
+//           else{
+//             return bindHDUEmail(token as string,state as string,code as string); 
+//           }
+//         })
+//         .then((data) => {
+//           if (data) {
+//             console.log('data:',data);
+//             console.log('有data这个时候的token是',token);
+//             console.log('绑定HDU邮箱成功:', data);
+//             navigate('/qanda');
+//           } else {
+//             console.log('data:',data);
+
+//             console.log('无data这个时候的token是',token);
+//             setStatus('HDU绑定邮箱失败，请刷新重试');
+//           }
+//         })
+//         .catch((error) => {
+//           console.log('报错这个时候的token是',token);
+//           console.error('绑定HDU邮箱失败:', error);
+//           setStatus('绑定邮箱失败，请刷新重试');
+//         });
+//     })
+//     .catch((error) => {
+//       setStatus('激活失败或 token 无效，请重新激活');
+//       console.error('激活失败或 token 无效:', error);
+//     });
+//   }
+//   else{
+//     const {token}=useAuth();
+//     console.log('token',token,'state',state,'code',code);
+//     // 等待 2 秒
+//     new Promise((resolve) => setTimeout(resolve, 2000))
+//       .then(() => {
+//         if (token) {
+//           return bindWeChatEmail(token as string); // 尝试调用绑定微信邮箱函数
+//         } else {
+//           setStatus('token 无效，请检查链接或重新激活邮箱');
+//           return Promise.reject('token 无效');
+//         }
+//       })
+//       .then((data) => {
+//         console.log('绑定微信邮箱成功:', data);
+//         navigate('/qanda');
+//       })
+//       .catch((error) => {
+//         console.error('绑定微信邮箱失败:', error);
+//         console.log('准备调用 bindHDUEmail');
+//         console.log('token',token,'state',state,'code',code);
+//         return bindHDUEmail(token as string,state as string,code as string); 
+//       })
+//       .then((data) => {
+//         if (data) {
+//           console.log('data:',data);
+//           console.log('有data这个时候的token是',token);
+//           console.log('绑定HDU邮箱成功:', data);
+//           navigate('/qanda');
+//         } else {
+//           console.log('data:',data);
+
+//           console.log('无data这个时候的token是',token);
+//           setStatus('HDU绑定邮箱失败，请刷新重试');
+//         }
+//       })
+//       .catch((error) => {
+//         console.log('报错这个时候的token是',token);
+//         console.error('绑定HDU邮箱失败:', error);
+//         setStatus('绑定邮箱失败，请刷新重试');
+//       });
+//   }
+  
+// };}
+
+// const handleBindEmail = (longtoken: string) => {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       if (longtoken) {
+//         console.log('token:', longtoken,'state:', state, 'code:', code);
+//         bindWeChatEmail(longtoken)
+//           .then(resolve)
+//           .catch(() => {
+//             if (!state || !code) {
+//               return handleHelperLogin(); // HDUHelper 登录
+//             } else {
+//               return bindHDUEmail(longtoken, state, code);
+//             }
+//           });
+//       } else {
+//         console.log('longtoken', longtoken);
+//         reject('longtoken 无效');
+//       }
+//     }, 2000);
+//   });
+// };
+}
+const handleBindEmail = (longtoken: string) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (longtoken) {
+        console.log('token:', longtoken, 'external:', external, 'state:', state, 'code:', code);
+
+        // 根据 external 的值判断是绑定微信还是 HDUHelper
+        if (external === 'wechat') {
+          bindWeChatEmail(longtoken)
+            .then(resolve)
+            .catch(() => {
+              console.error('微信绑定失败');
+              reject('微信绑定失败');
+            });
+        } else if (external === 'hduhelp') {
+          if (!state || !code) {
+            // 如果没有 state 或 code，执行 HDUHelper 登录
+            handleHelperLogin()
+              // .then(resolve)
+              // .catch((error) => {
+              //   console.error('HDUHelper 登录失败:', error);
+              //   reject('HDUHelper 登录失败');
+              // });
+          } else {
+            // 否则绑定 HDUHelper 邮箱
+            bindHDUEmail(longtoken, state, code)
+              .then(resolve)
+              .catch((error) => {
+                console.error('绑定 HDUHelper 邮箱失败:', error);
+                reject('绑定 HDUHelper 邮箱失败');
+              });
+          }
+        } else {
+          // 如果 external 不是 wechat 或 hduhelp，返回错误
+          reject('无效的 external 值');
+        }
+      } else {
+        console.log('longtoken 无效:', longtoken);
+        reject('longtoken 无效');
+      }
+    }, 2000);
+  });
+};
+{
+// const bindLogin = () => { 
+//   if (!authtokenflag) {
+//     handleVerify()
+//       .then(() => {
+//         return handleBindEmail(longtoken as string);
+//       })
+//       .catch((error) => {
+//         setStatus('激活失败或 longtoken无效，请重新激活');
+//         console.error(error);
+//       });
+//   } else {
+//     handleBindEmail(longtoken as string)
+//       .then((data) => {
+//         console.log('绑定成功:', data);
+//         navigate('/qanda');
+//       })
+//       .catch((error) => {
+//         console.error('绑定失败:', error);
+//         setStatus('绑定邮箱失败，请刷新重试');
+//       });
+//   }
+// };
+}
+const bindLogin = (): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    if (!longtoken) {
+      handleVerify()
+        .then((newtoken) => {
+          return handleBindEmail(newtoken as string);
+        })
+        .then((data) => {
+          // 如果绑定成功，执行 resolve
+          console.log('绑定成功:', data);
+          navigate('/qanda');
+          resolve();  // 绑定成功时返回成功
+        })
+        .catch((error) => {
+          // 发生错误时，执行 reject 并传递错误信息
+          setStatus('激活失败或 longtoken无效，请重新激活');
+          console.error(error);
+          reject(new Error('激活失败或 longtoken无效，请重新激活'));
+        });
+    } else {
+      handleBindEmail(longtoken as string)
+        .then((data) => {
+          console.log('绑定成功:', data);
+          navigate('/qanda');
+          resolve();  // 绑定成功时返回成功
+        })
+        .catch((error) => {
+          console.error('绑定失败:', error);
+          setStatus('绑定邮箱失败，请刷新重试');
+          reject(new Error('绑定邮箱失败，请刷新重试'));  // 绑定失败时返回失败
+        });
+    }
+  });
+};
+
   return (
     <div className={style.loginBox}>
         <h2 className={style.loginTitle}>Mundo 登录</h2>

@@ -418,6 +418,12 @@
   resolved "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.14.tgz"
   integrity sha512-gNMvNH49DJ7OJYv+KAKn0Xp45p8PLl6zo2YnvDIbTd4J6MER2BmWN49TG7n9LvkyihINxeKW8+3bfS2yDC9dzQ==
 
+
+"@types/randomatic@^3.1.5":
+  version "3.1.5"
+  resolved "https://registry.npmmirror.com/@types/randomatic/-/randomatic-3.1.5.tgz"
+  integrity sha512-VCwCTw6qh1pRRw+5rNTAwqPmf6A+hdrkdM7dBpZVmhl7g+em3ONXlYK/bWPVKqVGMWgP0d1bog8Vc/X6zRwRRQ==
+
 "@types/react-dom@*", "@types/react-dom@^18.3.5":
   version "18.3.5"
   resolved "https://registry.npmmirror.com/@types/react-dom/-/react-dom-18.3.5.tgz"
@@ -427,6 +433,7 @@
   version "18.3.17"
   resolved "https://registry.npmmirror.com/@types/react/-/react-18.3.17.tgz"
   integrity sha512-opAQ5no6LqJNo9TqnxBKsgnkIYHozW9KSTlFVoSUJYh1Fl/sswkEoqIugRSm7tbh6pABtYjGAjW+GOS23j8qbw==
+
   dependencies:
     "@types/prop-types" "*"
     csstype "^3.0.2"
@@ -1695,6 +1702,11 @@ is-number-object@^1.1.0:
     call-bind "^1.0.7"
     has-tostringtag "^1.0.2"
 
+is-number@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npmmirror.com/is-number/-/is-number-4.0.0.tgz"
+  integrity sha512-rSklcAIlf1OmFdyAqbnWTLVelsQ58uvZ66S/ZyawjWqIviTWCjg2PzVGw8WUA+nNuPTqb4wgA+NszrJ+08LlgQ==
+
 is-number@^7.0.0:
   version "7.0.0"
   resolved "https://registry.npmjs.org/is-number/-/is-number-7.0.0.tgz"
@@ -1845,6 +1857,11 @@ keyv@^4.5.4:
   dependencies:
     json-buffer "3.0.1"
 
+kind-of@^6.0.0:
+  version "6.0.3"
+  resolved "https://registry.npmmirror.com/kind-of/-/kind-of-6.0.3.tgz"
+  integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
+
 levn@^0.4.1:
   version "0.4.1"
   resolved "https://registry.npmjs.org/levn/-/levn-0.4.1.tgz"
@@ -1891,6 +1908,11 @@ lucide-react@^0.454.0:
   version "0.454.0"
   resolved "https://registry.npmjs.org/lucide-react/-/lucide-react-0.454.0.tgz"
   integrity sha512-hw7zMDwykCLnEzgncEEjHeA6+45aeEzRYuKHuyRSOPkhko+J3ySGjGIzu+mmMfDFG1vazHepMaYFYHbTFAZAAQ==
+
+math-random@^1.0.1:
+  version "1.0.4"
+  resolved "https://registry.npmmirror.com/math-random/-/math-random-1.0.4.tgz"
+  integrity sha512-rUxjysqif/BZQH2yhd5Aaq7vXMSx9NdEsQcyA07uEzIvxgI7zIr33gGsh+RU0/XjmQpCW7RsVof1vlkvQVCK5A==
 
 merge2@^1.3.0:
   version "1.4.1"
@@ -2230,6 +2252,16 @@ queue-microtask@^1.2.2:
   version "1.2.3"
   resolved "https://registry.npmjs.org/queue-microtask/-/queue-microtask-1.2.3.tgz"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
+
+
+randomatic@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.npmmirror.com/randomatic/-/randomatic-3.1.1.tgz"
+  integrity sha512-TuDE5KxZ0J461RVjrJZCJc+J+zCkTb1MbH9AQUq68sMhOMcy9jLcb3BrZKgp9q9Ncltdg4QVqWrH02W2EFFVYw==
+  dependencies:
+    is-number "^4.0.0"
+    kind-of "^6.0.0"
+    math-random "^1.0.1"
 
 "react-dom@^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc", "react-dom@^18.0.0 || ^19.0.0", react-dom@^18.3.1, react-dom@>=18:
   version "18.3.1"
@@ -2787,10 +2819,12 @@ typescript-eslint@^8.11.0:
     "@typescript-eslint/parser" "8.17.0"
     "@typescript-eslint/utils" "8.17.0"
 
-typescript@>=4.2.0, typescript@~5.6.2:
-  version "5.6.3"
-  resolved "https://registry.npmmirror.com/typescript/-/typescript-5.6.3.tgz"
-  integrity sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw==
+
+typescript@^5.7.2, typescript@>=4.2.0:
+  version "5.7.2"
+  resolved "https://registry.npmmirror.com/typescript/-/typescript-5.7.2.tgz"
+  integrity sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg==
+
 
 unbox-primitive@^1.0.2:
   version "1.0.2"
