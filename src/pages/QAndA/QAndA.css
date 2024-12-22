@@ -1,0 +1,270 @@
+.block{
+    background-color: #fff;
+    width: 100%;
+    height: 0.5vw;
+}
+
+.background{
+    display: flex;
+    width: 100%;
+    position: fixed;
+    left: 0px;
+    top: 5vw;
+}
+
+.button {
+    color: black;
+    height: 41vw;
+    margin-top: 3vw;
+    margin-bottom: 1vw;
+    margin-left: 3vw;
+    margin-right: 2vw;    
+    font-size: 2vw;   
+}
+
+.Choose{
+    margin-top: 1vw;
+    margin-left: 4vw;
+    background-color: white; 
+    height: 4vw;
+    width: 60vw;
+    top:6vw;
+    left:20vw;
+    display: flex;
+    box-shadow: 0 0 0.01vw rgba(0, 0, 0, 0.3);
+}
+
+.ChooseCon{
+    display: flex;
+    margin-left: 2vw;
+}
+
+.ChooseButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    color:black;
+    height: 2vw;
+    width:6vw;
+    margin-left: 0.3vw;
+    margin-top: 1vw;    
+    font-size: 1.1vw;
+    font-weight: 400;
+    border: none;
+    border-radius: 1vw;
+}
+
+.ChooseButton.clicked{
+    background-color: black;
+    color:white;
+    height: 2vw;
+    width:6vw;
+    margin-left: 0.3vw;
+    margin-top: 1vw;    
+    font-size: 1.1vw;
+    font-weight: 400;
+    border: none;
+    border-radius: 1vw;
+}
+
+.ChooseButton:hover {
+    background-color: #ccc;
+}
+
+.Create{
+    margin-left: 30vw;
+}
+
+.Con{
+    height:4vw;
+    width:40vw;
+    border-radius: 1vw;
+}
+
+.choice{
+    width:15vw;
+    height: 30vw;
+    font-size: 1vw;
+}
+
+.con{
+    display: flex;
+    justify-content: left;
+    height: 5vw;
+    width: 70%;
+    margin-left: 1.5vw;
+    margin-right: 1.5vw;
+    font-size: 0.9vw;
+}
+
+.messinformation {
+    display: flex;
+    margin-top: 0.2vw;
+    margin-bottom: 0.2vw;
+    margin-left: 0.5vw;
+}
+
+.left {
+    background-color: white;
+    width: 15vw;
+    height: 40vw;
+    margin-top: 1vw;   
+    margin-left: 9vw;
+    display: flex;
+}
+
+.Menu{
+    margin-top: 3vw;
+    margin-bottom: 3vw;
+    margin-left: 5vw;
+    height: 30vw;
+    background-color: white;
+}
+
+.MenuButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0.8vw;
+    background-color: white;
+    color:black;
+    height: 2vw;
+    width:6vw;
+    font-size: 1.1vw;
+    margin-left: 0.1vw;
+    margin-bottom: 0.2vw;
+    border: none;
+    border-radius: 1vw;
+    font-weight: 400;
+}
+
+.MenuButton.clicked{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0.8vw;
+    margin-left: 0.1vw;
+    margin-bottom: 0.2vw;
+    background-color: black;
+    border: none;
+    color:white;
+    height: 2vw;
+    width:6vw;
+    font-size: 1.1vw;
+    border-radius: 1vw;
+    font-weight: 400;
+}
+
+.MenuButton:hover {
+    background-color: #ccc;
+}
+
+.main {
+    display: flex;
+    width: 100vw;
+    height: 100vw;
+    background-color: #e0e0e3;
+}
+
+.mes{
+    margin-left: 1.5vw;
+    overflow: auto;
+    height: 100%;
+}
+
+.Qandamessage {
+    overflow: auto;
+    margin-top: 1vw;
+    margin-left: 2vw;
+    margin-bottom: 1vw;
+    font-size: 1vw;
+    width: 50vw;
+    height: 10vw;
+    flex-direction: column;
+    background-color: white;
+    display: flex;
+    color: black;
+    box-shadow: 0 0 1vw rgba(0, 0, 0, 0.3);
+    border-radius: 0.5vw;
+}
+
+
+.ReadTitle {
+    font-size: 2vw;
+    margin-bottom: 1vw;
+    height:3vw;
+    width:5vw;
+    color: black;
+}
+
+.read{
+    color:#fff
+}
+
+.right {
+    width: 60vw;
+    height: 45vw;
+    margin-left: 4vw;
+    margin-top: 1vw;
+    margin-bottom: 2.7vw;
+    overflow: auto;
+    flex-direction: column;
+    background-color: #ffffff;
+}
+
+.TagBroad{
+    display: flex;
+    margin-top: 0.3vw;
+    margin-bottom: 0.1vw;
+    margin-left: 2vw;
+    margin-right: 1vw;
+    width: 30vw;
+}
+
+.tag{
+    display: inline-block;
+    padding: 0.3vw 0.6vw;
+    border-radius: 1vw;
+    background-color: black;
+    font-size: 1vw;
+    color: white;
+    margin-right: 0.3vw;
+    cursor: pointer;
+    height: 1vw;
+    width: 4vw;
+    text-align: center;
+    line-height: 0.6vw;
+    font-size: 0.7vw;
+    box-shadow: 0 0 1vw rgba(0, 0, 0, 0.3);
+}
+
+.tag:hover {
+    background-color: #ccc;
+}
+
+.Qandatime {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-bottom: 0.1vw;
+    margin-left: 1vw;
+    font-size: 0.7vw;
+}
+
+.messtitle {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-top: 0.3vw;
+    margin-bottom: 0.1vw;
+    margin-left: 0.8vw;
+    font-size: 1.5vw;
+    font-weight: 545;
+}
+
+.message-pictures{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
