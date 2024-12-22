@@ -1,37 +1,52 @@
 import { useState, useEffect } from 'react';
-import styles from './post.module.css'; // 模块化 CSS
+import styles from './post.module.css';
 
 type FormData = {
   title: string;
-  describtion: string;
-  tag: Tag[];
-  photo: File[];
+  content: string;
+  tags: Tag[];
+  picture: File[];
 };
 
 type Tag = {
   id: number;
   name: string;
+  category:string;
+  description:string;
 };
-
+const token:string="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6IuS5neaAnSIsInJvbGUiOiJ1c2VyIiwiaXNzIjoiVGltZXJNZTMiLCJleHAiOjE3MzQ4NzkwNzksImlhdCI6MTczNDI3NDI3OX0.vtpv6Lf-usTvUu6JJHxGZhgSh9MnPNAQs-wOtkyMrlc";
 const Post = () => {
   const [tags, setTags] = useState<Tag[]>([]); // 用 useState 管理 tags
   const [loading, setloading] = useState(false);
   const [formdata, setformdata] = useState<FormData>({
     title: '',
-    describtion: '',
-    tag: [],
-    photo: [],
+    content: '',
+    tags: [],
+    picture: [],
   });
 
-  // 正确使用 useEffect，初始化 tags
-  useEffect(() => {
-    const fetchedTags: Tag[] = [
-      { id: 1, name: '高数' },
-      { id: 2, name: '线代' },
-      { id: 3, name: '概率论' },
-    ];
-    setTags(fetchedTags);
-  }, []);
+  // 初始化 tags
+    useEffect(() => {
+      const fetchTags = async () => {
+        try {
+          const response = await fetch("http://116.198.207.159:12349/api/tags?service=mundo",{
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+          }
+        });
+          if (!response.ok) {
+            throw new Error(`HTTP 错误！状态码: ${response.status}`);
+          }
+          const responseJson = await response.json();
+          const data: Tag[] = responseJson.data.tags;
+          setTags(data);
+        } catch (error) {
+          console.error("获取标签失败:", error);
+        }
+      };
+      fetchTags();
+    }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -39,53 +54,64 @@ const Post = () => {
     const { name, value, files } = e.target as HTMLInputElement;
     setformdata((prevData) => ({
       ...prevData,
-      [name]: files && files[0] ? [...formdata.photo, files[0]] : value, // 如果是文件，则取文件，否则取值
+      [name]: files && files[0] ? [...formdata.picture, files[0]] : value, // 如果是文件，则取文件，否则取值
     }));
+    console.log(formdata);
   };
 
   const handleSubmit = async () => {
-    if (!formdata.photo || formdata.title.length === 0) {
-      alert('请先输入标题');
+    if (!formdata.picture || formdata.picture.length === 0) {
+      alert('请先上传图片');
       return;
     }
+    const formDataToSend = new FormData();
+    formDataToSend.append('title', formdata.title);
+    formDataToSend.append('content', formdata.content);
 
-    const submissionData = new FormData();
-    submissionData.append('title', formdata.title);
-    submissionData.append('describtion', formdata.describtion);
-    formdata.tag.forEach((photo, index) => {
-      submissionData.append(
-        `tag_${index}`,
-        JSON.stringify({ name: photo.name, id: photo.id })
-      );
+    const tagNames = formdata.tags.map((tag) => tag.name); // 提取 tag 名称
+    tagNames.forEach((name) => {
+      formDataToSend.append('tags', name); // 每个值单独添加
     });
-    formdata.photo.forEach((photo, index) => {
-      submissionData.append(`photo_${index}`, photo, photo.name);
+    formdata.picture.forEach((file) => {
+      formDataToSend.append(`picture`, file);
     });
     setloading(true);
     try {
-      const response = await fetch('https://your-api-endpoint.com/upload', {
+      const response = await fetch('http://116.198.207.159:12349/api/question/posts?service=mundo', {
         method: 'POST',
-        body: submissionData,
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+        body:formDataToSend,
       });
       const result = await response.json();
-      alert('上传成功');
-      console.log('上传成功：', result);
+      if (response.ok) {
+        alert('上传成功');
+        console.log('上传成功：', result.data);
+        setformdata({
+          title: '',
+          content: '',
+          tags: [],
+          picture: [],
+        });
+      }
     } catch (error) {
       console.error('上传失败：', error);
       alert('上传失败');
     } finally {
       setloading(false);
+      console.log(formdata);
     }
   };
 
-  function handletag(tagId: number, tagName: string) {
+  function handletag(tagId: number) {
     setformdata((prev) => {
-      const isSelected = prev.tag.some((tag) => tag.id === tagId);
+      const isSelected = prev.tags.some((tag) => tag.id === tagId);
       return {
         ...prev,
-        tag: isSelected
-          ? prev.tag.filter((tag) => tag.id !== tagId) // 如果已选中则取消
-          : [...prev.tag, { id: tagId, name: tagName }], // 如果未选中则添加
+        tags: isSelected
+          ? prev.tags.filter((tag) => tag.id !== tagId) // 如果已选中则取消
+          : [...prev.tags, { id: tagId, name: tags[tagId-1].name,category:tags[tagId-1].category,description:tags[tagId-1].description}], // 如果未选中则添加
       };
     });
   }
@@ -126,11 +152,11 @@ const Post = () => {
               <span
                 key={tag.id}
                 className={
-                  formdata.tag.some((t) => t.id === tag.id)
+                  formdata.tags.some((t) => t.id === tag.id)
                     ? styles['tag-click']
                     : styles.tag
                 }
-                onClick={() => handletag(tag.id, tag.name)}
+                onClick={() => handletag(tag.id)}
               >
                 {tag.name}
               </span>
@@ -138,9 +164,9 @@ const Post = () => {
           </div>
           <h3>问题描述</h3>
           <textarea
-            name="describtion"
+            name="content"
             className={styles.textarea1}
-            value={formdata.describtion}
+            value={formdata.content}
             onChange={handleChange}
           />
           <div>
@@ -148,7 +174,7 @@ const Post = () => {
             <input
               type="file"
               accept="image/*"
-              name="photo"
+              name="picture"
               onChange={handleChange}
               style={{ display: 'none' }}
               id="fileUpload"
@@ -159,16 +185,16 @@ const Post = () => {
             <button
               type="button"
               onClick={() =>
-                setformdata((prev) => ({ ...prev, photo: [] }))
+                setformdata((prev) => ({ ...prev, picture: [] }))
               }
               className={styles.delete}
             >
               <span className="material-symbols-outlined">delete</span>
             </button>
-            {formdata.photo.length > 0 && (
+            {formdata.picture.length > 0 && (
               <div className={styles['image-preview']}>
                 <h3>图片预览：</h3>
-                {formdata.photo.map((photo, index) => (
+                {formdata.picture.map((photo, index) => (
                   <img
                     key={index}
                     src={URL.createObjectURL(photo)}
@@ -179,7 +205,7 @@ const Post = () => {
               </div>
             )}
           </div>
-          {formdata.photo.length === 0 && <p className={styles.p1}>尚未选择图片</p>}
+          {formdata.picture.length === 0 && <p className={styles.p1}>尚未选择图片</p>}
         </div>
       </form>
     </div>
