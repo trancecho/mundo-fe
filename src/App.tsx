@@ -14,6 +14,7 @@ import TeamUp from '@/pages/TeamUp';//组队
 import Houtai from './pages/Houtai/Houtai'; // 引入 Houtai.tsx
 import Post from './components/center/post';
 import AnswerWindow from '@/components/CustomerService/AnswerWindow'; // 导入答案窗口组件
+import DetailMessage from './pages/QAndA/DetailMessage';
 
 import './App.css';
 
@@ -29,8 +30,10 @@ const App: React.FC = () => {
                         {/* <Route path="/" element={<Home />} /> */}
                             <Route path="/datastation" element={<DataStation />} />
                             <Route path="/forum" element={<Forum />} />
-                        <Route path="/qanda" element={<QAndA />} />
-                        <Route path="/center" element={<Post />}/>
+                            <Route path="/qanda" element={<QAndA />} />
+                            <Route path="/qanda" element={<QAndA />} />
+                            <Route path="/qanda/detail" element={<DetailMessage />} />
+                            <Route path="/center" element={<Post />}/>
                             <Route path="/teamup" element={<TeamUp />} />
                             <Route path="/login" element={<Login />} />
                             <Route path="/register" element={<RegisterPage />} />
