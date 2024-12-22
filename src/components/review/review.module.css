@@ -1,0 +1,101 @@
+.postContainer {
+  display: flex;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  width: 100%;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.tags {
+  margin-bottom: 15px;
+}
+
+.tag {
+  display: inline-block;
+  background: #f0f4f8;
+  color: #555;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  margin-right: 6px;
+}
+
+.reviewActions {
+  margin-top: 20px;
+}
+
+.commentBox {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  resize: none;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+}
+
+.approveButton,
+.rejectButton {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.approveButton {
+  background: #67c23a;
+}
+
+.approveButton:hover {
+  background: #55a832;
+}
+
+.rejectButton {
+  background: #f56c6c;
+}
+
+.rejectButton:hover {
+  background: #d9534f;
+}
+
+.tag {
+  background-color: #e0e0e0;
+  color: #555;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 0.875rem;
+}
+
+.approvedMessage {
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.rejectedMessage {
+  color: #f44336;
+  font-weight: bold;
+}
+  
