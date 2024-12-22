@@ -11,8 +11,10 @@ import DataStation from '@/pages/DataStation';//资料站
 import Forum from '@/pages/Forum';//论坛
 import QAndA from '@/pages/QAndA';//答疑
 import TeamUp from '@/pages/TeamUp';//组队
-// import Post from './components/center/post';
-import Post from './components/center.tsx/post';
+
+import Houtai from './pages/Houtai/Houtai'; // 引入 Houtai.tsx
+import Post from './components/center/post';
+
 import AnswerWindow from '@/components/CustomerService/AnswerWindow'; // 导入答案窗口组件
 import Review from '@/pages/Review/review'; // 审核
 
@@ -24,23 +26,24 @@ const App: React.FC = () => {
             <Router>
                 <div>
                     <AnswerWindow /> {/*客服组件*/}
-                    <Routes>
-                        <Route path="/" element={<DashboardPage />} /> 
+                        <Routes>
+                        <Route path="/" element={<Houtai />} />
+                        <Route path="/dashboard" element={<DashboardPage />} /> 
                         {/* <Route path="/" element={<Home />} /> */}
-                        <Route path="/datastation" element={<DataStation />} />
-                        <Route path="/forum" element={<Forum />} />
+                            <Route path="/datastation" element={<DataStation />} />
+                            <Route path="/forum" element={<Forum />} />
                         <Route path="/qanda" element={<QAndA />} />
-                        <Route path="/center" element={<Post />}/>
-                        <Route path="/teamup" element={<TeamUp />} />
-                        <Route path="/login" element={<Login />} /> 
-                        <Route path="/register" element={<RegisterPage />} />
-                        <Route path="/bindregister" element={<BindRegisterPage />} />
-                        <Route path="/register/verify/v2" element={<Verify />} />
-                        <Route path="/review" element={<Review />} />
-                        <Route path="/post" element={<Post />}/>
+
+                        <Route path="/center" element={<Post />}/>;
+                            <Route path="/teamup" element={<TeamUp />} />
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/register" element={<RegisterPage />} />
+                            <Route path="/bindregister" element={<BindRegisterPage />} />
+                            <Route path="/register/verify/v2" element={<Verify />} />
+
                         {/* 可以根据实际需求继续添加更多的路由配置 */}
-                    </Routes>
-                </div>
+                        </Routes>
+                    </div>
             </Router>
         </AuthProvider>
     );
