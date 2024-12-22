@@ -13,6 +13,7 @@ const api = axios.create({
     "Authorization": "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Inl1dWtpMyIsInJvbGUiOiJ1c2VyIiwiaXNzIjoiVGltZXJNZTMiLCJleHAiOjE3MzIzNjIxMDAsImlhdCI6MTczMTc1NzMwMH0.2ZTfC6chnPfEBnl5NEf7l6yvrgkkS4vyvl4ZyR4htCU"
   },
 });
+
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -155,3 +156,4 @@ export const resetTask = async (id: number) => {
   const response = await api.put(`/tasks/${id}/reset`);
   return response.data.data.task;
 };
+
