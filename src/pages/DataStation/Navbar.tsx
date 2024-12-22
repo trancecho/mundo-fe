@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-
+import React from "react";
 
 interface NavbarProps {
   setActiveCategory: (category: string) => void;
@@ -10,8 +9,8 @@ const Navbar: React.FC<NavbarProps> = ({ setActiveCategory, activeCategory }) =>
   return (
     <div
       style={{
-        width: "170px",
-        height: "30vh", // 设置高度为视口的一半
+        width: "150px",
+        height: "40vh", // 设置高度为视口的一半
         backgroundColor: "#fff",
         paddingTop: "20px",
         paddingRight: "20px",
