@@ -7,7 +7,7 @@ const api = axios.create({
   // baseURL:'https://7426c7fe.r27.cpolar.top/api',
   // baseURL:'https://altar-echo.top/api',
   // baseURL:'https://auth.altar-echo.top/api',
-  baseURL:'http://1d6775e0.r27.cpolar.top/api',
+  baseURL:'https://101c85ca.r27.cpolar.top/api',
   
   
   headers: {
@@ -23,10 +23,11 @@ api.interceptors.response.use(
   }
 );
 // 发送注册请求，发送邮箱验证码
-export const registerUser = async (username: string, email: string,callback_url:string) => {
+export const registerUser = async (username: string, email: string,callback_url:string,external?: string,) => {
   const response = await api.post('/register/v2', {
      username, 
      email,
+     external,
      callback_url
   });
   return response.data; 
@@ -98,8 +99,8 @@ export const checkHelperLoginCallback = async (state: string,code: string) => {
     throw error;
   }
 };
-// 绑定邮箱
-export const bindEmail = async (token: string) => {
+// 绑定邮箱-微信
+export const bindWeChatEmail = async (token: string) => {
   try {
     const response = await api.get('/wechat/bind', {
       headers: {
@@ -107,11 +108,35 @@ export const bindEmail = async (token: string) => {
       },
     });
     console.log(response.data);
+    return response.data;
   } catch (error) {
     console.error('绑定邮箱token失败', error);
+    throw error; 
   }
 };
 
+// 绑定邮箱-杭助
+export const bindHDUEmail = async (token: string,state: string,code: string) => {
+  console.log(token,state,code)
+  try {
+    const response = await api.post('/hduhelp/bind', 
+      {
+        state,
+        code
+      },
+      {
+        headers: {
+          "Authorization": "Bearer " +token,
+        }
+      }
+    );
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error('绑定HDUtoken失败', error);
+    throw error; 
+  }
+};
 export const getTasks = async () => {
   const response = await api.get('/tasks');
   return response.data.data.tasks;

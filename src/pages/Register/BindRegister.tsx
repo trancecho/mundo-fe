@@ -3,9 +3,11 @@ import { useAuth } from '../../context/AuthContext.tsx';
 import { registerUser } from '../../router/api.ts';
 import style from '../Login/Login.module.css';
 import { useNavigate , Link } from 'react-router-dom';
-
+import { useLocation } from 'react-router-dom';
 const BindRegister: React.FC = () => {
     const {setEmailFunc}=useAuth();
+    const location =useLocation();
+    const {external}=location.state||{};
     // const [username, setUsername] = useState('');
     // const [email, setEmail] = useState('');
     const [inputEmail, setInputEmail] = useState('');
@@ -18,8 +20,8 @@ const BindRegister: React.FC = () => {
     //   }
   
       try {
-        console.log(inputEmail);
-        await registerUser(inputEmail, inputEmail,'login');
+        console.log(inputEmail,external);
+        await registerUser(inputEmail, inputEmail,'login',external);
         setIsEmailSent(true);
         alert('验证邮件已发送，请查收邮箱完成验证！');
         setEmailFunc(inputEmail);
