@@ -31,7 +31,6 @@ const App: React.FC = () => {
                             <Route path="/datastation" element={<DataStation />} />
                             <Route path="/forum" element={<Forum />} />
                             <Route path="/qanda" element={<QAndA />} />
-                            <Route path="/qanda" element={<QAndA />} />
                             <Route path="/qanda/detail" element={<DetailMessage />} />
                             <Route path="/center" element={<Post />}/>
                             <Route path="/teamup" element={<TeamUp />} />
