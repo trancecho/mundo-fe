@@ -3,16 +3,16 @@ import { useState, useEffect } from 'react';
 import Navbar from "./Navbar";
 import ItemList from "./ItemList";
 
-export default class DataStation extends Component {
-  render() {
-    const [activeCategory, setActiveCategory] = useState<string>("高数");
-    const [activeTab, setActiveTab] = useState<string>("hot");
-    return (
-      <div
+const App: React.FC = () => {
+  const [activeCategory, setActiveCategory] = useState<string>("高数");
+  const [activeTab, setActiveTab] = useState<string>("hot");
+
+  return (
+    <div
       style={{
         display: "flex",
         justifyContent: "center",
-        paddingTop: "150px",
+        paddingTop: "200px",
         backgroundColor: "#fff", // 设置大背景为白色
         minHeight: "100vh", // 确保页面内容填充整个视口高度
         color: "#000" // 所有文字显示为黑色
@@ -23,6 +23,7 @@ export default class DataStation extends Component {
         <ItemList activeCategory={activeCategory} activeTab={activeTab} />
       </div>
     </div>
-    )
-  }
-}
+  );
+};
+
+export default App;

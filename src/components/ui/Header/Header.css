@@ -9,7 +9,7 @@
 
 
 .Header {
-    height: 6vw;
+    height: 5.5vw;
     width: 100%;
     top: 0;
     left:0;
@@ -55,6 +55,9 @@
 }
 
 .user{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: rgb(70, 113, 243);
     color: white;
     border: none;
@@ -72,9 +75,12 @@
 
 .HeaderMenu{
     height: 3vw;
+    width: 20vw;
+    display: flex;
 }
 
 .HeaderMenuButton{
+    margin-left: 2vw;
     margin-top: 0.8vw;
     background-color: white;
     color:rgb(179, 177, 177);
