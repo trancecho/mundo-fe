@@ -41,7 +41,7 @@ const AnswerWindow: React.FC = () => {
           </header>
           <main className={styles.box_styles_contain}>
             <section>
-              {/* <QuestionList /> */}
+              <QuestionList />
             </section>
             <section>
               <AIChat />

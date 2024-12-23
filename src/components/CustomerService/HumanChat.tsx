@@ -11,6 +11,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import styles from "./AnswerWindow.module.css";
+import { deleteChatHistory } from "@/router/api";
+import {mundo_token } from "@/router/api";
 
 const HumanChat: React.FC = () => {
   const [messages, setMessages] = useState<
@@ -22,10 +24,8 @@ const HumanChat: React.FC = () => {
 
   // WebSocket connection
   useEffect(() => {
-    // const bearerToken = "Bearer " + token;
-    const socketUrl = "ws://116.198.207.159:12349/api/ws?toUid=2&service=mundo";
-    const YOUR_TOKEN =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxNCwidXNlcm5hbWUiOiJ3ankiLCJyb2xlIjoidXNlciIsImlzcyI6Im11bmRvLWF1dGgtaHViIiwiZXhwIjoxNzM1MzYxOTczLCJpYXQiOjE3MzQ3NTcxNzN9._h78qJvmNyzmt6NSVRhNyBhwkyOg6ZMstId6Cja_Ymo"; //注册后获得的token
+    const socketUrl = `ws://116.198.207.159:12349/api/ws?toUid=2&token=${mundo_token}&service=mundo`;
+
     const connectWebSocket = () => {
       const ws = new WebSocket(socketUrl);
       ws.onopen = () => {
@@ -37,7 +37,7 @@ const HumanChat: React.FC = () => {
       ws.onmessage = (event) => {
         const message = JSON.parse(event.data);
 
-        if (message?.content) {
+        if (message.from === "" && message?.content) {
           // 收到客服消息
           setMessages((prevMessages) => [
             ...prevMessages,
@@ -71,7 +71,7 @@ const HumanChat: React.FC = () => {
     if (!inputText.trim()) return;
 
     const userMessage = {
-      type: 1, // 后端需要的消息类型
+      type: 1,
       content: inputText,
     };
 
@@ -85,6 +85,16 @@ const HumanChat: React.FC = () => {
       setInputText("");
     } else {
       console.error("WebSocket 未连接");
+    }
+  };
+  // 删除聊天记录
+  const handleDeleteChatHistory = async () => {
+    try {
+      await deleteChatHistory();
+      setMessages([]); // 清空消息列表
+      alert("聊天记录已删除");
+    } catch (error) {
+      console.error("Failed to delete chat history", error);
     }
   };
 
@@ -142,6 +152,9 @@ const HumanChat: React.FC = () => {
             className="bg-blue-500 text-white hover:bg-blue-600"
           >
             发送
+          </Button>
+          <Button onClick={handleDeleteChatHistory} variant="destructive">
+            删除聊天记录
           </Button>
         </div>
       </DialogContent>
