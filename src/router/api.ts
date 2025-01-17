@@ -3,16 +3,16 @@ import axios from 'axios';
 
 const api = axios.create({
   // baseURL: 'http://localhost:12349/api',
-  // baseURL: 'http://116.198.207.159:12349/api',
+  baseURL: 'http://116.198.207.159:12349/api',
   // baseURL:'https://7426c7fe.r27.cpolar.top/api',
   // baseURL:'https://altar-echo.top/api',
   // baseURL:'https://auth.altar-echo.top/api',
-  baseURL:'https://101c85ca.r27.cpolar.top/api',
+  // baseURL:'https://101c85ca.r27.cpolar.top/api',
   
   
   headers: {
     'Content-Type': 'application/json',
-    "Authorization": "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Inl1dWtpMyIsInJvbGUiOiJ1c2VyIiwiaXNzIjoiVGltZXJNZTMiLCJleHAiOjE3MzIzNjIxMDAsImlhdCI6MTczMTc1NzMwMH0.2ZTfC6chnPfEBnl5NEf7l6yvrgkkS4vyvl4ZyR4htCU"
+    "Authorization": "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxNSwidXNlcm5hbWUiOiJ5dXVraTMiLCJyb2xlIjoidXNlciIsImlzcyI6Im11bmRvLWF1dGgtaHViIiwiZXhwIjoxNzM3NzAyNDY5LCJpYXQiOjE3MzcwOTc2Njl9.6ZyHG8PVl-SimbaZLda-MgV935l_zcx8UDlYmDbBAP4"
   },
 });
 api.interceptors.response.use(
