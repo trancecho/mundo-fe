@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './QAndA.css';
 import Header from '@/components/ui/Header/Header.tsx';
-
+import { Button } from "@/components/ui/button"
 // Tag组件，用于展示一个带有文本的标签
 interface TagProps {
     text: string; // 标签显示的文本内容
@@ -108,6 +108,7 @@ const Left: React.FC<LeftProps> = ({ onMenuButtonClick }) => {
                         className='MenuButton'
                         onClick={() => onMenuButtonClick('C语言')}
                     >C语言</div>
+                    {/*<Button>Button</Button>*/}
                 </div>
             </div>
         </div>
@@ -242,10 +243,10 @@ const QAndA: React.FC<QAndAProps> = () => {
 
     return (
         <div className="background">
-            <div className="top">
-                <Header onSearchChange={handleSearchChange} onSearch={handleSearch} />
-            </div>
-            <div className="main">
+            {/*<div className="top">*/}
+            {/*    <Header onSearchChange={handleSearchChange} onSearch={handleSearch} />*/}
+            {/*</div>*/}
+            <div className="QandAContainer">
                 <div className='LeftCon'>
                     <Left onMenuButtonClick={handleMenuButtonClick} />
                 </div>

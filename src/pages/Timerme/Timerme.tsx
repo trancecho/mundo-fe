@@ -1,9 +1,8 @@
 'use client';
-// Home.tsx
 
 // import React, { useState, useEffect } from 'react';
 import  { useState, useEffect } from 'react';
-import '../Timerme/style.css'
+import './style.css'
 import {
   getTasks,
   createTask,
@@ -26,7 +25,7 @@ interface Task {
   total_time: number;
 }
 
-export default function Home() {
+export default function Timerme() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTaskName, setNewTaskName] = useState('');
   const [newTotalTime, setNewTotalTime] = useState<number>(0);
