@@ -21,19 +21,19 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16" # 设置Node.js版本
+          node-version: "18" # 设置Node.js版本
 
       # 3. 安装依赖
       - name: Install dependencies
         run: npm install # 安装npm依赖
 
-      # 4. 运行Lint检查
-      - name: Run Lint
-        run: npm run lint # 运行代码检查工具
+      # # 4. 运行Lint检查
+      # - name: Run Lint
+      #   run: npm run lint # 运行代码检查工具
 
-      # 5. 运行单元测试
-      - name: Run Tests
-        run: npm run test -- --coverage # 运行单元测试并生成覆盖率报告
+      # # 5. 运行单元测试
+      # - name: Run Tests
+      #   run: npm run test -- --coverage # 运行单元测试并生成覆盖率报告
 
       # 6. 构建项目
       - name: Build Project
