@@ -15,6 +15,7 @@ const api = axios.create({
     "Authorization": "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxNSwidXNlcm5hbWUiOiJ5dXVraTMiLCJyb2xlIjoidXNlciIsImlzcyI6Im11bmRvLWF1dGgtaHViIiwiZXhwIjoxNzM3NzAyNDY5LCJpYXQiOjE3MzcwOTc2Njl9.6ZyHG8PVl-SimbaZLda-MgV935l_zcx8UDlYmDbBAP4"
   },
 });
+
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -180,3 +181,49 @@ export const resetTask = async (id: number) => {
   const response = await api.put(`/tasks/${id}/reset`);
   return response.data.data.task;
 };
+
+export const mundo_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJ1c2VybmFtZSI6IuS5neaAnSIsInJvbGUiOiJhZG1pbiIsImlzcyI6Im11bmRvLWF1dGgtaHViIiwiZXhwIjoxNzM1NDUzNjkwLCJpYXQiOjE3MzQ4NDg4OTB9.53Ng2lGsXYHa0AEAuatsWObFsAGKTHQQQzbnh5jCThQ";//登录以后拿到的token
+
+const api_mundo = axios.create({
+  baseURL:'http://116.198.207.159:12349',
+  
+  params: {
+    "service": "mundo"
+  },
+  headers: {
+    "Authorization": "Bearer " + mundo_token,
+  },
+});
+
+api_mundo.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error('请求失败:', error.response || error.message || error);
+    return Promise.reject(error);
+  }
+);
+
+export  const  getQuestions = async () => {
+    try {
+      const response = await api_mundo.get(`/faq/read`);
+      return response.data.data.message.Content;
+    } catch (error) {
+      alert("问题列表访问失败");
+      console.error("Failed to fetch questions", error);
+      return [];
+  }
+};
+  
+
+  export const deleteChatHistory = async () => {
+    try {
+      const response = await api_mundo.delete(`/api/ws/delete`, {
+        params: { toUid: 2 }
+      });
+      return response.data.message;
+    } catch (error) {
+      alert("删除聊天记录失败");
+      console.error("Failed to delete history", error);
+      return [];
+    }
+  };
