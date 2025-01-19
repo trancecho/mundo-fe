@@ -12,7 +12,9 @@
     "esModuleInterop": true,
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "noEmitOnError": false,  // 允许在存在错误时继续编译
+    "noUnusedLocals": false  // 忽略未使用的变量警告
 
   }
 }
