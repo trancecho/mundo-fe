@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './DetailMessage.css';
+import './DetailMessage.module.css';
 import Header from '@/components/ui/Header/Header';
 import { useLocation } from 'react-router-dom';
 
