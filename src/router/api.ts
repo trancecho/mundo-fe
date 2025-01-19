@@ -2,12 +2,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  // baseURL: 'http://localhost:12349/api',
   baseURL: 'http://116.198.207.159:12349/api',
-  // baseURL:'https://7426c7fe.r27.cpolar.top/api',
-  // baseURL:'https://altar-echo.top/api',
-  // baseURL:'https://auth.altar-echo.top/api',
-  // baseURL:'https://101c85ca.r27.cpolar.top/api',
+  // baseURL: 'https://auth.altar-echo.top/api',
   
   
   headers: {
