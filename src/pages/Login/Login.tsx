@@ -38,7 +38,7 @@ const Login = () => {
       setQrCodeUrl(`https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${encodeURIComponent(data.data.ticket)}`);
       console.log('二维码获取成功:', data);
       console.log('QRURL', qrCodeUrl);
-      // startPolling(); // 获取二维码后开始轮询登录状态
+      startPolling(); // 获取二维码后开始轮询登录状态
     } catch (error) {
       setStatus('获取二维码失败，请刷新重试');
       console.error('获取微信二维码失败:', error);
@@ -241,51 +241,7 @@ const Login = () => {
       setError('登录失败，请检查您的电子邮件和密码');
     }
   };
-{
-//   // 邮箱验证登录,激活邮箱
-//   const handleVerify = async () => {
-//     if (!emailbind || !token) {
-//       alert('缺少必要的信息，请检查链接或填写密码！');
-//       return null;
-//     }
-  
-//     const randomString = randomatic('a0', 6);
-  
-//     try {
-//       // 调用 verifyEmail，并获取返回的新 token
-//       const newData = await verifyEmail(emailbind, token, randomString);
-//       console.log('新 token:', newData.data.token);
-//       setToken1(newData.data.token); // 更新 token
-//       console.log("token1",token1);
-//       // alert('邮箱激活成功！');
-//       return newData.data.token;
-//     } catch (error) {
-//       console.error('激活失败:', error);
-//       alert('激活失败，请稍后再试！');
-//       null;
-//     }
-// };
-//   const bindLogin = async () => {
-//     try {
-//       const aaa = await handleVerify(); // 确保 handleVerify 完成后再继续
-//       // 等待 2 秒
-//       // await new Promise((resolve) => setTimeout(resolve, 2000));
 
-//       if (token1) {
-//         const data = await bindWeChatEmail(aaa); // 调用绑定邮箱函数
-//         console.log('绑定邮箱成功:', data);
-//         navigate('/qanda');
-//       } else {
-//         setStatus('token1 无效，请检查链接或重新激活邮箱');
-//       }
-
-//     } catch (error) {
-//       setStatus('绑定邮箱失败，请刷新重试');
-//       console.error('绑定邮箱失败:', error);
-//     }
-//   };
-  // 邮箱验证登录, 激活邮箱
-}  
 //杭助跳转
 const handleHelperLogin = () => {
   const url=`https://api.hduhelp.com/oauth/authorize?response_type=code&client_id=jvbarBgwFKD78LMh&redirect_uri=http://localhost:5173/login&state=1a`
@@ -322,157 +278,6 @@ const handleVerify = () => {
       });
   });
 };
-{
-// const bindLogin = () => {
-//   handleVerify()
-//     .then((newToken) => {
-//       // 等待 2 秒
-//       new Promise((resolve) => setTimeout(resolve, 2000))
-//         .then(() => {
-//           if (newToken) {
-//             return bindWeChatEmail(newToken); // 调用绑定邮箱函数
-//           } else {
-//             setStatus('token1 无效，请检查链接或重新激活邮箱');
-//             return Promise.reject('token1 无效');
-//           }
-//         })
-//         .then((data) => {
-//           console.log('绑定邮箱成功:', data);
-//           navigate('/qanda');
-//         })
-//         .catch((error) => {
-//           setStatus('绑定邮箱失败，请刷新重试');
-//           console.error('绑定邮箱失败:', error);
-//         });
-//     })
-//     .catch((error) => {
-//       setStatus('绑定邮箱失败，请刷新重试');
-//       console.error('激活失败或 token 无效:', error);
-//     });
-// };
-}
-{
-// {const bindLogin = () => { 
-//   if(!authtokenflag){
-//     handleVerify()
-//     .then(() => {
-//       const {token}=useAuth();
-//       // 等待 2 秒
-//       new Promise((resolve) => setTimeout(resolve, 2000))
-//         .then(() => {
-//           if (token) {
-//             return bindWeChatEmail(token as string); // 尝试调用绑定微信邮箱函数
-//           } else {
-//             setStatus('token 无效，请检查链接或重新激活邮箱');
-//             return Promise.reject('token 无效');
-//           }
-//         })
-//         .then((data) => {
-//           console.log('绑定微信邮箱成功:', data);
-//           navigate('/qanda');
-//         })
-//         .catch((error) => {
-//           console.error('绑定微信邮箱失败:', error);
-//           console.log('准备调用 bindHDUEmail');
-//           console.log('token',token,'state',state,'code',code);
-//           if(!state || !code){
-//             return handleHelperLogin(); // 调用 HDUHelper 登录
-//           }
-//           else{
-//             return bindHDUEmail(token as string,state as string,code as string); 
-//           }
-//         })
-//         .then((data) => {
-//           if (data) {
-//             console.log('data:',data);
-//             console.log('有data这个时候的token是',token);
-//             console.log('绑定HDU邮箱成功:', data);
-//             navigate('/qanda');
-//           } else {
-//             console.log('data:',data);
-
-//             console.log('无data这个时候的token是',token);
-//             setStatus('HDU绑定邮箱失败，请刷新重试');
-//           }
-//         })
-//         .catch((error) => {
-//           console.log('报错这个时候的token是',token);
-//           console.error('绑定HDU邮箱失败:', error);
-//           setStatus('绑定邮箱失败，请刷新重试');
-//         });
-//     })
-//     .catch((error) => {
-//       setStatus('激活失败或 token 无效，请重新激活');
-//       console.error('激活失败或 token 无效:', error);
-//     });
-//   }
-//   else{
-//     const {token}=useAuth();
-//     console.log('token',token,'state',state,'code',code);
-//     // 等待 2 秒
-//     new Promise((resolve) => setTimeout(resolve, 2000))
-//       .then(() => {
-//         if (token) {
-//           return bindWeChatEmail(token as string); // 尝试调用绑定微信邮箱函数
-//         } else {
-//           setStatus('token 无效，请检查链接或重新激活邮箱');
-//           return Promise.reject('token 无效');
-//         }
-//       })
-//       .then((data) => {
-//         console.log('绑定微信邮箱成功:', data);
-//         navigate('/qanda');
-//       })
-//       .catch((error) => {
-//         console.error('绑定微信邮箱失败:', error);
-//         console.log('准备调用 bindHDUEmail');
-//         console.log('token',token,'state',state,'code',code);
-//         return bindHDUEmail(token as string,state as string,code as string); 
-//       })
-//       .then((data) => {
-//         if (data) {
-//           console.log('data:',data);
-//           console.log('有data这个时候的token是',token);
-//           console.log('绑定HDU邮箱成功:', data);
-//           navigate('/qanda');
-//         } else {
-//           console.log('data:',data);
-
-//           console.log('无data这个时候的token是',token);
-//           setStatus('HDU绑定邮箱失败，请刷新重试');
-//         }
-//       })
-//       .catch((error) => {
-//         console.log('报错这个时候的token是',token);
-//         console.error('绑定HDU邮箱失败:', error);
-//         setStatus('绑定邮箱失败，请刷新重试');
-//       });
-//   }
-  
-// };}
-
-// const handleBindEmail = (longtoken: string) => {
-//   return new Promise((resolve, reject) => {
-//     setTimeout(() => {
-//       if (longtoken) {
-//         console.log('token:', longtoken,'state:', state, 'code:', code);
-//         bindWeChatEmail(longtoken)
-//           .then(resolve)
-//           .catch(() => {
-//             if (!state || !code) {
-//               return handleHelperLogin(); // HDUHelper 登录
-//             } else {
-//               return bindHDUEmail(longtoken, state, code);
-//             }
-//           });
-//       } else {
-//         console.log('longtoken', longtoken);
-//         reject('longtoken 无效');
-//       }
-//     }, 2000);
-//   });
-// };
-}
 const handleBindEmail = (longtoken: string) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -516,30 +321,7 @@ const handleBindEmail = (longtoken: string) => {
     }, 2000);
   });
 };
-{
-// const bindLogin = () => { 
-//   if (!authtokenflag) {
-//     handleVerify()
-//       .then(() => {
-//         return handleBindEmail(longtoken as string);
-//       })
-//       .catch((error) => {
-//         setStatus('激活失败或 longtoken无效，请重新激活');
-//         console.error(error);
-//       });
-//   } else {
-//     handleBindEmail(longtoken as string)
-//       .then((data) => {
-//         console.log('绑定成功:', data);
-//         navigate('/qanda');
-//       })
-//       .catch((error) => {
-//         console.error('绑定失败:', error);
-//         setStatus('绑定邮箱失败，请刷新重试');
-//       });
-//   }
-// };
-}
+
 const bindLogin = (): Promise<void> => {
   return new Promise((resolve, reject) => {
     if (!longtoken) {
@@ -576,51 +358,54 @@ const bindLogin = (): Promise<void> => {
 };
 
   return (
-    <div className={style.loginBox}>
-        <h2 className={style.loginTitle}>Mundo 登录</h2>
-        <div className={style.inputGroup}>
-            <label htmlFor="email">邮箱：</label>
-            <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={handleEmailChange}
-            placeholder="请输入邮箱"
-            required
-            />
-        </div>
-        <div className={style.inputGroup}>
-            <label htmlFor="password">密码：</label>
-            <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={handlePasswordChange}
-            placeholder="请输入密码"
-            required
-            />
-        </div>
-        <button className={style.loginBtn} onClick={handleLogin}>登录</button>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <div className={style.otherLogin}>
-            <button className={style.loginOption}>邮箱验证登录</button>
-            <button className={style.loginOption}>手机号登录</button>
-            <button className={style.loginOption} onClick={fetchQRCode}>微信登录</button>
-            <button className={style.loginOption} onClick={handleHelperLogin}>HDUHelper登录</button>
-        </div>
-        {qrCodeUrl ? (
-          <div>
-            <p>{status}</p>
-            <img src={qrCodeUrl} alt="微信登录二维码" style={{ width: '200px', height: '200px' }} />
-            {!polling && <button onClick={startPolling}>开始检查登录状态</button>}
+    <div className={style.body}>
+      <div className={style.loginBox}>
+          <h2 className={style.loginTitle}>Mundo 登录</h2>
+          <div className={style.inputGroup}>
+              <label htmlFor="email">邮箱：</label>
+              <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={handleEmailChange}
+              placeholder="请输入邮箱"
+              required
+              />
           </div>
-        ) : (
-          <p>{status}</p>
-        )}
-        <button className={style.loginOption} onClick={bindLogin}>邮箱绑定</button>
-        <p className={style.registerLink}>还没有账号？<Link to="/register">去注册</Link></p>
+          <div className={style.inputGroup}>
+              <label htmlFor="password">密码：</label>
+              <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={handlePasswordChange}
+              placeholder="请输入密码"
+              required
+              />
+          </div>
+          <button className={style.loginBtn} onClick={handleLogin}>登录</button>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+          <div className={style.otherLogin}>
+              <button className={style.loginOption}>邮箱验证登录</button>
+              <button className={style.loginOption}>手机号登录</button>
+              <button className={style.loginOption} onClick={fetchQRCode}>微信登录</button>
+              <button className={style.loginOption} onClick={handleHelperLogin}>HDUHelper登录</button>
+          </div>
+          {qrCodeUrl ? (
+            <div>
+              <p>{status}</p>
+              <img src={qrCodeUrl} alt="微信登录二维码" style={{ width: '200px', height: '200px' }} />
+              {!polling && <button onClick={startPolling}>开始检查登录状态</button>}
+            </div>
+          ) : (
+            <p>{status}</p>
+          )}
+          <button className={style.loginOption} onClick={bindLogin}>邮箱绑定</button>
+          <p className={style.registerLink}>还没有账号？<Link to="/register">去注册</Link></p>
 
+      </div>      
     </div>
+
   );
 };
 
