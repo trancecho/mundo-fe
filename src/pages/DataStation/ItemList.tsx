@@ -37,13 +37,17 @@ const ItemList: React.FC<ItemListProps> = ({ activeCategory, activeTab }) => {
     } else if (activeCategory === "C语言") {
       queries = ["C语言"];
     } else if (activeCategory === "其他") {
-      queries = ["其他"];
+      queries = ["其它"];
     }
 
     // 发送多个请求
     Promise.all(
       queries.map((name) =>
-        axios.get(`http://127.0.0.1:4523/m1/4936698-4594190-default/api/files?name=${name}`)
+        axios.get(`http://116.198.207.159:12349/api/files?name=${name}`, {
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxOSwidXNlcm5hbWUiOiJra2dvb24iLCJyb2xlIjoidXNlciIsImlzcyI6Im11bmRvLWF1dGgtaHViIiwiZXhwIjoxNzM3OTc3NDk5LCJpYXQiOjE3MzczNzI2OTl9.qGcNJRA1Z8c5sPqQHgRqqoLV0HM-Ke7sVnh3Qcu6Ldw`
+          }
+        })
       )
     )
       .then((responses) => {
@@ -71,7 +75,7 @@ const ItemList: React.FC<ItemListProps> = ({ activeCategory, activeTab }) => {
   useEffect(() => {
     console.log('Fetched items:', items);  // 查看 items 数据
   }, [items]);
-  
+
 
   const handleSort = (tab: string) => {
     setSelectedTab(tab);
@@ -80,9 +84,15 @@ const ItemList: React.FC<ItemListProps> = ({ activeCategory, activeTab }) => {
   const handleDownload = (item: ItemData) => {
     console.log('Downloading item:', item);  // 确保点击事件触发
     axios
-      .post("http://127.0.0.1:4523/m1/4936698-4594190-default/api/cloud_disk/download", {
-        name: item.name,
-        folder_id: item.folder_id,
+      .post("http://116.198.207.159:12349/api/cloud_disk/download", {
+        data: {
+          name: item.name,
+          folder_id: item.folder_id,
+        },
+      }, {
+        headers: {
+          Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxOSwidXNlcm5hbWUiOiJra2dvb24iLCJyb2xlIjoidXNlciIsImlzcyI6Im11bmRvLWF1dGgtaHViIiwiZXhwIjoxNzM3OTc3NDk5LCJpYXQiOjE3MzczNzI2OTl9.qGcNJRA1Z8c5sPqQHgRqqoLV0HM-Ke7sVnh3Qcu6Ldw'
+        }
       })
       .then((response) => {
         console.log('Download response:', response.data);  // 查看响应数据
@@ -113,7 +123,7 @@ const ItemList: React.FC<ItemListProps> = ({ activeCategory, activeTab }) => {
         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)", // 添加阴影
         borderRadius: "5px",
         color: "#000", // 所有文字显示为黑色
-        
+
       }}
     >
       <div style={{ marginBottom: "20px" }}>
