@@ -125,30 +125,36 @@ interface RightProps {
 
 const Right: React.FC<RightProps> = ({ messages, searchValue, selectedMenu, selectedFilter }) => {
     return (
-        <div className="right">
-            <div className='block'></div>
-            {messages.filter(message => {
-                if (selectedMenu === '首页') {
-                    // 当点击“首页”按钮时，显示全部信息，即不过滤直接返回所有消息
-                    return true;
-                }
-                if (selectedMenu) {
-                    return message.tags.includes(selectedMenu);
-                }
-                if (selectedFilter) {
-                    // 这里可以根据selectedFilter的值添加具体的筛选逻辑，目前只是示例占位
-                    return true;
-                }
-                return (
-                    message.title.includes(searchValue) ||
-                    message.content.includes(searchValue) ||
-                    message.tags.some(tag => tag.includes(searchValue))
-                );
-            }).map(message => (
-                <Message key={message.id} {...message} />
-            ))}
-            <div className='block'></div>
+        <div>
+            <Header/>
+            <div style={{marginTop:'80px'}}>
+                <div className="right">
+                    <div className='block'></div>
+                    {messages.filter(message => {
+                        if (selectedMenu === '首页') {
+                            // 当点击“首页”按钮时，显示全部信息，即不过滤直接返回所有消息
+                            return true;
+                        }
+                        if (selectedMenu) {
+                            return message.tags.includes(selectedMenu);
+                        }
+                        if (selectedFilter) {
+                            // 这里可以根据selectedFilter的值添加具体的筛选逻辑，目前只是示例占位
+                            return true;
+                        }
+                        return (
+                            message.title.includes(searchValue) ||
+                            message.content.includes(searchValue) ||
+                            message.tags.some(tag => tag.includes(searchValue))
+                        );
+                    }).map(message => (
+                        <Message key={message.id} {...message} />
+                    ))}
+                    <div className='block'></div>
+                </div>
+            </div>            
         </div>
+
     );
 };
 

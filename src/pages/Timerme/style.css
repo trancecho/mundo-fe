@@ -121,6 +121,13 @@ h1 {
   font-size: 36px;
   text-align: center;
 }
+.body{
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  margin:0 auto;
+  justify-content: center;
+}
 .btn {
   border: var(--border);
   border-radius: var(--border-radius);

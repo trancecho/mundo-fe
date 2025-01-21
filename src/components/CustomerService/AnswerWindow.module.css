@@ -1,9 +1,10 @@
 .answerWindow {
+
     position: fixed;
     bottom: 60px;
     right: 20px;
-    width: 300px;
-    height: 500px;
+    width: 400px;
+    height: 685px;
     background: linear-gradient(to bottom, #3085f3 20%, #6a9bf3 30%, #fff 70%);
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -11,6 +12,7 @@
     z-index: 40;
     display: flex;
     flex-direction: column;
+    overflow-y: auto
 
 }
 
@@ -40,18 +42,4 @@
     margin-top: auto;
     width: 100%;
     text-align: center;
-}
-
-.qq_small_font {
-    font-size: 12px;
-}
-
-.confettiButton_style {
-    padding: 5px 5px;
-    font-size: 10px;
-}
-
-.confettiButton_position {
-    margin: auto;
-    margin-left: 0;
 }

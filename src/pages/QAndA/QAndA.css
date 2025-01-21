@@ -164,7 +164,7 @@
     display: flex;
     width: 100vw;
     height: 100vh;
-    background-color: #e0e0e3;
+    /* background-color: #e0e0e3; */
     /*flex-wrap: wrap;*/
     overflow: auto;  /* 自动出现滚动条 */
 }

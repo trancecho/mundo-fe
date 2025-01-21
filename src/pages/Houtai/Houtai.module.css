@@ -1,6 +1,7 @@
 /* 顶部 MUNDO后台区域 */
 .header {
-    width: 1440px;
+  position:fixed;
+    width: 100vw;
     height: 80px;
     background-color: #ffffff;
     display: flex;
@@ -15,9 +16,10 @@
   
   /* 左侧导航栏 */
   .sidebar {
-    position: absolute;
+    /* position: absolute;
     top: 110px;
-    left: 100px;
+    left: 100px; */
+    margin-top: 100px;
     width: 200px;
     height: 600px;
     background-color: #ffffff;
@@ -45,11 +47,12 @@
   
   /* FAQ 区域容器 */
   .faqContainer {
-    position: absolute;
+    /* position: absolute;
     top: 110px;
-    left: 320px;
-    width: 800px;
-    height: 914px;
+    left: 320px; */
+    margin-top: 100px;
+    width: 60vw;
+    height: 800px;
     background-color: #ffffff;
     border-radius: 5px 0 0 0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
