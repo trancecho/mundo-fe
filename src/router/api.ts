@@ -178,6 +178,37 @@ export const resetTask = async (id: number) => {
   return response.data.data.task;
 };
 
+// 获取文件列表的封装函数
+export const getFileList = async (name: string) => {
+  try {
+    const response = await api_mundo.get(`/api/files`, {
+      params: { name },
+      headers: {
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxOSwidXNlcm5hbWUiOiJra2dvb24iLCJyb2xlIjoidXNlciIsImlzcyI6Im11bmRvLWF1dGgtaHViIiwiZXhwIjoxNzM3OTc3NDk5LCJpYXQiOjE3MzczNzI2OTl9.qGcNJRA1Z8c5sPqQHgRqqoLV0HM-Ke7sVnh3Qcu6Ldw'
+      }
+    });
+    return response.data.data.files; // 返回的数据结构
+  } catch (error) {
+    console.error("获取文件列表失败", error);
+    throw error;
+  }
+};
+
+// 下载文件的封装函数
+export const downloadFile = async (item: { name: string; folder_id: number }) => {
+  try {
+    const response = await api_mundo.post(
+      '/api/cloud_disk/download',
+      { data: { name: item.name, folder_id: item.folder_id } },
+      {  headers: {Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxOSwidXNlcm5hbWUiOiJra2dvb24iLCJyb2xlIjoidXNlciIsImlzcyI6Im11bmRvLWF1dGgtaHViIiwiZXhwIjoxNzM3OTc3NDk5LCJpYXQiOjE3MzczNzI2OTl9.qGcNJRA1Z8c5sPqQHgRqqoLV0HM-Ke7sVnh3Qcu6Ldw'}}
+    );
+    return response.data;
+  } catch (error) {
+    console.error("下载文件失败", error);
+    throw error;
+  }
+};
+
 export const mundo_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJ1c2VybmFtZSI6IuS5neaAnSIsInJvbGUiOiJhZG1pbiIsImlzcyI6Im11bmRvLWF1dGgtaHViIiwiZXhwIjoxNzM1NDUzNjkwLCJpYXQiOjE3MzQ4NDg4OTB9.53Ng2lGsXYHa0AEAuatsWObFsAGKTHQQQzbnh5jCThQ";//登录以后拿到的token
 
 const api_mundo = axios.create({

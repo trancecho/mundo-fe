@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Item from "./Item";
+import { getFileList, downloadFile } from "@/router/api";
 
 interface ItemListProps {
   activeCategory: string;
@@ -19,7 +19,7 @@ interface ItemData {
 
 const ItemList: React.FC<ItemListProps> = ({ activeCategory, activeTab }) => {
   const [items, setItems] = useState<ItemData[]>([]);
-  const [selectedTab, setSelectedTab] = useState<string>(activeTab);
+  const [selectedTab, setSelectedTab] = useState<string>("hot");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -45,34 +45,32 @@ const ItemList: React.FC<ItemListProps> = ({ activeCategory, activeTab }) => {
 
     // 发送多个请求
     Promise.all(
-      queries.map((name) =>
-        axios.get(`http://116.198.207.159:12349/api/files?name=${name}`, {
-          headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxOSwidXNlcm5hbWUiOiJra2dvb24iLCJyb2xlIjoidXNlciIsImlzcyI6Im11bmRvLWF1dGgtaHViIiwiZXhwIjoxNzM3OTc3NDk5LCJpYXQiOjE3MzczNzI2OTl9.qGcNJRA1Z8c5sPqQHgRqqoLV0HM-Ke7sVnh3Qcu6Ldw`
-          }
-        })
+      queries.map((name) => getFileList(name)
       )
     )
       .then((responses) => {
-        const fetchedItems = responses.flatMap((response) => response.data.data.files); // 合并所有响应的数据
+        const fetchedItems = responses.flat(); // 合并所有响应的数据
+        const sortedItems = fetchedItems.sort((a, b) => b.hotness - a.hotness); // 按照热度排序
         setItems(fetchedItems); // 更新 items 状态
         setLoading(false);
       })
+      
       .catch((error) => {
         console.error("Error fetching data:", error);
         setError("获取资料失败，请稍后再试");
         setLoading(false);
       });
-  }, [activeCategory, selectedTab]);
+  }, [activeCategory]);
 
+  //排序
   useEffect(() => {
+    let sortedItems = [...items];
     if (selectedTab === "hot") {
-      setItems((prevItems) => prevItems.sort((a, b) => b.hotness - a.hotness));
+      sortedItems.sort((a, b) => b.hotness - a.hotness);
     } else if (selectedTab === "new") {
-      setItems((prevItems) =>
-        prevItems.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
-      );
+      sortedItems.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
     }
+    setItems(sortedItems);
   }, [selectedTab]);
 
   useEffect(() => {
@@ -86,17 +84,7 @@ const ItemList: React.FC<ItemListProps> = ({ activeCategory, activeTab }) => {
 
   const handleDownload = (item: ItemData) => {
     console.log('Downloading item:', item);  // 确保点击事件触发
-    axios
-      .post("http://116.198.207.159:12349/api/cloud_disk/download", {
-        data: {
-          name: item.name,
-          folder_id: item.folder_id,
-        },
-      }, {
-        headers: {
-          Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxOSwidXNlcm5hbWUiOiJra2dvb24iLCJyb2xlIjoidXNlciIsImlzcyI6Im11bmRvLWF1dGgtaHViIiwiZXhwIjoxNzM3OTc3NDk5LCJpYXQiOjE3MzczNzI2OTl9.qGcNJRA1Z8c5sPqQHgRqqoLV0HM-Ke7sVnh3Qcu6Ldw'
-        }
-      })
+    downloadFile(item)
       .then((response) => {
         console.log('Download response:', response.data);  // 查看响应数据
         if (response.data.message === "下载结果") {
@@ -121,12 +109,11 @@ const ItemList: React.FC<ItemListProps> = ({ activeCategory, activeTab }) => {
   return (
     <div
       style={{
-        width: "75%",
-        padding: "20px",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)", // 添加阴影
+        width: "100%",
+        padding: "50px",
+        boxShadow: "5px 15px 8px rgba(0, 0, 0, 0.2)", // 添加阴影
         borderRadius: "5px",
         color: "#000", // 所有文字显示为黑色
-
       }}
     >
       <div style={{ marginBottom: "20px" }}>
@@ -149,7 +136,7 @@ const ItemList: React.FC<ItemListProps> = ({ activeCategory, activeTab }) => {
 };
 
 const tabStyle: React.CSSProperties = {
-  marginRight: "10px",
+  marginRight: "1px",
   padding: "10px",
   cursor: "pointer",
   border: "1px solid #ddd",
