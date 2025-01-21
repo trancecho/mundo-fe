@@ -40,6 +40,9 @@ const ItemList: React.FC<ItemListProps> = ({ activeCategory, activeTab }) => {
       queries = ["其它"];
     }
 
+    const token = localStorage.getItem('token');
+    console.log('Token:', token);
+
     // 发送多个请求
     Promise.all(
       queries.map((name) =>
