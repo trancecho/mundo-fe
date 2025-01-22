@@ -199,7 +199,7 @@ export const downloadFile = async (item: { name: string; folder_id: number }) =>
   try {
     const response = await api_mundo.post(
       '/api/cloud_disk/download',
-      { data: { name: item.name, folder_id: item.folder_id } },
+      {  name: item.name, folder_id: item.folder_id },
       {  headers: {Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxOSwidXNlcm5hbWUiOiJra2dvb24iLCJyb2xlIjoidXNlciIsImlzcyI6Im11bmRvLWF1dGgtaHViIiwiZXhwIjoxNzM3OTc3NDk5LCJpYXQiOjE3MzczNzI2OTl9.qGcNJRA1Z8c5sPqQHgRqqoLV0HM-Ke7sVnh3Qcu6Ldw'}}
     );
     return response.data;

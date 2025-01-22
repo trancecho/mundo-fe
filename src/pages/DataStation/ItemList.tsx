@@ -87,9 +87,9 @@ const ItemList: React.FC<ItemListProps> = ({ activeCategory, activeTab }) => {
     downloadFile(item)
       .then((response) => {
         console.log('Download response:', response.data);  // 查看响应数据
-        if (response.data.message === "下载结果") {
+        if (response.message === "下载结果") {
           const newItems = items.map((i) =>
-            i.id === item.id ? { ...i, url: response.data.data.url } : i
+            i.id === item.id ? { ...i, url: response.data.url } : i
           );
           setItems(newItems); // 更新 items 状态
           console.log('Updated items:', newItems);  // 确保 items 更新了
