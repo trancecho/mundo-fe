@@ -32,26 +32,29 @@ const Verify: React.FC = () => {
 
     return (
         <>
-        <div className={style.loginBox}>
-            <h2 className={style.loginTitle}>Mundo 激活账户</h2>
-            {isVerified ? (
-                <p>激活成功！即将跳转到登录页面。</p>
-            ) : (
-                <>
-                <div className={style.inputGroup}>
-                    <label htmlFor="password">设置密码：</label>
-                    <input
-                        id="password"
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="请输入密码"
-                    />
-                </div>
-                <button className={style.loginBtn} onClick={handleVerify}>激活账户</button>
-                </>
-            )}
-            <p className={style.registerLink}>已经有账号？<Link to="/login">去登录</Link></p>
+        <div className={style.body}>
+
+            <div className={style.loginBox}>
+                <h2 className={style.loginTitle}>Mundo 激活账户</h2>
+                {isVerified ? (
+                    <p>激活成功！即将跳转到登录页面。</p>
+                ) : (
+                    <>
+                    <div className={style.inputGroup}>
+                        <label htmlFor="password">设置密码：</label>
+                        <input
+                            id="password"
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="请输入密码"
+                        />
+                    </div>
+                    <button className={style.loginBtn} onClick={handleVerify}>激活账户</button>
+                    </>
+                )}
+                <p className={style.registerLink}>已经有账号？<Link to="/login">去登录</Link></p>
+            </div> 
         </div> 
         </>
     );

@@ -32,37 +32,40 @@ const Registerr: React.FC = () => {
   
     return (
         <>
-        <div className={style.loginBox}>
-            <h2 className={style.loginTitle}>Mundo 注册</h2>
-            {isEmailSent ? (
-            <p>验证邮件已发送，请前往邮箱完成验证。</p>
-            ) : (
-                <>
-                    {/* <div className={style.inputGroup}>
-                        <label htmlFor="username">用户名：</label>
-                        <input
-                        id="username"
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        placeholder="请输入用户名"
-                        />
-                    </div> */}
-                    <div className={style.inputGroup}>
-                        <label htmlFor="email">邮箱：</label>
-                        <input
-                        id="email"
-                        type="email"
-                        value={inputEmail}
-                        onChange={(e) => setInputEmail(e.target.value)}
-                        placeholder="请输入邮箱地址"
-                        />
-                    </div>
-                    <button className={style.loginBtn} onClick={handleRegister}>发送验证邮件</button>
+        <div className={style.body}>
 
-                </>
-            )}  
-            <p className={style.registerLink}>已经有账号？<Link to="/login">去登录</Link></p>
+          <div className={style.loginBox}>
+              <h2 className={style.loginTitle}>Mundo 注册</h2>
+              {isEmailSent ? (
+              <p>验证邮件已发送，请前往邮箱完成验证。</p>
+              ) : (
+                  <>
+                      {/* <div className={style.inputGroup}>
+                          <label htmlFor="username">用户名：</label>
+                          <input
+                          id="username"
+                          type="text"
+                          value={username}
+                          onChange={(e) => setUsername(e.target.value)}
+                          placeholder="请输入用户名"
+                          />
+                      </div> */}
+                      <div className={style.inputGroup}>
+                          <label htmlFor="email">邮箱：</label>
+                          <input
+                          id="email"
+                          type="email"
+                          value={inputEmail}
+                          onChange={(e) => setInputEmail(e.target.value)}
+                          placeholder="请输入邮箱地址"
+                          />
+                      </div>
+                      <button className={style.loginBtn} onClick={handleRegister}>发送验证邮件</button>
+
+                  </>
+              )}  
+              <p className={style.registerLink}>已经有账号？<Link to="/login">去登录</Link></p>
+          </div>  
         </div>  
         
         </> 

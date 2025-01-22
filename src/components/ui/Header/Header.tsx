@@ -1,123 +1,45 @@
 import React, { useState } from 'react';
-import './Header.css';
 import { useNavigate } from 'react-router-dom';
+import './Header.css'; // 假设有对应的CSS文件来管理样式
+import Menu from './Menu'; // 引入 Menu 组件
 
-//Header组件，包含搜索框功能，接收搜索框输入变化和搜索按钮点击的事件处理函数属性
-interface HeaderProps {
-    onSearchChange: React.ChangeEventHandler<HTMLInputElement>;
-    onSearch: () => void;
-}
-
-interface LeftProps {
-    onHeaderMenuButtonClick: (buttonId: string) => void;
-}
-
-const Menu: React.FC<LeftProps> = () => {
-    // 使用useState钩子为每个按钮创建一个状态，用于记录是否被点击，初始值都为false
-    // const [isHomeClicked, setIsHomeClicked] = useState(true);
-    // const [isMenu1Clicked, setIsMenu1Clicked] = useState(true);
-    // const [isMenu2Clicked, setIsMenu2Clicked] = useState(true);
-    // const [isMenu3Clicked, setIsMenu3Clicked] = useState(true);
-
-    const[activateMenu,setActivateMenu] = useState<string>('答疑');
+const Header: React.FC = () => {
+    const [searchText, setSearchText] = useState<string>(''); // 用于保存搜索框的输入
     const navigate = useNavigate();
 
-    const handleMenuClick=(menu:string,path:string)=>{
-        setActivateMenu(menu);
-        navigate(path);
-    }
+    // 处理搜索框内容变化
+    const onSearchChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+        setSearchText(event.target.value); // 更新搜索框输入的内容
+    };
 
+    // 处理搜索操作
+    const onSearch = () => {
+        console.log('执行搜索:', searchText);
+        // 在这里你可以根据搜索的内容进行相关操作，如发起请求等
+        // 例如：navigate(`/search?query=${searchText}`);
+    };
 
-    return (
-        <div className='HeaderMenu'>
-            <div
-                // id="答疑"
-                className={`HeaderMenuButton ${activateMenu == "答疑" ? 'clicked' : ''}`}
-                onClick={() => {
-                    // setIsHomeClicked(true);
-                    // setIsMenu1Clicked(false);
-                    // setIsMenu2Clicked(false);
-                    // setIsMenu3Clicked(false);
-                    handleMenuClick('答疑', '/qanda');
-                    // onHeaderMenuButtonClick('答疑');
-                    // navigate('/qanda');
-                }}
-            >答疑
-            </div>
-            <div
-                // id="论坛"
-                className={`HeaderMenuButton ${activateMenu == "论坛" ? 'clicked' : ''}`}
-                onClick={() => {
-                    // setIsMenu1Clicked(true);
-                    // setIsHomeClicked(false);
-                    // setIsMenu2Clicked(false);
-                    // setIsMenu3Clicked(false);
-                    // onHeaderMenuButtonClick('论坛');
-                    // navigate('/forum');
-                    handleMenuClick('论坛', '/forum');
-                }}
-            >论坛
-            </div>
-            <div
-                // id="组队"
-                className={`HeaderMenuButton ${activateMenu == "组队" ? 'clicked' : ''}`}
-                onClick={() => {
-                    // setIsMenu2Clicked(true);
-                    // setIsHomeClicked(false);
-                    // setIsMenu1Clicked(false);
-                    // setIsMenu3Clicked(false);
-                    // onHeaderMenuButtonClick('组队');
-                    // navigate('/teamup');
-                    handleMenuClick('组队', '/teamup');
-                }}
-            >组队
-            </div>
-            <div
-                // id="资料"
-                className={`HeaderMenuButton ${activateMenu == "资料" ? 'clicked' : ''}`}
-                onClick={() => {
-                    // setIsMenu3Clicked(true);
-                    // setIsHomeClicked(false);
-                    // setIsMenu1Clicked(false);
-                    // setIsMenu2Clicked(false);
-                    // onHeaderMenuButtonClick('资料');
-                    // navigate('/datastation');
-                    handleMenuClick('资料', '/datastation');
-                }}
-            >资料
-            </div>
-            <div
-                className={`HeaderMenuButton ${activateMenu == "timerme" ? 'clicked' : ''}`}
-                onClick={() => {
-                    handleMenuClick('timerme', '/timerme');
-                }}
-            >timerme
-            </div>
-        </div>
-    );
-}
-
-const Header: React.FC<HeaderProps> = ({onSearchChange, onSearch}) => {
     return (
         <div className="Header">
-            <div className='Name'>MUNDO</div>
-            {/* 在这里引入Menu组件，并传递onMenuButtonClick函数 */}
-            {/*<Menu onHeaderMenuButtonClick={(buttonId) => {*/}
-            {/*    console.log(`点击了菜单按钮: ${buttonId}`);*/}
-            {/*    // 这里可以根据实际需求完善点击菜单按钮后的具体逻辑，比如更新状态、发起请求等*/}
-            {/*}} />*/}
-
-            <Menu/>
+            <div className="Name">MUNDO</div>
+            <Menu />
             <div className="search-wrapper">
                 <input
                     type="text"
                     placeholder="请输入搜索内容"
-                    onChange={onSearchChange}
+                    value={searchText} // 绑定搜索框的值
+                    onChange={onSearchChange} // 处理输入框的变化
                     className="search-input"
                 />
+                <button onClick={onSearch}>搜索</button>
             </div>
             <div>
-                <div className='user'>创作者中心</div>
+                <div
+                    className="user"
+                    onClick={() => navigate("/center")} // 跳转到创作者中心
+                >
+                    创作者中心
+                </div>
             </div>
             <div className="avatar"></div>
         </div>
