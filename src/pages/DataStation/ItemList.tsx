@@ -40,8 +40,6 @@ const ItemList: React.FC<ItemListProps> = ({ activeCategory, activeTab }) => {
       queries = ["其它"];
     }
 
-    const token = localStorage.getItem('token');
-    console.log('Token:', token);
 
     // 发送多个请求
     Promise.all(
@@ -141,7 +139,7 @@ const tabStyle: React.CSSProperties = {
   cursor: "pointer",
   border: "1px solid #ddd",
   borderRadius: "5px",
-  backgroundColor: "#f4f4f4",
+  backgroundColor: "balck",
   color: "#000", // 文字颜色为黑色
 };
 

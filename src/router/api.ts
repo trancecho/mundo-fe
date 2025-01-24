@@ -179,13 +179,14 @@ export const resetTask = async (id: number) => {
 };
 
 // 获取文件列表的封装函数
+const longtoken = localStorage.getItem('longtoken');
+console.log('Token:', longtoken);
 export const getFileList = async (name: string) => {
   try {
     const response = await api_mundo.get(`/api/files`, {
       params: { name },
       headers: {
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxOSwidXNlcm5hbWUiOiJra2dvb24iLCJyb2xlIjoidXNlciIsImlzcyI6Im11bmRvLWF1dGgtaHViIiwiZXhwIjoxNzM3OTc3NDk5LCJpYXQiOjE3MzczNzI2OTl9.qGcNJRA1Z8c5sPqQHgRqqoLV0HM-Ke7sVnh3Qcu6Ldw'
-      }
+        Authorization: 'Bearer ' + longtoken, }
     });
     return response.data.data.files; // 返回的数据结构
   } catch (error) {
@@ -200,7 +201,7 @@ export const downloadFile = async (item: { name: string; folder_id: number }) =>
     const response = await api_mundo.post(
       '/api/cloud_disk/download',
       {  name: item.name, folder_id: item.folder_id },
-      {  headers: {Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxOSwidXNlcm5hbWUiOiJra2dvb24iLCJyb2xlIjoidXNlciIsImlzcyI6Im11bmRvLWF1dGgtaHViIiwiZXhwIjoxNzM3OTc3NDk5LCJpYXQiOjE3MzczNzI2OTl9.qGcNJRA1Z8c5sPqQHgRqqoLV0HM-Ke7sVnh3Qcu6Ldw'}}
+      {  headers: {Authorization: `Bearer ${longtoken}` } }
     );
     return response.data;
   } catch (error) {
