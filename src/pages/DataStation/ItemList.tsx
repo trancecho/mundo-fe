@@ -3,8 +3,7 @@ import Item from "./Item";
 import { getFileList, downloadFile } from "@/router/api";
 
 interface ItemListProps {
-  activeCategory: string;
-  activeTab: string;
+  category: string;
 }
 
 interface ItemData {
@@ -17,7 +16,7 @@ interface ItemData {
   url: string; // 下载链接
 }
 
-const ItemList: React.FC<ItemListProps> = ({ activeCategory, activeTab }) => {
+const ItemList: React.FC<ItemListProps> = ({ category }) => {
   const [items, setItems] = useState<ItemData[]>([]);
   const [selectedTab, setSelectedTab] = useState<string>("hot");
   const [loading, setLoading] = useState<boolean>(false);
@@ -28,18 +27,22 @@ const ItemList: React.FC<ItemListProps> = ({ activeCategory, activeTab }) => {
     setError(null);
 
     let queries: string[] = [];
-
-    // 根据 activeCategory 动态设置要查询的 name 值
-    if (activeCategory === "高数") {
-      queries = ["高数上", "高数下"];
-    } else if (activeCategory === "大物") {
-      queries = ["大物上", "大物下"];
-    } else if (activeCategory === "C语言") {
-      queries = ["C语言"];
-    } else if (activeCategory === "其他") {
-      queries = ["其它"];
+    
+    // 根据 category 设置查询
+    switch(category) {
+      case "高数":
+        queries = ["高数上", "高数下"];
+        break;
+      case "大物":
+        queries = ["大物上", "大物下"];
+        break;
+      case "C语言":
+        queries = ["C语言"];
+        break;
+      case "其他":
+        queries = ["其它"];
+        break;
     }
-
 
     // 发送多个请求
     Promise.all(
@@ -58,7 +61,7 @@ const ItemList: React.FC<ItemListProps> = ({ activeCategory, activeTab }) => {
         setError("获取资料失败，请稍后再试");
         setLoading(false);
       });
-  }, [activeCategory]);
+  }, [category]);
 
   //排序
   useEffect(() => {
