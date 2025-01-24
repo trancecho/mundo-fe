@@ -111,10 +111,14 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
     <div
       style={{
         width: "100%",
-        padding: "50px",
-        boxShadow: "5px 15px 8px rgba(0, 0, 0, 0.2)", // 添加阴影
+        padding: "20px",
+        boxShadow: "5px 15px 8px rgba(0, 0, 0, 0.2)",
         borderRadius: "5px",
-        color: "#000", // 所有文字显示为黑色
+        color: "#000",
+        display: "flex",
+        flexDirection: "column",
+        flex: 1,
+        overflow: "auto"
       }}
     >
       <div style={{ marginBottom: "20px" }}>
@@ -131,19 +135,31 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
           最新
         </button>
       </div>
-      {items.length === 0 ? <p>没有资料</p> : items.map(item => <Item key={item.id} item={item} onDownload={handleDownload} />)}
+      <div style={{ 
+        flex: 1,
+        overflow: "auto",
+        display: "flex",
+        flexDirection: "column"
+      }}>
+        {items.length === 0 ? 
+          <p>没有资料</p> : 
+          items.map(item => <Item key={item.id} item={item} onDownload={handleDownload} />)
+        }
+      </div>
     </div>
   );
 };
 
 const tabStyle: React.CSSProperties = {
-  marginRight: "1px",
-  padding: "10px",
+  marginRight: "20px",
+  padding: "10px 20px",
   cursor: "pointer",
   border: "1px solid #ddd",
   borderRadius: "5px",
   backgroundColor: "balck",
-  color: "#000", // 文字颜色为黑色
+  color: "#000",
+  transition: "all 0.3s ease",
+  transform: "scale(1)",
 };
 
 const activeTabStyle: React.CSSProperties = {
@@ -151,5 +167,17 @@ const activeTabStyle: React.CSSProperties = {
   backgroundColor: "#e4e4e4",
   fontWeight: "bold",
 };
+
+const styleSheet = document.createElement("style");
+styleSheet.textContent = `
+    button {
+        transition: all 0.3s ease !important;
+    }
+    
+    button:hover:not(:disabled) {
+        transform: scale(1.05) !important;
+    }
+`;
+document.head.appendChild(styleSheet);
 
 export default ItemList;

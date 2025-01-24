@@ -6,7 +6,7 @@ const DataStation: React.FC = () => {
     return (
         <div style={{
             display: "flex",
-            height: "100vh",
+            minHeight: "100vh",
             width: "100vw",
             margin: "0 auto",
             justifyContent: "center"
@@ -15,19 +15,27 @@ const DataStation: React.FC = () => {
             <div style={{
                 display: "flex",
                 flexDirection: "row",
-                marginTop: "80px"
+                marginTop: "80px",
+                flex: 1,
+                overflow: "auto"
             }}>
                 <Navbar />
                 <div style={{
                     display: "flex",
                     justifyContent: "center",
-                    paddingTop: "200px",
+                    paddingTop: "20px",
                     backgroundColor: "#fff",
-                    minHeight: "100vh",
-                    color: "#000",
-                    width: "60vw",
+                    flex: 1,
+                    overflow: "auto",
+                    maxWidth: "730px",
+                    margin: "0 auto"
                 }}>
-                    <div style={{display: "flex", width: "80%"}}>
+                    <div style={{
+                        display: "flex", 
+                        width: "100%",
+                        flexDirection: "column",
+                        flex: 1
+                    }}>
                         <Outlet />
                     </div>
                 </div>            
