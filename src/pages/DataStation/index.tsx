@@ -9,26 +9,29 @@ const DataStation: React.FC = () => {
             minHeight: "100vh",
             width: "100vw",
             margin: "0 auto",
-            justifyContent: "center"
+            justifyContent: "center",
+            position: "relative",
         }}>
             <Header/>
             <div style={{
                 display: "flex",
                 flexDirection: "row",
-                marginTop: "80px",
+                marginTop: "110px",
                 flex: 1,
-                overflow: "auto"
+                overflow: "auto",
             }}>
                 <Navbar />
                 <div style={{
                     display: "flex",
                     justifyContent: "center",
-                    paddingTop: "20px",
+                    paddingTop: "0px",
+                    borderRadius: "8px",
                     backgroundColor: "#fff",
+                    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)",
                     flex: 1,
                     overflow: "auto",
-                    maxWidth: "730px",
-                    margin: "0 auto"
+                    maxWidth: "900px",
+                    margin: "0 auto",
                 }}>
                     <div style={{
                         display: "flex", 

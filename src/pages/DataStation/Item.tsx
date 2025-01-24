@@ -76,6 +76,6 @@ const downloadButtonStyle: React.CSSProperties = {
   cursor: "pointer", // 鼠标变成点击手型
   fontSize: "16px", // 字体大小
   boxShadow: "0 4px 8px hsl(0, 3.00%, 32.70%)", // 阴影效果
-};
+  };
 
 export default Item;

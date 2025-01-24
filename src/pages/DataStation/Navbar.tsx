@@ -14,34 +14,40 @@ const Navbar: React.FC = () => {
     ];
 
     return (
-        <div style={{
-            width: "150px",
-            backgroundColor: "#fff",
-            padding: "20px 20px 20px 20px",
-            boxShadow: "2px 0 8px rgba(0, 0, 0, 0.2)",
-            borderRadius: "5px",
-            marginRight: "20px",
-            marginLeft: "50px",
-            color: "#000",
-            display: "flex",
-            flexDirection: "column",
-            height: "fit-content",
-        }}>
-            {categories.map(({ path, label }) => (
-                <div
-                    key={path}
-                    className="nav-item"
-                    onClick={() => navigate(`/datastation/${path}`)}
-                    style={{
-                        ...itemStyle,
-                        backgroundColor: currentPath === path ? "#1890ff" : "transparent",
-                        color: currentPath === path ? "#fff" : "#000"
-                    }}
-                >
-                    {label}
-                </div>
-            ))}
-        </div>
+        <>
+            {/* 占位元素，保持文档流正常 */}
+            <div style={{ width: "150px", height: "fit-content", marginLeft: "100px" }}></div>
+            <div style={{
+                width: "150px",
+                backgroundColor: "#fff",
+                padding: "20px 20px 20px 20px",
+                boxShadow: "2px 0 8px rgba(0, 0, 0, 0.2)",
+                borderRadius: "5px",
+                marginRight: "20px",
+                marginLeft: "100px",
+                color: "#000",
+                display: "flex",
+                flexDirection: "column",
+                height: "fit-content",
+                position: "fixed"
+                
+            }}>
+                {categories.map(({ path, label }) => (
+                    <div
+                        key={path}
+                        className="nav-item"
+                        onClick={() => navigate(`/datastation/${path}`)}
+                        style={{
+                            ...itemStyle,
+                            backgroundColor: currentPath === path ? "#1890ff" : "transparent",
+                            color: currentPath === path ? "#fff" : "#000"
+                        }}
+                    >
+                        {label}
+                    </div>
+                ))}
+            </div>
+        </>
     );
 };
 
