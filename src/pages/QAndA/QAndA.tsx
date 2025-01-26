@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from'react';
+import { useNavigate } from'react-router-dom';
 import './QAndA.css';
 import Header from '@/components/ui/Header/Header.tsx';
-import { Button } from "@/components/ui/button"
+import axios from 'axios';
+
 // Tag组件，用于展示一个带有文本的标签
 interface TagProps {
     text: string; // 标签显示的文本内容
@@ -28,10 +29,11 @@ interface MessageProps {
     collection: number;
     is_completed: boolean;
     answer_count: number;
+    time: string;
 }
 
 // Message组件，用于展示消息相关的信息，根据传入属性展示真实内容
-const Message: React.FC<MessageProps> = ({ id, title, content, tags, picture, view, collection, is_completed, answer_count }) => {
+const Message: React.FC<MessageProps> = ({ id, title, content, tags, picture, view, collection, is_completed, answer_count, time }) => {
     const navigate = useNavigate();
 
     return (
@@ -45,7 +47,8 @@ const Message: React.FC<MessageProps> = ({ id, title, content, tags, picture, vi
                 view,
                 collection,
                 is_completed,
-                answer_count
+                answer_count,
+                time
             };
             navigate('detail', { state: { message: messageData } });
         }}>
@@ -56,9 +59,9 @@ const Message: React.FC<MessageProps> = ({ id, title, content, tags, picture, vi
                         {content}
                     </div>
                     {picture.length > 0 && (
-                        <div className="message-pictures">
+                        <div className="message - pictures">
                             {picture.map((pic, index) => (
-                                <img key={index} src={pic} alt={`图片${index + 1}` }/>
+                                <img key={index} src={pic} alt={`图片${index + 1}`} />
                             ))}
                         </div>
                     )}
@@ -67,12 +70,12 @@ const Message: React.FC<MessageProps> = ({ id, title, content, tags, picture, vi
                     {tags.map(tag => <Tag key={tag} text={tag} />)}
                 </div>
                 <div className="Qandatime"> {/* 这里可以根据实际需求处理时间展示，比如从接口数据获取或者按照一定格式生成等，暂时先留空 */} </div>
-                {/*<div className="message-stats">
+                <div className="message - stats">
                     <div>浏览量: {view}</div>
                     <div>收藏量: {collection}</div>
                     <div>是否完成: {is_completed? '是' : '否'}</div>
                     <div>回答数量: {answer_count}</div>
-                </div>*/}
+                </div>
             </div>
         </div>
     );
@@ -108,7 +111,6 @@ const Left: React.FC<LeftProps> = ({ onMenuButtonClick }) => {
                         className='MenuButton'
                         onClick={() => onMenuButtonClick('C语言')}
                     >C语言</div>
-                    {/*<Button>Button</Button>*/}
                 </div>
             </div>
         </div>
@@ -125,36 +127,30 @@ interface RightProps {
 
 const Right: React.FC<RightProps> = ({ messages, searchValue, selectedMenu, selectedFilter }) => {
     return (
-        <div>
-            <Header/>
-            <div style={{marginTop:'80px'}}>
-                <div className="right">
-                    <div className='block'></div>
-                    {messages.filter(message => {
-                        if (selectedMenu === '首页') {
-                            // 当点击“首页”按钮时，显示全部信息，即不过滤直接返回所有消息
-                            return true;
-                        }
-                        if (selectedMenu) {
-                            return message.tags.includes(selectedMenu);
-                        }
-                        if (selectedFilter) {
-                            // 这里可以根据selectedFilter的值添加具体的筛选逻辑，目前只是示例占位
-                            return true;
-                        }
-                        return (
-                            message.title.includes(searchValue) ||
-                            message.content.includes(searchValue) ||
-                            message.tags.some(tag => tag.includes(searchValue))
-                        );
-                    }).map(message => (
-                        <Message key={message.id} {...message} />
-                    ))}
-                    <div className='block'></div>
-                </div>
-            </div>            
+        <div className="right">
+            <div className='block'></div>
+            {messages.filter(message => {
+                if (selectedMenu === '首页') {
+                    // 当点击“首页”按钮时，显示全部信息，即不过滤直接返回所有消息
+                    return true;
+                }
+                if (selectedMenu) {
+                    return message.tags.includes(selectedMenu);
+                }
+                if (selectedFilter) {
+                    // 这里可以根据selectedFilter的值添加具体的筛选逻辑，目前只是示例占位
+                    return true;
+                }
+                return (
+                    message.title.includes(searchValue) ||
+                    message.content.includes(searchValue) ||
+                    message.tags.some(tag => tag.includes(searchValue))
+                );
+            }).map(message => (
+                <Message key={message.id} {...message} />
+            ))}
+            <div className='block'></div>
         </div>
-
     );
 };
 
@@ -170,6 +166,8 @@ const QAndA: React.FC<QAndAProps> = () => {
     const [selectedMenu, setSelectedMenu] = useState('');
     // 新增用于记录ChooseButton选择的筛选条件状态
     const [selectedFilter, setSelectedFilter] = useState('');
+    // 用于存储token的状态，初始化为默认token
+    const [token, setToken] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyNywidXNlcm5hbWUiOiJnaW5rYSIsInJvbGUiOiJ1c2VyIiwiaXNzIjoibXVuZG8tYXV0aC1odWIiLCJleHAiOjE3MzgxNTAyNjcsImlhdCI6MTczNzU0NTQ2N30.oOl6yHpunD1uFlafSfSLSXuuCxiGjVK0VGNAnf93Ouk');
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(e.target.value);
@@ -221,24 +219,41 @@ const QAndA: React.FC<QAndAProps> = () => {
     };
 
     useEffect(() => {
-        // 使用接口请求获取数据
         const fetchMessages = async () => {
             try {
                 const myHeaders = new Headers();
                 myHeaders.append("User-Agent", "Apifox/1.0.0 (https://apifox.com)");
-                myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxNiwidXNlcm5hbWUiOiJqdWljZSIsInJvbGUiOiJ1c2VyIiwiaXNzIjoibXVuZG8tYXV0aC1odWIiLCJleHAiOjE3MzUzNjk3NzgsImlhdCI6MTczNDc2NDk3OH0.sttCChl7GPiSJo02X1aEODd_ic8_faPTCd_Wrtf0a5A");
+                // 使用默认token
+                myHeaders.append("Authorization", `Bearer ${token}`);
                 myHeaders.append("Accept", "*/*");
                 myHeaders.append("Host", "116.198.207.159:12349");
                 myHeaders.append("Connection", "keep-alive");
 
-                const requestOptions = {
+                const requestOptions: RequestInit = {
                     method: 'GET',
                     headers: myHeaders,
+                    redirect: 'follow' as RequestRedirect
                 };
 
                 const response = await fetch("http://116.198.207.159:12349/api/question/post?service=mundo", requestOptions);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const result = await response.json();
-                setMessages(result.data.hotPosts.concat(result.data.recentPosts));
+                // 确保数据结构转换正确
+                const transformedMessages = result.data.hotPosts.concat(result.data.recentPosts).map((msg: any) => ({
+                    id: msg.id,
+                    title: msg.title,
+                    content: msg.content,
+                    tags: msg.tags,
+                    picture: msg.picture,
+                    view: msg.view,
+                    collection: msg.collection,
+                    is_completed: msg.isCompleted || false,
+                    answer_count: msg.answerCount,
+                    time: msg.time
+                }));
+                setMessages(transformedMessages);
             } catch (error) {
                 console.error('获取消息数据失败', error);
             }
@@ -249,10 +264,10 @@ const QAndA: React.FC<QAndAProps> = () => {
 
     return (
         <div className="background">
-            {/*<div className="top">*/}
-            {/*    <Header onSearchChange={handleSearchChange} onSearch={handleSearch} />*/}
-            {/*</div>*/}
-            <div className="QandAContainer">
+            <div className="top">
+                <Header onSearchChange={handleSearchChange} onSearch={handleSearch} />
+            </div>
+            <div className="main">
                 <div className='LeftCon'>
                     <Left onMenuButtonClick={handleMenuButtonClick} />
                 </div>
@@ -282,5 +297,7 @@ const QAndA: React.FC<QAndAProps> = () => {
         </div>
     );
 };
+
+export default QAndA;
 
 export default QAndA;
