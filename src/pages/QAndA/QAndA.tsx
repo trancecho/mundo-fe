@@ -299,5 +299,3 @@ const QAndA: React.FC<QAndAProps> = () => {
 };
 
 export default QAndA;
-
-export default QAndA;
