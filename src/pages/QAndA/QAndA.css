@@ -270,3 +270,26 @@
     justify-content: right;
     align-items: center;
 }
+
+.message-stats{
+    display: flex;
+    margin-left: 3vw;
+
+}
+
+.message-pictures{
+    margin-top: 0.1vw;
+    margin-bottom: 0.1vw;
+    width: 5vw;
+    height: 5vw;
+}
+
+.YuLanXinXi{
+    display: flex;
+
+}
+
+.YuLan{
+    margin-left: 1vw;
+    font-size: 0.7vw;
+}
