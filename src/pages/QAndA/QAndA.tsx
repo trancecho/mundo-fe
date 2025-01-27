@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './QAndA.css';
 import Header from '@/components/ui/Header/Header.tsx';
-import { Button } from "@/components/ui/button"
+
 // Tag组件，用于展示一个带有文本的标签
 interface TagProps {
     text: string; // 标签显示的文本内容
@@ -47,7 +47,7 @@ const Message: React.FC<MessageProps> = ({ id, title, content, tags, picture, vi
                 is_completed,
                 answer_count
             };
-            navigate('detail', { state: { message: messageData } });
+            navigate(`/qanda/${id}`);
         }}>
             <div className='mes'>
                 <div className="messtitle">{title}</div>
@@ -226,7 +226,7 @@ const QAndA: React.FC<QAndAProps> = () => {
             try {
                 const myHeaders = new Headers();
                 myHeaders.append("User-Agent", "Apifox/1.0.0 (https://apifox.com)");
-                myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxNiwidXNlcm5hbWUiOiJqdWljZSIsInJvbGUiOiJ1c2VyIiwiaXNzIjoibXVuZG8tYXV0aC1odWIiLCJleHAiOjE3MzUzNjk3NzgsImlhdCI6MTczNDc2NDk3OH0.sttCChl7GPiSJo02X1aEODd_ic8_faPTCd_Wrtf0a5A");
+                myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxOCwidXNlcm5hbWUiOiJxcXgxMjM0NSIsInJvbGUiOiJ1c2VyIiwiaXNzIjoibXVuZG8tYXV0aC1odWIiLCJleHAiOjE3Mzc5Njg4MjMsImlhdCI6MTczNzM2NDAyM30.0bYHrAOPqzvqmhAfisEI0D6toB9CW0E-GTneoOoC2_c");
                 myHeaders.append("Accept", "*/*");
                 myHeaders.append("Host", "116.198.207.159:12349");
                 myHeaders.append("Connection", "keep-alive");

@@ -16,5 +16,13 @@ export default defineConfig({
       scopeBehaviour: 'local',
     },
   },
-  
+  server: {
+    proxy: {
+        '/api': {
+            target: 'http://116.198.207.159:12349/api',
+            changeOrigin: true,
+            rewrite: (path) => path.replace(/^\/api/, ''),
+        },
+    },
+},
 })

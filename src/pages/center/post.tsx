@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './post.module.css';
+import { useAuth } from '@/context/AuthContext';
 
 type FormData = {
   title: string;
@@ -14,8 +15,8 @@ type Tag = {
   category:string;
   description:string;
 };
-const token:string="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6IuS5neaAnSIsInJvbGUiOiJ1c2VyIiwiaXNzIjoiVGltZXJNZTMiLCJleHAiOjE3MzQ4NzkwNzksImlhdCI6MTczNDI3NDI3OX0.vtpv6Lf-usTvUu6JJHxGZhgSh9MnPNAQs-wOtkyMrlc";
 const Post = () => {
+  const {longtoken}=useAuth();
   const [tags, setTags] = useState<Tag[]>([]); // 用 useState 管理 tags
   const [loading, setloading] = useState(false);
   const [formdata, setformdata] = useState<FormData>({
@@ -32,7 +33,7 @@ const Post = () => {
           const response = await fetch("http://116.198.207.159:12349/api/tags?service=mundo",{
             method: "GET",
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${longtoken}`,
           }
         });
           if (!response.ok) {
@@ -46,7 +47,7 @@ const Post = () => {
         }
       };
       fetchTags();
-    }, []);
+    }, [longtoken]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -80,7 +81,7 @@ const Post = () => {
       const response = await fetch('http://116.198.207.159:12349/api/question/posts?service=mundo', {
         method: 'POST',
         headers: {
-          "Authorization": `Bearer ${token}`,
+          "Authorization": `Bearer ${longtoken}`,
         },
         body:formDataToSend,
       });
@@ -180,7 +181,7 @@ const Post = () => {
               id="fileUpload"
             />
             <label htmlFor="fileUpload" style={{ cursor: 'pointer' }}>
-              <span className="material-symbols-outlined">add_circle</span>
+              <span className="material-symbols-outlined">add_photo_alternate</span>
             </label>
             <button
               type="button"
