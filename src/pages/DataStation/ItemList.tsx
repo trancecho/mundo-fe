@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Item from "./Item";
+import { getFileList, downloadFile } from "@/router/api";
 
 interface ItemListProps {
-  activeCategory: string;
-  activeTab: string;
+  category: string;
 }
 
 interface ItemData {
@@ -17,9 +16,9 @@ interface ItemData {
   url: string; // 下载链接
 }
 
-const ItemList: React.FC<ItemListProps> = ({ activeCategory, activeTab }) => {
+const ItemList: React.FC<ItemListProps> = ({ category }) => {
   const [items, setItems] = useState<ItemData[]>([]);
-  const [selectedTab, setSelectedTab] = useState<string>(activeTab);
+  const [selectedTab, setSelectedTab] = useState<string>("hot");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -28,50 +27,57 @@ const ItemList: React.FC<ItemListProps> = ({ activeCategory, activeTab }) => {
     setError(null);
 
     let queries: string[] = [];
-
-    // 根据 activeCategory 动态设置要查询的 name 值
-    if (activeCategory === "高数") {
-      queries = ["高数上", "高数下"];
-    } else if (activeCategory === "大物") {
-      queries = ["大物上", "大物下"];
-    } else if (activeCategory === "C语言") {
-      queries = ["C语言"];
-    } else if (activeCategory === "其他") {
-      queries = ["其他"];
+    
+    // 根据 category 设置查询
+    switch(category) {
+      case "高数":
+        queries = ["高数上", "高数下"];
+        break;
+      case "大物":
+        queries = ["大物上", "大物下"];
+        break;
+      case "C语言":
+        queries = ["C语言"];
+        break;
+      case "其他":
+        queries = ["其它"];
+        break;
     }
 
     // 发送多个请求
     Promise.all(
-      queries.map((name) =>
-        axios.get(`http://127.0.0.1:4523/m1/4936698-4594190-default/api/files?name=${name}`)
+      queries.map((name) => getFileList(name)
       )
     )
       .then((responses) => {
-        const fetchedItems = responses.flatMap((response) => response.data.data.files); // 合并所有响应的数据
+        const fetchedItems = responses.flat(); // 合并所有响应的数据
+        const sortedItems = fetchedItems.sort((a, b) => b.hotness - a.hotness); // 按照热度排序
         setItems(fetchedItems); // 更新 items 状态
         setLoading(false);
       })
+      
       .catch((error) => {
         console.error("Error fetching data:", error);
         setError("获取资料失败，请稍后再试");
         setLoading(false);
       });
-  }, [activeCategory, selectedTab]);
+  }, [category]);
 
+  //排序
   useEffect(() => {
+    let sortedItems = [...items];
     if (selectedTab === "hot") {
-      setItems((prevItems) => prevItems.sort((a, b) => b.hotness - a.hotness));
+      sortedItems.sort((a, b) => b.hotness - a.hotness);
     } else if (selectedTab === "new") {
-      setItems((prevItems) =>
-        prevItems.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
-      );
+      sortedItems.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
     }
+    setItems(sortedItems);
   }, [selectedTab]);
 
   useEffect(() => {
     console.log('Fetched items:', items);  // 查看 items 数据
   }, [items]);
-  
+
 
   const handleSort = (tab: string) => {
     setSelectedTab(tab);
@@ -79,16 +85,12 @@ const ItemList: React.FC<ItemListProps> = ({ activeCategory, activeTab }) => {
 
   const handleDownload = (item: ItemData) => {
     console.log('Downloading item:', item);  // 确保点击事件触发
-    axios
-      .post("http://127.0.0.1:4523/m1/4936698-4594190-default/api/cloud_disk/download", {
-        name: item.name,
-        folder_id: item.folder_id,
-      })
+    downloadFile(item)
       .then((response) => {
         console.log('Download response:', response.data);  // 查看响应数据
-        if (response.data.message === "下载结果") {
+        if (response.message === "下载结果") {
           const newItems = items.map((i) =>
-            i.id === item.id ? { ...i, url: response.data.data.url } : i
+            i.id === item.id ? { ...i, url: response.data.url } : i
           );
           setItems(newItems); // 更新 items 状态
           console.log('Updated items:', newItems);  // 确保 items 更新了
@@ -108,12 +110,16 @@ const ItemList: React.FC<ItemListProps> = ({ activeCategory, activeTab }) => {
   return (
     <div
       style={{
-        width: "75%",
+        width: "100%",
         padding: "20px",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)", // 添加阴影
-        borderRadius: "5px",
-        color: "#000", // 所有文字显示为黑色
-        
+        boxShadow: "5px 15px 8px rgba(0, 0, 0, 0.2)",
+        borderRadius: "8px",
+        color: "#000",
+        display: "flex",
+        flexDirection: "column",
+        flex: 1,
+        overflow: "auto",
+        border: "1px solid #ddd",
       }}
     >
       <div style={{ marginBottom: "20px" }}>
@@ -130,19 +136,31 @@ const ItemList: React.FC<ItemListProps> = ({ activeCategory, activeTab }) => {
           最新
         </button>
       </div>
-      {items.length === 0 ? <p>没有资料</p> : items.map(item => <Item key={item.id} item={item} onDownload={handleDownload} />)}
+      <div style={{ 
+        flex: 1,
+        overflow: "auto",
+        display: "flex",
+        flexDirection: "column"
+      }}>
+        {items.length === 0 ? 
+          <p>没有资料</p> : 
+          items.map(item => <Item key={item.id} item={item} onDownload={handleDownload} />)
+        }
+      </div>
     </div>
   );
 };
 
 const tabStyle: React.CSSProperties = {
-  marginRight: "10px",
-  padding: "10px",
+  marginRight: "20px",
+  padding: "10px 20px",
   cursor: "pointer",
   border: "1px solid #ddd",
   borderRadius: "5px",
-  backgroundColor: "#f4f4f4",
-  color: "#000", // 文字颜色为黑色
+  backgroundColor: "balck",
+  color: "#000",
+  transition: "all 0.3s ease",
+  transform: "scale(1)",
 };
 
 const activeTabStyle: React.CSSProperties = {
@@ -150,5 +168,17 @@ const activeTabStyle: React.CSSProperties = {
   backgroundColor: "#e4e4e4",
   fontWeight: "bold",
 };
+
+const styleSheet = document.createElement("style");
+styleSheet.textContent = `
+    button {
+        transition: all 0.3s ease !important;
+    }
+    
+    button:hover:not(:disabled) {
+        transform: scale(1.05) !important;
+    }
+`;
+document.head.appendChild(styleSheet);
 
 export default ItemList;

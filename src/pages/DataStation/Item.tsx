@@ -29,11 +29,23 @@ const Item: React.FC<ItemProps> = ({ item, onDownload }) => {
     <div
       style={{
         marginBottom: "15px",
-        padding: "10px",
-        border: "1px solid #ddd",
-        borderRadius: "5px",
+        padding: "15px",
+        border: "1px solid #eee",
+        borderRadius: "8px",
         backgroundColor: "#fff",
         color: "#000", // 所有文字显示为黑色
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        boxShadow: "3px 2px 13px rgba(0, 0, 0, 0.05)", // 添加柔和的阴影
+        transition: "box-shadow 0.3s ease", // 添加阴影过渡效果
+        cursor: "pointer"
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.boxShadow = "0 4px 20px rgba(0, 0, 0, 0.2)"; // hover 时加深阴影
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.05)"; // 恢复原始阴影
       }}
     >
       <h3>{item.name}</h3>  {/* 文件名 */}
@@ -64,6 +76,6 @@ const downloadButtonStyle: React.CSSProperties = {
   cursor: "pointer", // 鼠标变成点击手型
   fontSize: "16px", // 字体大小
   boxShadow: "0 4px 8px hsl(0, 3.00%, 32.70%)", // 阴影效果
-};
+  };
 
 export default Item;
