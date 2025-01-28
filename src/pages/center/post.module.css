@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=add_circle,delete");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=add_photo_alternate,delete&v=1");
 
 .markdown-app {
     font-family: Arial, sans-serif;
@@ -25,14 +25,14 @@
     align-items: center;
     margin: 0 auto;
     flex-wrap: wrap;
-    width: 100%;
-    max-width: 800px;
+    width: 650px;
     background-color: #fff;
     border-radius: 8px;
     padding: 10px;
     box-sizing: border-box;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    margin-top: 7vh;
 }
 
 .command {
@@ -81,24 +81,27 @@ input[type="text"]:focus, textarea:focus {
 }
   
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
     input[type="text"], textarea {
         font-size: 14px; /* 小屏幕调整字体大小 */
         padding: 8px; /* 减小内边距 */
     }
 }
-@media (max-width: 768px) {
+@media (max-width: 600px) {
     .form {
         left: 0; /* 取消相对定位的偏移 */
         flex-direction: column; /* 竖直排列表单元素 */
     }
-
     .head {
         flex-direction: column; /* 小屏幕时让标题和其他元素垂直排列 */
+        width: 100%; /* 宽度占满 */
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
+    .form {
+        width: 340px;
+    }
     .markdown-app {
         margin: 10px; /* 小屏幕时减少外边距 */
     }
@@ -106,6 +109,12 @@ input[type="text"]:focus, textarea:focus {
     .title {
         font-size: 18px; 
     }
+}
+@media screen and (max-width: 400px) {
+    .form {
+        width: 300px;
+    }
+    
 }
 
 .submit {
@@ -173,9 +182,6 @@ input[type="text"]:focus, textarea:focus {
     cursor: pointer;
     background-color: white;
 }
-.material-symbols-outlined {
-    font-weight: 300;
-  }
 
 .tag-click{
         display: inline-flex;
@@ -220,7 +226,7 @@ input[type="text"]:focus, textarea:focus {
 }
 
 * {
-    margin: 0;
+    margin: 30px;
     padding: 0;
     box-sizing: border-box;
 }
@@ -234,6 +240,8 @@ body {
     max-width: 1280px;
     margin: 0 auto;
     padding: 2rem;
+    display: flex;
+    justify-content: center;
   }
 /* 设置全局变量 */
 :root {

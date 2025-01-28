@@ -2,6 +2,7 @@ import React, { useState, useEffect } from'react';
 import { useNavigate } from'react-router-dom';
 import './QAndA.css';
 import Header from '@/components/ui/Header/Header.tsx';
+
 import axios from 'axios';
 
 // 生成随机字符串的函数
@@ -55,6 +56,7 @@ function generateRandomMessages(count = 10) {
     }));
 }
 
+
 // Tag组件，用于展示一个带有文本的标签
 interface TagProps {
     text: string; // 标签显示的文本内容
@@ -101,7 +103,7 @@ const Message: React.FC<MessageProps> = ({ id, title, content, tags, picture, vi
                 answer_count,
                 time
             };
-            navigate('detail', { state: { message: messageData } });
+            navigate(`/qanda/${id}`);
         }}>
             <div className='mes'>
                 <div className="messtitle">{title}</div>
@@ -291,6 +293,7 @@ const QAndA: React.FC<QAndAProps> = () => {
         const fetchMessages = async () => {
             try {
                 const myHeaders = new Headers();
+
                 myHeaders.append("User - Agent", "Apifox/1.0.0 (https://apifox.com)");
                 // 使用默认token
                 myHeaders.append("Authorization", `Bearer ${token}`);
