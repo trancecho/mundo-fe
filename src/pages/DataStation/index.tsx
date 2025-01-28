@@ -1,54 +1,50 @@
-import {Component} from 'react'
-import {useState, useEffect} from 'react';
+import { Outlet } from 'react-router-dom';
 import Navbar from "./Navbar";
-import ItemList from "./ItemList";
 import Header from '@/components/ui/Header/Header.tsx'
 
-const App: React.FC = () => {
-    const [activeCategory, setActiveCategory] = useState<string>("高数");
-    const [activeTab, setActiveTab] = useState<string>("hot");
-
+const DataStation: React.FC = () => {
     return (
-        <div
-        style={{
-            display:"flex",
-            height:"100vh",
-            width:"100vw",
-            margin:"0 auto",
-            justifyContent:"center"
+        <div style={{
+            display: "flex",
+            minHeight: "100vh",
+            width: "100vw",
+            margin: "0 auto",
+            justifyContent: "center",
+            position: "relative",
         }}>
             <Header/>
-            <div 
-            style={{
-                display:"flex",
-                flexDirection:"row",
-                marginTop:"80px"
-            }}
-            >
-                <Navbar activeCategory={activeCategory} setActiveCategory={setActiveCategory}/>
-
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        paddingTop: "200px",
-                        backgroundColor: "#fff", // 设置大背景为白色
-                        minHeight: "100vh", // 确保页面内容填充整个视口高度
-                        color: "#000", // 所有文字显示为黑色
-                        width: "60vw",
-                        // margin: "0 auto", // 水平居中
-                    }}
-                >
-                    <div style={{display: "flex", width: "80%"}}>
-                        
-                        <ItemList activeCategory={activeCategory} activeTab={activeTab}/>
+            <div style={{
+                display: "flex",
+                flexDirection: "row",
+                marginTop: "110px",
+                flex: 1,
+                overflow: "auto",
+            }}>
+                <Navbar />
+                <div style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    paddingTop: "0px",
+                    borderRadius: "8px",
+                    backgroundColor: "#fff",
+                    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)",
+                    flex: 1,
+                    overflow: "auto",
+                    maxWidth: "900px",
+                    margin: "0 auto",
+                }}>
+                    <div style={{
+                        display: "flex", 
+                        width: "100%",
+                        flexDirection: "column",
+                        flex: 1
+                    }}>
+                        <Outlet />
                     </div>
                 </div>            
             </div>    
         </div>
-        
-
     );
 };
 
-export default App;
+export default DataStation;
