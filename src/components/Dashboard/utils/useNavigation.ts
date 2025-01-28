@@ -7,8 +7,8 @@ export const useNavigation = () => {
     // 定义 handleNavigationToAbout 函数的参数类型
     const handleNavigationToAbout = (text: string): void => {
         switch (text) {
-            case 'feedback':
-                navigate('/houtai/feedback');
+            case 'multiPersonChat':
+                navigate('/houtai/multiPersonChat');
                 break;
             case 'faq':
                 navigate('/houtai/faq');

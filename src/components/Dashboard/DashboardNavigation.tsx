@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { useNavigation } from './utils/useNavigation.ts';
 const menuItems = [
     { key: 'dashboardfrontpage', label: '首页' },
-    { key: 'feedback', label: '用户反馈' },
+    { key: 'multiPersonChat', label: '客服窗口' },
     { key: 'faq', label: 'FAQ设置' },
     { key: 'check', label: '审核' }
 ];
@@ -15,8 +15,8 @@ export default function DashboardNavigation() {
     const handleNavigationToAbout = useNavigation();
     useEffect(() => {
         switch (location.pathname) {
-            case '/feedback':
-                setActiveView('feedback');
+            case '/multiPersonChat':
+                setActiveView('multiPersonChat');
                 break;
             case '/faq':
                 setActiveView('faq');
