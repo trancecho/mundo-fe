@@ -11,7 +11,7 @@ const Houtai: React.FC = () => {
     <div className="relative h-screen ">
       <div className={styles.header}>MUNDO后台</div>
       <div className="flex">
-        <div className="ml-[10%] w-[10%]">
+        <div className="ml-[10%]">
           <DashboardNavigation />
         </div>
 

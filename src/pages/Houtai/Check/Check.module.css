@@ -1,0 +1,66 @@
+.checkContainer {
+    margin-top: 100px;
+    width: 60vw;
+    height: 800px;
+    background-color: #ffffff;
+    border-radius: 5px 0 0 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+.reviewPageContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    background-color: #f9f9f9;
+  }
+  
+  .postRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px;
+   
+  }
+  
+  .reviewActions {
+    display: flex;
+    align-items: center;
+   
+  }
+  
+  .buttonGroup {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .approveButton {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .rejectButton {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .approveButton:hover {
+    background-color: #45a049;
+  }
+  
+  .rejectButton:hover {
+    background-color: #d32f2f;
+  }
+  

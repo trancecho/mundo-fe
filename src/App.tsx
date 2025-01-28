@@ -1,6 +1,6 @@
 import React from 'react';
 import { AuthProvider } from './context/AuthContext';
-import { BrowserRouter as Router, Routes, Route,Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import Login from '@/pages/Login/Login'; // 登录
 import RegisterPage from '@/pages/Register/Registerr'; // 注册
 import BindRegisterPage from '@/pages/Register/BindRegister'; // 注册
@@ -16,10 +16,11 @@ import AnswerWindow from '@/components/CustomerService/AnswerWindow'; // 导入�
 import DetailMessage from './pages/QAndA/DetailMessage';//帖子详情页
 import Review from '@/pages/Review/Review'; // 审核
 import Timerme from '@/pages/Timerme/Timerme'; // 计时器
-import Feedback from '@/pages/Houtai/Feedback/FeedbackPage';
+import MultiPersonChat from '@/pages/Houtai/BackstageChat/MultiPersonChat.tsx';
 import FAQ from '@/pages/Houtai/FAQ/FAQPage';
-import Check from '@/pages/Houtai/Check';
+import Check from '@/pages/Houtai/Check/Check';
 import DashboardFrontpage from './pages/Houtai/DashboardFrontpage';
+import ItemList from '@/pages/DataStation/ItemList';
 import './App.css';
 
 
@@ -30,7 +31,13 @@ const App: React.FC = () => {
                     <AnswerWindow/> {/*客服组件*/}
                     <Routes>
                         <Route path="/" element={<FrontPage/>}/>
-                        <Route path="/datastation" element={<DataStation/>}/>
+                        <Route path="/datastation" element={<DataStation/>}>
+                            <Route path="" element={<Navigate to="math" replace />} />
+                            <Route path="math" element={<ItemList category="高数" />} />
+                            <Route path="physics" element={<ItemList category="大物" />} />
+                            <Route path="c-language" element={<ItemList category="C语言" />} />
+                            <Route path="others" element={<ItemList category="其他" />} />
+                        </Route>
                         <Route path="/forum" element={<Forum/>}/>
                         <Route path="/qanda" element={<QAndA/>}/>
                         <Route path="/qanda/:id" element={<DetailMessage/>}/>
@@ -46,7 +53,7 @@ const App: React.FC = () => {
                         <Route path="/houtai" element={<Houtai/>}>
                             <Route path="" element={<DashboardFrontpage/>}/>
 
-                            <Route path="feedback" element={<Feedback/>}/>
+                            <Route path="multiPersonChat" element={<MultiPersonChat/>}/>
                             <Route path="faq" element={<FAQ/>}/>
                             <Route path="check" element={<Check/>}/>
                             <Route path="dashboardfrontpage" element={<DashboardFrontpage/>}/>
