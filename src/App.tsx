@@ -16,9 +16,9 @@ import AnswerWindow from '@/components/CustomerService/AnswerWindow'; // 导入�
 import DetailMessage from './pages/QAndA/DetailMessage';//帖子详情页
 import Review from '@/pages/Review/Review'; // 审核
 import Timerme from '@/pages/Timerme/Timerme'; // 计时器
-import Feedback from '@/pages/Houtai/Feedback/FeedbackPage';
+import MultiPersonChat from '@/pages/Houtai/BackstageChat/MultiPersonChat.tsx';
 import FAQ from '@/pages/Houtai/FAQ/FAQPage';
-import Check from '@/pages/Houtai/Check';
+import Check from '@/pages/Houtai/Check/Check';
 import DashboardFrontpage from './pages/Houtai/DashboardFrontpage';
 import './App.css';
 
@@ -47,7 +47,7 @@ const App: React.FC = () => {
                         <Route path="/houtai" element={<Houtai/>}>
                             <Route path="" element={<DashboardFrontpage/>}/>
 
-                            <Route path="feedback" element={<Feedback/>}/>
+                            <Route path="multiPersonChat" element={<MultiPersonChat/>}/>
                             <Route path="faq" element={<FAQ/>}/>
                             <Route path="check" element={<Check/>}/>
                             <Route path="dashboardfrontpage" element={<DashboardFrontpage/>}/>
