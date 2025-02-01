@@ -255,3 +255,104 @@ export  const  getQuestions = async () => {
       return [];
     }
   };
+
+// 创建文件夹
+export const createFolder = async (name: string, parentFolderId: number) => {
+  await api.post('/cloud_disk/folder', {
+    name: name,
+    parent_folder_id: parentFolderId, // 必需的父文件夹 ID
+  });
+};
+
+// 获取当前文件夹下文件夹
+export const getFolder = async (id:string) => {
+  const response = await api.get('/cloud_disk/folder', {
+    params:{
+      id: id,
+    }
+  });
+  return response.data.data.folders;
+}
+
+//修改文件夹名字
+export const updateFolder = async (name: string, id: number) => {
+  await api.put('/cloud_disk/folder',{
+    id: id,
+    name: name,
+  });
+}
+
+// 删除文件夹
+export const deleteFolder = async (id: number) => {
+  await api.delete('/cloud_disk/folder',{
+    data:{id: id},
+  });
+}
+
+// 搜索文件夹
+export const searchFolder = async (name: string ,parentFolderId:string) => {
+  const response = await api.post('/cloud_disk/folder', {
+    name: name,
+    parent_folder_id: parentFolderId,
+  });
+  return response.data.data.folders;
+}
+
+
+// 删除文件
+export const deleteFile = async (id: number) => {
+  await api.delete(`/cloud_disk/file`,{
+    data:{id: id},
+  }); // 删除文件
+};
+
+// 上传文件到指定文件夹
+export const uploadFile = async (file: File, name: string, folderId: string) => {
+  const formData = new FormData();
+  formData.append('file', file); // 添加文件
+  formData.append('name', name); // 添加文件名
+  formData.append('folder_id', folderId); // 添加文件夹ID
+
+  // 发送 POST 请求
+  await api.post('/cloud_disk/file', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data', // 明确设置为 multipart/form-data
+    },
+  });
+};
+
+// 修改文件名称
+export const updateFile =async (id: number, name:string) => {
+  await api.put(`/cloud_disk/file`, {
+    name: name,
+    id: id,
+  });
+}
+
+export const getFiles = async (id:string) => {
+  const response = await api.get('/cloud_disk/file', {
+    params:{
+      id: id,
+    },
+  });
+  return response.data.data.files;
+}
+
+export const getFileUrl = async (folderId: number, names: string): Promise<any>=> {
+  // 构建请求体
+  const response = await api.post('/cloud_disk/download',{
+    folder_id: folderId,
+    names:
+    names,
+  });
+  return response.data.data.urls;
+};
+
+export const getparentFolderId = async(id: string) => {
+  const response = await api.get('/cloud_disk/folder', {
+    params:{
+      id: id,
+    }
+  });
+  return response.data.data.parent_folder_id;
+}
