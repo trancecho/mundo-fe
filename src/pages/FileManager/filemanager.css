@@ -1,0 +1,255 @@
+/* 全局样式 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 900px;
+    margin: 20px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #4a4a8c;
+}
+
+/* 上传区域 */
+.upload-content-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.file-input {
+    border: 2px dashed #4a4a8c;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #4a4a8c;
+    background-color: #f9f9fc;
+    transition: background-color 0.3s;
+}
+
+.file-input:hover {
+    background-color: #ececf6;
+}
+
+/* 文件夹操作区域 */
+.folder-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.folder-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+    font-size: 14px;
+}
+
+.create-folder-btn {
+    padding: 10px 20px;
+    background-color: #4a4a8c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.create-folder-btn:hover {
+    background-color: #3c3c6d;
+}
+
+/* 返回上一级按钮 */
+.go-up-btn {
+    padding: 10px 20px;
+    background-color: #d9d9d9;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: 20px;
+    transition: background-color 0.3s;
+}
+
+.go-up-btn:hover {
+    background-color: #bdbdbd;
+}
+
+/* 文件和文件夹列表 */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+li {
+    background: #f9f9fc;
+    width: 600px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex; /* 修改为水平排列 */
+    align-items: center;
+    justify-content: space-between; /* 两端对齐 */
+    position: relative;
+}
+
+/* 文件名和信息 */
+li span {
+    font-size: 14px;
+    color: #4a4a8c;
+    word-break: break-word;
+    flex: 1; /* 占据剩余空间 */
+}
+
+/* 操作按钮统一使用下拉菜单 */
+.dropdown {
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #4a4a8c;
+    outline: none;
+    margin-left: 10px; /* 与文字保持一定间距 */
+}
+
+.dropdown:hover {
+    color: #3c3c6d;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 30px;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu a,
+.dropdown-menu button {
+    display: block;
+    padding: 10px 15px;
+    font-size: 14px;
+    text-align: left;
+    color: #333;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.dropdown-menu a:hover,
+.dropdown-menu button:hover {
+    background-color: #f4f4f9;
+}
+
+/* 下载按钮 */
+.download-btn {
+    color: #4a4a8c;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.download-btn:hover {
+    text-decoration: underline;
+}
+
+/* 删除按钮 */
+.delete-btn {
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.delete-btn:hover {
+    color: #333;
+}
+
+.folder-item {
+    display: flex; /* 横向排列子元素 */
+    justify-content: space-between; /* 将内容两端对齐 */
+    align-items: center; /* 垂直居中对齐 */
+    padding: 10px 15px;
+    background: #fff;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.folder-item span {
+    font-size: 16px; /* 文件夹名称字体大小 */
+    font-weight: 500; /* 字体加粗 */
+    color: #333;
+}
+
+.folder-item button {
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.folder-item button:hover {
+    color: #333;
+}
+
+.folder-item:hover {
+    text-decoration: none;
+    color: #333;
+}
+
+/* filemanager.css */
+.rename-modal {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.rename-modal input {
+    padding: 5px;
+    font-size: 14px;
+    width: 200px;
+}
+
+.rename-modal button {
+    padding: 5px 10px;
+    cursor: pointer;
+}
