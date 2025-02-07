@@ -50,8 +50,8 @@ const App: React.FC = () => {
                         <Route path="/register/verify/v2" element={<Verify/>}/>
                         <Route path="/review" element={<Review/>}/>
                         <Route path="/filemanager" element={<FileManager/>}/>
-                        {/*<Route path="/timerme" element={<Timerme/>}/>*/}
-                        <Route path="/timerme" element={<FileManager/>}/>
+                        <Route path="/timerme" element={<Timerme/>}/>
+                        {/*<Route path="/timerme" element={<FileManager/>}/>*/}
                         <Route path="/houtai" element={<Houtai/>}>
                             <Route path="" element={<DashboardFrontpage/>}/>
 
