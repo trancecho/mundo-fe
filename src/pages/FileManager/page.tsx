@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import './filemanager.css'; // 已经引入
+import styles from './filemanager.module.css'; // 已经引入
 import { getFolder, createFolder, deleteFolder, uploadFile, deleteFile, getFiles,getFileUrl,updateFile,updateFolder,getparentFolderId } from '@/router/api'; // 导入更新后的 API 函数
 import FileList from '@/components/FileList'; // 用于展示文件列表的组件
 import {Button} from '@/components/ui/button.tsx';
@@ -173,55 +173,52 @@ export default function FileManager() {
     }
 
     return (
-        <>
-            <h1 className="title">{`Welcome to File Manager `}</h1> {/* 显示当前文件夹名称 */}
+        <div className={styles.body}>
+            <h1 className={styles.title}>Welcome to File Manager</h1>
 
-            <div className="container">
+            <div className={styles.container}>
                 <div className="mb-4 flex flex-col items-center w-full">
                     <div className="upload-content-wrapper w-full">
                         <input
                             type="file"
                             onChange={handleFileUpload}
-                            className="file-input"
-                            accept="*/*" // 可以接受所有文件类型
+                            className={styles.fileInput} // 使用模块化类
+                            accept="*/*"
                         />
                     </div>
 
-                    {/* 文件夹操作 */}
-                    <div className="folder-actions flex gap-2 items-center">
-                        {/* 返回上一级目录按钮 */}
+                    <div className={styles.folderActions}>
                         {currentFolderId !== '0' && (
-                            <Button onClick={handleGoUp} className="go-home-btn">Go Up</Button>
+                            <Button onClick={handleGoUp} className={styles.goUpBtn}>Go Up</Button>
                         )}
 
-                        {/* 返回根目录按钮 */}
                         {currentFolderId !== '0' && (
-                            <Button onClick={handleHome} className="go-home-btn">Go Home</Button>
+                            <Button onClick={handleHome} className={styles.goUpBtn}>Go Home</Button>
                         )}
+
                         <input
                             type="text"
                             value={newFolderName}
                             onChange={(e) => setNewFolderName(e.target.value)}
                             placeholder="Enter folder name"
-                            className="folder-input"
+                            className={styles.folderInput} // 使用模块化类
                         />
-                        <Button onClick={handleCreateFolder} className="create-folder-btn">Create Folder</Button>
+                        <Button onClick={handleCreateFolder} className={styles.createFolderBtn}>Create Folder</Button>
                     </div>
 
-                    {/* 文件和文件夹列表 */}
                     <FileList
                         CurrentFolderid={Number(currentFolderId)}
-                        Folders={items.filter((item) => 'name' in item)}  // 仅传递文件夹
-                        Files={items.filter((item) => 'filename' in item)}  // 仅传递文件
+                        Folders={items.filter((item) => 'name' in item)}
+                        Files={items.filter((item) => 'filename' in item)}
                         handleDeleteFile={handleDeleteFile}
-                        handleFolderClick={handleFolderClick} // 文件夹点击事件
-                        handleDeleteFolder={handleDeleteFolder} // 删除文件夹
+                        handleFolderClick={handleFolderClick}
+                        handleDeleteFolder={handleDeleteFolder}
                         handleRenameFile={handleRenameFile}
                         handleRenameFolder={handleRenameFolder}
                         handleDownloadFile={handleDownloadFile}
                     />
                 </div>
             </div>
-        </>
+        </div>
     );
 }

@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import '../pages/FileManager/filemanager.css';
+import styles from '../pages/FileManager/filemanager.module.css';
 import { Button } from '@/components/ui/button';
 import { MoreHorizontal } from 'lucide-react';
 import {
@@ -81,10 +81,10 @@ const FileList: FC<FileListProps> = ({
             {Folders.length === 0 && Files.length === 0 ? (
                 <p>No items available</p>
             ) : (
-                <ul>
+                <ul className={styles.ul}>
                     {/* 渲染文件夹 */}
                     {Folders.map((folder) => (
-                        <li key={folder.id} className="folder-item">
+                        <li key={folder.id} className={styles.li}>
                             {/* 文件夹名称 */}
                             <span onClick={(e) => handleFolderClick(folder.id.toString())}>
                                 {renameFolderId === folder.id ? (
@@ -131,7 +131,7 @@ const FileList: FC<FileListProps> = ({
 
                             {/* 确认重命名按钮 */}
                             {renameFolderId === folder.id && (
-                                <div className="rename-controls">
+                                <div className={styles.renameModal}>
                                     <Button
                                         onClick={(e) => {
                                             e.stopPropagation(); // 阻止事件冒泡
@@ -198,7 +198,7 @@ const FileList: FC<FileListProps> = ({
 
                             {/* 确认重命名按钮 */}
                             {renameFileId === file.id && (
-                                <div className="rename-controls">
+                                <div className={styles.renameModal}>
                                     <button onClick={() => handleRenameSubmit('file')}>Rename</button>
                                     <button onClick={() => setRenameFileId(null)}>Cancel</button>
                                 </div>

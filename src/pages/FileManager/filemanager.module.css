@@ -1,10 +1,14 @@
 /* 全局样式 */
-body {
+.body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
+    display: flex;
+    flex-direction: column;  /* 垂直排列 */
     color: #333;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
+    width: 100vw;
+    height: 100vh;
 }
 
 .container {
@@ -19,18 +23,18 @@ body {
 .title {
     text-align: center;
     font-size: 24px;
-    margin-bottom: 20px;
+    margin-bottom: 2px;
     color: #4a4a8c;
 }
 
 /* 上传区域 */
-.upload-content-wrapper {
+.uploadContentWrapper {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
 }
 
-.file-input {
+.fileInput {
     border: 2px dashed #4a4a8c;
     border-radius: 8px;
     padding: 10px;
@@ -41,19 +45,19 @@ body {
     transition: background-color 0.3s;
 }
 
-.file-input:hover {
+.fileInput:hover {
     background-color: #ececf6;
 }
 
 /* 文件夹操作区域 */
-.folder-actions {
+.folderActions {
     display: flex;
     gap: 10px;
     justify-content: center;
     margin-bottom: 20px;
 }
 
-.folder-input {
+.folderInput {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -61,7 +65,7 @@ body {
     font-size: 14px;
 }
 
-.create-folder-btn {
+.createFolderBtn {
     padding: 10px 20px;
     background-color: #4a4a8c;
     color: white;
@@ -72,12 +76,12 @@ body {
     transition: background-color 0.3s;
 }
 
-.create-folder-btn:hover {
+.createFolderBtn:hover {
     background-color: #3c3c6d;
 }
 
 /* 返回上一级按钮 */
-.go-up-btn {
+.goUpBtn {
     padding: 10px 20px;
     background-color: #d9d9d9;
     color: #333;
@@ -89,12 +93,12 @@ body {
     transition: background-color 0.3s;
 }
 
-.go-up-btn:hover {
+.goUpBtn:hover {
     background-color: #bdbdbd;
 }
 
 /* 文件和文件夹列表 */
-ul {
+.ul {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -103,7 +107,20 @@ ul {
     gap: 20px;
 }
 
-li {
+/* 无选项时的提示信息 */
+.ul p {
+    grid-column: span 3;  /* 让提示占满整行 */
+    text-align: center;
+    font-size: 16px;
+    color: #999;
+    padding: 20px;
+    background-color: #f9f9fc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+.li {
     background: #f9f9fc;
     width: 600px;
     padding: 15px;
@@ -116,7 +133,7 @@ li {
 }
 
 /* 文件名和信息 */
-li span {
+.li span {
     font-size: 14px;
     color: #4a4a8c;
     word-break: break-word;
@@ -138,7 +155,7 @@ li span {
     color: #3c3c6d;
 }
 
-.dropdown-menu {
+.dropdownMenu {
     display: none;
     position: absolute;
     top: 30px;
@@ -150,12 +167,12 @@ li span {
     z-index: 10;
 }
 
-.dropdown:hover .dropdown-menu {
+.dropdown:hover .dropdownMenu {
     display: block;
 }
 
-.dropdown-menu a,
-.dropdown-menu button {
+.dropdownMenu a,
+.dropdownMenu button {
     display: block;
     padding: 10px 15px;
     font-size: 14px;
@@ -168,25 +185,25 @@ li span {
     width: 100%;
 }
 
-.dropdown-menu a:hover,
-.dropdown-menu button:hover {
+.dropdownMenu a:hover,
+.dropdownMenu button:hover {
     background-color: #f4f4f9;
 }
 
 /* 下载按钮 */
-.download-btn {
+.downloadBtn {
     color: #4a4a8c;
     text-decoration: none;
     font-size: 14px;
     cursor: pointer;
 }
 
-.download-btn:hover {
+.downloadBtn:hover {
     text-decoration: underline;
 }
 
 /* 删除按钮 */
-.delete-btn {
+.deleteBtn {
     color: #333;
     font-size: 14px;
     cursor: pointer;
@@ -195,11 +212,11 @@ li span {
     padding: 0;
 }
 
-.delete-btn:hover {
+.deleteBtn:hover {
     color: #333;
 }
 
-.folder-item {
+.folderItem {
     display: flex; /* 横向排列子元素 */
     justify-content: space-between; /* 将内容两端对齐 */
     align-items: center; /* 垂直居中对齐 */
@@ -210,13 +227,13 @@ li span {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.folder-item span {
+.folderItem span {
     font-size: 16px; /* 文件夹名称字体大小 */
     font-weight: 500; /* 字体加粗 */
     color: #333;
 }
 
-.folder-item button {
+.folderItem button {
     background: none;
     border: none;
     color: #333;
@@ -226,30 +243,32 @@ li span {
     transition: color 0.3s ease;
 }
 
-.folder-item button:hover {
+.folderItem button:hover {
     color: #333;
 }
 
-.folder-item:hover {
+.folderItem:hover {
     text-decoration: none;
     color: #333;
 }
 
-/* filemanager.css */
-.rename-modal {
+/* 文件重命名模态框 */
+.renameModal {
     margin-top: 10px;
     display: flex;
     gap: 10px;
     align-items: center;
 }
 
-.rename-modal input {
+.renameModal input {
     padding: 5px;
     font-size: 14px;
     width: 200px;
 }
 
-.rename-modal button {
+.renameModal button {
     padding: 5px 10px;
     cursor: pointer;
 }
+
+

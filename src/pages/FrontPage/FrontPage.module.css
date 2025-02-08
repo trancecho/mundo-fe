@@ -16,13 +16,13 @@
     align-items: center;
     padding: 20px;
 }
-.dashboard-header {
+.dashboardHeader {
     text-align: center;
     color: #333; /* 深灰色文字 */
     margin-bottom: 20px;
 }
 
-.dashboard-welcome {
+.dashboardWelcome {
     color: #666; /* 中灰色文字 */
     margin-bottom: 30px;
 }
