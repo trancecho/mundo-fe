@@ -21,6 +21,7 @@ import FAQ from '@/pages/Houtai/FAQ/FAQPage';
 import Check from '@/pages/Houtai/Check/Check';
 import DashboardFrontpage from './pages/Houtai/DashboardFrontpage';
 import ItemList from '@/pages/DataStation/ItemList';
+import FileManager from '@/pages/FileManager/page';
 import './App.css';
 
 
@@ -48,8 +49,9 @@ const App: React.FC = () => {
                         <Route path="/bindregister" element={<BindRegisterPage/>}/>
                         <Route path="/register/verify/v2" element={<Verify/>}/>
                         <Route path="/review" element={<Review/>}/>
+                        <Route path="/filemanager" element={<FileManager/>}/>
                         <Route path="/timerme" element={<Timerme/>}/>
-
+                        {/*<Route path="/timerme" element={<FileManager/>}/>*/}
                         <Route path="/houtai" element={<Houtai/>}>
                             <Route path="" element={<DashboardFrontpage/>}/>
 
@@ -58,7 +60,6 @@ const App: React.FC = () => {
                             <Route path="check" element={<Check/>}/>
                             <Route path="dashboardfrontpage" element={<DashboardFrontpage/>}/>
                         </Route>
-
                     </Routes>
             </Router>
         </AuthProvider>
