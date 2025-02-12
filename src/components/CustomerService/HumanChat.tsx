@@ -12,7 +12,6 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import styles from "./AnswerWindow.module.css";
 import { deleteChatHistory } from "@/router/api";
-import {mundo_token } from "@/router/api";
 
 const HumanChat: React.FC = () => {
   const [messages, setMessages] = useState<
@@ -21,7 +20,8 @@ const HumanChat: React.FC = () => {
   const [inputText, setInputText] = useState<string>("");
   const socketRef = useRef<WebSocket | null>(null); // WebSocket reference
   const connectedRef = useRef<boolean>(false); // WebSocket connection status
-
+  const mundo_token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxNSwidXNlcm5hbWUiOiJ5dXVraTMiLCJyb2xlIjoidXNlciIsImlzcyI6Im11bmRvLWF1dGgtaHViIiwiZXhwIjoxNzM3NzAyNDY5LCJpYXQiOjE3MzcwOTc2Njl9.6ZyHG8PVl-SimbaZLda-MgV935l_zcx8UDlYmDbBAP4";
   // WebSocket connection
   useEffect(() => {
     const socketUrl = `ws://116.198.207.159:12349/api/ws?toUid=2&token=${mundo_token}&service=mundo`;
@@ -144,12 +144,12 @@ const HumanChat: React.FC = () => {
           <Input
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
-            className="p-2 border rounded-md flex-1"
+            className="flex-1 p-2 border rounded-md"
             placeholder="请输入你的问题..."
           />
           <Button
             onClick={handleSendMessage}
-            className="bg-blue-500 text-white hover:bg-blue-600"
+            className="text-white bg-blue-500 hover:bg-blue-600"
           >
             发送
           </Button>
