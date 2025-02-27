@@ -71,12 +71,12 @@ const Alert: React.FC<AlertProps> = ({ judge, setjudge }) => {
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                 >
-                    <circle className={Style.alert__iconPath} cx="32" cy="32" r="30.5" stroke="currentColor" stroke-width="3" />
+                    <circle className={Style.alert__iconPath} cx="32" cy="32" r="30.5" stroke="currentColor" strokeWidth="3" />
                     <path
                         className={Style.alert__iconPath + " " + Style["alert__iconPath--type"]}
                         d="M15 33.5L25 43.5L48.5 20"
                         stroke="currentColor"
-                        stroke-width="3"
+                        strokeWidth="3"
                     />
                 </svg>
                 <div className={Style.alert__message}>everything is working.</div>
@@ -103,13 +103,13 @@ const Alert: React.FC<AlertProps> = ({ judge, setjudge }) => {
                             className={Style.alert__iconPath + " " + Style["alert__iconPath--type"]}
                             d="M20 44L44 20"
                             stroke="currentColor"
-                            stroke-width="2"
+                            strokeWidth="2"
                         />
                         <path
                             className={Style.alert__iconPath + " " + Style["alert__iconPath--type"]}
                             d="M44 44L20 20"
                             stroke="currentColor"
-                            stroke-width="2"
+                            strokeWidth="2"
                         />
                     </svg>
                     <div className={Style.alert__message}>OH NO, something went wrong</div>
