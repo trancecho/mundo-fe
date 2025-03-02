@@ -1,6 +1,8 @@
 // api.ts
 import axios from "axios";
 
+const loginURL = "https://auth.altar-echo.top/api";
+
 const api = axios.create({
   // baseURL: "http://116.198.207.159:12349/api",
   baseURL: "https://auth.altar-echo.top/api",
@@ -37,6 +39,18 @@ export const registerUser = async (
   return response.data;
 };
 
+// 找回密码
+export const sendResetEmail = async (
+  email: string,
+  callback_url: string
+) => {
+  const response = await api.post("/find/email", {
+    email,
+    callback_url
+  });
+  return response.data;
+};
+
 // 激活用户邮箱
 export const verifyEmail = async (
   email: string,
@@ -47,6 +61,20 @@ export const verifyEmail = async (
     email,
     token,
     password,
+  });
+  return response.data;
+};
+
+// 重置用户密码
+export const ResetKey = async (
+  email: string,
+  token: string,
+  newPassword: string
+) => {
+  const response = await api.post("/find/verify", {
+    email,
+    token,
+    newPassword,
   });
   return response.data;
 };
@@ -149,6 +177,24 @@ export const bindHDUEmail = async (
     throw error;
   }
 };
+
+// 获取好友列表
+export const getFriendsList = async (token: string) => {
+  try {
+    const response = await api.get(
+      "/friends",
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        }
+      });
+    return response.data;
+  } catch (error) {
+    console.error("获取好友列表失败：", error);
+    throw error;
+  }
+}
+
 export const getTasks = async () => {
   const response = await api.get("/tasks");
   return response.data.data.tasks;

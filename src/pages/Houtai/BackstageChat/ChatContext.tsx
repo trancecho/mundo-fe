@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect, useRef, ReactNode } from 'react';
 import { Contact } from './types';
+import { getFriendsList } from '../../../router/api';
 ///1.0
 // 定义 ChatContext 的类型
 interface ChatContextType {
@@ -35,13 +36,16 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
 
   // 初始化联系人列表
   useEffect(() => {
-    if (uid !== null) {
-      setContacts([
-        { id: uid, name: 'Alice', messages: [] },
-        { id: 2, name: 'Bob', messages: [] },
-        { id: 3, name: 'Charlie', messages: [] },
-      ]);
-    }
+    const fetchContacts = async ()=>{
+      try{
+        const response = await getFriendsList(token as string);
+        console.log(response);
+        setContacts(response.data);
+      }catch(error){
+        console.error("获取联系人列表失败",error);
+      }
+    };
+    fetchContacts();
   }, []); 
 
   // 在 useEffect 中监听 selectedContact 的变化
