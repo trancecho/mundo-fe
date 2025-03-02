@@ -2,14 +2,14 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://116.198.207.159:12349/api",
-  // baseURL: 'https://auth.altar-echo.top/api',
+  // baseURL: "http://116.198.207.159:12349/api",
+  baseURL: "https://auth.altar-echo.top/api",
 
   headers: {
     "Content-Type": "application/json",
     Authorization:
       "Bearer " +
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJ1c2VybmFtZSI6IuS5neaAnSIsInJvbGUiOiJhZG1pbiIsImlzcyI6Im11bmRvLWF1dGgtaHViIiwiZXhwIjoxNzM5Nzc2NDYxLCJpYXQiOjE3MzkxNzE2NjF9.LJj0F21ApG4Nk2wL8qpNtnNvENCVYn5WCiAhzWV1rWE", //这里的token是管理员的token，可以删除问题和更新问题
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMywidXNlcm5hbWUiOiJlZGRpZXd1NDFAZ21haWwuY29tIiwicm9sZSI6InVzZXIiLCJpc3MiOiJtdW5kby1hdXRoLWh1YiIsImV4cCI6MTc0MTE3OTc3NCwiaWF0IjoxNzQwNTc0OTc0fQ.mSRVVd5X0ZlS_sWLheFZ907xS-zYjwfom5aGgOKJ4Jo", // 登录所需token
   },
 });
 
@@ -20,6 +20,7 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
 // 发送注册请求，发送邮箱验证码
 export const registerUser = async (
   username: string,
@@ -191,12 +192,28 @@ export const resetTask = async (id: number) => {
   return response.data.data.task;
 };
 
-// 获取文件列表的封装函数
-const longtoken = localStorage.getItem("longtoken");
+export const longtoken = localStorage.getItem("longtoken");
 console.log("Token:", longtoken);
+const api_register = axios.create({
+  baseURL: "http://116.198.207.159:12349/api",
+
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + longtoken, // localstroage中的token
+  },
+});
+
+api_register.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error("请求失败:", error.response || error.message || error);
+    return Promise.reject(error);
+  }
+);
+
 export const getFileList = async (name: string) => {
   try {
-    const response = await api_mundo.get(`/api/files`, {
+    const response = await api.get(`/api/files`, {
       params: { name },
       headers: {
         Authorization: "Bearer " + longtoken,
@@ -215,7 +232,7 @@ export const downloadFile = async (item: {
   folder_id: number;
 }) => {
   try {
-    const response = await api_mundo.post(
+    const response = await api.post(
       "/api/cloud_disk/download",
       { name: item.name, folder_id: item.folder_id },
       { headers: { Authorization: `Bearer ${longtoken}` } }
@@ -227,31 +244,9 @@ export const downloadFile = async (item: {
   }
 };
 
-export const mundo_token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJ1c2VybmFtZSI6IuS5neaAnSIsInJvbGUiOiJhZG1pbiIsImlzcyI6Im11bmRvLWF1dGgtaHViIiwiZXhwIjoxNzM1NDUzNjkwLCJpYXQiOjE3MzQ4NDg4OTB9.53Ng2lGsXYHa0AEAuatsWObFsAGKTHQQQzbnh5jCThQ"; //登录以后拿到的token
-
-const api_mundo = axios.create({
-  baseURL: "http://116.198.207.159:12349",
-
-  params: {
-    service: "mundo",
-  },
-  headers: {
-    Authorization: "Bearer " + mundo_token,
-  },
-});
-
-api_mundo.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    console.error("请求失败:", error.response || error.message || error);
-    return Promise.reject(error);
-  }
-);
-
 export const deleteChatHistory = async () => {
   try {
-    const response = await api_mundo.delete(`/api/ws/delete`, {
+    const response = await api_register.delete(`/ws/delete`, {
       params: { toUid: 2 },
     });
     return response.data.message;
@@ -268,9 +263,7 @@ export const getQuestions = async () => {
     const response = await axios.get("http://116.198.207.159:12349/faq/read", {
       headers: {
         "Content-Type": "application/json",
-        Authorization:
-          "Bearer " +
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxNSwidXNlcm5hbWUiOiJ5dXVraTMiLCJyb2xlIjoidXNlciIsImlzcyI6Im11bmRvLWF1dGgtaHViIiwiZXhwIjoxNzM3NzAyNDY5LCJpYXQiOjE3MzcwOTc2Njl9.6ZyHG8PVl-SimbaZLda-MgV935l_zcx8UDlYmDbBAP4",
+        Authorization: "Bearer " + longtoken,
       },
     });
     return response.data.data.message.Content;
@@ -284,7 +277,7 @@ export const getQuestions = async () => {
 // 创建常见问题
 export const createQuestion = async (question: string, answer: string) => {
   try {
-    const response = await api.post("/faq/create", {
+    const response = await api_register.post("/faq/create", {
       question,
       answer,
     });
@@ -305,7 +298,7 @@ export const updateQuestion = async (
   newAnswer: string
 ) => {
   try {
-    const response = await api.post("/faq/update", {
+    const response = await api_register.post("/faq/update", {
       question,
       newQuestion,
       newAnswer,
@@ -323,7 +316,7 @@ export const updateQuestion = async (
 // 删除常见问题
 export const deleteQuestion = async (question: string) => {
   try {
-    const response = await api.delete("/faq/delete", {
+    const response = await api_register.delete("/faq/delete", {
       data: { question },
     });
     alert("删除成功");
