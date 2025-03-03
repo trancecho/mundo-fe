@@ -119,7 +119,7 @@ const Alert: React.FC<AlertProps> = ({ judge, setjudge }) => {
     );
 };
 // 定义 DetailQuestion 组件类型，调整此处使其内部渲染图片和标签更合理
-const DetailQuestion: React.FC<DetailQuestionProps> = ({ title, question, id, longtoken }) => {
+const DetailQuestion: React.FC<DetailQuestionProps> = ({ title, question }) => {
     const { picture, tags } = React.useContext(QuestionContext); // 通过上下文获取图片和标签数据
     return (
         <div className={Style.DetailQuestion}>
@@ -137,16 +137,9 @@ const DetailQuestion: React.FC<DetailQuestionProps> = ({ title, question, id, lo
             <div className={Style.detailQuestion}>{question}</div>
             {picture.length > 0 && (
                 <div className={Style.questionPictures}>
-                    {picture.map((pic: string, index: number) => {
-                        const trimmedPicture = pic.slice(2);
-                        return (
-                            <SecureImage
-                                key={index}
-                                imageUrl={`/api/question/posts/${id}/?service=mundo/${trimmedPicture}`}
-                                token={longtoken}
-                            />
-                        );
-                    })}
+                    {picture.map((pic: string, index: number) => 
+                        <SecureImage key={index} image={pic}/>
+                    )}
                 </div>
             )}
         </div>
@@ -154,41 +147,36 @@ const DetailQuestion: React.FC<DetailQuestionProps> = ({ title, question, id, lo
 };
 
 
-const SecureImage: React.FC<{ imageUrl: string; token: string | null }> = ({ imageUrl, token }) => {
-    const [blobUrl, setBlobUrl] = useState<string | null>(null);
-    useEffect(() => {
-        const fetchImage = async () => {
-            try {
-                const response = await fetch(imageUrl, {
-                    method: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                if (!response.ok) {
-                    throw new Error('Failed to fetch image');
-                }
-                const blob = await response.blob();
-                const url = URL.createObjectURL(blob);
-                setBlobUrl(url);
-            } catch (error) {
-                console.error('Error fetching image:', error);
-            }
-        };
-        fetchImage();
-        return () => {
-            if (blobUrl) {
-                URL.revokeObjectURL(blobUrl);
-            }
-        };
-    }, [imageUrl, token]);
-
-    if (blobUrl) {
-        console.log(blobUrl);
-
-        return <img src={blobUrl} alt="安全图片" />;
+const SecureImage: React.FC<{ image: string }> = ({ image}) => {
+    function base64ToBlobUrl(image:string) {
+        let mimeType = "image/jpeg"; // 默认值
+        if (image.startsWith("/9j/")) mimeType = "image/jpeg"; // JPG
+        if (image.startsWith("iVBORw0KGgo")) mimeType = "image/png"; // PNG
+      
+        const byteCharacters = atob(image);
+        const byteArrays = [];
+        for (let i = 0; i < byteCharacters.length; i += 512) {
+          const slice = byteCharacters.slice(i, i + 512);
+          const byteNumbers = new Array(slice.length);
+          for (let j = 0; j < slice.length; j++) {
+            byteNumbers[j] = slice.charCodeAt(j);
+          }
+          byteArrays.push(new Uint8Array(byteNumbers));
+        }
+        const blob = new Blob(byteArrays, { type: mimeType });
+        return URL.createObjectURL(blob);
     }
-};
+    const [imageUrl, setImageUrl] = useState("");
+  
+    useEffect(() => {
+      const url = base64ToBlobUrl(image);
+      setImageUrl(url);
+      return () => URL.revokeObjectURL(url); // 组件卸载时释放 URL
+    }, [image]);
+  
+    return imageUrl ? <img src={imageUrl} alt="Image" className={Style.img}/> : <p>加载中...</p>;
+}
+
 // 定义 DetailReply 组件类型，接收 answerData 作为属性，类型为 Answer
 const DetailReply: React.FC<{ answerData: Answer }> = ({ answerData }) => {
     return (
@@ -209,7 +197,7 @@ const DetailReply: React.FC<{ answerData: Answer }> = ({ answerData }) => {
                     {answerData.picture.length > 0 && (
                         <div className={Style.answerPictures}>
                             {answerData.picture.map((pic: string, index: number) => (
-                                <img key={index} src={pic} alt={`问题相关图片${index + 1}`} />
+                                <SecureImage key={index} image={pic}/>
                             ))}
                         </div>
                     )}

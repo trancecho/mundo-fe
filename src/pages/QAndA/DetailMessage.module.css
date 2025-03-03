@@ -202,6 +202,9 @@
 .content {
     margin-left: 62px;
     margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .information {
@@ -335,3 +338,8 @@
         flex-direction: column;
     }
 }
+
+  .img {
+    width: min(250px,84%);
+
+  }
