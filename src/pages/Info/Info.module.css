@@ -64,6 +64,7 @@
     flex-direction: column;
     position: absolute;
 }
+
 .teamup{
     display: flex;
     flex-direction: column;

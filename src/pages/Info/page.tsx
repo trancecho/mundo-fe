@@ -4,6 +4,7 @@ import styles from './Info.module.css';
 import { Link } from 'react-router-dom';
 import TeamList from '@/components/TeamList.tsx';
 
+
 // 定义Team接口
 interface Team {
     id: string;
