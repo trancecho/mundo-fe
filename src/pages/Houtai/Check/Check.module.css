@@ -17,6 +17,7 @@
 }
 
 .postRow {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr auto; /* 主要内容占满左侧，按钮在右侧 */
   grid-gap: 20px; /* 增加列之间的间距 */
@@ -139,4 +140,15 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1rem;
+}
+
+.typeIndicator {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background-color: #ccc;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-size: 0.8em;
+  z-index: 1;
 }
