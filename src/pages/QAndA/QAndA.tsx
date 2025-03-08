@@ -3,6 +3,8 @@ import { useNavigate } from'react-router-dom';
 import './QAndA.css';
 import Header from '@/components/ui/Header/Header.tsx';
 import axios from 'axios';
+import { getAllPost } from '@/router/api';
+
 
 // Tag组件，用于展示一个带有文本的标签
 interface TagProps {
@@ -24,41 +26,47 @@ interface MessageProps {
     title: string;
     content: string;
     tags: string[];
-    picture: string[];
+    picture: string[] | null;
     view: number;
     collection: number;
     is_completed: boolean;
     answer_count: number;
     time: string;
+    officials: boolean;
 }
 
 // Message组件，用于展示消息相关的信息，根据传入属性展示真实内容
-const Message: React.FC<MessageProps> = ({ id, title, content, tags, picture, view, collection, is_completed, answer_count, time }) => {
+const Message: React.FC<MessageProps> = ({ id, title, content, tags, picture, view, collection, is_completed, answer_count, time, officials }) => {
     const navigate = useNavigate();
 
     return (
-        <div className="Qandamessage" onClick={() => {
-            const messageData: MessageProps = {
-                id,
-                title,
-                content,
-                tags,
-                picture,
-                view,
-                collection,
-                is_completed,
-                answer_count,
-                time
-            };
-            navigate(`/qanda/${id}`);
-        }}>
+        <div 
+            className="Qandamessage" 
+            style={officials ? { boxShadow: '0 0 10px hsl(186, 100%, 45%)' } : {}}
+            onClick={() => {
+                const messageData: MessageProps = {
+                    id,
+                    title,
+                    content,
+                    tags,
+                    picture,
+                    view,
+                    collection,
+                    is_completed,
+                    answer_count,
+                    time,
+                    officials
+                };
+                navigate(`/qanda/${id}`);
+            }}
+        >
             <div className='mes'>
                 <div className="messtitle">{title}</div>
                 <div className="messinformation">
                     <div className='con'>
                         {content}
                     </div>
-                    {picture.length > 0 && (
+                    {picture && picture.length > 0 && (
                         <div className="message-pictures">
                             {picture.map((pic, index) => (
                                 <img key={index} src={pic} alt={`图片${index + 1}`} />
@@ -67,6 +75,7 @@ const Message: React.FC<MessageProps> = ({ id, title, content, tags, picture, vi
                     )}
                 </div>
                 <div className='TagBroad'>
+                    {officials && <Tag text="官方" className='official-tag' />}
                     {tags.map(tag => <Tag key={tag} text={tag} />)}
                 </div>
                 <div className='YuLanXinXi'>
@@ -134,7 +143,7 @@ const Right: React.FC<RightProps> = ({ messages, searchValue, selectedMenu, sele
     // 根据selectedFilter对消息进行排序
     const sortedMessages = messages.filter(message => {
         if (selectedMenu === '首页') {
-            // 当点击“首页”按钮时，显示全部信息，即不过滤直接返回所有消息
+            // 当点击"首页"按钮时，显示全部信息，即不过滤直接返回所有消息
             return true;
         }
         if (selectedMenu) {
@@ -185,7 +194,8 @@ const QAndA: React.FC<QAndAProps> = () => {
     const [selectedMenu, setSelectedMenu] = useState('');
     // 新增用于记录ChooseButton选择的筛选条件状态
     const [selectedFilter, setSelectedFilter] = useState('');
-    const [token, setToken] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJ1c2VybmFtZSI6IuS5neaAnSIsInJvbGUiOiJhZG1pbiIsImlzcyI6Im11bmRvLWF1dGgtaHViIiwiZXhwIjoxNzM4Mzc4MjEwLCJpYXQiOjE3Mzc3NzM0MTB9.SdfFdFvSoTGMSCs5r3o7JCnMEKamZJPgsHATUlFoO-E');
+    const [isLoading, setIsLoading] = useState(false); // 新增加载状态
+
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(e.target.value);
@@ -199,7 +209,7 @@ const QAndA: React.FC<QAndAProps> = () => {
     const handleMenuButtonClick = (buttonId: string) => {
         if (buttonId === '首页') {
             setSelectedMenu(buttonId);
-            // 点击“首页”按钮时，将selectedFilter也重置为空，确保显示全部信息且不受ChooseButton影响
+            // 点击"首页"按钮时，将selectedFilter也重置为空，确保显示全部信息且不受ChooseButton影响
             setSelectedFilter('');
         } else {
             setSelectedMenu(buttonId);
@@ -238,27 +248,10 @@ const QAndA: React.FC<QAndAProps> = () => {
 
     useEffect(() => {
         const fetchMessages = async () => {
+            setIsLoading(true); // 开始加载
             try {
-                const myHeaders = new Headers();
-
-                myHeaders.append("User - Agent", "Apifox/1.0.0 (https://apifox.com)");
-                // 使用默认token
-                myHeaders.append("Authorization", `Bearer ${token}`);
-                myHeaders.append("Accept", "*/*");
-                myHeaders.append("Host", "116.198.207.159:12349");
-                myHeaders.append("Connection", "keep - alive");
-
-                const requestOptions: RequestInit = {
-                    method: 'GET',
-                    headers: myHeaders,
-                    redirect: 'follow' as RequestRedirect
-                };
-
-                const response = await fetch("http://116.198.207.159:12349/api/question/post?service=mundo", requestOptions);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const result = await response.json();
+                
+                const result = await getAllPost();
                 if (result.data && (result.data.hotPosts || result.data.recentPosts)) {
                     // 确保数据结构转换正确
                     const transformedMessages = result.data.hotPosts.concat(result.data.recentPosts).map((msg: any) => ({
@@ -266,17 +259,21 @@ const QAndA: React.FC<QAndAProps> = () => {
                         title: msg.title,
                         content: msg.content,
                         tags: msg.tags,
-                        picture: msg.picture,
+                        picture: msg.picture || null,
                         view: msg.view,
                         collection: msg.collection,
                         is_completed: msg.isCompleted || false,
                         answer_count: msg.answerCount,
-                        time: msg.time
+                        time: msg.time,
+                        officials: msg.officials || false
                     }));
+                    console.log(result);
                     setMessages(transformedMessages);
                 }
             } catch (error) {
                 console.error('获取消息数据失败', error);
+            } finally {
+                setIsLoading(false); // 结束加载
             }
         };
 
@@ -312,7 +309,19 @@ const QAndA: React.FC<QAndAProps> = () => {
                             >最新</button>
                         </div>
                     </div>
-                    <Right messages={messages} searchValue={searchValue} selectedMenu={selectedMenu} selectedFilter={selectedFilter} />
+                    {isLoading ? (
+                        <div className="loading-container">
+                            <div className="loading-spinner"></div>
+                            <p>加载中...</p>
+                        </div>
+                    ) : (
+                        <Right 
+                            messages={messages} 
+                            searchValue={searchValue} 
+                            selectedMenu={selectedMenu} 
+                            selectedFilter={selectedFilter} 
+                        />
+                    )}
                 </div>
             </div>
         </div>
