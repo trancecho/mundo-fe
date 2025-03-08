@@ -251,14 +251,14 @@ const Check: React.FC = () => {
                   ))}
                 </div>
               )}
-              {/* 注释掉图片相关展示部分 */}
-              {/* {post.picture && post.picture.length > 0 && (
+              {/* 假设图片相关功能恢复，优化图片布局 */}
+              {post.picture && post.picture.length > 0 && (
                 <div className={styles.postPictures}>
                   {post.picture.map((pic, picIndex) => (
-                    <SecureImage key={picIndex} image={pic} />
+                    <img key={picIndex} src={pic} alt={`Post Image ${picIndex}`} className={styles.postPicture} />
                   ))}
                 </div>
-              )} */}
+              )}
             </div>
             <div className={styles.reviewActions}>
               <div className={styles.buttonGroup}>
@@ -269,17 +269,23 @@ const Check: React.FC = () => {
                   拒绝
                 </button>
               </div>
-              <input
-                type="text"
-                placeholder="请输入拒绝理由"
-                value={post.rejectionReason}
-                onChange={(e) => {
-                  const newPosts = [...posts];
-                  newPosts[index].rejectionReason = e.target.value;
-                  setPosts(newPosts);
-                }}
-                className={styles.rejectionReasonInput}
-              />
+              <div className={styles.rejectionReasonWrapper}>
+                <label htmlFor={`rejectionReason-${post.id}`} className={styles.rejectionReasonLabel}>
+                  拒绝理由:
+                </label>
+                <input
+                  type="text"
+                  id={`rejectionReason-${post.id}`}
+                  placeholder="请输入拒绝理由"
+                  value={post.rejectionReason}
+                  onChange={(e) => {
+                    const newPosts = [...posts];
+                    newPosts[index].rejectionReason = e.target.value;
+                    setPosts(newPosts);
+                  }}
+                  className={styles.rejectionReasonInput}
+                />
+              </div>
             </div>
           </div>
         ))}
