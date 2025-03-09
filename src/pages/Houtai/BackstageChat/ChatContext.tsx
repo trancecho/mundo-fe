@@ -1,15 +1,28 @@
-import React, { createContext, useState, useEffect, useRef, ReactNode } from 'react';
-import { Contact } from './types';
-import { getFriendsList } from '../../../router/api';
-///1.0
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useRef,
+  ReactNode,
+} from "react";
+import { Contact } from "./types";
+import { getFriendsList } from "../../../router/api";
+
 // 定义 ChatContext 的类型
 interface ChatContextType {
-  contacts: Contact[];  // 聊天联系人列表
-  selectedContact: Contact | null;  // 当前选中的联系人
-  setSelectedContact: (contact: Contact | null) => void;  // 设置选中的联系人
-  handleSendMessage: (contactId: number, message: string) => void;  // 发送消息的函数
-  socketRef: React.RefObject<WebSocket | null>;  // WebSocket 的引用
-  connectedRef: React.RefObject<boolean>;  // WebSocket 是否连接的状态
+  contacts: Contact[]; // 聊天联系人列表
+  selectedContact: Contact | null; // 当前选中的联系人
+  setSelectedContact: (contact: Contact | null) => void; // 设置选中的联系人
+  handleSendMessage: (contactId: number, message: string) => void; // 发送消息的函数
+  socketRef: React.RefObject<WebSocket | null>; // WebSocket 的引用
+  connectedRef: React.RefObject<boolean>; // WebSocket 是否连接的状态
+}
+
+// 定义 Friend 类型
+interface Friend {
+  user_id: number;
+  friend_id: number;
+  status: number;
 }
 
 // 创建一个 Context，用于在组件树中传递数据
@@ -19,10 +32,13 @@ const ChatContext = createContext<ChatContextType | undefined>(undefined);
 interface ChatProviderProps {
   children: ReactNode;
 }
-const token = localStorage.getItem('longtoken');
-const uid = token ? JSON.parse(atob(token.split('.')[1])).user_id : null;
+// const token = localStorage.getItem('longtoken');
+const token =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo5LCJ1c2VybmFtZSI6ImphY2siLCJyb2xlIjoidXNlciIsImlzcyI6Im11bmRvLWF1dGgtaHViIiwiZXhwIjoxNzQxNzA4NDg5LCJpYXQiOjE3NDExMDM2ODl9.kvTCIfI5YADKW2ktnN_eSPJ0Km8cIcqAt_qe_ak2Xco";
+localStorage.setItem("longtoken", token);
+const uid = token ? JSON.parse(atob(token.split(".")[1])).user_id : null;
 
-const WebSocketUrl = 'ws://116.198.207.159:12349/api/ws';
+const WebSocketUrl = "ws://116.198.207.159:12349/api/ws";
 
 // ChatProvider 组件：提供所有的聊天状态和方法
 export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
@@ -36,17 +52,34 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
 
   // 初始化联系人列表
   useEffect(() => {
-    const fetchContacts = async ()=>{
-      try{
-        const response = await getFriendsList(token as string);
-        console.log(response);
-        setContacts(response.data);
-      }catch(error){
-        console.error("获取联系人列表失败",error);
+    const fetchContacts = async () => {
+      try {
+        const response = await getFriendsList(token);
+        console.log("接口返回数据：", response.data.friends);
+
+        // 让 TypeScript 知道 `friends` 的类型
+        const friends: Friend[] = response.data.friends;
+
+        // 去重
+        const uniqueFriends = Array.from(
+          new Map(friends.map((friend) => [friend.friend_id, friend])).values()
+        );
+
+        const formattedContacts = uniqueFriends.map((friend) => ({
+          id: friend.friend_id,
+          name: `用户${friend.friend_id}`, 
+          messages: [] as any[], 
+        }));
+
+        setContacts(formattedContacts);
+        console.log("联系人更新后：", formattedContacts);
+      } catch (error) {
+        console.error("获取联系人列表失败", error);
       }
     };
+
     fetchContacts();
-  }, []); 
+  }, []);
 
   // 在 useEffect 中监听 selectedContact 的变化
   useEffect(() => {
@@ -62,14 +95,15 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
     }
   }, [selectedContact]);  // 监听 selectedContact 变化
 
-
   // 设置 WebSocket 连接，当选中的联系人发生变化时重新连接 WebSocket
   useEffect(() => {
     // 如果没有选中的联系人，跳过 WebSocket 连接的创建
     if (!selectedContact?.id) return;
 
-    const token = localStorage.getItem('longtoken');
-    const socket = new WebSocket(`${WebSocketUrl}?toUid=${selectedContact.id}&token=${token}`);
+    const token = localStorage.getItem("longtoken");
+    const socket = new WebSocket(
+      `${WebSocketUrl}?toUid=${selectedContact.id}&token=${token}`
+    );
 
     // WebSocket 连接成功的回调
     socket.onopen = () => {
@@ -80,106 +114,88 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
 
     socket.onmessage = (event) => {
       const newMessage = JSON.parse(event.data);
-      
-      // 如果是初始连接的消息（"已连接到服务器"），不做处理
-      if (newMessage.content === "已连接到服务器") {
-        console.log("WebSocket 连接成功");
+      console.log("收到的WebSocket信息:", newMessage);
+      if (!newMessage.from || !newMessage.content) {
         return;
       }
-    
-      // 处理历史记录消息
-      if (newMessage.from && newMessage.content) {
-        const [senderId, receiverId] = newMessage.from.split('->');
-        const senderInt=+senderId;
-        const receiverInt=+receiverId;
-        const sender = (senderInt === uid) ? "me" : senderId;
-        console.log("senderId",senderId,"receiverId",receiverId,"sender",sender,"uid",uid);
-        // 判断消息是发送给当前选中的联系人
-        if (receiverInt === selectedContact?.id) {
-          // 如果消息是发送给当前选中的联系人，直接渲染
-          setContacts((prevContacts) =>
-            prevContacts.map(contact =>
-              contact.id === selectedContact?.id
-                ? {
-                    ...contact,
-                    messages: [...contact.messages, { sender, text: newMessage.content }],
-                  }
-                : contact
-            )
-          );
-        } else {
-          // 如果消息是发送给其他联系人，放到该联系人聊天记录中
-          setContacts((prevContacts) =>
-            prevContacts.map(contact =>
-              contact.id === receiverInt
-                ? {
-                    ...contact,
-                    messages: [...contact.messages, { sender, text: newMessage.content }],
-                  }
-                : contact
-            )
-          );
-        }
+      const fromParts = newMessage.from.split("->");
+
+      if (fromParts.length !== 2) {
+        console.warn("无效的消息格式:", newMessage);
+        return;
+      }
+
+      const [senderId, receiverId] = fromParts.map(Number); // 转换为数字
+      const sender: "me" | "other" = senderId === uid ? "me" : "other";
+
+      // 判断消息是发送给当前选中的联系人
+      if (receiverId === uid) {
+        // 如果消息是发送给当前选中的联系人，直接渲染
+        setContacts((prevContacts) =>
+          prevContacts.map((contact) =>
+            contact.id === senderId
+              ? {
+                  ...contact,
+                  messages: [
+                    ...contact.messages,
+                    { sender, text: newMessage.content },
+                  ],
+                }
+              : contact
+          )
+        );
+      } else {
+        // 如果消息是发送给其他联系人，放到该联系人聊天记录中
+        setContacts((prevContacts) =>
+          prevContacts.map((contact) =>
+            contact.id === receiverId
+              ? {
+                  ...contact,
+                  messages: [
+                    ...contact.messages,
+                    { sender, text: newMessage.content },
+                  ],
+                }
+              : contact
+          )
+        );
       }
     };
-    
-    // WebSocket 连接出错的回调
+
     socket.onerror = (error) => {
       console.error("WebSocket 连接出错", error);
       connectedRef.current = false;
     };
 
-    // WebSocket 连接关闭的回调
     socket.onclose = () => {
       console.log("WebSocket 已关闭");
       connectedRef.current = false;
     };
 
-    // 清理 WebSocket 连接：当组件卸载或者选中的联系人变化时关闭 WebSocket 连接
     return () => {
       socket.close();
       connectedRef.current = false;
     };
-  }, [selectedContact]);  // 依赖于 selectedContact，当它变化时重新建立连接
+  }, [selectedContact]);
 
-  // // 发送消息的处理函数
-  // const handleSendMessage = (contactId: number, message: string) => {
-  //   // 更新联系人列表中的消息
-  //   setContacts((prevContacts) => 
-  //     prevContacts.map(contact => 
-  //       contact.id === contactId 
-  //         ? { ...contact, messages: [...contact.messages, { sender: "me", text: message }] }
-  //         : contact
-  //     )
-  //   );
-  // // 如果当前选中的联系人就是正在对话的人，直接更新 selectedContact 的消息
-  // if (selectedContact && selectedContact.id === contactId) {
-  //   setSelectedContact((prevSelectedContact) => ({
-  //     ...prevSelectedContact!,
-  //     messages: [...prevSelectedContact!.messages, { sender: "me", text: message }]
-  //   }));
-  // }
-  //   // 发送消息到 WebSocket 服务器
-  //   if (socketRef.current) {
-  //     const payload = { type: 1, content: message };
-  //     socketRef.current.send(JSON.stringify(payload));
-  //   }
-  // };
   const handleSendMessage = (contactId: number, message: string) => {
     // 发送消息到 WebSocket 服务器
     if (socketRef.current) {
       const payload = { type: 1, content: message };
       socketRef.current.send(JSON.stringify(payload));
     }
-  
+
     // 更新选中的联系人消息
     if (selectedContact && selectedContact.id === contactId) {
       setSelectedContact((prevSelectedContact) => ({
         ...prevSelectedContact!,
-        messages: [...prevSelectedContact!.messages, { sender: "me", text: message }],
+        messages: [
+          ...prevSelectedContact!.messages,
+          { sender: "me", text: message },
+        ],
       }));
     }
-  
+
     // 同步更新联系人列表中的消息
     setContacts((prevContacts) =>
       prevContacts.map((contact) =>
@@ -192,23 +208,23 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
       )
     );
   };
-  
+
   return (
-    // 将聊天的所有状态和方法通过 context 提供给子组件
-    <ChatContext.Provider value={{
-      contacts,
-      selectedContact,
-      setSelectedContact,
-      handleSendMessage,
-      socketRef,
-      connectedRef,
-    }}>
+    <ChatContext.Provider
+      value={{
+        contacts,
+        selectedContact,
+        setSelectedContact,
+        handleSendMessage,
+        socketRef,
+        connectedRef,
+      }}
+    >
       {children}
     </ChatContext.Provider>
   );
 };
 
-// 自定义 hook，用于在其他组件中访问 ChatContext
 export const useChatContext = () => {
   const context = React.useContext(ChatContext);
   if (!context) {

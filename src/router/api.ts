@@ -4,8 +4,8 @@ import axios from "axios";
 const loginURL = "https://auth.altar-echo.top/api";
 
 const api = axios.create({
-  // baseURL: "http://116.198.207.159:12349/api",
-  baseURL: "https://auth.altar-echo.top/api",
+  baseURL: "http://116.198.207.159:12349/api",
+  // baseURL: "https://auth.altar-echo.top/api",
 
   headers: {
     "Content-Type": "application/json",
