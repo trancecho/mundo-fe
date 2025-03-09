@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from'react';
 import styles from './Check.module.css';
-import Post from '../../../components/review/review';
 import axios, { AxiosError } from 'axios';
 
 // 更新 PostData 接口以匹配新的数据类型
@@ -24,17 +23,28 @@ interface PostData {
 // 定义更新请求数据类型
 interface UpdateRequestData {
     id: number;
-    [key: string]: any;
+    title: string;
+    content: string;
+    post_id: number;
+    status: string;
+    picture: string[] | null;
+    tags: string[] | null;
+    rejectionReason: string;
 }
 
-// 定义回答数据类型
 interface AnswerData {
     id: number;
-    [key: string]: any;
+    content: string;
+    like: number;
+    picture: string[] | null;
+    question_post_id: number;
+    status: string;
+    uid: number;
+    rejectionReason: string; // 用于存储拒绝理由
 }
 
 const deleteUnnecessaryCookies = () => {
-    const unnecessaryCookies = ['exampleCookie', 'otherUnnecessaryCookie']; // 列出所有不必要的 Cookie 名称
+    const unnecessaryCookies = ['exampleCookie', 'otherUnnecessaryCookie']; 
     unnecessaryCookies.forEach(cookieName => {
         document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
     });
@@ -56,7 +66,6 @@ api_register.interceptors.request.use(config => {
     }
     delete config.headers['unnecessary-header'];
 
-    // 添加调试信息，打印请求头大小
     const headerSize = JSON.stringify(config.headers).length;
     console.log(`Request header size: ${headerSize}`);
     return config;
@@ -74,7 +83,7 @@ const fetchPendingPosts = async () => {
     try {
         const response = await api_register.get("http://116.198.207.159:12349/api/audit/question/posts");
         const data = response.data;
-        console.log('获取到的待审核帖子内容:', data); // 打印获取到的帖子内容
+        console.log('获取到的待审核帖子内容:', data); 
         return data;
     } catch (error) {
         console.error('获取消息数据失败', error);
@@ -82,40 +91,12 @@ const fetchPendingPosts = async () => {
     }
 };
 
-// 批准帖子的函数
-const approvePost = async (postId: number): Promise<any> => {
-    const url = `/audit/question/posts/${postId}/?service=mundo`;
-    const formdata = new FormData();
-    formdata.append("decision", "approve");
-    formdata.append("rejection_reason", "");
-    try {
-        const response = await api_register.post(url, formdata);
-        return response.data;
-    } catch (error) {
-        handleError(error, '批准帖子时');
-        throw error;
-    }
-};
-
-// 拒绝帖子的函数
-const rejectPost = async (postId: number, rejectionReason: string): Promise<any> => {
-    const url = `/audit/question/posts/${postId}/`;
-    const formdata = new FormData();
-    formdata.append("decision", "reject");
-    formdata.append("rejection_reason", rejectionReason);
-    try {
-        const response = await api_register.post(url, formdata);
-        return response.data;
-    } catch (error) {
-        handleError(error, '拒绝帖子时');
-        throw error;
-    }
-};
-
 // 获取待审核更新请求的函数
 const fetchPendingUpdateRequests = async () => {
     try {
         const response = await api_register.get("http://116.198.207.159:12349/api/audit/update/requests");
+        const data = response.data;
+        console.log('获取到的待审核更新请求内容:', data); 
         return response.data;
     } catch (error) {
         console.error('获取待审核更新请求失败', error);
@@ -123,25 +104,12 @@ const fetchPendingUpdateRequests = async () => {
     }
 };
 
-// 审核更新请求的函数
-const reviewUpdateRequest = async (requestId: number, decision: string, rejectionReason: string) => {
-    const url = `/audit/update/requests/${requestId}`;
-    const formdata = new FormData();
-    formdata.append("decision", decision);
-    formdata.append("rejection_reason", rejectionReason);
-    try {
-        const response = await api_register.post(url, formdata);
-        return response.data;
-    } catch (error) {
-        handleError(error, '审核更新请求时');
-        throw error;
-    }
-};
-
 // 获取待审核回答的函数
 const fetchPendingAnswers = async () => {
     try {
         const response = await api_register.get("http://116.198.207.159:12349/api/audit/answer");
+        const data = response.data;
+        console.log('获取到的待审核回答内容:', data); 
         return response.data;
     } catch (error) {
         console.error('获取待审核回答失败', error);
@@ -149,9 +117,8 @@ const fetchPendingAnswers = async () => {
     }
 };
 
-// 审核回答的函数
-const reviewAnswer = async (answerId: number, decision: string, rejectionReason: string) => {
-    const url = `/audit/answer/${answerId}`;
+// 审核操作的函数
+const reviewItem = async (url: string, decision: string, rejectionReason: string) => {
     const formdata = new FormData();
     formdata.append("decision", decision);
     formdata.append("rejection_reason", rejectionReason);
@@ -159,7 +126,7 @@ const reviewAnswer = async (answerId: number, decision: string, rejectionReason:
         const response = await api_register.post(url, formdata);
         return response.data;
     } catch (error) {
-        handleError(error, '审核回答时');
+        handleError(error, `审核 ${decision === 'approve'? '批准' : '拒绝'} 时`);
         throw error;
     }
 };
@@ -182,9 +149,9 @@ const handleError = (error: unknown, operation: string) => {
 // 处理 Base64 图片的组件
 const SecureImage: React.FC<{ image: string }> = ({ image }) => {
     function base64ToBlobUrl(image: string) {
-        let mimeType = "image/jpeg"; // 默认值
-        if (image.startsWith("/9j/")) mimeType = "image/jpeg"; // JPG
-        if (image.startsWith("iVBORw0KGgo")) mimeType = "image/png"; // PNG
+        let mimeType = "image/jpeg"; 
+        if (image.startsWith("/9j/")) mimeType = "image/jpeg"; 
+        if (image.startsWith("iVBORw0KGgo")) mimeType = "image/png"; 
 
         const byteCharacters = atob(image);
         const byteArrays = [];
@@ -205,7 +172,7 @@ const SecureImage: React.FC<{ image: string }> = ({ image }) => {
     useEffect(() => {
         const url = base64ToBlobUrl(image);
         setImageUrl(url);
-        return () => URL.revokeObjectURL(url); // 组件卸载时释放 URL
+        return () => URL.revokeObjectURL(url); 
     }, [image]);
 
     return imageUrl? <img src={imageUrl} alt="Image" className={styles.postPicture} /> : <p>加载中...</p>;
@@ -266,97 +233,30 @@ const Check: React.FC = () => {
         }
     };
 
-    const handleApprovePost = async (postId: number) => {
-        console.log(`开始批准帖子，帖子 ID: ${postId}`);
-        try {
-            await approvePost(postId);
-            console.log(`帖子 ID ${postId} 批准成功，重新获取帖子数据...`);
-            await fetchAllData();
-        } catch (err) {
-            const errorMessage = err instanceof Error? err.message : '未知错误';
-            setError('批准帖子时出错');
-        }
-    };
-
-    const handleRejectPost = async (postId: number, index: number) => {
-        console.log(`开始拒绝帖子，帖子 ID: ${postId}`);
-        const post = posts[index];
-        const rejectionReason = post.rejectionReason;
-        if (!rejectionReason.trim()) {
+    const handleReview = async (itemId: number, itemType: string, decision: string, index: number, dataArray: any[], setDataArray: (data: any[]) => void) => {
+        console.log(`开始 ${decision === 'approve'? '批准' : '拒绝'} ${itemType}，ID: ${itemId}`);
+        const item = dataArray[index];
+        const rejectionReason = item.rejectionReason;
+        if (decision === 'reject' &&!rejectionReason.trim()) {
             console.error('拒绝理由不能为空');
             return;
         }
+        let url = '';
+        if (itemType === 'post') {
+            url = `/audit/question/posts/${itemId}/?service=mundo`;
+        } else if (itemType === 'updateRequest') {
+            // 确保使用正确的接口路径
+            url = `/audit/update/requests/${itemId}`;
+        } else if (itemType === 'answer') {
+            url = `/audit/answer/${itemId}`;
+        }
         try {
-            await rejectPost(postId, rejectionReason);
-            console.log(`帖子 ID ${postId} 拒绝成功，重新获取帖子数据...`);
+            await reviewItem(url, decision, rejectionReason);
+            console.log(`${itemType} ID ${itemId} ${decision === 'approve'? '批准' : '拒绝'} 成功，重新获取数据...`);
             await fetchAllData();
         } catch (err) {
             const errorMessage = err instanceof Error? err.message : '未知错误';
-            setError('拒绝帖子时出错');
-        }
-    };
-
-    const handleApproveUpdateRequest = async (requestId: number, index: number) => {
-        console.log(`开始批准更新请求，请求 ID: ${requestId}`);
-        const request = updateRequests[index];
-        const rejectionReason = request.rejectionReason || '';
-        try {
-            await reviewUpdateRequest(requestId, 'approve', rejectionReason);
-            console.log(`更新请求 ID ${requestId} 批准成功，重新获取数据...`);
-            await fetchAllData();
-        } catch (err) {
-            const errorMessage = err instanceof Error? err.message : '未知错误';
-            setError('批准更新请求时出错');
-        }
-    };
-
-    const handleRejectUpdateRequest = async (requestId: number, index: number) => {
-        console.log(`开始拒绝更新请求，请求 ID: ${requestId}`);
-        const request = updateRequests[index];
-        const rejectionReason = request.rejectionReason;
-        if (!rejectionReason.trim()) {
-            console.error('拒绝理由不能为空');
-            return;
-        }
-        try {
-            await reviewUpdateRequest(requestId, 'reject', rejectionReason);
-            console.log(`更新请求 ID ${requestId} 拒绝成功，重新获取数据...`);
-            await fetchAllData();
-        } catch (err) {
-            const errorMessage = err instanceof Error? err.message : '未知错误';
-            setError('拒绝更新请求时出错');
-        }
-    };
-
-    const handleApproveAnswer = async (answerId: number, index: number) => {
-        console.log(`开始批准回答，回答 ID: ${answerId}`);
-        const answer = answers[index];
-        const rejectionReason = answer.rejectionReason || '';
-        try {
-            await reviewAnswer(answerId, 'approve', rejectionReason);
-            console.log(`回答 ID ${answerId} 批准成功，重新获取数据...`);
-            await fetchAllData();
-        } catch (err) {
-            const errorMessage = err instanceof Error? err.message : '未知错误';
-            setError('批准回答时出错');
-        }
-    };
-
-    const handleRejectAnswer = async (answerId: number, index: number) => {
-        console.log(`开始拒绝回答，回答 ID: ${answerId}`);
-        const answer = answers[index];
-        const rejectionReason = answer.rejectionReason;
-        if (!rejectionReason.trim()) {
-            console.error('拒绝理由不能为空');
-            return;
-        }
-        try {
-            await reviewAnswer(answerId, 'reject', rejectionReason);
-            console.log(`回答 ID ${answerId} 拒绝成功，重新获取数据...`);
-            await fetchAllData();
-        } catch (err) {
-            const errorMessage = err instanceof Error? err.message : '未知错误';
-            setError('拒绝回答时出错');
+            setError(`${decision === 'approve'? '批准' : '拒绝'} ${itemType} 时出错`);
         }
     };
 
@@ -404,10 +304,10 @@ const Check: React.FC = () => {
                         </div>
                         <div className={styles.reviewActions}>
                             <div className={styles.buttonGroup}>
-                                <button className={styles.approveButton} onClick={() => handleApprovePost(post.id)}>
+                                <button className={styles.approveButton} onClick={() => handleReview(post.id, 'post', 'approve', index, posts, setPosts)}>
                                     批准
                                 </button>
-                                <button className={styles.rejectButton} onClick={() => handleRejectPost(post.id, index)}>
+                                <button className={styles.rejectButton} onClick={() => handleReview(post.id, 'post', 'reject', index, posts, setPosts)}>
                                     拒绝
                                 </button>
                             </div>
@@ -435,10 +335,9 @@ const Check: React.FC = () => {
                     <div className={styles.postRow} key={request.id}>
                         <div className={styles.typeIndicator}>更新请求</div>
                         <div className={styles.postInfo}>
-                            <div className={styles.postTitle}>{request.title || '无标题更新请求'}</div>
-                            <div className={styles.postContent}>{request.content || '无内容更新请求'}</div>
+                            <div className={styles.postTitle}>{request.title}</div>
+                            <div className={styles.postContent}>{request.content}</div>
                             <div className={styles.postMeta}>
-                                {/* 可以根据实际情况添加更多更新请求的元信息展示 */}
                                 <span>关联帖子 ID: {request.post_id}</span>
                                 <span>状态: {request.status}</span>
                             </div>
@@ -452,10 +351,10 @@ const Check: React.FC = () => {
                         </div>
                         <div className={styles.reviewActions}>
                             <div className={styles.buttonGroup}>
-                                <button className={styles.approveButton} onClick={() => handleApproveUpdateRequest(request.id, index)}>
+                                <button className={styles.approveButton} onClick={() => handleReview(request.id, 'updateRequest', 'approve', index, updateRequests, setUpdateRequests)}>
                                     批准
                                 </button>
-                                <button className={styles.rejectButton} onClick={() => handleRejectUpdateRequest(request.id, index)}>
+                                <button className={styles.rejectButton} onClick={() => handleReview(request.id, 'updateRequest', 'reject', index, updateRequests, setUpdateRequests)}>
                                     拒绝
                                 </button>
                             </div>
@@ -467,7 +366,7 @@ const Check: React.FC = () => {
                                     type="text"
                                     id={`rejectionReason-update-${request.id}`}
                                     placeholder="请输入拒绝理由"
-                                    value={request.rejectionReason || ''}
+                                    value={request.rejectionReason}
                                     onChange={(e) => {
                                         const newUpdateRequests = [...updateRequests];
                                         newUpdateRequests[index].rejectionReason = e.target.value;
@@ -488,6 +387,7 @@ const Check: React.FC = () => {
                                 <span>点赞数: {answer.like}</span>
                                 <span>关联问题帖子 ID: {answer.question_post_id}</span>
                                 <span>状态: {answer.status}</span>
+                                <span>用户 ID: {answer.uid}</span>
                             </div>
                             {answer.picture && answer.picture.length > 0 && (
                                 <div className={styles.postPictures}>
@@ -499,10 +399,10 @@ const Check: React.FC = () => {
                         </div>
                         <div className={styles.reviewActions}>
                             <div className={styles.buttonGroup}>
-                                <button className={styles.approveButton} onClick={() => handleApproveAnswer(answer.id, index)}>
+                                <button className={styles.approveButton} onClick={() => handleReview(answer.id, 'answer', 'approve', index, answers, setAnswers)}>
                                     批准
                                 </button>
-                                <button className={styles.rejectButton} onClick={() => handleRejectAnswer(answer.id, index)}>
+                                <button className={styles.rejectButton} onClick={() => handleReview(answer.id, 'answer', 'reject', index, answers, setAnswers)}>
                                     拒绝
                                 </button>
                             </div>
@@ -514,21 +414,21 @@ const Check: React.FC = () => {
                                     type="text"
                                     id={`rejectionReason-answer-${answer.id}`}
                                     placeholder="请输入拒绝理由"
-                                    value={answer.rejectionReason || ''}
+                                    value={answer.rejectionReason}
                                     onChange={(e) => {
                                         const newAnswers = [...answers];
                                         newAnswers[index].rejectionReason = e.target.value;
                                         setAnswers(newAnswers);
                                     }}
                                     className={styles.rejectionReasonInput}
-                                />
+                                    />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
-        </div>
-    );
-};
-
-export default Check;
+        );
+    };
+    
+    export default Check;
