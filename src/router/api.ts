@@ -257,9 +257,25 @@ api_register.interceptors.response.use(
   }
 );
 
+//获取答疑首页所有帖子
+export const getAllPost = async () => {
+  try {
+    const response = await api.get("/question/post", {
+      headers: {
+        Authorization: "Bearer " + longtoken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("获取帖子列表失败:", error);
+    throw error;
+  }
+};
+
+//获取文件列表
 export const getFileList = async (name: string) => {
   try {
-    const response = await api.get(`/api/files`, {
+    const response = await api.get(`/files`, {
       params: { name },
       headers: {
         Authorization: "Bearer " + longtoken,
@@ -279,7 +295,7 @@ export const downloadFile = async (item: {
 }) => {
   try {
     const response = await api.post(
-      "/api/cloud_disk/download",
+      "/cloud_disk/download",
       { name: item.name, folder_id: item.folder_id },
       { headers: { Authorization: `Bearer ${longtoken}` } }
     );
