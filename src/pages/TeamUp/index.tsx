@@ -86,8 +86,8 @@ const TeamUp = () => {
         'Authorization': `Bearer ${longtoken}`
       }
     }).then(res => res.json()).then(data => {
-      console.log(data.data.message.Content);
-      setData(data.data.message.Content);
+      console.log(data.data.Team.Content);
+      setData(data.data.Team.Content);
     });
   }, [longtoken]);
 
