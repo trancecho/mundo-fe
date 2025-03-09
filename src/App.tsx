@@ -5,6 +5,7 @@ import Login from '@/pages/Login/Login'; // 登录
 import RegisterPage from '@/pages/Register/Registerr'; // 注册
 import BindRegisterPage from '@/pages/Register/BindRegister'; // 注册
 import Verify from '@/pages/Register/Verify'; // 注册验证
+import Reset from '@/pages/Register/Reset'; // 重置密码
 import DataStation from '@/pages/DataStation';//资料站
 import Forum from '@/pages/Forum';//论坛
 import QAndA from '@/pages/QAndA/QAndA';//答疑
@@ -22,6 +23,7 @@ import Check from '@/pages/Houtai/Check/Check';
 import DashboardFrontpage from './pages/Houtai/DashboardFrontpage';
 import ItemList from '@/pages/DataStation/ItemList';
 import FileManager from '@/pages/FileManager/page';
+import FindKey from '@/pages/FindKey/FindKey';//找回密码
 import './App.css';
 import InfoChange from "@/pages/Info/InfoChange/InfoChange.tsx";
 import Team from "@/pages/Info/Team/Team.tsx";
@@ -51,6 +53,7 @@ const App: React.FC = () => {
                         <Route path="/register" element={<RegisterPage/>}/>
                         <Route path="/bindregister" element={<BindRegisterPage/>}/>
                         <Route path="/register/verify/v2" element={<Verify/>}/>
+                        <Route path="/register/verify/v1" element={<Reset/>}/>
                         <Route path="/review" element={<Review/>}/>
                         <Route path="/filemanager" element={<FileManager/>}/>
                         <Route path="/timerme" element={<Timerme/>}/>
@@ -58,6 +61,7 @@ const App: React.FC = () => {
                         <Route path="/change" element={<InfoChange/>}/>
                         <Route path="/team" element={<Team/>}/>
                         {/*<Route path="/timerme" element={<FileManager/>}/>*/}
+                        <Route path="/findKey" element={<FindKey/>}/>
                         <Route path="/houtai" element={<Houtai/>}>
                             <Route path="" element={<DashboardFrontpage/>}/>
 

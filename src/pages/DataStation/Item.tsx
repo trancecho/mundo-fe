@@ -1,4 +1,5 @@
 import React from "react";
+import styles from './Item.module.css';
 
 interface ItemProps {
   item: {
@@ -26,56 +27,23 @@ const Item: React.FC<ItemProps> = ({ item, onDownload }) => {
   };
 
   return (
-    <div
-      style={{
-        marginBottom: "15px",
-        padding: "15px",
-        border: "1px solid #eee",
-        borderRadius: "8px",
-        backgroundColor: "#fff",
-        color: "#000", // 所有文字显示为黑色
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
-        boxShadow: "3px 2px 13px rgba(0, 0, 0, 0.05)", // 添加柔和的阴影
-        transition: "box-shadow 0.3s ease", // 添加阴影过渡效果
-        cursor: "pointer"
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.boxShadow = "0 4px 20px rgba(0, 0, 0, 0.2)"; // hover 时加深阴影
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.05)"; // 恢复原始阴影
-      }}
-    >
-      <h3>{item.name}</h3>  {/* 文件名 */}
-      <p><strong>文件大小:</strong> {sizeInMB} MB</p>  {/* 文件大小 */}
-      
-      {/* 如果有下载链接则显示链接，否则显示按钮 */}
-      <p><strong>下载链接: </strong> 
+    <div className={styles.item}>
+      <h3 className={styles.title}>{item.name}</h3>
+      <p>文件大小: {sizeInMB} MB</p>
+      <p>
+        下载链接:  
         {item.url ? (
-          <a href={item.url} target="_blank" rel="noopener noreferrer" > 点击下载</a>
+          <a href={item.url} target="_blank" rel="noopener noreferrer">点击下载</a>
         ) : (
-          <button  style={downloadButtonStyle} onClick={() => onDownload(item) }>点击下载</button>
+          <button className={styles.downloadButton} onClick={() => onDownload(item)}>
+            点击下载
+          </button>
         )}
       </p>
-      
-      <p><strong>热度:</strong> {item.hotness}</p>
-       
-      <p><strong>更新时间:</strong> {formatDate(item.updated_at)}</p>
+      <p>热度: {item.hotness}</p>
+      <p>更新时间: {formatDate(item.updated_at)}</p>
     </div>
   );
 };
-
-const downloadButtonStyle: React.CSSProperties = {
-  backgroundColor: "hsl(212, 100.00%, 50.00%)", // 背景色
-  color: "#fff", // 白色文字
-  padding: "7px 13px", // 适当的内边距
-  border: "none", // 去掉边框
-  borderRadius: "15px", // 圆角
-  cursor: "pointer", // 鼠标变成点击手型
-  fontSize: "16px", // 字体大小
-  boxShadow: "0 4px 8px hsl(0, 3.00%, 32.70%)", // 阴影效果
-  };
 
 export default Item;

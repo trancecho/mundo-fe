@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Item from "./Item";
 import { getFileList, downloadFile } from "@/router/api";
+import styles from './ItemList.module.css';
 
 interface ItemListProps {
   category: string;
@@ -108,30 +109,17 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div
-      style={{
-        width: "100%",
-        padding: "20px",
-        boxShadow: "5px 15px 8px rgba(0, 0, 0, 0.2)",
-        borderRadius: "8px",
-        color: "#000",
-        display: "flex",
-        flexDirection: "column",
-        flex: 1,
-        overflow: "auto",
-        border: "1px solid #ddd",
-      }}
-    >
-      <div style={{ marginBottom: "20px" }}>
+    <div className={styles.container}>
+      <div className={styles.buttonContainer}>
         <button
           onClick={() => handleSort("hot")}
-          style={selectedTab === "hot" ? { ...activeTabStyle, boxShadow: "0 4px 8px rgb(16, 124, 248)" } : tabStyle}
+          className={`${styles.button} ${selectedTab === "hot" ? styles.activeButton : ''}`}
         >
           最热
         </button>
         <button
           onClick={() => handleSort("new")}
-          style={selectedTab === "new" ? { ...activeTabStyle, boxShadow: "0 4px 8px rgb(16, 124, 248)" } : tabStyle}
+          className={`${styles.button} ${selectedTab === "new" ? styles.activeButton : ''}`}
         >
           最新
         </button>

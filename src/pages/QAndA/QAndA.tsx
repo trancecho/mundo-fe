@@ -2,60 +2,7 @@ import React, { useState, useEffect } from'react';
 import { useNavigate } from'react-router-dom';
 import './QAndA.css';
 import Header from '@/components/ui/Header/Header.tsx';
-
 import axios from 'axios';
-
-// 生成随机字符串的函数
-function generateRandomString(length = 10) {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-    return result;
-}
-
-// 生成随机图片URL的函数
-function generateRandomImageUrl() {
-    return `https://picsum.photos/200/300?random=${Math.random()}`;
-}
-
-// 生成随机时间的函数，生成过去一年内的随机时间
-function generateRandomTime() {
-    const now = new Date();
-    const oneYearAgo = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
-    const randomTime = new Date(oneYearAgo.getTime() + Math.random() * (now.getTime() - oneYearAgo.getTime()));
-    return randomTime.toISOString();
-}
-
-// 从给定数组中随机选择标签
-function generateRandomTags() {
-    const tagOptions = ['C语言', '高数', '大物'];
-    const numTags = Math.floor(Math.random() * 3) + 1; // 随机选择1到3个标签
-    const selectedTags = [];
-    for (let i = 0; i < numTags; i++) {
-        const randomIndex = Math.floor(Math.random() * tagOptions.length);
-        selectedTags.push(tagOptions[randomIndex]);
-    }
-    return selectedTags;
-}
-
-// 生成随机消息数据的函数
-function generateRandomMessages(count = 10) {
-    return Array.from({ length: count }, (_, i) => ({
-        id: i + 1,
-        title: `随机标题 ${generateRandomString(5)}`,
-        content: `随机内容 ${generateRandomString(30)}`,
-        tags: generateRandomTags(),
-        picture: [generateRandomImageUrl()],
-        view: Math.floor(Math.random() * 100),
-        collection: Math.floor(Math.random() * 50),
-        is_completed: Math.random() > 0.5,
-        answer_count: Math.floor(Math.random() * 10),
-        time: generateRandomTime()
-    }));
-}
-
 
 // Tag组件，用于展示一个带有文本的标签
 interface TagProps {
@@ -230,8 +177,8 @@ const Right: React.FC<RightProps> = ({ messages, searchValue, selectedMenu, sele
 interface QAndAProps {}
 
 const QAndA: React.FC<QAndAProps> = () => {
-    // 用于存储消息列表数据的状态，初始化为随机生成的数据
-    const [messages, setMessages] = useState<MessageProps[]>(generateRandomMessages());
+    // 用于存储消息列表数据的状态，初始化为空数组
+    const [messages, setMessages] = useState<MessageProps[]>([]);
     // 用于存储搜索框中的输入内容的状态
     const [searchValue, setSearchValue] = useState('');
     // 用于记录当前选中的菜单（对应tag内容）的状态
@@ -326,7 +273,7 @@ const QAndA: React.FC<QAndAProps> = () => {
                         answer_count: msg.answerCount,
                         time: msg.time
                     }));
-                    setMessages([...messages,...transformedMessages]);
+                    setMessages(transformedMessages);
                 }
             } catch (error) {
                 console.error('获取消息数据失败', error);

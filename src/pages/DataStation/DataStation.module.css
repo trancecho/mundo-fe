@@ -1,0 +1,37 @@
+.container {
+    display: flex;
+    min-height: 100vh;
+    width: 90vw;
+    margin: 0 auto;
+    justify-content: center;
+    position: relative;
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    margin-top: 100px;
+    flex: 1;
+    overflow: auto;
+
+}
+
+.mainContent {
+    display: flex;
+    justify-content: center;
+    padding-top: 0px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    flex: 1;
+    overflow: auto;
+    max-width: 900px;
+    margin-left: 100px;    
+}
+
+.outletContainer {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    flex: 1;
+} 

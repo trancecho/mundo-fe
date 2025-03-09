@@ -12,8 +12,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import styles from "./AnswerWindow.module.css";
 import { deleteChatHistory } from "@/router/api";
-import {mundo_token } from "@/router/api";
-
+import { longtoken } from "@/router/api";
 const HumanChat: React.FC = () => {
   const [messages, setMessages] = useState<
     { sender: "user" | "customer"; text: string }[]
@@ -22,9 +21,8 @@ const HumanChat: React.FC = () => {
   const socketRef = useRef<WebSocket | null>(null); // WebSocket reference
   const connectedRef = useRef<boolean>(false); // WebSocket connection status
 
-  // WebSocket connection
   useEffect(() => {
-    const socketUrl = `ws://116.198.207.159:12349/api/ws?toUid=2&token=${mundo_token}&service=mundo`;
+    const socketUrl = `ws://116.198.207.159:12349/api/ws?toUid=8&token=${longtoken}&service=mundo`;
 
     const connectWebSocket = () => {
       const ws = new WebSocket(socketUrl);
@@ -144,12 +142,12 @@ const HumanChat: React.FC = () => {
           <Input
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
-            className="p-2 border rounded-md flex-1"
+            className="flex-1 p-2 border rounded-md"
             placeholder="请输入你的问题..."
           />
           <Button
             onClick={handleSendMessage}
-            className="bg-blue-500 text-white hover:bg-blue-600"
+            className="text-white bg-blue-500 hover:bg-blue-600"
           >
             发送
           </Button>
