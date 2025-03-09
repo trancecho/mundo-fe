@@ -25,6 +25,9 @@ import ItemList from '@/pages/DataStation/ItemList';
 import FileManager from '@/pages/FileManager/page';
 import FindKey from '@/pages/FindKey/FindKey';//找回密码
 import './App.css';
+import InfoChange from "@/pages/Info/InfoChange/InfoChange.tsx";
+import Team from "@/pages/Info/Team/Team.tsx";
+import InfoManage from "@/pages/Info/page.tsx";
 
 
 const App: React.FC = () => {
@@ -54,6 +57,10 @@ const App: React.FC = () => {
                         <Route path="/review" element={<Review/>}/>
                         <Route path="/filemanager" element={<FileManager/>}/>
                         <Route path="/timerme" element={<Timerme/>}/>
+                        <Route path="/Info" element={<InfoManage/>}/>
+                        <Route path="/change" element={<InfoChange/>}/>
+                        <Route path="/team" element={<Team/>}/>
+                        {/*<Route path="/timerme" element={<FileManager/>}/>*/}
                         <Route path="/findKey" element={<FindKey/>}/>
                         <Route path="/houtai" element={<Houtai/>}>
                             <Route path="" element={<DashboardFrontpage/>}/>
