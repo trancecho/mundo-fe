@@ -2,7 +2,6 @@ import React, { useState, useEffect } from'react';
 import { useNavigate } from'react-router-dom';
 import './QAndA.css';
 import Header from '@/components/ui/Header/Header.tsx';
-import axios from 'axios';
 import { getAllPost } from '@/router/api';
 
 
