@@ -9,13 +9,14 @@ const DataStation: React.FC = () => {
             <Header/>
             <div className={styles.content}>
                 <Navbar />
-                <div className={styles.mainContent}>
+
                     <div className={styles.outletContainer}>
                         <Outlet />
                     </div>
-                </div>            
+
             </div>    
         </div>
+        
     );
 };
 
