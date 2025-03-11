@@ -52,7 +52,7 @@ const InfoManage: React.FC = () => {
     };
 
     return (
-        <div className={styles.body}>
+        <div className={styles.body}> 
             <div className={styles.container}>
                 <div className={styles.image}>
                     <img src={user?.img || ''} alt="UserImage" className={styles.UserImage}/>
@@ -60,7 +60,7 @@ const InfoManage: React.FC = () => {
                 <div className={styles.username}> {user?.name}</div>
                 <div className={styles.email}>{user?.email}</div>
                 <div className={styles.change}>
-                    <Link to="/change">修改个人信息</Link>
+                    <Link to="/InfoChange">修改个人信息</Link>
                 </div>
 
                 <div className={styles.teamlist}>
@@ -68,7 +68,7 @@ const InfoManage: React.FC = () => {
                         我的队伍
                     </div>
                     <div className={styles.teamup}>
-                        <Link to="/team"> 创建新队伍</Link>
+                        <Link to="/InfoTeam"> 创建新队伍</Link>
                     </div>
                     <TeamList
                         Teams={teamList}   // 传递团队列表

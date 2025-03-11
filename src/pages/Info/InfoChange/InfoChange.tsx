@@ -1,6 +1,6 @@
-import React from 'React';
+import React from 'react';
 import styles from '../Info.module.css'
-
+ 
 const InfoChange: React.FC = () =>{
 
     return (

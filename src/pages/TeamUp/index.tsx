@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Header from '@/components/ui/Header/Header.tsx'
+// import Header from '@/components/ui/Header/Header.tsx'
 import style from "./teamup.module.css";
 import { useAuth } from '@/context/AuthContext';
 type detail = {
@@ -72,7 +72,7 @@ const Item = ({ detail, jumpto, check }: { detail: detail; jumpto: () => void; c
 const TeamUp = () => {
   const { longtoken } = useAuth();
   const [data, setData] = useState<detail[]>([]);
-  const [check, setcheck] = useState<number | undefined>(undefined);
+  const [check, setcheck] = useState<number | undefined>(undefined); 
   const result = check ? data.find(item => item.ID === check) : undefined;
   const jumpto = (id: number | undefined) => {
     setcheck(id);
@@ -80,17 +80,34 @@ const TeamUp = () => {
   };
 
   useEffect(() => {
-    fetch('http://116.198.207.159:12349/api/allteam?service=mundo', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${longtoken}`
+    const fetchData = async () => {
+      try {
+        const res = await fetch('http://116.198.207.159:12349/api/allteam?service=mundo', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${longtoken}`
+          }
+        });
+        if (!res.ok) {
+          throw new Error(`HTTP 错误: ${res.status}`);
+        }
+        const response = await res.json();
+        const content = response?.data?.Team?.Content;
+        if (content !== undefined) {
+          console.log("Content:", content);
+          setData(content);
+        } else {
+          console.warn("Message.Content 不存在", response);
+        }
+      } catch (error) {
+        console.error("API 请求失败:", error);
       }
-    }).then(res => res.json()).then(data => {
-      console.log(data.data.Team.Content);
-      setData(data.data.Team.Content);
-    });
+    };
+  
+    fetchData();
   }, [longtoken]);
-
+  
+  
   const apply = async (id:number)=>{
     const response= await fetch('http://116.198.207.159:12349/api/allteam?ID=1&service=mundo',{
       method:'POST',
@@ -110,7 +127,7 @@ const TeamUp = () => {
   return (
     <div style={{ all: 'initial' }}>
       <div className={style.body}>
-        <Header />
+        {/* <Header /> */}
         <div className={style.container}>
           <div className={style.list}>
             {data.map((item) => (
