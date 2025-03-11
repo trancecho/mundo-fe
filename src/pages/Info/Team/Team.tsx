@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'React';
 const Team: React.FC = () => {
     return (
         <div>
