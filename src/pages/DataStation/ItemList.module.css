@@ -9,11 +9,12 @@
     flex: 1;
     overflow: auto;
     background-color: #fff;    
+    padding-left: 140px;
 }
 
 .buttonContainer {
     margin-bottom: 10px;
-  
+  margin-right: 100px;
 }
 
 .button {
@@ -37,4 +38,9 @@
     background-color: #e4e4e4;
     font-weight: bold;
     box-shadow: 0 4px 8px rgb(16, 124, 248);
-} 
+}
+
+.noItem {
+    text-align: center;
+    margin-right: 120px;
+}
