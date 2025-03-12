@@ -3,7 +3,6 @@ import Style from "./DetailMessage.module.css";
 import { useParams } from "react-router-dom";
 import { useAuth } from '@/context/AuthContext';
 import { Dispatch, SetStateAction } from "react";
-import Header from '@/components/ui/Header/Header.tsx';
 
 // 定义问题帖子的数据类型
 interface QuestionPost {
@@ -138,8 +137,8 @@ const DetailQuestion: React.FC<DetailQuestionProps> = ({ title, question }) => {
             <div className={Style.detailQuestion}>{question}</div>
             {picture.length > 0 && (
                 <div className={Style.questionPictures}>
-                    {picture.map((pic: string, index: number) =>
-                        <SecureImage key={index} image={pic} />
+                    {picture.map((pic: string, index: number) => 
+                        <SecureImage key={index} image={pic}/>
                     )}
                 </div>
             )}
@@ -147,48 +146,35 @@ const DetailQuestion: React.FC<DetailQuestionProps> = ({ title, question }) => {
     );
 };
 
-const Loading: React.FC = () => {
-    return (<>
-        <div className={Style["square-loader"]}>
-            <div className={`${Style.square} ${Style.first_square}`}></div>
-            <div className={`${Style.square} ${Style.second_square}`}></div>
-            <div className={`${Style.square} ${Style.third_square}`}></div>
-        </div>
-        <div className={Style.loading}>loading</div>
-        </>
-    );
-}
 
-const SecureImage: React.FC<{ image: string }> = ({ image }) => {
-    function base64ToBlobUrl(image: string) {
+const SecureImage: React.FC<{ image: string }> = ({ image}) => {
+    function base64ToBlobUrl(image:string) {
         let mimeType = "image/jpeg"; // 默认值
         if (image.startsWith("/9j/")) mimeType = "image/jpeg"; // JPG
         if (image.startsWith("iVBORw0KGgo")) mimeType = "image/png"; // PNG
-
+      
         const byteCharacters = atob(image);
         const byteArrays = [];
         for (let i = 0; i < byteCharacters.length; i += 512) {
-            const slice = byteCharacters.slice(i, i + 512);
-            const byteNumbers = new Array(slice.length);
-            for (let j = 0; j < slice.length; j++) {
-                byteNumbers[j] = slice.charCodeAt(j);
-            }
-            byteArrays.push(new Uint8Array(byteNumbers));
+          const slice = byteCharacters.slice(i, i + 512);
+          const byteNumbers = new Array(slice.length);
+          for (let j = 0; j < slice.length; j++) {
+            byteNumbers[j] = slice.charCodeAt(j);
+          }
+          byteArrays.push(new Uint8Array(byteNumbers));
         }
         const blob = new Blob(byteArrays, { type: mimeType });
         return URL.createObjectURL(blob);
     }
     const [imageUrl, setImageUrl] = useState("");
-
+  
     useEffect(() => {
-        setTimeout(() => {
-            const url = base64ToBlobUrl(image);
-            setImageUrl(url);
-            return () => URL.revokeObjectURL(url);
-        }, 0); // 组件卸载时释放 URL
+      const url = base64ToBlobUrl(image);
+      setImageUrl(url);
+      return () => URL.revokeObjectURL(url); // 组件卸载时释放 URL
     }, [image]);
-
-    return imageUrl ? <img src={imageUrl} alt="Image" className={Style.img} /> : <p>加载中...</p>;
+  
+    return imageUrl ? <img src={imageUrl} alt="Image" className={Style.img}/> : <p>加载中...</p>;
 }
 
 // 定义 DetailReply 组件类型，接收 answerData 作为属性，类型为 Answer
@@ -206,22 +192,22 @@ const DetailReply: React.FC<{ answerData: Answer }> = ({ answerData }) => {
                     </button>
                 </div>
             </div>
-            <div className={Style.content}>
-                <div className={Style.replyTime}>{answerData.content}</div>
-                {answerData.picture.length > 0 && (
-                    <div className={Style.answerPictures}>
-                        {answerData.picture.map((pic: string, index: number) => (
-                            <SecureImage key={index} image={pic} />
-                        ))}
+                <div className={Style.content}>
+                    <div className={Style.replyTime}>{answerData.content}</div>
+                    {answerData.picture.length > 0 && (
+                        <div className={Style.answerPictures}>
+                            {answerData.picture.map((pic: string, index: number) => (
+                                <SecureImage key={index} image={pic}/>
+                            ))}
+                        </div>
+                    )}
+                    <div className={Style.information}>
+                        <div className=""><span>time</span></div>
+                        <div className=""><span className="material-symbols-outlined">thumb_up</span></div>
+                        <div className=""><span className="material-symbols-outlined">sms</span></div>
                     </div>
-                )}
-                <div className={Style.information}>
-                    <div className=""><span>time</span></div>
-                    <div className=""><span className="material-symbols-outlined">thumb_up</span></div>
-                    <div className=""><span className="material-symbols-outlined">sms</span></div>
                 </div>
             </div>
-        </div>
     );
 };
 
@@ -359,7 +345,6 @@ const DetailMessage: React.FC = () => {
     const { longtoken } = useAuth();
     const { id } = useParams();
     const [judge, setjudge] = useState<boolean | null>(null);
-    const [loading, setloading] = useState(true);
     const [answersData, setAnswersData] = useState<Answer[]>([]);
     const [finalMessage, setFinalMessage] = useState<QuestionPost>({
         id: 0,
@@ -402,7 +387,6 @@ const DetailMessage: React.FC = () => {
                     if (result.code === 200 && result.data && result.data.Answers) {
                         setAnswersData(result.data.Answers);
                         setFinalMessage(result.data.QuestionPost);
-                        setloading(false);
                     }
                 }
             )
@@ -411,9 +395,7 @@ const DetailMessage: React.FC = () => {
 
     return (
         <div style={{ all: "initial" }}>
-            <Header />
-            {loading && <Loading />}
-            {answersData.length > 0 && <div className={Style.background}>
+            <div className={Style.background}>
                 <Alert judge={judge} setjudge={setjudge} />
                 <QuestionContext.Provider
                     value={{ picture: finalMessage.picture, tags: finalMessage.tags }}
@@ -444,7 +426,7 @@ const DetailMessage: React.FC = () => {
                         </div>
                     </div>
                 </QuestionContext.Provider>
-            </div>}
+            </div>
         </div>
     );
 };
