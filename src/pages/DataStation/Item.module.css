@@ -11,24 +11,15 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease;
     cursor: pointer;
-    text-align: left;
+    
 }
 
-p {
+p{
     font-size: 20px;
-    text-align: left;
 }
-
-.boldertext {
-    font-weight: 600;
-    text-align: left;
-}
-
-h3 {
+h3{
     font: 1.5em sans-serif;
-    text-align: left;
 }
-
 .item:hover {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
@@ -36,48 +27,16 @@ h3 {
 .title {
     font-weight: bold;
     margin-bottom: 10px;
-    text-align: left;
 }
 
 .downloadButton {
-    background-color: #fff;
-    color: #1890ff;
-    padding: 0px 5px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: all 0.3s ease;
-    margin-top: 10px;
-    align-self: flex-end;
-}
-
-.downloadButton:hover {
-    background-color: #cde8fe;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(24, 144, 255, 0.35);
-}
-
-.downloadButton:active {
-    transform: translateY(0);
-    box-shadow: none;
-}
-
-.getDownloadButton {
-    background-color: #1890ff;
+    background-color: hwb(212 18% 8%);
     color: #fff;
-    padding: 0px 5px;
+    padding: 5px;
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     cursor: pointer;
-    font-size: 16px;
-    transition: all 0.3s ease;
-    margin-top: 10px;
-    align-self: flex-end;
-}
-
-
-.itemContent {
-    cursor: pointer;
-    flex: 1;
+    font-size: 15px;
+    box-shadow: 0 4px 8px hsl(0, 3%, 32.7%);
+    
 } 
