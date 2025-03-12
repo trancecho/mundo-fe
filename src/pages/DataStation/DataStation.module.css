@@ -13,6 +13,7 @@
     margin-top: 100px;
     flex: 1;
     overflow: auto;
+
 }
 
 .mainContent {
@@ -25,8 +26,7 @@
     flex: 1;
     overflow: auto;
     max-width: 900px;
-    margin-left: 100px;  
-  
+    margin-left: 100px;    
 }
 
 .outletContainer {
@@ -34,5 +34,4 @@
     width: 100%;
     flex-direction: column;
     flex: 1;
-
 } 
