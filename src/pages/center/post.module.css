@@ -7,62 +7,42 @@
     flex-direction: column; 
     gap: 20px; /* 元素间距 */
     width: 100%; 
-    margin-top: 4em;
-    font-size: 14px;
 }
 
-
-.back {
-    position: relative;
-    width: min(680px,80vw);
-    margin: 0 auto;
-    margin-top: 17vh;
+  
+.head {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap; /* 自动换行，适应小屏幕 */
+    width: 75%;
 }
 
 .form {
     display: flex;
     justify-content: flex-start; /* 居左对齐 */
     align-items: center;
+    margin: 0 auto;
     flex-wrap: wrap;
+    width: 650px;
     background-color: #fff;
     border-radius: 8px;
-    width: 100%;
     padding: 10px;
     box-sizing: border-box;
-    box-shadow: 12px 12px 2px -1px rgba(0, 0, 255, .2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
-    z-index: 100;
-}
-
-.form::before {
-    content: "新建问题";
-    font-size: larger;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    width: 180px;
-    height: 120px;
-    background: linear-gradient(to bottom, #1866cb 0%, rgba(0, 0, 255, .2) 100%);
-    border-radius: 50%;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, -48%);
-    border: 1em solid #e9f0f7;
-    z-index: 100;
+    margin-top: 7vh;
 }
 
 .command {
+    display: inline-block;
     margin: 5px;
     padding: 10px;
-    display: flex;
-    justify-content: center;
-    width: 100%;
 }
 
 .title1 {
-    width: 100%;
+    width: 70%;
     border: 1px solid #0a0a0a;
     padding: 10px;
     text-align: left; /* 让输入框内的文本居左 */
@@ -82,7 +62,7 @@
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
     overflow-wrap: anywhere;
     white-space: pre-wrap;
-    width: 100%; 
+    width: 90%; 
     height: 100px;
     padding: 5px;
     text-align: left;
@@ -101,6 +81,41 @@ input[type="text"]:focus, textarea:focus {
 }
   
 
+@media (max-width: 600px) {
+    input[type="text"], textarea {
+        font-size: 14px; /* 小屏幕调整字体大小 */
+        padding: 8px; /* 减小内边距 */
+    }
+}
+@media (max-width: 600px) {
+    .form {
+        left: 0; /* 取消相对定位的偏移 */
+        flex-direction: column; /* 竖直排列表单元素 */
+    }
+    .head {
+        flex-direction: column; /* 小屏幕时让标题和其他元素垂直排列 */
+        width: 100%; /* 宽度占满 */
+    }
+}
+
+@media (max-width: 600px) {
+    .form {
+        width: 340px;
+    }
+    .markdown-app {
+        margin: 10px; /* 小屏幕时减少外边距 */
+    }
+
+    .title {
+        font-size: 18px; 
+    }
+}
+@media screen and (max-width: 400px) {
+    .form {
+        width: 300px;
+    }
+    
+}
 
 .submit {
     width: 95px;
