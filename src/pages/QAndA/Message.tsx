@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './QAndA.css';
 import { Tag } from './Tag';
@@ -17,6 +17,36 @@ interface MessageProps {
     time: string;
     officials: boolean;
 }
+
+// 处理 Base64 图片的组件
+const SecureImage: React.FC<{ image: string }> = ({ image }) => {
+    const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+    useEffect(() => {
+        const convertBase64ToBlobUrl = () => {
+            // 移除可能存在的 Base64 前缀
+            const base64Data = image.replace(/^data:image\/(png|jpeg|jpg);base64,/, '');
+            const byteCharacters = atob(base64Data);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: 'image/jpeg' });
+            const url = URL.createObjectURL(blob);
+            setImageUrl(url);
+            return () => URL.revokeObjectURL(url);
+        };
+
+        convertBase64ToBlobUrl();
+    }, [image]);
+
+    if (!imageUrl) {
+        return <p>加载中...</p>;
+    }
+
+    return <img src={imageUrl} alt="图片" />;
+};
 
 // Message组件，用于展示消息相关的信息，根据传入属性展示真实内容
 export const Message: React.FC<MessageProps> = ({ id, title, content, tags, picture, view, collection, is_completed, answer_count, time, officials }) => {
@@ -52,7 +82,7 @@ export const Message: React.FC<MessageProps> = ({ id, title, content, tags, pict
                     {picture && picture.length > 0 && (
                         <div className="message-pictures">
                             {picture.map((pic, index) => (
-                                <img key={index} src={pic} alt={`图片${index + 1}`} />
+                                <SecureImage key={index} image={pic} />
                             ))}
                         </div>
                     )}
