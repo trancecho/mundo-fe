@@ -12,7 +12,6 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from '@/components/ui/scroll-area';
 // import { useEffectOnce } from 'usehooks-ts';
 import * as base64 from 'base-64';
-import CryptoJs from 'crypto-js';
 import styles from './AnswerWindow.module.css';
 interface AIResponseChoice {
     content: string;
@@ -38,13 +37,10 @@ const AIChat: React.FC = () => {
             const signatureOrigin = `host: ${host}\ndate: ${date}\nGET ${path} HTTP/1.1`;
 
             // 使用 CryptoJS 生成 HMAC-SHA256 签名
-            const signatureSha = CryptoJs.HmacSHA256(signatureOrigin, APISecret);
-            const signature = CryptoJs.enc.Base64.stringify(signatureSha);  // 将签名转换为Base64字符串
 
             // 构造 authorization 字符串
-            const authorizationOrigin = `api_key="${APIKey}", algorithm="hmac-sha256", headers="host date request-line", signature="${signature}"`;
-            const authorization = base64.encode(authorizationOrigin);  // Base64 编码
-
+            // const authorization = base64.encode(authorizationOrigin);  // Base64 编码
+const authorization=""
             // 拼接 WebSocket URL 参数
             const urlParams = new URLSearchParams({
                 authorization,

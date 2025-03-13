@@ -23,7 +23,6 @@
     "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "crypto-js": "^4.2.0",
     "dom": "^0.0.3",
     "eslint-plugin-react": "^7.37.2",
     "framer-motion": "^11.14.4",
@@ -43,7 +42,6 @@
     "@eslint/js": "^9.13.0",
     "@types/axios": "^0.14.4",
     "@types/base-64": "^1.0.2",
-    "@types/crypto-js": "^4.2.2",
     "@types/node": "^22.9.0",
     "@types/randomatic": "^3.1.5",
     "@types/react": "^18.3.18",
@@ -58,6 +56,6 @@
     "tailwindcss": "^3.4.14",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.11.0",
-    "vite": "^5.4.10"
+    "vite": "^5.4.11"
   }
 }
