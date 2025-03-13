@@ -11,6 +11,10 @@ interface QAndAProps {}
 const QAndA: React.FC<QAndAProps> = () => {
     // 用于存储消息列表数据的状态，初始化为空数组
     const [messages, setMessages] = useState<MessageProps[]>([]);
+    // 用于存储按id由大到小排序的消息数组
+    const [idSortedMessages, setIdSortedMessages] = useState<MessageProps[]>([]);
+    // 用于存储按收藏+浏览量由多到少排序的消息数组
+    const [popularitySortedMessages, setPopularitySortedMessages] = useState<MessageProps[]>([]);
     // 用于存储官方帖子的数组
     const [officialMessages, setOfficialMessages] = useState<MessageProps[]>([]);
     // 用于存储搜索框中的输入内容的状态
@@ -21,7 +25,7 @@ const QAndA: React.FC<QAndAProps> = () => {
     const [selectedFilter, setSelectedFilter] = useState('all');
     const [isLoading, setIsLoading] = useState(true); // 新增加载状态，初始为true
     const [currentPage, setCurrentPage] = useState(1); // 当前页码
-    const [messagesPerPage] = useState(10); // 每页显示的消息数量
+    const [messagesPerPage] = useState(5); // 每页显示的消息数量
     const [showPageInput, setShowPageInput] = useState(false); // 控制页码输入框显示
     const [inputPage, setInputPage] = useState(''); // 输入的页码
 
@@ -69,6 +73,19 @@ const QAndA: React.FC<QAndAProps> = () => {
                         officials: msg.officials || false
                     }));
                     setMessages(transformedMessages);
+
+                    // 按id由大到小排序
+                    const idSorted = [...transformedMessages].sort((a, b) => b.id - a.id);
+                    setIdSortedMessages(idSorted);
+
+                    // 按收藏+浏览量由多到少排序
+                    const popularitySorted = [...transformedMessages].sort((a, b) => {
+                        const scoreA = a.view + a.collection;
+                        const scoreB = b.view + b.collection;
+                        return scoreB - scoreA;
+                    });
+                    setPopularitySortedMessages(popularitySorted);
+
                     // 筛选出官方帖子
                     const officialPosts = transformedMessages.filter(message => message.officials);
                     setOfficialMessages(officialPosts);
@@ -85,10 +102,18 @@ const QAndA: React.FC<QAndAProps> = () => {
 
     // 根据筛选条件获取要显示的消息
     const getDisplayMessages = () => {
-        if (selectedFilter === 'official') {
-            return officialMessages;
+        switch (selectedFilter) {
+            case 'all':
+                return messages;
+            case 'idSorted':
+                return idSortedMessages;
+            case 'popularitySorted':
+                return popularitySortedMessages;
+            case 'official':
+                return officialMessages;
+            default:
+                return [];
         }
-        return messages;
     };
 
     const displayMessages = getDisplayMessages();
@@ -97,46 +122,16 @@ const QAndA: React.FC<QAndAProps> = () => {
     const filteredMessages = displayMessages.filter((message) => {
         const searchMatch = message.title.toLowerCase().includes(searchValue.toLowerCase()) || message.content.toLowerCase().includes(searchValue.toLowerCase());
         const tagMatch = selectedMenu === '首页' || message.tags.includes(selectedMenu);
-        let filterMatch = false;
-        switch (selectedFilter) {
-            case 'all':
-                filterMatch = true;
-                break;
-            case '已完成':
-                filterMatch = message.is_completed;
-                break;
-            case 'hot':
-            case 'new':
-                filterMatch = true;
-                break;
-            case 'official':
-                filterMatch = message.officials;
-                break;
-            default:
-                filterMatch = false;
-        }
-        return searchMatch && tagMatch && filterMatch;
-    });
-
-    // 根据筛选条件排序
-    const sortedMessages = filteredMessages.sort((a, b) => {
-        if (selectedFilter === 'hot') {
-            const scoreA = a.view + a.collection;
-            const scoreB = b.view + b.collection;
-            return scoreB - scoreA;
-        } else if (selectedFilter === 'new') {
-            return b.id - a.id;
-        }
-        return 0;
+        return searchMatch && tagMatch;
     });
 
     // 计算当前页显示的消息
     const indexOfLastMessage = currentPage * messagesPerPage;
     const indexOfFirstMessage = indexOfLastMessage - messagesPerPage;
-    const currentMessages = sortedMessages.slice(indexOfFirstMessage, indexOfLastMessage);
+    const currentMessages = filteredMessages.slice(indexOfFirstMessage, indexOfLastMessage);
 
     // 总页数
-    const totalPages = Math.ceil(sortedMessages.length / messagesPerPage);
+    const totalPages = Math.ceil(filteredMessages.length / messagesPerPage);
 
     // 处理页码切换
     const paginate = (pageNumber: number) => {
@@ -296,15 +291,15 @@ const QAndA: React.FC<QAndAProps> = () => {
                                         onClick={() => handleChooseButtonClick('all')}
                                     >全部</button>
                                     <button
-                                        className={`ChooseButton ${selectedFilter === 'hot'? 'clicked' : ''}`}
-                                        id='hot'
-                                        onClick={() => handleChooseButtonClick('hot')}
-                                    >热门</button>
-                                    <button
-                                        className={`ChooseButton ${selectedFilter === 'new'? 'clicked' : ''}`}
-                                        id='new'
-                                        onClick={() => handleChooseButtonClick('new')}
+                                        className={`ChooseButton ${selectedFilter === 'idSorted'? 'clicked' : ''}`}
+                                        id='idSorted'
+                                        onClick={() => handleChooseButtonClick('idSorted')}
                                     >最新</button>
+                                    <button
+                                        className={`ChooseButton ${selectedFilter === 'popularitySorted'? 'clicked' : ''}`}
+                                        id='popularitySorted'
+                                        onClick={() => handleChooseButtonClick('popularitySorted')}
+                                    >最热</button>
                                     <button
                                         className={`ChooseButton ${selectedFilter === 'official'? 'clicked' : ''}`}
                                         id='official'
@@ -313,9 +308,13 @@ const QAndA: React.FC<QAndAProps> = () => {
                                 </div>
                             </div>
                             <div className='block'></div>
-                            {currentMessages.map(message => (
-                                <Message key={message.id} {...message} />
-                            ))}
+                            {currentMessages.length > 0? (
+                                currentMessages.map(message => (
+                                    <Message key={message.id} {...message} />
+                                ))
+                            ) : (
+                                <p style={{ textAlign: 'center' }}>无消息</p>
+                            )}
                             <div className='block'></div>
                             <div className="pagination">
                                 <button onClick={prevPage} disabled={currentPage === 1}>
