@@ -28,6 +28,7 @@ const QAndA: React.FC<QAndAProps> = () => {
     const [messagesPerPage] = useState(5); // 每页显示的消息数量
     const [showPageInput, setShowPageInput] = useState(false); // 控制页码输入框显示
     const [inputPage, setInputPage] = useState(''); // 输入的页码
+    const [isSwitching, setIsSwitching] = useState(false); // 切换筛选条件或页码时的加载状态
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(e.target.value);
@@ -49,14 +50,20 @@ const QAndA: React.FC<QAndAProps> = () => {
     };
 
     const handleChooseButtonClick = (buttonId: string) => {
+        setIsSwitching(true); // 开始切换，显示加载状态
         setSelectedFilter(buttonId);
         setCurrentPage(1); // 切换筛选条件时重置页码
+        setSearchValue(''); // 重置搜索条件
+        setTimeout(() => {
+            setIsSwitching(false); // 切换完成，隐藏加载状态
+        }, 100); // 可以根据实际情况调整延迟时间
     };
 
     useEffect(() => {
         const fetchMessages = async () => {
             try {
-                const result = await getAllPost();
+                const randomParam = new Date().getTime(); // 添加随机参数
+                const result = await getAllPost({ random: randomParam });
                 console.log('获取到的数据:', result);
                 if (result.data && (result.data.hotPosts || result.data.recentPosts)) {
                     const transformedMessages = result.data.hotPosts.concat(result.data.recentPosts).map((msg: any) => ({
@@ -100,6 +107,20 @@ const QAndA: React.FC<QAndAProps> = () => {
         fetchMessages();
     }, []);
 
+    useEffect(() => {
+        // 当筛选条件、搜索值、选中菜单或者当前页码改变时，重新计算当前页显示的消息
+        const displayMessages = getDisplayMessages();
+        const filteredMessages = displayMessages.filter((message) => {
+            const searchMatch = message.title.toLowerCase().includes(searchValue.toLowerCase()) || message.content.toLowerCase().includes(searchValue.toLowerCase());
+            const tagMatch = selectedMenu === '首页' || message.tags.includes(selectedMenu);
+            return searchMatch && tagMatch;
+        });
+        const indexOfLastMessage = currentPage * messagesPerPage;
+        const indexOfFirstMessage = indexOfLastMessage - messagesPerPage;
+        const currentMessages = filteredMessages.slice(indexOfFirstMessage, indexOfLastMessage);
+        // 这里可以根据需要更新其他相关状态
+    }, [selectedFilter, searchValue, selectedMenu, currentPage]);
+
     // 根据筛选条件获取要显示的消息
     const getDisplayMessages = () => {
         switch (selectedFilter) {
@@ -112,17 +133,21 @@ const QAndA: React.FC<QAndAProps> = () => {
             case 'official':
                 return officialMessages;
             default:
+                console.log('Invalid filter:', selectedFilter);
                 return [];
         }
     };
 
     const displayMessages = getDisplayMessages();
+    console.log('Display messages:', displayMessages);
 
     // 过滤消息
     const filteredMessages = displayMessages.filter((message) => {
         const searchMatch = message.title.toLowerCase().includes(searchValue.toLowerCase()) || message.content.toLowerCase().includes(searchValue.toLowerCase());
         const tagMatch = selectedMenu === '首页' || message.tags.includes(selectedMenu);
-        return searchMatch && tagMatch;
+        const result = searchMatch && tagMatch;
+        console.log('Message:', message.title, 'Search match:', searchMatch, 'Tag match:', tagMatch, 'Result:', result);
+        return result;
     });
 
     // 计算当前页显示的消息
@@ -136,21 +161,33 @@ const QAndA: React.FC<QAndAProps> = () => {
     // 处理页码切换
     const paginate = (pageNumber: number) => {
         if (pageNumber >= 1 && pageNumber <= totalPages) {
+            setIsSwitching(true); // 开始切换，显示加载状态
             setCurrentPage(pageNumber);
+            setTimeout(() => {
+                setIsSwitching(false); // 切换完成，隐藏加载状态
+            }, 100); // 可以根据实际情况调整延迟时间
         }
     };
 
     // 上一页
     const prevPage = () => {
         if (currentPage > 1) {
+            setIsSwitching(true); // 开始切换，显示加载状态
             setCurrentPage(currentPage - 1);
+            setTimeout(() => {
+                setIsSwitching(false); // 切换完成，隐藏加载状态
+            }, 100); // 可以根据实际情况调整延迟时间
         }
     };
 
     // 下一页
     const nextPage = () => {
         if (currentPage < totalPages) {
+            setIsSwitching(true); // 开始切换，显示加载状态
             setCurrentPage(currentPage + 1);
+            setTimeout(() => {
+                setIsSwitching(false); // 切换完成，隐藏加载状态
+            }, 100); // 可以根据实际情况调整延迟时间
         }
     };
 
@@ -163,9 +200,13 @@ const QAndA: React.FC<QAndAProps> = () => {
     const handlePageJump = () => {
         const page = parseInt(inputPage, 10);
         if (!isNaN(page) && page >= 1 && page <= totalPages) {
+            setIsSwitching(true); // 开始切换，显示加载状态
             setCurrentPage(page);
             setShowPageInput(false);
             setInputPage('');
+            setTimeout(() => {
+                setIsSwitching(false); // 切换完成，隐藏加载状态
+            }, 100); // 可以根据实际情况调整延迟时间
         } else {
             alert('页码错误，请输入有效的页码。');
         }
@@ -272,7 +313,7 @@ const QAndA: React.FC<QAndAProps> = () => {
                 <Header onSearchChange={handleSearchChange} onSearch={handleSearch} />
             </div>
             <div className="main">
-                {isLoading? (
+                {isLoading || isSwitching? (
                     <div className="loading-container">
                         <div className="loading-spinner"></div>
                         <p>加载中...</p>
