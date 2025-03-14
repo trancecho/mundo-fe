@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import styles from './post.module.css';
 import { useAuth } from '@/context/AuthContext';
+import Header from '@/components/ui/Header/Header.tsx';
 
 type FormData = {
   title: string;
@@ -61,8 +62,8 @@ const Post = () => {
   };
 
   const handleSubmit = async () => {
-    if (!formdata.picture || formdata.picture.length === 0) {
-      alert('请先上传图片');
+    if (!formdata.title || !formdata.tags) {
+      alert('必须输入标题和标签');
       return;
     }
     const formDataToSend = new FormData();
@@ -73,9 +74,11 @@ const Post = () => {
     tagNames.forEach((name) => {
       formDataToSend.append('tags', name); // 每个值单独添加
     });
-    formdata.picture.forEach((file) => {
-      formDataToSend.append(`picture`, file);
-    });
+    if (formdata.picture.length>0) {
+      formdata.picture.forEach((file) => {
+        formDataToSend.append(`picture`, file);
+      });
+    }
     setloading(true);
     try {
       const response = await fetch('http://116.198.207.159:12349/api/question/posts?service=mundo', {
@@ -119,25 +122,9 @@ const Post = () => {
 
   return (
     <div className={styles.body} style={{all: 'initial'}}>
+      <Header/>
+      <div className={styles.back}>
       <form className={styles.form}>
-        <div className={styles.head}>
-          <h2 className={styles.h21}>新建问题</h2>
-        </div>
-        <div className={styles.command}>
-          <button
-            className={styles.submit}
-            type="button"
-            onClick={handleSubmit}
-          >
-            {loading ? (
-              <div className={styles.box}>
-                <div className={styles.spinner}></div>
-              </div>
-            ) : (
-              <span className={styles.span}>发布帖子</span>
-            )}
-          </button>
-        </div>
         <div className={styles['markdown-app']}>
           <h3>问题标题</h3>
           <input
@@ -208,7 +195,23 @@ const Post = () => {
           </div>
           {formdata.picture.length === 0 && <p className={styles.p1}>尚未选择图片</p>}
         </div>
+        <div className={styles.command}>
+          <button
+            className={styles.submit}
+            type="button"
+            onClick={handleSubmit}
+          >
+            {loading ? (
+              <div className={styles.box}>
+                <div className={styles.spinner}></div>
+              </div>
+            ) : (
+              <span className={styles.span}>发布帖子</span>
+            )}
+          </button>
+        </div>
       </form>
+      </div>
     </div>
   );
 };
