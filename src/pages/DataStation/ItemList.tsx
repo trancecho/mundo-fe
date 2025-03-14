@@ -3,6 +3,7 @@ import Item from "./Item";
 import { getFileList, downloadFile } from "@/router/api";
 import styles from './ItemList.module.css';
 
+
 interface ItemListProps {
   category: string;
 }
@@ -28,9 +29,9 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
     setError(null);
 
     let queries: string[] = [];
-    
+
     // 根据 category 设置查询
-    switch(category) {
+    switch (category) {
       case "高数":
         queries = ["高数上", "高数下"];
         break;
@@ -56,7 +57,7 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
         setItems(fetchedItems); // 更新 items 状态
         setLoading(false);
       })
-      
+
       .catch((error) => {
         console.error("Error fetching data:", error);
         setError("获取资料失败，请稍后再试");
@@ -105,7 +106,12 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
       });
   };
 
-  if (loading) return <p>加载中....</p>;
+
+  if (loading) return (
+    <div className={styles.loadingContainer}>
+      <p>加载中...</p>
+    </div>
+  );
   if (error) return <p>{error}</p>;
 
   return (
@@ -124,14 +130,14 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
           最新
         </button>
       </div>
-      <div style={{ 
+      <div style={{
         flex: 1,
         overflow: "auto",
         display: "flex",
         flexDirection: "column"
       }}>
-        {items.length === 0 ? 
-          <p>没有资料</p> : 
+        {items.length === 0 ?
+          <p className={styles.noItem}>没有资料</p> :
           items.map(item => <Item key={item.id} item={item} onDownload={handleDownload} />)
         }
       </div>
