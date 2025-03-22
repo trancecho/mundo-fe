@@ -1,11 +1,11 @@
 # 使用 Node.js 作为构建环境
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 
 # 设置工作目录
 WORKDIR /app
 
-# 复制 package.json 和 package-lock.json
-COPY package.json package-lock.json* ./
+# 复制项目文件
+COPY . .
 
 # 安装依赖
 RUN npm install
@@ -13,14 +13,14 @@ RUN npm install
 # 构建项目
 RUN npm run build:prod
 
-# 清理缓存
-RUN npm cache clean --force
-
-# 复制项目文件
-COPY . .
-
-# 检查构建输出
-RUN ls -l /app/dist
+## 清理缓存
+#RUN npm cache clean --force
+#
+## 复制项目文件
+#COPY . .
+#
+## 检查构建输出
+#RUN ls -l /app/dist
 
 # 使用 Nginx 作为生产环境
 FROM nginx:alpine
