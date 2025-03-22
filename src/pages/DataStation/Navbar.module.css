@@ -1,32 +1,37 @@
 .navbar {
-    width: 150px;
-    background-color: #fff;
-    padding: 20px 20px 10px 10px;
-    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    margin-right: 20px;
-    margin-left: 20px;
-    color: #000;
-    display: flex;
-    flex-direction: column;
-    height: fit-content;
+  width: 250px;
+  background: var(--surface);
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-right: 2rem;
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(12px);
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  position: sticky;
+  top: 2rem;
 }
 
 .navItem {
-    padding: 10px;
-    cursor: pointer;
-    border-bottom: 1px solid #ddd;;
-    text-align: center;
-    transition: all 0.3s ease;
-    border-radius: 4px;
-    margin: 5px 5px ;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  text-align: left;
+  transition: all 0.3s ease;
+  margin: 0.5rem 0;
+  color: var(--text-secondary);
+  font-size: 1rem;
 }
 
 .navItem:hover:not(.active) {
-    background-color: #e6f7ff;
+  background: var(--surface-light);
+  color: var(--text-primary);
 }
 
 .active {
-    background-color: #1890ff;
-    color: #fff;
-} 
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+}

@@ -7,11 +7,11 @@ import BindRegisterPage from '@/pages/Register/BindRegister'; // 注册
 import Verify from '@/pages/Register/Verify'; // 注册验证
 import Reset from '@/pages/Register/Reset'; // 重置密码
 import DataStation from '@/pages/DataStation';//资料站
-import Forum from '@/pages/Forum';//论坛
+import Article from '@/pages/Article';//时文
 import QAndA from '@/pages/QAndA/QAndA';//答疑
 import TeamUp from '@/pages/TeamUp';//组队
 import Houtai from './pages/Houtai/Houtai'; // 引入 Houtai.tsx
-import Post from '@/pages/center/post';//发布帖子
+import CreatorCenter from '@/pages/center/CreatorCenter';//创作者中心
 import FrontPage from '@/pages/FrontPage/FrontPage';//首页
 import AnswerWindow from '@/components/CustomerService/AnswerWindow'; // 导入答案窗口组件
 import DetailMessage from './pages/QAndA/DetailMessage';//帖子详情页
@@ -44,10 +44,10 @@ const App: React.FC = () => {
                             <Route path="c-language" element={<ItemList category="C语言" />} />
                             <Route path="others" element={<ItemList category="其他" />} />
                         </Route>
-                        <Route path="/forum" element={<Forum/>}/>
+                        <Route path="/article" element={<Article/>}/>
                         <Route path="/qanda" element={<QAndA/>}/>
                         <Route path="/qanda/:id" element={<DetailMessage/>}/>
-                        <Route path="/center" element={<Post/>}/>
+                        <Route path="/center" element={<CreatorCenter/>}/>
                         <Route path="/teamup" element={<TeamUp/>}/>
                         <Route path="/login" element={<Login/>}/>
                         <Route path="/register" element={<RegisterPage/>}/>
@@ -60,11 +60,9 @@ const App: React.FC = () => {
                         <Route path="/Info" element={<InfoManage/>}/>
                         <Route path="/change" element={<InfoChange/>}/>
                         <Route path="/team" element={<Team/>}/>
-                        {/*<Route path="/timerme" element={<FileManager/>}/>*/}
                         <Route path="/findKey" element={<FindKey/>}/>
                         <Route path="/houtai" element={<Houtai/>}>
                             <Route path="" element={<DashboardFrontpage/>}/>
-
                             <Route path="multiPersonChat" element={<MultiPersonChat/>}/>
                             <Route path="faq" element={<FAQ/>}/>
                             <Route path="check" element={<Check/>}/>

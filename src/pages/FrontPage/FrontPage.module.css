@@ -1,40 +1,388 @@
-.body{
-    display: flex;
-    height:100vh;
-    width:100vw;
-    margin:0 auto;
-}
-.box{
-    width: 40vw;
-    height:30vh;
-    margin:0 auto;
-    margin-top: 50px;
-    padding:2rem;
-    background-color: #a4c6f8; 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-}
-.dashboardHeader {
-    text-align: center;
-    color: #333; /* 深灰色文字 */
-    margin-bottom: 20px;
+/* FrontPage.module.css */
+.container {
+  min-height: 100vh;
+  background: radial-gradient(circle at 50% 100%, #0f172a, #020617);
+  color: white;
 }
 
-.dashboardWelcome {
-    color: #666; /* 中灰色文字 */
-    margin-bottom: 30px;
+/* 固定导航栏 */
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.dashboard.dashboard-nav {
-    width: 100%;
-    margin-top: 20px;
-    background-color: #fff; /* 白色导航栏背景 */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 淡淡的投影增加层次感 */
-    border-radius: 5px;
+.headerContent {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.goto{
-    margin-top: 10px;
-    font-size: 20px;
+
+.logoText {
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(45deg, #7c3aed, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.navLink {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.navLink:hover {
+  color: #3b82f6;
+  transform: translateY(-2px);
+}
+
+/* 首屏Hero样式 */
+.hero {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.heroContent {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  padding: 0 2rem;
+}
+
+.heroTitle {
+  font-size: 6rem;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.titleGradient {
+  background: linear-gradient(45deg, #7c3aed, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+}
+
+.titleShadow {
+  position: absolute;
+  top: 0.1em;
+  left: 0;
+  width: 100%;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.1);
+  z-index: -1;
+}
+
+.heroSubtitle {
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 3rem;
+}
+
+.heroActions {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-bottom: 4rem;
+}
+
+.heroCta {
+  background: linear-gradient(45deg, #7c3aed, #3b82f6);
+  color: white;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.3s ease;
+}
+
+.heroCta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(124, 58, 237, 0.3);
+}
+
+.heroSecondaryCta {
+  color: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.heroSecondaryCta:hover {
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 4rem;
+  margin-top: 4rem;
+}
+
+.statItem {
+  text-align: center;
+}
+
+.statNumber {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(45deg, #7c3aed, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.statLabel {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+}
+
+.heroGradient {
+  position: absolute;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 60%);
+  filter: blur(80px);
+  z-index: 0;
+}
+
+/* 主内容区 */
+.mainContent {
+  position: relative;
+  z-index: 1;
+  padding: 8rem 2rem 4rem;
+  background: linear-gradient(to bottom, transparent, #020617 30%);
+}
+
+.section {
+  max-width: 1280px;
+  margin: 0 auto 8rem;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 4rem;
+  position: relative;
+}
+
+.sectionTitle::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: #3b82f6;
+  margin: 1rem auto;
+}
+
+/* 功能卡片 */
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.featureCard {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.featureCard:hover {
+  transform: translateY(-10px);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.featureIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.featureHoverEffect {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+  filter: blur(50px);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.featureCard:hover .featureHoverEffect {
+  opacity: 1;
+}
+
+/* 动态展示区 */
+.dynamicSection {
+  background: linear-gradient(to right, #0f172a, #1e293b);
+  border-radius: 2rem;
+  padding: 4rem;
+}
+
+.dynamicContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.dynamicText h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.highlight {
+  color: #3b82f6;
+  font-weight: 600;
+}
+
+.techStack {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.techStack span {
+  background: rgba(59, 130, 246, 0.15);
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+}
+
+.visualPlaceholder {
+  height: 400px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+}
+
+/* 用户见证 */
+.testimonials {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.testimonialCard {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 2rem;
+}
+
+.userMeta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.userAvatar {
+  font-size: 2rem;
+}
+
+.userName {
+  font-weight: 600;
+}
+
+.userTitle {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+}
+
+/* 页脚 */
+.footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4rem 2rem 2rem;
+}
+
+.footerContent {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.footerMain {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.footerBrand .logo {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.linkGroup {
+  margin-bottom: 2rem;
+}
+
+.linkGroup h4 {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 1rem;
+}
+
+.linkGroup a {
+  display: block;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.linkGroup a:hover {
+  color: #3b82f6;
+}
+
+.footerSocial {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.socialButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.socialButton:hover {
+  background: #3b82f6;
+  transform: translateY(-3px);
+}
+.footerLinks{
+/*  水平排列*/
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
 }

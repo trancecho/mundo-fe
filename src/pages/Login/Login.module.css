@@ -15,27 +15,27 @@
     width: 400px;
     height: 550px;
 }
-  
+
 .loginTitle {
     text-align: center;
     font-size: 26px;
     font-weight: bold;
     margin-bottom: 30px;
 }
-  
+
 .inputGroup {
     display: flex;
     flex-direction: row;  /* 保持横向布局 */
     align-items: center;  /* 垂直居中对齐 */
     margin-bottom: 15px;
 }
-  
+
 .inputGroup label {
     font-size: 14px;
     color: #333;
     margin-right: 10px;  /* label 和 input 之间的间距 */
 }
-  
+
 .inputGroup input {
     flex: 1;  /* 使输入框自适应宽度 */
     padding: 10px;
@@ -44,8 +44,8 @@
     border-radius: 5px;
     box-sizing: border-box;
 }
-  
-  
+
+
 .loginBtn {
     width: 100%;
     padding: 10px;
@@ -57,17 +57,17 @@
     cursor: pointer;
     /* margin-top: 20px; */
 }
-  
+
 .loginBtn:hover {
     background-color: #45a049;
 }
-  
+
 .otherLogin {
     display: flex;
     flex-direction: row;
     margin-top: 10px;
 }
-  
+
 .loginOption {
     padding: 10px;
     margin: 5px 5px;
@@ -79,11 +79,11 @@
     font-size: 13px;
 
 }
-  
+
 .loginOption:hover {
     background-color: #0056b3;
 }
-  
+
 .registerLink{
     margin-top: 10px;
     font-size: 14px;

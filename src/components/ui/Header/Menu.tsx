@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import './Header.css';
+import styles from './Menu.module.css';
+import { useAuth } from '../../../context/AuthContext';
 
-const menuItems = [
-    { path: '/qanda', label: '答疑' },
-    { path: '/forum', label: '论坛' },
-    { path: '/teamup', label: '组队' },
-    { path: '/datastation', label: '资料' },
-    { path: '/timerme', label: 'timerme' }
+const baseMenuItems = [
+    { path: '/qanda', label: '答疑', icon: '💡' },
+    { path: '/article', label: '时文', icon: '📝' },
+    { path: '/teamup', label: '组队', icon: '👥' },
+    { path: '/datastation', label: '资料', icon: '📚' }
+];
+
+const adminMenuItems = [
+    { path: '/timerme', label: 'TimerMe', icon: '⏱️' }
 ];
 
 const Menu: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [activePath, setActivePath] = useState<string | null>(null);
+    const { role } = useAuth();
 
     const handleMenuClick = (path: string) => {
         navigate(path);
@@ -21,26 +26,28 @@ const Menu: React.FC = () => {
 
     useEffect(() => {
         const currentPath = new URL(window.location.href).pathname;
-        const matchedItem = menuItems.find(item => currentPath.startsWith(item.path));
+        const allMenuItems = [...baseMenuItems, ...(role === 'admin' ? adminMenuItems : [])];
+        const matchedItem = allMenuItems.find(item => currentPath.startsWith(item.path));
         if (matchedItem) {
             setActivePath(matchedItem.path);
         } else {
             setActivePath(null);
         }
-    }, [location.pathname]);
+    }, [location.pathname, role]);
 
     return (
-        <div className='HeaderMenu'>
-            {menuItems.map((item) => (
-                <div
+        <nav className={styles.menu}>
+            {[...baseMenuItems, ...(role === 'admin' ? adminMenuItems : [])].map((item) => (
+                <button
                     key={item.path}
-                    className={`HeaderMenuButton ${item.path === activePath ? 'clicked' : ''}`}
+                    className={`${styles.menuItem} ${item.path === activePath ? styles.active : ''}`}
                     onClick={() => handleMenuClick(item.path)}
                 >
-                    {item.label}
-                </div>
+                    <span className={styles.icon}>{item.icon}</span>
+                    <span className={styles.label}>{item.label}</span>
+                </button>
             ))}
-        </div>
+        </nav>
     );
 };
 

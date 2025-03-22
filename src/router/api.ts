@@ -1,10 +1,10 @@
 // api.ts
 import axios from "axios";
 
-const loginURL = "https://auth.altar-echo.top/api";
 
 const api = axios.create({
-  baseURL: "http://116.198.207.159:12349/api",
+  // baseURL: "http://116.198.207.159:12349/api",
+  baseURL: import.meta.env.VITE_baseURL,
   // baseURL: "https://auth.altar-echo.top/api",
 
   headers: {
@@ -13,6 +13,13 @@ const api = axios.create({
       "Bearer " +
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMywidXNlcm5hbWUiOiJlZGRpZXd1NDFAZ21haWwuY29tIiwicm9sZSI6InVzZXIiLCJpc3MiOiJtdW5kby1hdXRoLWh1YiIsImV4cCI6MTc0MTE3OTc3NCwiaWF0IjoxNzQwNTc0OTc0fQ.mSRVVd5X0ZlS_sWLheFZ907xS-zYjwfom5aGgOKJ4Jo", // 登录所需token
   },
+});
+const authApi=axios.create({
+  // baseURL : "https://auth.altar-echo.top/api",
+  baseURL : import.meta.env.VITE_authURL,
+    headers : {
+      "Content-Type": "application/json",
+    },
 });
 
 api.interceptors.response.use(
@@ -30,7 +37,7 @@ export const registerUser = async (
   callback_url: string,
   external?: string
 ) => {
-  const response = await api.post("/register/v2", {
+  const response = await authApi.post("/register/v2", {
     username,
     email,
     external,
@@ -44,7 +51,7 @@ export const sendResetEmail = async (
   email: string,
   callback_url: string
 ) => {
-  const response = await api.post("/find/email", {
+  const response = await authApi.post("/find/email", {
     email,
     callback_url
   });
@@ -57,7 +64,7 @@ export const verifyEmail = async (
   token: string,
   password: string
 ) => {
-  const response = await api.post("/verify/v2", {
+  const response = await authApi.post("/verify/v2", {
     email,
     token,
     password,
@@ -71,7 +78,7 @@ export const ResetKey = async (
   token: string,
   newPassword: string
 ) => {
-  const response = await api.post("/find/verify", {
+  const response = await authApi.post("/find/verify", {
     email,
     token,
     newPassword,
@@ -82,7 +89,7 @@ export const ResetKey = async (
 // 邮箱密码登录函数
 export const loginUser = async (email: string, password: string) => {
   try {
-    const response = await api.post("/login", {
+    const response = await authApi.post("/login", {
       email,
       password,
     });
@@ -96,7 +103,7 @@ export const loginUser = async (email: string, password: string) => {
 // 获取微信二维码登录地址
 export const getWechatLoginQR = async () => {
   try {
-    const response = await api.get("/wechat/login");
+    const response = await authApi.get("/wechat/login");
     return response.data;
   } catch (error) {
     console.error("获取微信二维码失败:", error);
@@ -107,7 +114,7 @@ export const getWechatLoginQR = async () => {
 // 查询微信扫码登录状态
 export const checkWechatLoginCallback = async (ticket: string) => {
   try {
-    const response = await api.get("/wechat/login/callback", {
+    const response = await authApi.get("/wechat/login/callback", {
       params: {
         ticket,
         service: "mundo",
@@ -123,7 +130,7 @@ export const checkWechatLoginCallback = async (ticket: string) => {
 // 查询helper登录状态
 export const checkHelperLoginCallback = async (state: string, code: string) => {
   try {
-    const response = await api.post("/user/third/hduhelp/callback", {
+    const response = await authApi.post("/user/third/hduhelp/callback", {
       state,
       code,
       service: "mundo",
@@ -137,7 +144,7 @@ export const checkHelperLoginCallback = async (state: string, code: string) => {
 // 绑定邮箱-微信
 export const bindWeChatEmail = async (token: string) => {
   try {
-    const response = await api.get("/wechat/bind", {
+    const response = await authApi.get("/wechat/bind", {
       headers: {
         Authorization: "Bearer " + token,
       },
@@ -158,7 +165,7 @@ export const bindHDUEmail = async (
 ) => {
   console.log(token, state, code);
   try {
-    const response = await api.post(
+    const response = await authApi.post(
       "/hduhelp/bind",
       {
         state,
@@ -495,4 +502,27 @@ export const getparentFolderId = async (id: string) => {
     },
   });
   return response.data.data.parent_folder_id;
+};
+
+// 获取消息列表
+export const getMessages = async (
+  filter: string,
+  page: number,
+  pageSize: number,
+  category?: string
+) => {
+  try {
+    const response = await api.get('/question/posts', {
+      params: {
+        filter,
+        page,
+        page_size: pageSize,
+        category
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('获取消息列表失败:', error);
+    throw error;
+  }
 };

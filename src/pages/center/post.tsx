@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import styles from './post.module.css';
 import { useAuth } from '@/context/AuthContext';
+import Header from "@/components/ui/Header/Header.tsx";
 
 type FormData = {
   title: string;
@@ -118,6 +119,8 @@ const Post = () => {
   }
 
   return (
+    <>
+    <Header/>
     <div className={styles.body} style={{all: 'initial'}}>
       <form className={styles.form}>
         <div className={styles.head}>
@@ -210,6 +213,7 @@ const Post = () => {
         </div>
       </form>
     </div>
+    </>
   );
 };
 

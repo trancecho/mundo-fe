@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext.tsx';
 import { registerUser } from '../../router/api.ts';
-import style from '../Login/Login.module.css';
+// import style from '../Login/Login.module.css';
+import style from '@/pages/Login/Auth.module.css';
 import { useNavigate , Link } from 'react-router-dom';
+import * as process from "node:process";
 
 const Registerr: React.FC = () => {
     const {setEmailFunc}=useAuth();
@@ -19,7 +21,11 @@ const Registerr: React.FC = () => {
   
       try {
         console.log(inputEmail);
-        await registerUser(inputEmail, inputEmail,'register/verify/v2');
+        if (import.meta.env.VITE_mode ==='dev'){
+            await registerUser(inputEmail, inputEmail,'register/verify/v2');
+        }else {
+            console.log('registerUser-prod');
+        }
         setIsEmailSent(true);
         alert('验证邮件已发送，请查收邮箱完成验证！');
         setEmailFunc(inputEmail);
@@ -29,47 +35,116 @@ const Registerr: React.FC = () => {
         alert('注册失败，请稍后再试！');
       }
     };
-  
+
+    // return (
+    //     <>
+    //     <div className={style.body}>
+    //
+    //       <div className={style.loginBox}>
+    //           <h2 className={style.loginTitle}>Mundo 注册</h2>
+    //           {isEmailSent ? (
+    //           <p>验证邮件已发送，请前往邮箱完成验证。</p>
+    //           ) : (
+    //               <>
+    //                   {/* <div className={style.inputGroup}>
+    //                       <label htmlFor="username">用户名：</label>
+    //                       <input
+    //                       id="username"
+    //                       type="text"
+    //                       value={username}
+    //                       onChange={(e) => setUsername(e.target.value)}
+    //                       placeholder="请输入用户名"
+    //                       />
+    //                   </div> */}
+    //                   <div className={style.inputGroup}>
+    //                       <label htmlFor="email">邮箱：</label>
+    //                       <input
+    //                       id="email"
+    //                       type="email"
+    //                       value={inputEmail}
+    //                       onChange={(e) => setInputEmail(e.target.value)}
+    //                       placeholder="请输入邮箱地址"
+    //                       />
+    //                   </div>
+    //                   <button className={style.loginBtn} onClick={handleRegister}>发送验证邮件</button>
+    //
+    //               </>
+    //           )}
+    //           <p className={style.registerLink}>已经有账号？<Link to="/login">去登录</Link></p>
+    //       </div>
+    //     </div>
+    //
+    //     </>
+    //
+    // );
     return (
-        <>
-        <div className={style.body}>
+        <div className={style.authContainer}>
+            <div className={style.gradientBackground}></div>
 
-          <div className={style.loginBox}>
-              <h2 className={style.loginTitle}>Mundo 注册</h2>
-              {isEmailSent ? (
-              <p>验证邮件已发送，请前往邮箱完成验证。</p>
-              ) : (
-                  <>
-                      {/* <div className={style.inputGroup}>
-                          <label htmlFor="username">用户名：</label>
-                          <input
-                          id="username"
-                          type="text"
-                          value={username}
-                          onChange={(e) => setUsername(e.target.value)}
-                          placeholder="请输入用户名"
-                          />
-                      </div> */}
-                      <div className={style.inputGroup}>
-                          <label htmlFor="email">邮箱：</label>
-                          <input
-                          id="email"
-                          type="email"
-                          value={inputEmail}
-                          onChange={(e) => setInputEmail(e.target.value)}
-                          placeholder="请输入邮箱地址"
-                          />
-                      </div>
-                      <button className={style.loginBtn} onClick={handleRegister}>发送验证邮件</button>
+            <div className={style.authCard}>
+                <div className={style.authHeader}>
+                    <h1 className={style.authTitle}>加入<span>MUNDO</span></h1>
+                    <p className={style.authSubtitle}>开启你的知识探索之旅</p>
+                </div>
 
-                  </>
-              )}  
-              <p className={style.registerLink}>已经有账号？<Link to="/login">去登录</Link></p>
-          </div>  
-        </div>  
-        
-        </> 
-      
+                <div className={style.authBody}>
+                    {isEmailSent ? (
+                        <div className={style.successState}>
+                            <div className={style.successIcon}>✓</div>
+                            <h2>验证邮件已发送</h2>
+                            <p>请检查 {inputEmail} 的收件箱完成验证</p>
+                            <button
+                                className={style.secondaryButton}
+                                onClick={() => navigate('/login')}
+                            >
+                                返回登录
+                            </button>
+                        </div>
+                    ) : (
+                        <div className={style.authMain}>
+                            <div className={style.inputGroup}>
+                                <input
+                                    type="email"
+                                    className={style.authInput}
+                                    placeholder=" "
+                                    value={inputEmail}
+                                    onChange={(e) => setInputEmail(e.target.value)}
+                                />
+                                <label className={style.inputLabel}>电子邮箱</label>
+                                <div className={style.inputUnderline}></div>
+                            </div>
+
+                            <button
+                                className={style.primaryButton}
+                                onClick={handleRegister}
+                            >
+                                <span>发送验证邮件</span>
+                                <div className={style.buttonHover}></div>
+                            </button>
+
+                            <div className={style.authDivider}>
+                                <span>或使用以下方式</span>
+                            </div>
+
+                            <div className={style.socialAuth}>
+                                <button className={`${style.socialButton} ${style.wechat}`}>
+                                    <i className="icon-wechat"></i>
+                                    微信快速注册
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    <div className={style.authFooter}>
+                        <p className={style.legalNotice}>
+                            点击注册即表示同意我们的
+                            <Link to="/terms" className={style.legalLink}>服务条款</Link>和
+                            <Link to="/privacy" className={style.legalLink}>隐私政策</Link>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
-  };
+};
 export default Registerr;

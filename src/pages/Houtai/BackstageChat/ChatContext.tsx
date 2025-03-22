@@ -32,10 +32,11 @@ const ChatContext = createContext<ChatContextType | undefined>(undefined);
 interface ChatProviderProps {
   children: ReactNode;
 }
+//不要再直接登录了。
 // const token = localStorage.getItem('longtoken');
 const token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo5LCJ1c2VybmFtZSI6ImphY2siLCJyb2xlIjoidXNlciIsImlzcyI6Im11bmRvLWF1dGgtaHViIiwiZXhwIjoxNzQxNzA4NDg5LCJpYXQiOjE3NDExMDM2ODl9.kvTCIfI5YADKW2ktnN_eSPJ0Km8cIcqAt_qe_ak2Xco";
-localStorage.setItem("longtoken", token);
+// localStorage.setItem("longtoken", token);
 const uid = token ? JSON.parse(atob(token.split(".")[1])).user_id : null;
 
 const WebSocketUrl = "ws://116.198.207.159:12349/api/ws";

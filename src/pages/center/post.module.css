@@ -1,257 +1,220 @@
 @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=add_photo_alternate,delete&v=1");
 
-.markdown-app {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    display: flex;
-    flex-direction: column; 
-    gap: 20px; /* 元素间距 */
-    width: 100%; 
+:root {
+  --primary: #7c3aed;
+  --primary-light: #a78bfa;
+  --primary-dark: #6d28d9;
+  --secondary: #3b82f6;
+  --secondary-light: #60a5fa;
+  --secondary-dark: #2563eb;
+  --background: #0f172a;
+  --surface: rgba(255, 255, 255, 0.05);
+  --surface-light: rgba(255, 255, 255, 0.08);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.8);
+  --text-tertiary: rgba(255, 255, 255, 0.6);
+  --border-color: rgba(255, 255, 255, 0.1);
 }
 
-  
+body {
+  background: radial-gradient(circle at 50% 100%, #0f172a, #020617);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+.markdown-app {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
 .head {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
-    flex-wrap: wrap; /* 自动换行，适应小屏幕 */
-    width: 75%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 75%;
 }
 
 .form {
-    display: flex;
-    justify-content: flex-start; /* 居左对齐 */
-    align-items: center;
-    margin: 0 auto;
-    flex-wrap: wrap;
-    width: 650px;
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 10px;
-    box-sizing: border-box;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    margin-top: 7vh;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  width: 650px;
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+  margin-top: 7vh;
 }
 
 .command {
-    display: inline-block;
-    margin: 5px;
-    padding: 10px;
+  display: inline-block;
+  margin: 5px;
+  padding: 10px;
 }
 
 .title1 {
-    width: 70%;
-    border: 1px solid #0a0a0a;
-    padding: 10px;
-    text-align: left; /* 让输入框内的文本居左 */
-    font-size: 21px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* 内阴影 */
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    border-radius: 5px;
+  width: 70%;
+  background: var(--surface-light);
+  border: 1px solid var(--border-color);
+  padding: 12px;
+  text-align: left;
+  font-size: 21px;
+  color: var(--text-primary);
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
 .textarea1 {
-    overflow: hidden; /* 隐藏滚动条 */
-    overflow-y: scroll;
-    scrollbar-width: none;
-    resize: none;
-    border: 1px solid #0a0a0a;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* 内阴影 */
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    overflow-wrap: anywhere;
-    white-space: pre-wrap;
-    width: 90%; 
-    height: 100px;
-    padding: 5px;
-    text-align: left;
-    position: relative;
-    border-radius: 5px;
-    font-size: 20px;
-}
-  
-  textarea::-webkit-scrollbar {
-    display: none;
-  }
-input[type="text"]:focus, textarea:focus {
-    border-color: rgba(43, 163, 237, 0.824);
-    box-shadow: 0 0 5px rgba(43, 124, 237, 0.5);
-    outline: none;
-}
-  
-
-@media (max-width: 600px) {
-    input[type="text"], textarea {
-        font-size: 14px; /* 小屏幕调整字体大小 */
-        padding: 8px; /* 减小内边距 */
-    }
-}
-@media (max-width: 600px) {
-    .form {
-        left: 0; /* 取消相对定位的偏移 */
-        flex-direction: column; /* 竖直排列表单元素 */
-    }
-    .head {
-        flex-direction: column; /* 小屏幕时让标题和其他元素垂直排列 */
-        width: 100%; /* 宽度占满 */
-    }
+  width: 90%;
+  height: 100px;
+  background: var(--surface-light);
+  border: 1px solid var(--border-color);
+  padding: 12px;
+  color: var(--text-primary);
+  font-size: 20px;
+  border-radius: 8px;
+  resize: none;
+  transition: all 0.3s ease;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
 }
 
-@media (max-width: 600px) {
-    .form {
-        width: 340px;
-    }
-    .markdown-app {
-        margin: 10px; /* 小屏幕时减少外边距 */
-    }
-
-    .title {
-        font-size: 18px; 
-    }
-}
-@media screen and (max-width: 400px) {
-    .form {
-        width: 300px;
-    }
-    
+.title1:focus,
+.textarea1:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
 }
 
 .submit {
-    width: 95px;
-    height: 39px;
-    padding: 10px 20px;
-    --tw-text-opacity: 1;
-    background-color: #1e80ff;
-    color: #ffff;
-    border: none; 
-    border-radius: 8px;
-    cursor: pointer; 
-    transition: background-color 0.3s;
-  }
-  
-.submit:hover {
-    background-color: rgb(33, 114, 206);
-    
-}
-.h21 {
-    width: fit-content; /* 确保宽度自适应 */
-    margin: 0 auto;
-    font-size: 25px;
-}
-.h3 {
-    margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.p1{
-    font-size: 20px;
+.submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
 }
 
 .tag {
-    display: inline-flex;
-    align-items: center;
-    border-radius: 4px;
-    --tw-bg-opacity: 1;
-    background-color: rgb(239 246 255 / var(--tw-bg-opacity));
-    padding: 0.5rem 0.8rem;
-    margin-right: 1rem;
-    font-size: 1rem;
-    line-height: 1rem;
-    font-weight: 500;
-    --tw-text-opacity: 1;
-    color: rgb(29 78 216 / var(--tw-text-opacity));
-    --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-    --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
-    box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
-    --tw-ring-inset: inset;
-    --tw-ring-color: rgb(29 78 216 / 0.1);
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  background: rgba(124, 58, 237, 0.1);
+  color: var(--primary-light);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  padding: 8px 16px;
+  border-radius: 8px;
+  margin-right: 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tag:hover {
+  background: rgba(124, 58, 237, 0.15);
+  transform: translateY(-1px);
+}
+
+.tag-click {
+  background: rgba(124, 58, 237, 0.2);
+  color: var(--primary-light);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  transform: scale(1.05);
 }
 
 .image-preview img {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 5px;
-    background-color: #f9f9f9;
-  }
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px;
+  background: var(--surface-light);
+  transition: all 0.3s ease;
+}
+
+.image-preview img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.h21 {
+  color: var(--text-primary);
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  background: linear-gradient(45deg, var(--primary-light), var(--secondary-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.h3 {
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.p1 {
+  color: var(--text-tertiary);
+  font-size: 1rem;
+}
 
 .delete {
-    margin: 0 1rem;
-    border: none;
-    cursor: pointer;
-    background-color: white;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.tag-click{
-        display: inline-flex;
-        align-items: center;
-        border-radius: 4px;
-        --tw-bg-opacity: 1;
-        background-color: rgb(250 245 255 / var(--tw-bg-opacity));
-        padding: 0.5rem 0.8rem;
-        margin-right: 1rem;
-        font-size: 1rem;
-        line-height: 1rem;
-        font-weight: 500;
-        --tw-text-opacity: 1;
-        color: rgb(126 34 206 / var(--tw-text-opacity)) /* #7e22ce */;
-        --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-        --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
-        box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
-        --tw-ring-inset: inset;
-        --tw-ring-color: rgb(29 78 216 / 0.1);
-        cursor: pointer;
-        transform: scale(1.1);
+.delete:hover {
+  color: var(--primary-light);
+  transform: scale(1.1);
 }
 
-.box {
-	display: grid;
-	justify-items: center;
-	align-items: center;
-}
 .box .spinner {
-	height: 20px;
-	width: 20px;
-	background: rgba(0, 0, 0, .2);
-	border-radius: 50%;
-	border-top: 2px solid #fff;
-	border-right: 2px solid transparent;
-	animation: spinner6 700ms linear infinite;
-}
-@keyframes spinner6 {
-	to {
-		transform: rotate(360deg);
-	}
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--primary-light);
+  border-top-color: transparent;
+  animation: spinner 0.7s linear infinite;
 }
 
-* {
-    margin: 30px;
-    padding: 0;
-    box-sizing: border-box;
-}
-body {
-    min-height: 100vh;
-    background-color: var(--body-color);
-    transition: all 0.3s ease;
-}
-
-#root {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 2rem;
-    display: flex;
-    justify-content: center;
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
   }
-/* 设置全局变量 */
-:root {
-    --body-color: #e9f0f7;
-    --shell-color: #FFF;
-    --primary-color: #1e80ff;
-    --primary-color-light: #F6F5FF;
-    --toggle-color: #DDD;
-    --text-color: #707070;
 }
-.span{
-    font-size: 13px;
+
+@media (max-width: 600px) {
+  .form {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .title1,
+  .textarea1 {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  .h21 {
+    font-size: 1.5rem;
+  }
 }

@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap');
+
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f1729 0%, #0a0f1d 100%);
+  padding: 2rem;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.creatorCenter {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: rgba(16, 23, 42, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(122, 58, 237, 0.2);
+  box-shadow: 0 0 20px rgba(122, 58, 237, 0.1);
+}
+
+.contentTypeSelector {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: rgba(16, 23, 42, 0.5);
+  border-radius: 15px;
+}
+
+.typeButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  border: 1px solid rgba(122, 58, 237, 0.3);
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.typeButton:hover {
+  background: rgba(122, 58, 237, 0.1);
+  border-color: rgba(122, 58, 237, 0.5);
+  box-shadow: 0 0 15px rgba(122, 58, 237, 0.3);
+}
+
+.typeButton.active {
+  background: rgba(122, 58, 237, 0.2);
+  border-color: rgba(122, 58, 237, 1);
+  box-shadow: 0 0 20px rgba(122, 58, 237, 0.4);
+}
+
+.typeIcon {
+  font-size: 1.2rem;
+}
+
+.typeName {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.editorContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.titleInput {
+  width: 100%;
+  padding: 1rem;
+  background: rgba(16, 23, 42, 0.5);
+  border: 1px solid rgba(122, 58, 237, 0.3);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.titleInput:focus {
+  border-color: rgba(122, 58, 237, 1);
+  box-shadow: 0 0 15px rgba(122, 58, 237, 0.3);
+}
+
+.tagContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: rgba(16, 23, 42, 0.5);
+  border-radius: 10px;
+}
+
+.tag {
+  padding: 0.5rem 1rem;
+  background: rgba(122, 58, 237, 0.1);
+  border: 1px solid rgba(122, 58, 237, 0.3);
+  border-radius: 20px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tag:hover {
+  background: rgba(122, 58, 237, 0.2);
+  border-color: rgba(122, 58, 237, 0.5);
+}
+
+.tagActive {
+  background: rgba(122, 58, 237, 0.3);
+  border-color: rgba(122, 58, 237, 1);
+  box-shadow: 0 0 10px rgba(122, 58, 237, 0.3);
+}
+
+.contentInput {
+  width: 100%;
+  min-height: 200px;
+  padding: 1rem;
+  background: rgba(16, 23, 42, 0.5);
+  border: 1px solid rgba(122, 58, 237, 0.3);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 1rem;
+  resize: vertical;
+  transition: all 0.3s ease;
+}
+
+.contentInput:focus {
+  border-color: rgba(122, 58, 237, 1);
+  box-shadow: 0 0 15px rgba(122, 58, 237, 0.3);
+}
+
+.fileUpload {
+  position: relative;
+}
+
+.fileInput {
+  display: none;
+}
+
+.fileLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(122, 58, 237, 0.1);
+  border: 1px solid rgba(122, 58, 237, 0.3);
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.fileLabel:hover {
+  background: rgba(122, 58, 237, 0.2);
+  border-color: rgba(122, 58, 237, 0.5);
+  box-shadow: 0 0 15px rgba(122, 58, 237, 0.3);
+}
+
+.uploadIcon {
+  font-size: 1.2rem;
+}
+
+.filePreview {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(16, 23, 42, 0.5);
+  border-radius: 10px;
+}
+
+.fileItem {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid rgba(122, 58, 237, 0.3);
+}
+
+.fileItem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fileName {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0.5rem;
+  text-align: center;
+  word-break: break-word;
+  color: #fff;
+  background: rgba(122, 58, 237, 0.1);
+}
+
+.submitButton {
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, rgba(122, 58, 237, 0.8), rgba(122, 58, 237, 0.6));
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submitButton:hover {
+  background: linear-gradient(135deg, rgba(122, 58, 237, 1), rgba(122, 58, 237, 0.8));
+  box-shadow: 0 0 20px rgba(122, 58, 237, 0.4);
+}
+
+.submitButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.loadingSpinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

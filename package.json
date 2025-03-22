@@ -4,10 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --mode development",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:dev": "vite build --mode development",
+    "build:prod": "vite build --mode production",
+    "env": "npm install dotenv --save"
   },
   "dependencies": {
     "-": "^0.0.1",
@@ -24,6 +27,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "dom": "^0.0.3",
+    "dotenv": "^16.4.7",
     "eslint-plugin-react": "^7.37.2",
     "framer-motion": "^11.14.4",
     "gsap": "^3.12.5",

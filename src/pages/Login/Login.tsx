@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import randomatic from "randomatic";
-import style from "./Login.module.css";
+// import style from "./Login.module.css";
+import style from "./Auth.module.css";
 import { useAuth } from "../../context/AuthContext.tsx";
 import {
   loginUser,
@@ -364,70 +365,158 @@ const Login = () => {
     });
   };
 
+  // return (
+  //   <div className={style.body}>
+  //     <div className={style.loginBox}>
+  //       <h2 className={style.loginTitle}>Mundo 登录</h2>
+  //       <div className={style.inputGroup}>
+  //         <label htmlFor="email">邮箱：</label>
+  //         <input
+  //           type="email"
+  //           id="email"
+  //           value={email}
+  //           onChange={handleEmailChange}
+  //           placeholder="请输入邮箱"
+  //           required
+  //         />
+  //       </div>
+  //       <div className={style.inputGroup}>
+  //         <label htmlFor="password">密码：</label>
+  //         <input
+  //           type="password"
+  //           id="password"
+  //           value={password}
+  //           onChange={handlePasswordChange}
+  //           placeholder="请输入密码"
+  //           required
+  //         />
+  //       </div>
+  //       <button className={style.loginBtn} onClick={handleLogin}>
+  //         登录
+  //       </button>
+  //       {error && <p style={{ color: "red" }}>{error}</p>}
+  //       <div className={style.otherLogin}>
+  //         <button className={style.loginOption}>邮箱验证登录</button>
+  //         <button className={style.loginOption}>手机号登录</button>
+  //         <button className={style.loginOption} onClick={fetchQRCode}>
+  //           微信登录
+  //         </button>
+  //         <button className={style.loginOption} onClick={handleHelperLogin}>
+  //           HDUHelper登录
+  //         </button>
+  //       </div>
+  //       {qrCodeUrl ? (
+  //         <div>
+  //           <p>{status}</p>
+  //           <img
+  //             src={qrCodeUrl}
+  //             alt="微信登录二维码"
+  //             style={{ width: "200px", height: "200px" }}
+  //           />
+  //           {!polling && (
+  //             <button onClick={startPolling}>开始检查登录状态</button>
+  //           )}
+  //         </div>
+  //       ) : (
+  //         <p>{status}</p>
+  //       )}
+  //       {/* <button className={style.loginOption} onClick={bindLogin}>邮箱绑定</button> */}
+  //       <p className={style.registerLink}>
+  //         还没有账号？<Link to="/register">去注册</Link>
+  //       </p>
+  //       <p className={style.registerLink}>
+  //         <Link to="/findKey">忘记密码？</Link>
+  //       </p>
+  //     </div>
+  //   </div>
+  // );
   return (
-    <div className={style.body}>
-      <div className={style.loginBox}>
-        <h2 className={style.loginTitle}>Mundo 登录</h2>
-        <div className={style.inputGroup}>
-          <label htmlFor="email">邮箱：</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={handleEmailChange}
-            placeholder="请输入邮箱"
-            required
-          />
-        </div>
-        <div className={style.inputGroup}>
-          <label htmlFor="password">密码：</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={handlePasswordChange}
-            placeholder="请输入密码"
-            required
-          />
-        </div>
-        <button className={style.loginBtn} onClick={handleLogin}>
-          登录
-        </button>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <div className={style.otherLogin}>
-          <button className={style.loginOption}>邮箱验证登录</button>
-          <button className={style.loginOption}>手机号登录</button>
-          <button className={style.loginOption} onClick={fetchQRCode}>
-            微信登录
-          </button>
-          <button className={style.loginOption} onClick={handleHelperLogin}>
-            HDUHelper登录
-          </button>
-        </div>
-        {qrCodeUrl ? (
-          <div>
-            <p>{status}</p>
-            <img
-              src={qrCodeUrl}
-              alt="微信登录二维码"
-              style={{ width: "200px", height: "200px" }}
-            />
-            {!polling && (
-              <button onClick={startPolling}>开始检查登录状态</button>
-            )}
+      <div className={style.authContainer}>
+        <div className={style.gradientBackground}></div>
+
+        <div className={style.authCard}>
+          <div className={style.authHeader}>
+            <h1 className={style.authTitle}>Welcome to <span>MUNDO</span></h1>
+            <p className={style.authSubtitle}>连接全球求知者 · 构建智慧共同体</p>
           </div>
-        ) : (
-          <p>{status}</p>
-        )}
-        {/* <button className={style.loginOption} onClick={bindLogin}>邮箱绑定</button> */}
-        <p className={style.registerLink}>
-          还没有账号？<Link to="/register">去注册</Link>
-        </p>
-        <p className={style.registerLink}>
-          <Link to="/findKey">忘记密码？</Link>
-        </p>
+
+          <div className={style.authBody}>
+            <div className={style.authMain}>
+              <div className={style.inputGroup}>
+                <input
+                    type="email"
+                    className={style.authInput}
+                    placeholder=" "
+                    value={email}
+                    onChange={handleEmailChange}
+                />
+                <label className={style.inputLabel}>电子邮箱</label>
+                <div className={style.inputUnderline}></div>
+              </div>
+
+              <div className={style.inputGroup}>
+                <input
+                    type="password"
+                    className={style.authInput}
+                    placeholder=" "
+                    value={password}
+                    onChange={handlePasswordChange}
+                />
+                <label className={style.inputLabel}>登录密码</label>
+                <div className={style.inputUnderline}></div>
+              </div>
+
+              <button className={style.primaryButton} onClick={handleLogin}>
+                <span>立即登录</span>
+                <div className={style.buttonHover}></div>
+              </button>
+
+              <div className={style.socialAuth}>
+                <button
+                    className={`${style.socialButton} ${style.wechat}`}
+                    onClick={fetchQRCode}
+                >
+                  <i className="icon-wechat"></i>
+                  微信登录
+                </button>
+                <button
+                    className={`${style.socialButton} ${style.hdu}`}
+                    onClick={handleHelperLogin}
+                >
+                  <i className="icon-school"></i>
+                  HDU Helper
+                </button>
+              </div>
+            </div>
+
+            <div className={style.authFooter}>
+              <div className={style.footerLinks}>
+                <Link to="/register" className={style.footerLink}>创建新账号</Link>
+                <div className={style.linkDivider}></div>
+                <Link to="/findKey" className={style.footerLink}>找回密码</Link>
+              </div>
+            </div>
+          </div>
+
+          {qrCodeUrl && (
+              <div className={style.qrModal}>
+                <div className={style.qrContainer}>
+                  <h3>微信扫码登录</h3>
+                  <img src={qrCodeUrl} alt="微信登录二维码"/>
+                  <p className={style.qrStatus}>{status}</p>
+                  {!polling && (
+                      <button
+                          className={style.secondaryButton}
+                          onClick={startPolling}
+                      >
+                        已扫码，开始验证
+                      </button>
+                  )}
+                </div>
+              </div>
+          )}
+        </div>
       </div>
-    </div>
   );
 };
 

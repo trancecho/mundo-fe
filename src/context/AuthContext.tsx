@@ -7,6 +7,8 @@ interface AuthContextType {
   setTokenFunc: (longtoken: string) => void;
   external: string | null;
   setExternalFunc: (external: string) => void;
+  role: string | null;
+  setRoleFunc: (role: string) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -14,6 +16,15 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const [role, setRoleState] = useState<string | null>(
+    () => localStorage.getItem("role") // 初始值从 localStorage 中获取
+  );
+
+  const setRoleFunc = (role: string) => {
+    setRoleState(role);
+    localStorage.setItem("role", role); // 保存到 localStorage
+  };
+
   const [email, setEmailState] = useState<string | null>(
     () => localStorage.getItem("email") // 初始值从 localStorage 中获取
   );
@@ -50,6 +61,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         setTokenFunc,
         external,
         setExternalFunc,
+        role,
+        setRoleFunc,
       }}
     >
       {children}

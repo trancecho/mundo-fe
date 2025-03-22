@@ -1,374 +1,245 @@
 /* QAndA.css */
-
-.main{
-    margin-top: 1vw;
-    margin-left: 8vw;
+:root {
+  --primary: #7c3aed;
+  --primary-light: #a78bfa;
+  --primary-dark: #6d28d9;
+  --secondary: #3b82f6;
+  --secondary-light: #60a5fa;
+  --secondary-dark: #2563eb;
+  --background: #0f172a;
+  --surface: rgba(255, 255, 255, 0.05);
+  --surface-light: rgba(255, 255, 255, 0.08);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.8);
+  --text-tertiary: rgba(255, 255, 255, 0.6);
+  --border-color: rgba(255, 255, 255, 0.1);
 }
 
-/* 左侧栏样式 */
-.left {
-    background-color: white;
-    width: fit-content; /* 宽度根据内容自适应 */
-    padding: 10px; /* 留一圈少量空隙 */
-    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    margin: 1vw 1vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* 按钮垂直居中 */
-}
-
-/* 左侧菜单按钮样式 */
-.MenuButton {
-    box-sizing: border-box;
-    padding: 8px 20px; /* 减少上下长度，增大左右宽度 */
-    cursor: pointer;
-    border: 1px solid transparent;
-    border-bottom: 1px solid #ddd;
-    text-align: center;
-    transition: all 0.3s ease;
-    border-radius: 4px;
-    margin: 5px 0; /* 按钮间留出适量空间 */
-    background-color: white;
-    color: black;
-    font-size: 1.1vw;
-    font-weight: 400;
-    width: 120px; /* 固定按钮宽度 */
-}
-
-.MenuButton.clicked {
-    box-sizing: border-box;
-    padding: 8px 20px;
-    border: 1px solid transparent;
-    border-bottom: 1px solid #ddd;
-    background-color: #1890ff;
-    color: white;
-}
-
-.MenuButton:hover:not(.clicked) {
-    background-color: #e6f7ff;
-}
-
-.Choose {
-    margin-top: 1vw;
-    background-color: white;
-    display: flex;
-    justify-content: center; /* 按钮水平居中 */
-    align-items: center; /* 按钮垂直居中 */
-}
-
-/* Choose 按钮样式 */
-.ChooseButton {
-    box-sizing: border-box;
-    padding: 8px 20px; /* 减少上下长度，增大左右宽度 */
-    cursor: pointer;
-    border: 1px solid transparent;
-    border-bottom: 1px solid #ddd;
-    text-align: center;
-    transition: all 0.3s ease;
-    border-radius: 4px;
-    margin: 0 10px; /* 按钮间留出适量空间 */
-    background-color: white;
-    color: black;
-    font-size: 1.1vw;
-    font-weight: 400;
-    width: 120px; /* 固定按钮宽度 */
-}
-
-.ChooseButton.clicked {
-    box-sizing: border-box;
-    padding: 8px 20px;
-    border: 1px solid transparent;
-    border-bottom: 1px solid #ddd;
-    background-color: #1890ff;
-    color: white;
-}
-
-.ChooseButton:hover:not(.clicked) {
-    background-color: #e6f7ff;
-}
-
-/* 其他样式保持不变 */
-.block {
-    background-color: #fff;
-    width: 100%;
-    height: 0.5vw;
-}
-
-.background {
-    display: flex;
-    width: 100%;
-    position: fixed;
-    left: 0px;
-    top: 5vw;
-}
-
-.button {
-    color: black;
-    height: 41vw;
-    margin-top: 3vw;
-    margin-bottom: 1vw;
-    margin-left: 3vw;
-    margin-right: 2vw;
-    font-size: 2vw;
-}
-
-.ChooseCon {
-    display: flex;
-}
-
-.Create {
-    margin-left: 30vw;
-}
-
-.Con {
-    height: 4vw;
-    width: 40vw;
-    border-radius: 1vw;
-}
-
-.choice {
-    width: 15vw;
-    height: 30vw;
-    font-size: 1vw;
-}
-
-.con {
-    display: flex;
-    justify-content: left;
-    height: auto; /* 高度自适应 */
-    width: 70%;
-    margin-left: 1.5vw;
-    margin-right: 1.5vw;
-    font-size: 1vw; /* 增大内容字体大小 */
-}
-
-.messinformation {
-    display: flex;
-    margin-top: 0.5vw; /* 增加间距 */
-    margin-bottom: 0.5vw; /* 增加间距 */
-    margin-left: 0.5vw;
-    align-items: center; /* 垂直居中对齐 */
-}
-
-.Menu {
-    margin-top: 3vw;
-    margin-bottom: 3vw;
-    margin-left: 5vw;
-    height: 30vh;
-    background-color: white;
+body {
+  background: radial-gradient(circle at 50% 100%, #0f172a, #020617);
+  color: var(--text-primary);
+  min-height: 100vh;
 }
 
 .QandAContainer {
-    display: flex;
-    width: 100vw;
-    height: 100vh;
-    overflow: auto;
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  margin: 0 auto;
+  justify-content: center;
+  position: relative;
+  padding: 2rem;
 }
 
-.mes {
-    margin-left: 1.5vw;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* 各部分之间均匀分布 */
-}
-
-.Qandamessage {
-    margin-top: 1vw;
-    margin-left: 5vw;
-    margin-bottom: 1vw;
-    font-size: 1vw;
-    width: 50vw;
-    height: auto; /* 高度自适应 */
-    flex-direction: column;
-    background-color: white;
-    display: flex;
-    color: black;
-    box-shadow: 0 0 1vw rgba(0, 0, 0, 0.3);
-    border-radius: 0.5vw;
-    transition: box-shadow 0.3s ease; /* 添加过渡效果 */
-}
-
-.Qandamessage:hover {
-    box-shadow: 0 0 1.5vw rgba(0, 0, 0, 0.5); /* 鼠标悬停时增强阴影 */
-}
-
-.ReadTitle {
-    font-size: 2vw;
-    margin-bottom: 1vw;
-    height: 3vw;
-    width: 5vw;
-    color: black;
-}
-
-.read {
-    color: #fff
+.left {
+  width: 250px;
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 1.5rem;
+  height: fit-content;
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 2rem;
+  margin-top: 80px;
 }
 
 .right {
-    width: 60vw;
-    height: 85vh;
-    margin-left: 4vw;
-    margin-top: 1vw;
-    margin-bottom: 2.7vh;
-    overflow: auto;
-    flex-direction: column;
-    background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  margin-top: 80px;
+  padding: 2rem;
+  border-radius: 12px;
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  flex: 1;
+  overflow: auto;
+  max-width: 900px;
+  transition: all 0.3s ease;
+  margin-left: 2rem;
 }
 
-.TagBroad {
-    display: flex;
-    margin-top: 0.5vw; /* 增加间距 */
-    margin-bottom: 0.5vw; /* 增加间距 */
-    margin-left: 2vw;
-    margin-right: 1vw;
-    width: auto; /* 宽度自适应 */
-    flex-wrap: wrap; /* 标签换行显示 */
+.right:hover {
+  box-shadow: 0 12px 40px rgba(124, 58, 237, 0.2);
+  transform: translateY(-5px);
 }
 
-.tag {
-    display: inline-block;
-    padding: 0.3vw 1.5vw; /* 增大内边距，使标签稍微放大 */
-    border-radius: 1vw;
-    background-color: #1890ff; /* 设置背景颜色为蓝色 */
-    font-size: 0.7vw; /* 增大字体大小 */
-    color: white;
-    margin-right: 0.3vw;
-    margin-bottom: 0.3vw; /* 增加标签之间的垂直间距 */
-    cursor: pointer;
-    height: auto; /* 高度自适应内容 */
-    width: auto; /* 宽度自适应内容 */
-    text-align: center;
-    line-height: 1.2; /* 调整行高 */
-    box-shadow: 0 0 1vw rgba(0, 0, 0, 0.3);
+.Choose {
+  background: var(--surface-light);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border-color);
 }
 
-.tag:hover {
-    background-color: #40a9ff; /* 鼠标悬停时的背景颜色 */
+.MenuButton {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin: 0.5rem 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  text-align: left;
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
-.Qandatime {
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    margin-bottom: 0.5vw; /* 增加间距 */
-    margin-left: 1vw;
-    font-size: 0.8vw; /* 增大字体大小 */
+.MenuButton:hover {
+  background: var(--surface-light);
+  color: var(--text-primary);
+}
+
+.MenuButton.clicked {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+}
+
+.ChooseButton {
+  padding: 0.75rem 1.5rem;
+  margin: 0 0.5rem;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.ChooseButton:hover {
+  background: var(--surface-light);
+  color: var(--text-primary);
+}
+
+.ChooseButton.clicked {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+}
+
+.Qandamessage {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(12px);
+}
+
+.Qandamessage:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 .messtitle {
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    margin-top: 0.5vw; /* 增加间距 */
-    margin-bottom: 0.5vw; /* 增加间距 */
-    margin-left: 0.8vw;
-    font-size: 1.8vw; /* 增大标题字体大小 */
-    font-weight: 600; /* 增加字体粗细 */
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.TagBroad {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.tag {
+  background: rgba(124, 58, 237, 0.1);
+  color: var(--primary-light);
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  border: 1px solid rgba(124, 58, 237, 0.2);
+}
+
+.con {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 1rem 0;
 }
 
 .message-pictures {
-    display: flex;
-    justify-content: right;
-    align-items: center;
-    margin-left: auto; /* 图片靠右显示 */
-    margin-right: 1vw; /* 增加右侧间距 */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
 }
 
 .message-pictures img {
-    width: 6vw; /* 增大图片宽度 */
-    height: 6vw; /* 增大图片高度 */
-    object-fit: cover; /* 图片填充方式 */
-    border-radius: 0.3vw; /* 图片圆角 */
-    margin-left: 0.5vw; /* 图片之间的间距 */
+  width: 100%;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.message-pictures img:hover {
+  transform: scale(1.05);
 }
 
 .message-stats {
-    display: flex;
-    margin-left: 1vw; /* 调整左侧间距 */
-    margin-bottom: 0.5vw; /* 增加底部间距 */
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  color: var(--text-tertiary);
+  font-size: 0.9rem;
 }
 
-.YuLanXinXi {
-    display: flex;
-    align-items: center;
-}
-
-.YuLan {
-    margin-left: 1vw;
-    font-size: 0.8vw; /* 增大字体大小 */
-}
-
-.official-tag {
-    color: black;
-    background-color: #51aabc;
-}
-
-/* 加载动画容器 */
 .loading-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: fixed; /* 使用 fixed 定位相对于整个浏览器窗口 */
-    top: 50%; /* 顶部距离窗口顶部 50% */
-    left: 50%; /* 左侧距离窗口左侧 50% */
-    transform: translate(-50%, -50%); /* 向上和向左平移自身宽度和高度的 50%，实现完全居中 */
-    height: 80%;
-    background-color: rgba(255, 255, 255, 0.8); /* 可添加半透明背景，增强视觉效果 */
-    width: 70%;
-    z-index: 999; /* 确保加载动画显示在最上层 */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  z-index: 1000;
 }
 
-/* 加载动画 */
 .loading-spinner {
-    width: 50px;
-    height: 50px;
-    border: 5px solid #f3f3f3;
-    border-top: 5px solid #3498db;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin-bottom: 16px;
+  width: 50px;
+  height: 50px;
+  border: 3px solid var(--surface-light);
+  border-top: 3px solid var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 }
 
-/* 加载动画旋转效果 */
 @keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-/* 加载文字样式 */
-.loading-container p {
-    color: #666;
-    font-size: 16px;
-    margin: 0;
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 1vw;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
 }
 
 .pagination button {
-    margin: 0 0.2vw;
-    padding: 0.3vw 0.6vw;
-    border: 1px solid #ddd;
-    background-color: white;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.pagination button.active {
-    background-color: #1890ff;
-    color: white;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .pagination button:hover {
-    background-color: #e6f7ff;
+  background: var(--surface-light);
+  color: var(--text-primary);
+}
+
+.pagination button.active {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border: none;
 }
