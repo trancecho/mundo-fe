@@ -19,7 +19,7 @@ const Menu: React.FC<LeftProps> = () => {
     // const [isMenu2Clicked, setIsMenu2Clicked] = useState(true);
     // const [isMenu3Clicked, setIsMenu3Clicked] = useState(true);
 
-    const[activateMenu,setActivateMenu] = useState<string>('答疑');
+    const[activateMenu,setActivateMenu] = useState<string>('问答');
     const navigate = useNavigate();
 
     const handleMenuClick=(menu:string,path:string)=>{

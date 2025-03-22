@@ -35,7 +35,7 @@ const CreatorCenter: React.FC = () => {
 
     // 内容类型配置
     const contentTypes = [
-        { id: 'qanda', name: '答疑', icon: '❓' },
+        { id: 'qanda', name: '问答', icon: '❓' },
         { id: 'article', name: '文章', icon: '📝' },
         { id: 'team', name: '组队', icon: '👥' },
         { id: 'resource', name: '资料', icon: '📚' }

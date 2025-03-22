@@ -1,0 +1,48 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - dev
+
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+
+      - name: Log in to Harbor
+        run: |
+          echo "${{ secrets.HARBOR_PASSWORD }}" | docker login ${{ secrets.HARBOR_URL }} --username ${{ secrets.HARBOR_USERNAME }} --password-stdin
+          
+
+      - name: Build and push Docker image
+        run: |
+          export DOCKER_CONTENT_TRUST=0
+          docker build -t ${{ secrets.HARBOR_URL }}/offercat/offercat:latest .
+          docker push ${{ secrets.HARBOR_URL }}/offercat/offercat:latest
+#  deploy-to-k3s:
+#    runs-on: ubuntu-latest
+#    needs: build-and-push
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v3
+#
+#      - name: Set up kubectl
+#        uses: azure/setup-kubectl@v3
+#        with:
+#          version: 'latest'
+#
+#      - name: Configure kubeconfig
+#        run: |
+#          mkdir -p ~/.kube
+#          echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
+#      - name: Deploy to k3s
+#        run: |
+#          kubectl apply -f deployment.yaml
