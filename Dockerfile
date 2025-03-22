@@ -7,20 +7,14 @@ WORKDIR /app
 # 复制 package.json 和 package-lock.json
 COPY package.json package-lock.json* ./
 
-# 安装依赖
-RUN npm install
+# 安装依赖并构建项目
+RUN npm install && npm run build:prod && npm cache clean --force
 
 # 复制项目文件
 COPY . .
 
-# 定义构建模式参数
-ARG MODE=production
-
-# 设置环境变量
-ENV VITE_MODE=${MODE}
-
-# 构建项目
-RUN npm run build -- --mode ${MODE}
+# 检查构建输出
+RUN ls -l /app/dist
 
 # 使用 Nginx 作为生产环境
 FROM nginx:alpine
