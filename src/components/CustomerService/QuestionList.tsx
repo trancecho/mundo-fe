@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import gsap from "gsap";
 import styles from "./AnswerWindow.module.css";
-import {  getQuestions } from "@/router/api";
+import { getQuestions } from "@/router/api";
 
 interface Content {
   question: string;
@@ -11,8 +11,7 @@ interface Content {
 const QuestionList: React.FC = () => {
   const [questions, setQuestions] = useState<Content[]>([]);
   const [selectedQuestion, setSelectedQuestion] = useState<string | null>(null);
-  
-  
+
   const fetchQuestions = async () => {
     try {
       const fetchedQuestions = await getQuestions();
