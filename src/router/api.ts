@@ -504,25 +504,31 @@ export const getparentFolderId = async (id: string) => {
   return response.data.data.parent_folder_id;
 };
 
-// 获取消息列表
-export const getMessages = async (
-  filter: string,
-  page: number,
-  pageSize: number,
-  category?: string
-) => {
-  try {
-    const response = await api.get('/question/posts', {
-      params: {
-        filter,
-        page,
-        page_size: pageSize,
-        category
-      }
-    });
-    return response.data;
-  } catch (error) {
-    console.error('获取消息列表失败:', error);
-    throw error;
-  }
+export interface Message {
+    id: number;
+    title: string;
+    content: string;
+    tags: string[];
+    view: number;
+    answer_count: number;
+    created_at: string;
+    is_official: boolean;
+    picture: string[];
+}
+
+export interface ResponseData {
+    hotPosts: Message[];
+    recentPosts: Message[];
+    total_count: number;
+}
+
+export const getMessages = async () => {
+    const url = `http://127.0.0.1:4523/m1/4936698-4594190-default/api/question/post`;
+    try {
+        const response = await axios.get(url);
+        return response.data.data;
+    } catch (error) {
+        console.error('请求出错:', error);
+        throw error;
+    }
 };
