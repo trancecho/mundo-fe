@@ -526,3 +526,53 @@ export const getMessages = async (
     throw error;
   }
 };
+
+export const getteamup = async ()=>{
+  const response = await api.get("/allteam?service=mundo", {
+    headers: {
+      'Authorization': `Bearer ${longtoken}`
+    }
+  });
+  console.log(response)
+  return response;
+}
+
+export const apply = async (id:number) => {
+  const response = await axios.post(
+    '/allteam?ID=1&service=mundo',
+    { id: id },
+    {
+      headers: {
+        Authorization: `Bearer ${longtoken}`,
+      }
+    }
+  );
+  alert(response.data.message)
+  return response;
+}
+
+export const fetchTags = async () => {
+      const response = await axios.get("http://116.198.207.159:12349/api/tags?service=mundo", {
+          headers: {
+              Authorization: `Bearer ${longtoken}`
+          }
+      });
+      return response;
+};
+
+export const post = (formDataToSend: FormData): Promise<AxiosResponse> => {
+  return new Promise((resolve, reject) => {
+      axios.post(
+          'http://116.198.207.159:12349/api/question/posts?service=mundo',
+          formDataToSend,
+          {
+              headers: {
+                  Authorization: `Bearer ${longtoken}`,
+                  'Content-Type': 'multipart/form-data',
+              }
+          }
+      )
+      .then(response => resolve(response))
+      .catch(error => reject(error));
+  });
+};

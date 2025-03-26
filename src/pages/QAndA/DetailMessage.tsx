@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import Header from '@/components/ui/Header/Header';
-import styles from './DetailMessage.module.css';
-import { getMessageDetail, createReply, getMessageReplies } from '@/router/api';
+import React, { useEffect, useState, useRef } from "react";
+import Style from "./DetailMessage.module.css";
+import { useParams } from "react-router-dom";
+import { useAuth } from '@/context/AuthContext';
+import { Dispatch, SetStateAction } from "react";
+import Header from '@/components/ui/Header/Header.tsx';
 
 interface DetailMessageProps {}
 
@@ -41,5 +42,4 @@ const DetailMessage: React.FC<DetailMessageProps> = () => {
   // ... component implementation ...
 };
 
-// Add the default export
 export default DetailMessage;

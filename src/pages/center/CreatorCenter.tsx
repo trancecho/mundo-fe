@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import Header from '@/components/ui/Header/Header';
 import styles from './CreatorCenter.module.css';
-
+import { fetchTags,post } from "../../router/api";
 type ContentType = 'qanda' | 'article' | 'team' | 'resource';
 
 interface ContentForm {
@@ -43,22 +43,9 @@ const CreatorCenter: React.FC = () => {
 
     // 获取标签
     React.useEffect(() => {
-        const fetchTags = async () => {
-            try {
-                const response = await fetch("http://116.198.207.159:12349/api/tags?service=mundo", {
-                    method: "GET",
-                    headers: {
-                        Authorization: `Bearer ${longtoken}`,
-                    }
-                });
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                const { data } = await response.json();
-                setTags(data.tags);
-            } catch (error) {
-                console.error("Failed to fetch tags:", error);
-            }
-        };
-        fetchTags();
+        fetchTags().then((res)=>{
+            setTags(res.data.data.tags);
+        });
     }, [longtoken]);
 
     const handleTypeChange = (type: ContentType) => {
@@ -93,45 +80,34 @@ const CreatorCenter: React.FC = () => {
     };
 
     const handleSubmit = async () => {
-        setLoading(true);
-        try {
+            setLoading(true);
             const formDataToSend = new FormData();
             formDataToSend.append('title', formData.title);
             formDataToSend.append('content', formData.content);
             formDataToSend.append('type', formData.type);
-
             formData.tags.forEach(tag => {
                 formDataToSend.append('tags', tag.name);
             });
-
             formData.files.forEach(file => {
                 formDataToSend.append('files', file);
             });
-
-            const response = await fetch('http://116.198.207.159:12349/api/question/posts?service=mundo', {
-                method: 'POST',
-                headers: {
-                    Authorization: `Bearer ${longtoken}`,
-                },
-                body: formDataToSend,
+            post(formDataToSend).then(res=>{
+                if (res.status !== 200) {
+                    alert("发布失败");
+                    throw new Error("发布失败");
+                }
+                alert('发布成功！');
+                setFormData({
+                    title: '',
+                    content: '',
+                    type: activeType,
+                    tags: [],
+                    files: []
+                });
+            })
+            .then(() => {
+                setLoading(false);
             });
-
-            if (!response.ok) throw new Error('发布失败');
-
-            alert('发布成功！');
-            setFormData({
-                title: '',
-                content: '',
-                type: activeType,
-                tags: [],
-                files: []
-            });
-        } catch (error) {
-            console.error('发布失败:', error);
-            alert('发布失败，请稍后重试');
-        } finally {
-            setLoading(false);
-        }
     };
 
     return (
