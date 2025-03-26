@@ -538,7 +538,7 @@ export const getteamup = async ()=>{
 }
 
 export const apply = async (id:number) => {
-  const response = await axios.post(
+  const response = await api.post(
     '/allteam?ID=1&service=mundo',
     { id: id },
     {
@@ -552,18 +552,19 @@ export const apply = async (id:number) => {
 }
 
 export const fetchTags = async () => {
-      const response = await axios.get("http://116.198.207.159:12349/api/tags?service=mundo", {
+      const response = await api.get('/tags?service=mundo', {
           headers: {
               Authorization: `Bearer ${longtoken}`
           }
       });
+      console.log(response);
       return response;
 };
 
 export const post = (formDataToSend: FormData): Promise<AxiosResponse> => {
   return new Promise((resolve, reject) => {
-      axios.post(
-          'http://116.198.207.159:12349/api/question/posts?service=mundo',
+      api.post(
+          '/question/posts?service=mundo',
           formDataToSend,
           {
               headers: {
@@ -576,3 +577,22 @@ export const post = (formDataToSend: FormData): Promise<AxiosResponse> => {
       .catch(error => reject(error));
   });
 };
+
+export const getDetail = async (id:number) => {
+  const response = await api.get(`/question/posts/${id}?service=mundo`, {
+      headers: {
+          Authorization: `Bearer ${longtoken}`
+      }
+  });
+  return response;
+};
+
+export const sendAnswer =async (id:number,formDataToSend:FormData) => {
+  const response = await api.post(`/question/posts/${id}/answers?service=mundo`,formDataToSend,{
+    headers: {
+        "Authorization": `Bearer ${longtoken}`,
+        "Content-Type":"multipart/form-data"
+    },
+});
+ return response;
+}
