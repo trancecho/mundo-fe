@@ -3,80 +3,41 @@ import { useAuth } from '../../context/AuthContext.tsx';
 import { registerUser } from '../../router/api.ts';
 // import style from '../Login/Login.module.css';
 import style from '@/pages/Login/Auth.module.css';
-import { useNavigate , Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import * as process from "node:process";
 
 const Registerr: React.FC = () => {
-    const {setEmailFunc}=useAuth();
+    const { setEmailFunc } = useAuth();
     // const [username, setUsername] = useState('');
     // const [email, setEmail] = useState('');
     const [inputEmail, setInputEmail] = useState('');
     const [isEmailSent, setIsEmailSent] = useState(false);
-  
+    const navigate = useNavigate();
     const handleRegister = async () => {
-    //   if (!username || !email) {
-    //     alert('用户名和邮箱不能为空！');
-    //     return;
-    //   }
-  
-      try {
-        console.log(inputEmail);
-        if (import.meta.env.VITE_mode ==='dev'){
-            await registerUser(inputEmail, inputEmail,'register/verify/v2');
-        }else {
-            console.log('registerUser-prod');
+        //   if (!username || !email) {
+        //     alert('用户名和邮箱不能为空！');
+        //     return;
+        //   }
+        const callbackURL = import.meta.env.VITE_callbackURL;
+        const callbackPath = "register/verify/v2";
+        const url = callbackURL + callbackPath;
+
+        try {
+            //console.log(inputEmail);
+            if (import.meta.env.VITE_mode === 'dev') {
+                await registerUser(inputEmail, inputEmail, url);
+            } else {
+                //console.log('registerUser-prod');
+            }
+            setIsEmailSent(true);
+            alert('验证邮件已发送，请查收邮箱完成验证！');
+            setEmailFunc(inputEmail);
+
+        } catch (error) {
+            console.error('注册失败:', error);
+            alert('注册失败，请稍后再试！');
         }
-        setIsEmailSent(true);
-        alert('验证邮件已发送，请查收邮箱完成验证！');
-        setEmailFunc(inputEmail);
-
-      } catch (error) {
-        console.error('注册失败:', error);
-        alert('注册失败，请稍后再试！');
-      }
     };
-
-    // return (
-    //     <>
-    //     <div className={style.body}>
-    //
-    //       <div className={style.loginBox}>
-    //           <h2 className={style.loginTitle}>Mundo 注册</h2>
-    //           {isEmailSent ? (
-    //           <p>验证邮件已发送，请前往邮箱完成验证。</p>
-    //           ) : (
-    //               <>
-    //                   {/* <div className={style.inputGroup}>
-    //                       <label htmlFor="username">用户名：</label>
-    //                       <input
-    //                       id="username"
-    //                       type="text"
-    //                       value={username}
-    //                       onChange={(e) => setUsername(e.target.value)}
-    //                       placeholder="请输入用户名"
-    //                       />
-    //                   </div> */}
-    //                   <div className={style.inputGroup}>
-    //                       <label htmlFor="email">邮箱：</label>
-    //                       <input
-    //                       id="email"
-    //                       type="email"
-    //                       value={inputEmail}
-    //                       onChange={(e) => setInputEmail(e.target.value)}
-    //                       placeholder="请输入邮箱地址"
-    //                       />
-    //                   </div>
-    //                   <button className={style.loginBtn} onClick={handleRegister}>发送验证邮件</button>
-    //
-    //               </>
-    //           )}
-    //           <p className={style.registerLink}>已经有账号？<Link to="/login">去登录</Link></p>
-    //       </div>
-    //     </div>
-    //
-    //     </>
-    //
-    // );
     return (
         <div className={style.authContainer}>
             <div className={style.gradientBackground}></div>
@@ -104,6 +65,7 @@ const Registerr: React.FC = () => {
                         <div className={style.authMain}>
                             <div className={style.inputGroup}>
                                 <input
+                                    title="邮箱"
                                     type="email"
                                     className={style.authInput}
                                     placeholder=" "

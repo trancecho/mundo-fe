@@ -67,7 +67,7 @@ api_register.interceptors.request.use(config => {
     delete config.headers['unnecessary-header'];
 
     const headerSize = JSON.stringify(config.headers).length;
-    console.log(`Request header size: ${headerSize}`);
+    //console.log(`Request header size: ${headerSize}`);
     return config;
 }, error => {
     return Promise.reject(error);
@@ -83,7 +83,7 @@ const fetchPendingPosts = async () => {
     try {
         const response = await api_register.get("http://116.198.207.159:12349/api/audit/question/posts");
         const data = response.data;
-        console.log('获取到的待审核帖子内容:', data); 
+        //console.log('获取到的待审核帖子内容:', data); 
         return data;
     } catch (error) {
         console.error('获取消息数据失败', error);
@@ -96,7 +96,7 @@ const fetchPendingUpdateRequests = async () => {
     try {
         const response = await api_register.get("http://116.198.207.159:12349/api/audit/update/requests");
         const data = response.data;
-        console.log('获取到的待审核更新请求内容:', data); 
+        //console.log('获取到的待审核更新请求内容:', data); 
         return response.data;
     } catch (error) {
         console.error('获取待审核更新请求失败', error);
@@ -109,7 +109,7 @@ const fetchPendingAnswers = async () => {
     try {
         const response = await api_register.get("http://116.198.207.159:12349/api/audit/answer");
         const data = response.data;
-        console.log('获取到的待审核回答内容:', data); 
+        //console.log('获取到的待审核回答内容:', data); 
         return response.data;
     } catch (error) {
         console.error('获取待审核回答失败', error);
@@ -234,7 +234,7 @@ const Check: React.FC = () => {
     };
 
     const handleReview = async (itemId: number, itemType: string, decision: string, index: number, dataArray: any[], setDataArray: (data: any[]) => void) => {
-        console.log(`开始 ${decision === 'approve'? '批准' : '拒绝'} ${itemType}，ID: ${itemId}`);
+        //console.log(`开始 ${decision === 'approve'? '批准' : '拒绝'} ${itemType}，ID: ${itemId}`);
         const item = dataArray[index];
         const rejectionReason = item.rejectionReason;
         if (decision === 'reject' &&!rejectionReason.trim()) {
@@ -252,7 +252,7 @@ const Check: React.FC = () => {
         }
         try {
             await reviewItem(url, decision, rejectionReason);
-            console.log(`${itemType} ID ${itemId} ${decision === 'approve'? '批准' : '拒绝'} 成功，重新获取数据...`);
+            //console.log(`${itemType} ID ${itemId} ${decision === 'approve'? '批准' : '拒绝'} 成功，重新获取数据...`);
             await fetchAllData();
         } catch (err) {
             const errorMessage = err instanceof Error? err.message : '未知错误';

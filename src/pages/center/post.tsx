@@ -58,7 +58,7 @@ const Post = () => {
       ...prevData,
       [name]: files && files[0] ? [...formdata.picture, files[0]] : value, // 如果是文件，则取文件，否则取值
     }));
-    console.log(formdata);
+    //console.log(formdata);
   };
 
   const handleSubmit = async () => {
@@ -89,7 +89,7 @@ const Post = () => {
       const result = await response.json();
       if (response.ok) {
         alert('上传成功');
-        console.log('上传成功：', result.data);
+        //console.log('上传成功：', result.data);
         setformdata({
           title: '',
           content: '',
@@ -102,7 +102,7 @@ const Post = () => {
       alert('上传失败');
     } finally {
       setloading(false);
-      console.log(formdata);
+      //console.log(formdata);
     }
   };
 

@@ -74,7 +74,7 @@ const TeamUp = () => {
 
   const jumpto = (id: number | undefined) => {
     setcheck(id);
-    console.log(id);
+    //console.log(id);
   };
 
   useEffect(() => {
@@ -84,7 +84,7 @@ const TeamUp = () => {
         'Authorization': `Bearer ${longtoken}`
       }
     }).then(res => res.json()).then(data => {
-      console.log(data.data.Team.Content);
+      //console.log(data.data.Team.Content);
       setData(data.data.Team.Content);
     });
   }, [longtoken]);
@@ -101,7 +101,7 @@ const TeamUp = () => {
       })
     })
     const data = await response.json();
-    console.log(data);
+    //console.log(data);
     alert(data.message);
   }
 

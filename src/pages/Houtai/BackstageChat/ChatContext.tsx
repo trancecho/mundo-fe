@@ -32,11 +32,7 @@ const ChatContext = createContext<ChatContextType | undefined>(undefined);
 interface ChatProviderProps {
   children: ReactNode;
 }
-//不要再直接登录了。
-// const token = localStorage.getItem('longtoken');
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo5LCJ1c2VybmFtZSI6ImphY2siLCJyb2xlIjoidXNlciIsImlzcyI6Im11bmRvLWF1dGgtaHViIiwiZXhwIjoxNzQxNzA4NDg5LCJpYXQiOjE3NDExMDM2ODl9.kvTCIfI5YADKW2ktnN_eSPJ0Km8cIcqAt_qe_ak2Xco";
-// localStorage.setItem("longtoken", token);
+const token = localStorage.getItem('longtoken');
 const uid = token ? JSON.parse(atob(token.split(".")[1])).user_id : null;
 
 const WebSocketUrl = "ws://116.198.207.159:12349/api/ws";
@@ -55,8 +51,8 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const response = await getFriendsList(token);
-        console.log("接口返回数据：", response.data.friends);
+        const response = await getFriendsList(token as string);
+        //console.log("接口返回数据：", response.data.friends);
 
         // 让 TypeScript 知道 `friends` 的类型
         const friends: Friend[] = response.data.friends;
@@ -73,7 +69,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
         }));
 
         setContacts(formattedContacts);
-        console.log("联系人更新后：", formattedContacts);
+        //console.log("联系人更新后：", formattedContacts);
       } catch (error) {
         console.error("获取联系人列表失败", error);
       }
@@ -108,14 +104,14 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
 
     // WebSocket 连接成功的回调
     socket.onopen = () => {
-      console.log("WebSocket 已连接");
+      //console.log("WebSocket 已连接");
       connectedRef.current = true;
       socketRef.current = socket;
     };
 
     socket.onmessage = (event) => {
       const newMessage = JSON.parse(event.data);
-      console.log("收到的WebSocket信息:", newMessage);
+      //console.log("收到的WebSocket信息:", newMessage);
       if (!newMessage.from || !newMessage.content) {
         return;
       }
@@ -169,7 +165,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
     };
 
     socket.onclose = () => {
-      console.log("WebSocket 已关闭");
+      //console.log("WebSocket 已关闭");
       connectedRef.current = false;
     };
 

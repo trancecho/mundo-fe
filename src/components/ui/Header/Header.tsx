@@ -5,6 +5,7 @@ import styles from './Header.module.css';
 import Menu from './Menu';
 import UserMenu from './UserMenu';
 import { useAuth } from '../../../context/AuthContext';
+import { getAvatar } from '@/router/api';
 
 const Header: React.FC = () => {
     const [searchText, setSearchText] = useState<string>('');
@@ -14,6 +15,9 @@ const Header: React.FC = () => {
     const location = useLocation();
     const { longtoken } = useAuth();
     const menuRef = useRef<HTMLDivElement>(null);
+    const DEFAULT_AVATAR =
+        "https://cdn.pixabay.com/photo/2018/05/31/15/06/see-no-evil-3444212_1280.jpg";
+    const [avatar, setAvatar] = useState<string | null>(DEFAULT_AVATAR);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -21,7 +25,6 @@ const Header: React.FC = () => {
                 setIsUserMenuOpen(false);
             }
         };
-
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
@@ -31,18 +34,42 @@ const Header: React.FC = () => {
     const onSearchChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
         setSearchText(event.target.value);
     };
-
+    useEffect(() => {
+        const fetchAvatar = async () => {
+            try {
+                const avatarBlob = await getAvatar(longtoken as string);
+                if (!avatarBlob) {
+                    setAvatar(DEFAULT_AVATAR);
+                    return;
+                }
+                if (avatar) {
+                    URL.revokeObjectURL(avatar);
+                }
+                const avatarUrl = URL.createObjectURL(avatarBlob);
+                setAvatar(avatarUrl);
+            } catch (error) {
+                console.error("获取头像失败", error);
+                setAvatar(DEFAULT_AVATAR);
+            }
+        };
+        fetchAvatar();
+        return () => {
+            if (avatar) {
+                URL.revokeObjectURL(avatar);
+            }
+        };
+    }, [longtoken]);
     const onSearch = () => {
         if (searchText.trim()) {
             const currentPath = location.pathname;
             if (currentPath.startsWith('/article')) {
-                console.log('时文搜索:', searchText);
+                //console.log('时文搜索:', searchText);
             } else if (currentPath.startsWith('/qa')) {
-                console.log('问答搜索:', searchText);
+                //console.log('问答搜索:', searchText);
             } else if (currentPath.startsWith('/teamup')) {
-                console.log('组队搜索:', searchText);
+                //console.log('组队搜索:', searchText);
             } else {
-                console.log('全局搜索:', searchText);
+                //console.log('全局搜索:', searchText);
             }
         }
     };
@@ -89,7 +116,7 @@ const Header: React.FC = () => {
                     onKeyPress={handleKeyPress}
                     className={styles.searchInput}
                 />
-                <button 
+                <button
                     className={styles.searchButton}
                     onClick={onSearch}
                 >
@@ -116,9 +143,15 @@ const Header: React.FC = () => {
                     <div ref={menuRef} className={styles.userMenuContainer}>
                         <div
                             className={styles.avatar}
-                            onClick={handleAvatarClick}
-                        />
-                        {isUserMenuOpen && <UserMenu />}
+                            onClick={() => navigate("/info")}
+                        // onClick={handleAvatarClick}
+                        >
+                        <img
+                            src={avatar ? avatar : DEFAULT_AVATAR}
+                            alt="头像"
+                            className="w-full h-full object-cover rounded-full" />
+                        </div>
+                        {/* {isUserMenuOpen && <UserMenu />} */}
                     </div>
                 )}
             </div>

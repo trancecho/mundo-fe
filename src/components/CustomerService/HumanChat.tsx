@@ -27,7 +27,7 @@ const HumanChat: React.FC = () => {
     const connectWebSocket = () => {
       const ws = new WebSocket(socketUrl);
       ws.onopen = () => {
-        console.log("WebSocket 已连接");
+        //console.log("WebSocket 已连接");
         connectedRef.current = true;
         socketRef.current = ws;
       };
@@ -50,7 +50,7 @@ const HumanChat: React.FC = () => {
       };
 
       ws.onclose = () => {
-        console.log("WebSocket 已关闭");
+        //console.log("WebSocket 已关闭");
         connectedRef.current = false;
       };
     };

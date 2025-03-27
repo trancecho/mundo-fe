@@ -103,7 +103,7 @@ export default function FAQPage() {
   const fetchQuestions = async () => {
     try {
       const fetchedQuestions = await getQuestions();
-      console.log("问题列表访问成功");
+      //console.log("问题列表访问成功");
       setFaqData(
         fetchedQuestions.map((q: QuestionResponse[], index: number) => ({
           ...q,

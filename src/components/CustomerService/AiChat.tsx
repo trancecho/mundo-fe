@@ -63,7 +63,7 @@ const authorization=""
         const ws = new WebSocket(url);
 
         ws.onopen = () => {
-            console.log('WebSocket连接成功');
+            // //console.log('WebSocket连接成功');
             connectedRef.current = true; // 通过useRef更新连接状态
             socketRef.current = ws;
         };
@@ -102,7 +102,7 @@ const authorization=""
         };
 
         ws.onclose = () => {
-            console.log('WebSocket连接关闭');
+            // //console.log('WebSocket连接关闭');
             connectedRef.current = false; // 关闭时更新状态
         };
     };

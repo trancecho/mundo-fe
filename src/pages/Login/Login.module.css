@@ -4,7 +4,7 @@
     width: 100vw;
     margin:0 auto;
     justify-content: center;    /* 水平居中 */
-
+    background-color: #0f172a;
 }
 .loginBox {
     margin-top: 40px;

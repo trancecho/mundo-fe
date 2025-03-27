@@ -56,7 +56,7 @@ const TaskList: React.FC<TaskListProps> = ({
         {/* <ul className={'list-none p-0'}> */}
         {tasks.map((task: Task) => {
           const delay = task.id * 150;
-          // console.log(task);
+          // //console.log(task);
           const progress = (task.duration / task.total_time) * 100;
           return (
             <li
