@@ -32,16 +32,17 @@ body {
 }
 
 .left {
-  width: 250px;
+  width: 15vw;
   background: var(--surface);
   border-radius: 12px;
   padding: 1.5rem;
   height: fit-content;
   border: 1px solid var(--border-color);
   backdrop-filter: blur(12px);
-  position: sticky;
-  top: 2rem;
-  margin-top: 80px;
+  position: fixed;
+  top: 12vh;
+  left: 3vw;
+  z-index: 100;
 }
 
 .right {
@@ -56,7 +57,7 @@ body {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   flex: 1;
   overflow: auto;
-  max-width: 900px;
+  max-width: 60%;
   transition: all 0.3s ease;
   margin-left: 2rem;
 }
@@ -172,7 +173,7 @@ body {
 }
 
 .message-pictures img {
-  width: 100%;
+  width: 30%;
   border-radius: 8px;
   transition: all 0.3s ease;
 }
