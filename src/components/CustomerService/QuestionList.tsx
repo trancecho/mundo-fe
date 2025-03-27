@@ -15,7 +15,7 @@ const QuestionList: React.FC = () => {
   const fetchQuestions = async () => {
     try {
       const fetchedQuestions = await getQuestions();
-      console.log("问题列表访问成功");
+      //console.log("问题列表访问成功");
       setQuestions(fetchedQuestions);
     } catch (error) {
       alert("问题列表访问失败");

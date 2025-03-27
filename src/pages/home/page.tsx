@@ -143,7 +143,7 @@ export default function Home() {
 
     try {
       const newTask = await createTask(newTaskName, totalTimeInSeconds);
-      console.log(newTask);
+      //console.log(newTask);
         if(newTask.duration==null){
             newTask.duration=0;
         }
@@ -169,7 +169,7 @@ export default function Home() {
   const handleDeleteTask = async (id: number) => {
     try {
       await deleteTask(id);
-      console.log(id);
+      //console.log(id);
       setTasks(tasks.filter((t) => t.id !== id));
     } catch (error) {
       console.error('Error deleting task:', error);

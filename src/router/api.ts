@@ -29,7 +29,7 @@ api.interceptors.response.use(
 );
 
 // 发送注册请求，发送邮箱验证码
-export const registerUser = async (
+export const registerUser = async ( 
   username: string,
   email: string,
   callback_url: string,
@@ -144,7 +144,7 @@ export const bindWeChatEmail = async (token: string) => {
         Authorization: "Bearer " + token,
       },
     });
-    console.log(response.data);
+    //console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("绑定邮箱token失败", error);
@@ -158,7 +158,7 @@ export const bindHDUEmail = async (
   state: string,
   code: string
 ) => {
-  console.log(token, state, code);
+  //console.log(token, state, code);
   try {
     const response = await authApi.post(
       "/hduhelp/bind",
@@ -172,7 +172,7 @@ export const bindHDUEmail = async (
         },
       }
     );
-    console.log(response.data);
+    //console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("绑定HDUtoken失败", error);
@@ -194,6 +194,172 @@ export const getFriendsList = async (token: string) => {
     throw error;
   }
 };
+
+
+// 获取个人信息
+export const getProfile = async (token: string) => {
+  try {
+    const response = await authApi.get(
+      "/profile",
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        }
+      });
+    return response.data;
+  } catch (error) {
+    console.error("获取个人队伍信息失败：", error);
+    throw error;
+  }
+}
+// 查看头像
+export const getAvatar = async (token: string): Promise<Blob | null> => {
+  try {
+    const response = await authApi.get("/avatar", {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      responseType: "blob",
+    });
+
+    return response.data;
+  } catch (error: any) {
+    if (error.response && error.response.status === 500) {
+      console.error("用户没有头像，使用默认头像");
+      return null;
+    }
+    console.error("获取头像失败：", error);
+    throw error;
+  }
+};
+
+
+//生成头像
+export const generateAvatar = async (token: string) => {
+  try {
+    const response = await authApi.get(
+      "/avatar/generate",
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        }
+      });
+    return response.data;
+  } catch (error) {
+    console.error("获取头像失败：", error);
+    throw error;
+  }
+}
+
+// 更新头像
+export const updateAvatar = async (token: string, avatar: File) => {
+  try {
+    const formData = new FormData();
+    formData.append("avatar", avatar);
+    const response = await authApi.post(
+      "/avatar/upload?service=mundo",
+      formData,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "multipart/form-data",
+        }
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("更新头像失败：", error);
+  }
+};
+
+// 更新个人信息
+export const updatePerson = async (token: string, name: string) => {
+  try {
+    const response = await authApi.put(
+      "/profile",
+      { name },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json", // 改为 JSON 格式
+        }
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("更新个人信息出错：", error);
+    throw error;
+  }
+};
+
+// 创建队伍
+export const addTeam = async (token: string, name: string, now_number:number,number: number, introduction: string, require: string, contact: string) => {
+  try {
+    const response = await api.post(
+      "/myteam",
+      {
+        name,
+        number,
+        introduction,
+        require,
+        contact,
+        now_number
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        }
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("创建队伍出错：", error);
+  }
+}
+
+// 更新队伍
+export const updateTeam = async (token: string, id:number ,name: string, now_number:number,number: number, introduction: string, require: string, contact: string) => {
+  try {
+    const response = await api.put(
+      "/myteam",
+      {
+        id,
+        name,
+        number,
+        introduction,
+        require,
+        contact,
+        now_number
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        }
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("创建队伍出错：", error);
+  }
+}
+//获取我的队伍
+export const getMyTeam = async (token: string) => {
+  try {
+    const response = await api.get(
+      "/myteam",
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        }
+      });
+    return response.data?.data?.message1?.Content;
+  } catch (error) {
+    console.error("获取个人队伍信息失败：", error);
+    throw error;
+  }
+}
 
 export const getTasks = async () => {
   const response = await api.get("/tasks");

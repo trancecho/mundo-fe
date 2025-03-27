@@ -77,7 +77,7 @@ const TeamUp = () => {
 
   const jumpto = (id: number | undefined) => {
     setcheck(id);
-    console.log(id);
+    //console.log(id);
   };
 
   useEffect(() => {

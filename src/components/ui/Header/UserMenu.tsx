@@ -19,7 +19,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ isOpen, onClose }) => {
 
   const handleLogout = () => {
     // TODO: 实现登出逻辑
-    console.log('用户登出');
+    //console.log('用户登出');
     onClose();
   };
 
