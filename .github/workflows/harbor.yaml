@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - dev
+      - master
 
 
 jobs:
@@ -27,22 +27,3 @@ jobs:
           export DOCKER_CONTENT_TRUST=0
           docker build -t ${{ secrets.HARBOR_URL }}/mundo/mundo-fe:latest .
           docker push ${{ secrets.HARBOR_URL }}/mundo/mundo-fe:latest
-#  deploy-to-k3s:
-#    runs-on: ubuntu-latest
-#    needs: build-and-push
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v3
-#
-#      - name: Set up kubectl
-#        uses: azure/setup-kubectl@v3
-#        with:
-#          version: 'latest'
-#
-#      - name: Configure kubeconfig
-#        run: |
-#          mkdir -p ~/.kube
-#          echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
-#      - name: Deploy to k3s
-#        run: |
-#          kubectl apply -f deployment.yaml
