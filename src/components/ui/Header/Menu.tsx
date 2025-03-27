@@ -4,7 +4,7 @@ import styles from './Menu.module.css';
 import { useAuth } from '../../../context/AuthContext';
 
 const baseMenuItems = [
-    { path: '/qanda', label: '答疑', icon: '💡' },
+    { path: '/qanda', label: '问答', icon: '💡' },
     { path: '/article', label: '时文', icon: '📝' },
     { path: '/teamup', label: '组队', icon: '👥' },
     { path: '/datastation', label: '资料', icon: '📚' },

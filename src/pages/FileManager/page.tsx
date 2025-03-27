@@ -35,16 +35,16 @@ export default function FileManager() {
         try {
             // 获取文件夹列表
             const folderResponse = await getFolder(currentFolderId);
-            console.log(folderResponse);
+            //console.log(folderResponse);
             // 获取文件列表
             const filesResponse = await getFiles(currentFolderId);
 
 
             // 获取文件夹id
             const IdResponse = await getparentFolderId(currentFolderId);
-            console.log(IdResponse);
+            //console.log(IdResponse);
             setParentFolderId(IdResponse);
-            console.log(parentFolderId);
+            //console.log(parentFolderId);
 
             // 提取文件夹数据
             const folders: Folder[] = await Promise.all(folderResponse.map(async (folder: any) => {
@@ -69,7 +69,7 @@ export default function FileManager() {
 
             // 合并文件夹和文件
             setItems([...folders, ...files]);
-            console.log(items); // 查看items是否正确更新
+            //console.log(items); // 查看items是否正确更新
         } catch (error) {
             console.error('Error fetching items:', error);
         }
@@ -106,13 +106,13 @@ export default function FileManager() {
         const fileInput = e.target;
         if (fileInput?.files && fileInput.files[0]) {
             const file = fileInput.files[0];
-            console.log(file);
-            console.log(file.name);
+            //console.log(file);
+            //console.log(file.name);
             try {
                 // 上传文件到指定文件夹
-                console.log(currentFolderId.toString());
+                //console.log(currentFolderId.toString());
                 await uploadFile(file, file.name, currentFolderId.toString()); // 调用 API 上传文件
-                console.log("chuansong");
+                //console.log("chuansong");
                 fetchItems();
             } catch (error) {
                 console.error('Error uploading file:', error);
@@ -160,7 +160,7 @@ export default function FileManager() {
     // 切换到指定文件夹
     const handleFolderClick = (folderId: string) => {
         setCurrentFolderId(folderId); // 更新当前文件夹 ID
-        console.log(currentFolderId);
+        //console.log(currentFolderId);
     };
 
     // 返回上一级目录

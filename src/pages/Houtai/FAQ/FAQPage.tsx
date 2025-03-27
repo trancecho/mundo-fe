@@ -6,7 +6,6 @@ import {
   updateQuestion,
   deleteQuestion,
 } from "@/router/api";
-// import { time } from "console";
 interface QuestionResponse {
   question: string;
   answers: string;
@@ -103,7 +102,7 @@ export default function FAQPage() {
   const fetchQuestions = async () => {
     try {
       const fetchedQuestions = await getQuestions();
-      console.log("问题列表访问成功");
+      //console.log("问题列表访问成功");
       setFaqData(
         fetchedQuestions.map((q: QuestionResponse[], index: number) => ({
           ...q,
@@ -124,7 +123,9 @@ export default function FAQPage() {
   return (
     <div>
       <div className={styles.faqContainer}>
-        <h2 className="mb-4 text-lg font-semibold">FAQ</h2>
+        <h2 className="mb-4 text-lg font-semibold !block !text-black !opacity-100">
+          FAQ（更新问题时不能只改答案）
+        </h2>
         <button onClick={handleAdd} className={styles.faqButton}>
           添加问题
         </button>
@@ -178,7 +179,7 @@ export default function FAQPage() {
                 onClick={() => handleEdit(index)}
                 className={styles.faqButton}
               >
-                编辑
+                更新问题
               </button>
               <button
                 onClick={() => handleDelete(index)}

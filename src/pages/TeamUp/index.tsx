@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from '@/components/ui/Header/Header.tsx'
 import style from "./teamup.module.css";
 import { useAuth } from '@/context/AuthContext';
+import { getteamup,apply} from "../../router/api";
 
 type detail = {
   ID: number
@@ -12,6 +13,8 @@ type detail = {
   Number: number;
   Publisher: string;
 }
+
+
 
 const Detail = ({ detail, jumpto, apply }: { detail: detail; jumpto: () => void; apply: () => void }) => {
   return (
@@ -74,36 +77,15 @@ const TeamUp = () => {
 
   const jumpto = (id: number | undefined) => {
     setcheck(id);
-    console.log(id);
+    //console.log(id);
   };
 
   useEffect(() => {
-    fetch('http://116.198.207.159:12349/api/allteam?service=mundo', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${longtoken}`
-      }
-    }).then(res => res.json()).then(data => {
-      console.log(data.data.Team.Content);
-      setData(data.data.Team.Content);
+    getteamup().then(data => {
+      console.log(data.data.data.Team.Content);
+      setData(data.data.data.Team.Content);
     });
   }, [longtoken]);
-
-  const apply = async (id: number) => {
-    const response = await fetch('http://116.198.207.159:12349/api/allteam?ID=1&service=mundo', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${longtoken}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        id: id
-      })
-    })
-    const data = await response.json();
-    console.log(data);
-    alert(data.message);
-  }
 
   return (
     <div className={style.container}>

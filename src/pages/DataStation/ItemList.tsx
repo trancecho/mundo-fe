@@ -76,7 +76,7 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
   }, [selectedTab]);
 
   useEffect(() => {
-    console.log('Fetched items:', items);  // 查看 items 数据
+    //console.log('Fetched items:', items);  // 查看 items 数据
   }, [items]);
 
 
@@ -85,16 +85,16 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
   };
 
   const handleDownload = (item: ItemData) => {
-    console.log('Downloading item:', item);  // 确保点击事件触发
+    //console.log('Downloading item:', item);  // 确保点击事件触发
     downloadFile(item)
       .then((response) => {
-        console.log('Download response:', response.data);  // 查看响应数据
+        //console.log('Download response:', response.data);  // 查看响应数据
         if (response.message === "下载结果") {
           const newItems = items.map((i) =>
             i.id === item.id ? { ...i, url: response.data.url } : i
           );
           setItems(newItems); // 更新 items 状态
-          console.log('Updated items:', newItems);  // 确保 items 更新了
+          //console.log('Updated items:', newItems);  // 确保 items 更新了
         } else {
           alert("今日请求次数超过限制");
         }

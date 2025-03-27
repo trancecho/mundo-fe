@@ -37,7 +37,7 @@ const CreatePost: React.FC<CreatePostProps> = () => {
     }
 
     // 模拟发布帖子
-    console.log('发布帖子:', {
+    //console.log('发布帖子:', {
       title,
       content,
       tags: selectedTags,

@@ -44,7 +44,7 @@ const Login = () => {
   useEffect(() => {
     const urlExternal = searchParams.get("external");
     if (urlExternal) {
-      console.log("external 更新:", external);
+      //console.log("external 更新:", external);
       setExternalFunc(urlExternal); // 如果 URL 中有 external，更新 Context 中的值
       bindLogin();
     }
@@ -70,7 +70,7 @@ const Login = () => {
   useEffect(() => {
     if (longtoken) {
       // 当 longtoken 更新后执行的逻辑
-      console.log("longToken 更新:", longtoken);
+      //console.log("longToken 更新:", longtoken);
     }
   }, [longtoken]); // 依赖 longtoken，当 token 变化时会触发
 
@@ -101,7 +101,7 @@ const Login = () => {
 
     try {
       const data = await loginUser(email, password); // 调用登录函数
-      console.log("登录成功:", data);
+      //console.log("登录成功:", data);
       setTokenFunc(data.data.token as string);
       setToken1(data.data.token);
       setAuthtokenflag(true);
@@ -124,7 +124,7 @@ const Login = () => {
           data.data.ticket
         )}`
       );
-      console.log("二维码获取成功:", data);
+      //console.log("二维码获取成功:", data);
       setPolling(false);
       // startPolling(); // 获取二维码后开始轮询登录状态
     } catch (error) {
@@ -134,7 +134,7 @@ const Login = () => {
   };
   const startPolling = () => {
     if (polling || !ticket) {
-      console.log("polling", polling, "ticket", ticket);
+      //console.log("polling", polling, "ticket", ticket);
       return;
     }
     setPolling(true);
@@ -142,7 +142,7 @@ const Login = () => {
     const id = setInterval(async () => {
       try {
         const result = await checkWechatLoginCallback(ticket);
-        console.log("轮询结果:", result);
+        //console.log("轮询结果:", result);
         if (result.code === 200) {
           setStatus("登录成功！");
           setTokenFunc(result.data.token as string);
@@ -158,8 +158,8 @@ const Login = () => {
         const external = "wechat";
         // 使用类型断言将 error 转换为 AxiosError 类型
         const axiosError = error as AxiosError;
-        console.log("bind", bind);
-        console.log("data", axiosError.response.data.data.code);
+        //console.log("bind", bind);
+        //console.log("data", axiosError.response.data.data.code);
         // 确保 response 和 data 存在后再访问 code
         if (axiosError.response?.data?.data.code === 400001) {
           setBind(true);
@@ -171,9 +171,9 @@ const Login = () => {
           console.error("检查扫码登录状态失败:", error);
         }
       }
-    }, 3000); // 这里结束了 setInterval 的定义
+    }, 3000); 
 
-    setIntervalId(id); // 设置 intervalId
+    setIntervalId(id); 
   };
 
   /*
@@ -189,9 +189,9 @@ const Login = () => {
     }
     const id = setInterval(async () => {
       try {
-        console.log("state", state, "code", code);
+        //console.log("state", state, "code", code);
         const result = await checkHelperLoginCallback(state, code);
-        console.log("轮询结果:", result);
+        //console.log("轮询结果:", result);
         if (result.code === 200) {
           setStatus("登录成功！");
           setTokenFunc(result.data.token as string);
@@ -207,9 +207,9 @@ const Login = () => {
         const external = "hduhelp";
         // 使用类型断言将 error 转换为 AxiosError 类型
         const axiosError = error as AxiosError;
-        console.log("bind", bind);
-        console.log("state", state, "code", code);
-        console.log("data", axiosError.response.data.data.code);
+        //console.log("bind", bind);
+        //console.log("state", state, "code", code);
+        //console.log("data", axiosError.response.data.data.code);
         // 确保 response 和 data 存在后再访问 code
         if (axiosError.response?.data?.data.code === 400001) {
           setBind(true);
@@ -228,8 +228,8 @@ const Login = () => {
   // 监听 helper 回传
   useEffect(() => {
     if (code && state && state === "1a") {
-      console.log("code:", code);
-      console.log("state:", state);
+      //console.log("code:", code);
+      //console.log("state:", state);
       // 确保 code 和 state 都存在
       if (code && state) {
         startPollingHelper();
@@ -257,29 +257,18 @@ const Login = () => {
       // 调用 verifyEmail，并获取返回的新 token
       verifyEmail(emailbind, token, randomString)
         .then((newData) => {
-          console.log("新 token:", newData.data.token);
+          //console.log("新 token:", newData.data.token);
           setTokenFunc(newData.data.token as string);
           // resolve("");
           setToken1(newData.data.token); // 更新 token
-          console.log("token1", token1); // 这儿还会是之前的 token, 因为 setState 是异步的
+          //console.log("token1", token1); // 这儿还会是之前的 token, 因为 setState 是异步的
           setAuthtokenflag(true); // 设置 token 状态
           resolve(newData.data.token as string); // 返回新 token
         })
         .catch((error) => {
-          console.error("激活失败:", error);
-          console.log(
-            "emailbind",
-            emailbind,
-            "token",
-            token,
-            "randomString",
-            randomString,
-            "external",
-            external
-          );
           // alert('激活失败，请稍后再试！');
           reject("激活失败");
-          console.log("verifyEmail激活失败");
+          //console.log("verifyEmail激活失败");
         });
     });
   };
@@ -287,17 +276,6 @@ const Login = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (longtoken) {
-          console.log(
-            "token:",
-            longtoken,
-            "external:",
-            external,
-            "state:",
-            state,
-            "code:",
-            code
-          );
-          // 根据 external 的值判断是绑定微信还是 HDUHelper
           if (external === "wechat") {
             bindWeChatEmail(longtoken)
               .then(resolve)
@@ -307,10 +285,8 @@ const Login = () => {
               });
           } else if (external === "hduhelp") {
             if (!state || !code) {
-              // 如果没有 state 或 code，执行 HDUHelper 登录
               handleHelperLogin();
             } else {
-              // 否则绑定 HDUHelper 邮箱
               bindHDUEmail(longtoken, state, code)
                 .then(resolve)
                 .catch((error) => {
@@ -319,11 +295,10 @@ const Login = () => {
                 });
             }
           } else {
-            // 如果 external 不是 wechat 或 hduhelp，返回错误
             reject("无效的 external 值");
           }
         } else {
-          console.log("longtoken 无效:", longtoken);
+          //console.log("longtoken 无效:", longtoken);
           reject("longtoken 无效");
         }
       }, 2000);
@@ -338,13 +313,11 @@ const Login = () => {
             return handleBindEmail(newtoken as string);
           })
           .then((data) => {
-            // 如果绑定成功，执行 resolve
-            console.log("绑定成功:", data);
+            //console.log("绑定成功:", data);
             navigate("/qanda");
             resolve(); // 绑定成功时返回成功
           })
           .catch((error) => {
-            // 发生错误时，执行 reject 并传递错误信息
             setStatus("激活失败或 longtoken无效，请重新激活");
             console.error(error);
             reject(new Error("激活失败或 longtoken无效，请重新激活"));
@@ -352,7 +325,7 @@ const Login = () => {
       } else {
         handleBindEmail(longtoken as string)
           .then((data) => {
-            console.log("绑定成功:", data);
+            //console.log("绑定成功:", data);
             navigate("/qanda");
             resolve(); // 绑定成功时返回成功
           })
@@ -444,6 +417,7 @@ const Login = () => {
             <div className={style.authMain}>
               <div className={style.inputGroup}>
                 <input
+                title="email"
                     type="email"
                     className={style.authInput}
                     placeholder=" "
@@ -456,6 +430,7 @@ const Login = () => {
 
               <div className={style.inputGroup}>
                 <input
+                title="password"
                     type="password"
                     className={style.authInput}
                     placeholder=" "

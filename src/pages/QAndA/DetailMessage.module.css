@@ -26,7 +26,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  margin: 2rem auto;
+  margin: 4rem auto;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -112,7 +112,7 @@
   color: var(--text-primary);
   font-size: 1rem;
   width: 100%;
-  min-height: 100px;
+  min-height: 80px;
   resize: vertical;
 }
 
@@ -135,6 +135,7 @@
 
 .send {
   background: linear-gradient(135deg, var(--primary), var(--secondary));
+  margin-left: 10px;
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;
@@ -190,6 +191,9 @@
 .content {
   color: var(--text-secondary);
   line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .picturelist {
@@ -287,4 +291,25 @@
     flex-direction: column;
     gap: 0.5rem;
   }
+}
+
+.views {
+  color: #ffffff;
+  font-size: smaller;
+  opacity: 0.6;
+}
+
+.createNewReply {
+  margin: 5px 0;
+  color: rgb(246, 246, 246);
+  font-size: larger;
+}
+
+.icons {
+  display: flex;
+  gap:15px;
+}
+
+.img {
+  width: 300px;
 }

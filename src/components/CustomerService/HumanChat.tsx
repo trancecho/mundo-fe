@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,93 +11,35 @@ import {
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import styles from "./AnswerWindow.module.css";
-import { deleteChatHistory } from "@/router/api";
-import { longtoken } from "@/router/api";
+import { useChat } from "./useChat";
+
 const HumanChat: React.FC = () => {
-  const [messages, setMessages] = useState<
-    { sender: "user" | "customer"; text: string }[]
-  >([]);
+  const {
+    messages,
+    sendMessage,
+    clearHistory,
+    connectWebSocket,
+    disconnectWebSocket,
+  } = useChat();
   const [inputText, setInputText] = useState<string>("");
-  const socketRef = useRef<WebSocket | null>(null); // WebSocket reference
-  const connectedRef = useRef<boolean>(false); // WebSocket connection status
 
-  useEffect(() => {
-    const socketUrl = `ws://116.198.207.159:12349/api/ws?toUid=8&token=${longtoken}&service=mundo`;
-
-    const connectWebSocket = () => {
-      const ws = new WebSocket(socketUrl);
-      ws.onopen = () => {
-        console.log("WebSocket 已连接");
-        connectedRef.current = true;
-        socketRef.current = ws;
-      };
-
-      ws.onmessage = (event) => {
-        const message = JSON.parse(event.data);
-
-        if (message.from === "" && message?.content) {
-          // 收到客服消息
-          setMessages((prevMessages) => [
-            ...prevMessages,
-            { sender: "customer", text: message.content },
-          ]);
-        }
-      };
-
-      ws.onerror = (error) => {
-        console.error("WebSocket 连接出错", error);
-        connectedRef.current = false;
-      };
-
-      ws.onclose = () => {
-        console.log("WebSocket 已关闭");
-        connectedRef.current = false;
-      };
-    };
-
-    connectWebSocket();
-
-    return () => {
-      // 清理 WebSocket 连接
-      socketRef.current?.close();
-      connectedRef.current = false;
-    };
-  }, []);
-
-  // 发送用户消息
   const handleSendMessage = () => {
-    if (!inputText.trim()) return;
-
-    const userMessage = {
-      type: 1,
-      content: inputText,
-    };
-
-    if (socketRef.current?.readyState === WebSocket.OPEN) {
-      //Json序列化
-      socketRef.current.send(JSON.stringify(userMessage));
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { sender: "user", text: inputText },
-      ]);
+    if (inputText.trim()) {
+      sendMessage(inputText);
       setInputText("");
-    } else {
-      console.error("WebSocket 未连接");
-    }
-  };
-  // 删除聊天记录
-  const handleDeleteChatHistory = async () => {
-    try {
-      await deleteChatHistory();
-      setMessages([]); // 清空消息列表
-      alert("聊天记录已删除");
-    } catch (error) {
-      console.error("Failed to delete chat history", error);
     }
   };
 
   return (
-    <Dialog>
+    <Dialog
+      onOpenChange={(isOpen) => {
+        if (isOpen) {
+          connectWebSocket(); // 用户打开对话框时建立 WebSocket 连接
+        } else {
+          disconnectWebSocket(); // 关闭对话框时断开 WebSocket 连接
+        }
+      }}
+    >
       <DialogTrigger asChild>
         <div className={styles.box_styles_touchable}>
           <div className={styles.font_styles}>什么烂ai?转人工！</div>
@@ -151,7 +93,7 @@ const HumanChat: React.FC = () => {
           >
             发送
           </Button>
-          <Button onClick={handleDeleteChatHistory} variant="destructive">
+          <Button onClick={clearHistory} variant="destructive">
             删除聊天记录
           </Button>
         </div>

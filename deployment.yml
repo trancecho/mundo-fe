@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mundo-fe
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mundo-fe
+  template:
+    metadata:
+      labels:
+        app: mundo-fe
+    spec:
+      containers:
+        - name: mundo-fe-name
+          image: k3s.altar-echo.top/mundo/mundo-fe:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: VITE_MODE
+              value: "production"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mundo-fe-service
+spec:
+  selector:
+    app: mundo-fe
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer

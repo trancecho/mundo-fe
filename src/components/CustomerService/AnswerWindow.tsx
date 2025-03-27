@@ -8,7 +8,7 @@ import CustomerServiceButton from "@/components/CustomerService/CustomerServiceB
 // import TypingAnimation from "@/components/ui/typing-animation";
 import BlurIn from "@/components/ui/blur-in";
 import { ConfettiButton } from "@/components/ui/confetti";
-import  HumanChat  from "./HumanChat";
+import HumanChat from "./HumanChat";
 
 const AnswerWindow: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -56,9 +56,9 @@ const AnswerWindow: React.FC = () => {
           <footer className="mt-5 w-full flex justify-start">
             <ConfettiButton
               options={{
-            get angle() {
-              return Math.random() * 360;
-            },
+                get angle() {
+                  return Math.random() * 360;
+                },
               }}
             >
               找到答案就庆祝一下吧 🎉

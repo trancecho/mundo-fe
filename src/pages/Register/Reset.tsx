@@ -9,7 +9,7 @@ const Reset: React.FC = () => {
     const navigate = useNavigate();
     const email= searchParams.get('email'); // 从 URL 获取 email
     const token = searchParams.get('token'); // 从 URL 获取 token
-    console.log(email, token);
+    //console.log(email, token);
 
     const handleVerify = async () => {
         if (!password || !email || !token) {

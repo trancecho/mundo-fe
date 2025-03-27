@@ -19,7 +19,7 @@ const Menu: React.FC<LeftProps> = () => {
     // const [isMenu2Clicked, setIsMenu2Clicked] = useState(true);
     // const [isMenu3Clicked, setIsMenu3Clicked] = useState(true);
 
-    const[activateMenu,setActivateMenu] = useState<string>('答疑');
+    const[activateMenu,setActivateMenu] = useState<string>('问答');
     const navigate = useNavigate();
 
     const handleMenuClick=(menu:string,path:string)=>{
@@ -104,7 +104,7 @@ const Header: React.FC<HeaderProps> = ({onSearchChange, onSearch}) => {
             <div className='Name'>MUNDO</div>
             {/* 在这里引入Menu组件，并传递onMenuButtonClick函数 */}
             {/*<Menu onHeaderMenuButtonClick={(buttonId) => {*/}
-            {/*    console.log(`点击了菜单按钮: ${buttonId}`);*/}
+            {/*    //console.log(`点击了菜单按钮: ${buttonId}`);*/}
             {/*    // 这里可以根据实际需求完善点击菜单按钮后的具体逻辑，比如更新状态、发起请求等*/}
             {/*}} />*/}
 

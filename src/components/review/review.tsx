@@ -29,7 +29,7 @@ const Post: React.FC<PostProps> = ({ postData }) => {
 
   const handleApprove = async (id: number) => {
     setLoading(true);
-    console.log(`审核通过: Post ID ${id}`, { comment });
+    //console.log(`审核通过: Post ID ${id}`, { comment });
     setTimeout(() => {
       setApprovalStatus('approved'); // 模拟后端返回审核通过
       alert(`审核通过：Post ID ${id}`);
@@ -39,7 +39,7 @@ const Post: React.FC<PostProps> = ({ postData }) => {
 
   const handleReject = async (id: number) => {
     setLoading(true);
-    console.log(`审核拒绝: Post ID ${id}`, { comment });
+    //console.log(`审核拒绝: Post ID ${id}`, { comment });
     setTimeout(() => {
       setApprovalStatus('rejected'); // 模拟后端返回审核拒绝
       alert(`审核拒绝：Post ID ${id}`);
