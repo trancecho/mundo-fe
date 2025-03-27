@@ -7,7 +7,8 @@ const baseMenuItems = [
     { path: '/qanda', label: '问答', icon: '💡' },
     { path: '/article', label: '时文', icon: '📝' },
     { path: '/teamup', label: '组队', icon: '👥' },
-    { path: '/datastation', label: '资料', icon: '📚' }
+    { path: '/datastation', label: '资料', icon: '📚' },
+    { path: '/center', label:'创作者中心', icon: '➕'}
 ];
 
 const adminMenuItems = [
