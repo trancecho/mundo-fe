@@ -5,6 +5,7 @@ import { registerUser } from '../../router/api.ts';
 import style from '@/pages/Login/Auth.module.css';
 import { useNavigate, Link } from 'react-router-dom';
 import * as process from "node:process";
+import Header from "@/components/ui/Header/Header.tsx";
 
 const Registerr: React.FC = () => {
     const { setEmailFunc } = useAuth();
@@ -40,6 +41,7 @@ const Registerr: React.FC = () => {
     };
     return (
         <div className={style.authContainer}>
+            <Header/>
             <div className={style.gradientBackground}></div>
 
             <div className={style.authCard}>

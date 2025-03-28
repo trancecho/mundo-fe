@@ -670,7 +670,7 @@ export const getMessages = async (
   category?: string
 ) => {
   try {
-    const response = await api.get("/question/posts", {
+    const response = await api.get("/question/post", {
       params: {
         filter,
         page,
