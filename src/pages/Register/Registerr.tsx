@@ -20,16 +20,17 @@ const Registerr: React.FC = () => {
         //     return;
         //   }
         const callbackURL = import.meta.env.VITE_callbackURL;
-        const callbackPath = "register/verify/v2";
+        const callbackPath = "/register/verify/v2";
         const url = callbackURL + callbackPath;
 
         try {
             //console.log(inputEmail);
-            if (import.meta.env.VITE_mode === 'dev') {
-                await registerUser(inputEmail, inputEmail, url);
-            } else {
-                //console.log('registerUser-prod');
-            }
+            // if (import.meta.env.VITE_mode === 'dev') {
+            //     await registerUser(inputEmail, inputEmail, url);
+            // } else {
+            //     //console.log('registerUser-prod');
+            // }
+            await registerUser(inputEmail, inputEmail, url);
             setIsEmailSent(true);
             alert('验证邮件已发送，请查收邮箱完成验证！');
             setEmailFunc(inputEmail);
