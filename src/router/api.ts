@@ -11,9 +11,8 @@ const authApi = axios.create({
 export const longtoken = localStorage.getItem("longtoken");
 console.log("Token:", longtoken);
 const api = axios.create({
-  // baseURL: "http://116.198.207.159:12349/api",
+  // baseURL: "https://qgdoywhgtdnh.sealosbja.site/timerme/api",
   baseURL: import.meta.env.VITE_baseURL,
-
   headers: {
     "Content-Type": "application/json",
     Authorization: "Bearer " + longtoken, // 登录所需token

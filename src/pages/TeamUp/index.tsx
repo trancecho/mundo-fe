@@ -18,7 +18,8 @@ type detail = {
 
 const Detail = ({ detail, jumpto, apply }: { detail: detail; jumpto: () => void; apply: () => void }) => {
   return (
-    <div className={style.teamCard}>
+    <div className={style.mask}>
+    <div className={style.teampick}>
       <div className={style.alert__close} onClick={jumpto}>&times;</div>
       <div className={style.header}>
         <h3 className={style.teamName}>{detail.Name}</h3>
@@ -42,6 +43,7 @@ const Detail = ({ detail, jumpto, apply }: { detail: detail; jumpto: () => void;
           <span>加入</span>
         </button>
       </div>
+    </div>
     </div>
   );
 };
@@ -73,13 +75,11 @@ const TeamUp = () => {
   const { longtoken } = useAuth();
   const [data, setData] = useState<detail[]>([]);
   const [check, setcheck] = useState<number | undefined>(undefined);
-  const result = check ? data.find(item => item.ID === check) : undefined;
+  const result = check !== undefined ? data.find(item => item.ID === check) : undefined; // 修改判断条件
 
   const jumpto = (id: number | undefined) => {
     setcheck(id);
-    //console.log(id);
   };
-
   useEffect(() => {
     getteamup().then(data => {
       console.log(data.data.data.Team.Content);
