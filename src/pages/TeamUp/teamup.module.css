@@ -54,7 +54,6 @@
   border-radius: 12px;
   padding: 1.5rem;
   transition: all 0.3s ease;
-  position: relative;
   overflow: hidden;
 }
 
@@ -62,6 +61,28 @@
   transform: translateY(-5px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   background: var(--surface-light);
+}
+
+.teampick {
+  position: relative;
+  background: var(--surface);
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 550px;
+  width: 90%;
+}
+
+.mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
 }
 
 .teamName {
@@ -189,6 +210,10 @@
   color: var(--primary-light);
 }
 
+.alert__close {
+  cursor: pointer;
+}
+
 @media (max-width: 768px) {
   .container {
     padding: 1rem;
@@ -209,4 +234,3 @@
   }
 }
 
-  
