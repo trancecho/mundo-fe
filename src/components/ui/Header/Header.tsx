@@ -6,9 +6,10 @@ import Menu from './Menu';
 import UserMenu from './UserMenu';
 import { useAuth } from '../../../context/AuthContext';
 import { getAvatar } from '@/router/api';
+import { useSearch } from './SearchContext';
 
 const Header: React.FC = () => {
-    const [searchText, setSearchText] = useState<string>('');
+    const { searchText, setSearchText } = useSearch();
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
     const navigate = useNavigate();
@@ -63,13 +64,13 @@ const Header: React.FC = () => {
         if (searchText.trim()) {
             const currentPath = location.pathname;
             if (currentPath.startsWith('/article')) {
-                //console.log('时文搜索:', searchText);
+                setSearchText(searchText.trim());  // 更新搜索文本
             } else if (currentPath.startsWith('/qa')) {
-                //console.log('问答搜索:', searchText);
+                setSearchText(searchText.trim());
             } else if (currentPath.startsWith('/teamup')) {
-                //console.log('组队搜索:', searchText);
+                setSearchText(searchText.trim());
             } else {
-                //console.log('全局搜索:', searchText);
+                setSearchText(searchText.trim());
             }
         }
     };
