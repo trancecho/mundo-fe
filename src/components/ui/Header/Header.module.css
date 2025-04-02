@@ -1,177 +1,250 @@
 .header {
-    height: 64px;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: rgb(3, 3, 41);
-    display: flex;
-    align-items: center;
-    padding: 0 24px;
-    gap: 24px;
-    z-index: 100;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    margin: 0;
+  height: 64px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgb(3, 3, 41);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 24px;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 0;
 }
 
 .logo {
-    font-size: 24px;
-    font-weight: 700;
-    background: linear-gradient(45deg, var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    padding-right: 24px;
+  font-size: 24px;
+  font-weight: 700;
+  background: linear-gradient(45deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding-right: 24px;
 }
 
 .searchWrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    padding: 4px;
-    width: 400px;
-    transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 4px;
+  width: 400px;
+  transition: all 0.3s ease;
 }
 
 .searchWrapper.focused {
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
 }
 
 .searchIcon {
-    color: var(--text-secondary);
-    font-size: 20px;
-    margin: 0 12px;
+  color: var(--text-secondary);
+  font-size: 20px;
+  margin: 0 12px;
 }
 
 .searchInput {
-    flex: 1;
-    height: 40px;
-    background: transparent;
-    border: none;
-    color: var(--text-primary);
-    font-size: 15px;
-    padding: 0 8px;
-    outline: none;
-    cursor: text; /* 添加文本输入光标 */
+  flex: 1;
+  height: 40px;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 15px;
+  padding: 0 8px;
+  outline: none;
+  cursor: text; /* 添加文本输入光标 */
 }
 
 .searchWrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    padding: 4px;
-    width: 400px;
-    transition: all 0.3s ease;
-    cursor: text; /* 搜索框容器也使用文本输入光标 */
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 4px;
+  width: 400px;
+  transition: all 0.3s ease;
+  cursor: text; /* 搜索框容器也使用文本输入光标 */
 }
 
 .searchInput::placeholder {
-    color: var(--text-secondary);
+  color: var(--text-secondary);
 }
 
 .searchButton {
-    height: 40px;
-    padding: 0 24px;
-    border: none;
-    border-radius: 8px;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: white;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  height: 40px;
+  padding: 0 24px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .searchButton:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
 }
 
 .userActions {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
 }
 
 .creatorCenter {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--text-primary);
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .creatorCenter:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
 }
 
 .avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
-    cursor: pointer;
-    transition: all 0.3s ease;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    var(--primary-light),
+    var(--secondary-light)
+  );
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .avatar:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
 }
 
 .authButton {
-    padding: 8px 20px;
-    border-radius: 12px;
-    font-weight: 500;
-    font-size: 15px;
-    transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--text-primary);
-    backdrop-filter: blur(12px);
-    cursor: pointer;
+  padding: 8px 20px;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
 }
 
 .authButton:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
 }
 
 .registerButton {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    border: none;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border: none;
 }
 
 .registerButton:hover {
-    background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+  background: linear-gradient(
+    135deg,
+    var(--primary-dark),
+    var(--secondary-dark)
+  );
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
 }
 
 .userMenuContainer {
-    position: relative;
+  position: relative;
+  display: flex;
+  flex-direction: row;
 }
 
 .avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    cursor: pointer;
-    transition: all 0.3s ease;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .avatar:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.3);
+  transform: scale(1.05);
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.3);
+}
+
+/* 确保Modal在视口中央 */
+.custom-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  max-width: 80%;
+  min-width: 300px;
+  z-index: 1000;
+  background-color: white;
+  border-radius: 10px;
+}
+
+/* 内容区域样式 */
+.custom-modal-body {
+  padding: 20px;
+  text-align: center;
+}
+
+/* 遮罩层样式 */
+.custom-modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+/* 标题样式 */
+.custom-modal .ant-modal-title {
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+  color: black;
+}
+
+/* 按钮区域样式 */
+.custom-modal .ant-modal-footer {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  border-top: none;
+  padding: 0 20px 20px;
+}
+/* 动画效果 */
+.custom-modal {
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
 }
