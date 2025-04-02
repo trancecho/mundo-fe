@@ -87,10 +87,10 @@ export const loginUser = async (email: string, password: string) => {
       email,
       password,
     });
-    return response.data; // 返回响应数据
+    return response.data; 
   } catch (error) {
     console.error("登录失败:", error);
-    throw error; // 将错误抛出，以便在调用处处理
+    throw error; 
   }
 };
 
