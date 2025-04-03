@@ -2,8 +2,8 @@
 import axios from "axios";
 
 const authApi = axios.create({
-  // baseURL : "https://auth.altar-echo.top/api",
-  baseURL: import.meta.env.VITE_authURL,
+  baseURL: "https://qgdoywhgtdnh.sealosbja.site/mundo-auth-hub/api/login?service=mundo",
+  // baseURL: import.meta.env.VITE_authURL,
   headers: {
     "Content-Type": "application/json",
   },
@@ -11,8 +11,8 @@ const authApi = axios.create({
 export const longtoken = localStorage.getItem("longtoken");
 console.log("Token:", longtoken);
 const api = axios.create({
-  // baseURL: "https://qgdoywhgtdnh.sealosbja.site/timerme/api",
-  baseURL: import.meta.env.VITE_baseURL,
+  baseURL: "https://qgdoywhgtdnh.sealosbja.site/timerme/api",
+  // baseURL: import.meta.env.VITE_baseURL,
   headers: {
     "Content-Type": "application/json",
     Authorization: "Bearer " + longtoken, // 登录所需token
