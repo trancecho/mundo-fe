@@ -189,7 +189,6 @@ const EmailVerification: React.FC = () => {
   return (
     <>
       <div className={style.authContainer}>
-        <Header />
         <div className={style.authCard}>
           <h1>邮箱验证</h1>
           <p>
