@@ -325,4 +325,4 @@ const QAndA: React.FC = () => {
     );
 };
 
-export default QAndA;
+export default QAndA;    
