@@ -1,6 +1,6 @@
 .item {
   margin-bottom: 1.5rem;
-  padding: 1.5rem;
+  padding: 15px 15px 10px 15px;
   border: 1px solid var(--border-color);
   border-radius: 12px;
   background: var(--surface);
@@ -11,12 +11,21 @@
   backdrop-filter: blur(12px);
   transition: all 0.3s ease;
   cursor: pointer;
+  text-align: left;
+  line-height: 1.2; /* 减小行间距 */
+  position: relative;
+  margin-top: 10px;
 }
 
 .item:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 32px rgba(124, 58, 237, 0.2);
   background: var(--surface-light);
+}
+
+.item p {
+  margin: 8px 0; /* 减小段落之间的间距 */
+  text-align: left;
 }
 
 p {
@@ -38,25 +47,38 @@ h3 {
 
 .title {
   font-weight: 700;
-  margin-bottom: 1rem;
+  margin-bottom: 10px;
   color: var(--text-primary);
+  text-align: left;
 }
 
 .downloadButton {
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: white;
-  padding: 0.75rem 1.5rem;
+  padding: 0.5rem 1rem;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
   font-weight: 600;
   transition: all 0.3s ease;
-  margin-top: 1rem;
+  margin-left: 5px;
   align-self: flex-start;
 }
 
 .downloadButton:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+
+.mainContent {
+  margin-right: 60px; /* 为热度预留空间 */
+}
+
+.hotness {
+  position: absolute;
+  bottom: 21px;
+  right: 10px;
+  font-size: 15px;
+  color: #a6a6a6;
 }
