@@ -28,20 +28,24 @@ const Item: React.FC<ItemProps> = ({ item, onDownload }) => {
 
   return (
     <div className={styles.item}>
-      <h3 className={styles.title}>{item.name}</h3>
-      <p>文件大小: {sizeInMB} MB</p>
-      <p>
-        下载链接:  
-        {item.url ? (
-          <a href={item.url} target="_blank" rel="noopener noreferrer">点击下载</a>
-        ) : (
-          <button className={styles.downloadButton} onClick={() => onDownload(item)}>
-            点击下载
-          </button>
-        )}
-      </p>
-      <p>热度: {item.hotness}</p>
-      <p>更新时间: {formatDate(item.updated_at)}</p>
+      <div className={styles.mainContent}>
+        <h3 className={styles.title}>{item.name}</h3>
+        <p>文件大小: {sizeInMB} MB</p>
+        <p>
+          下载链接:  
+          {item.url ? (
+            <a href={item.url} target="_blank" rel="noopener noreferrer">点击下载</a>
+          ) : (
+            <button className={styles.downloadButton} onClick={() => onDownload(item)}>
+              点击下载
+            </button>
+          )}
+        </p>
+        <p>更新时间: {formatDate(item.updated_at)}</p>
+      </div>
+      <div className={styles.hotness}>
+        热度: {item.hotness}
+      </div>
     </div>
   );
 };

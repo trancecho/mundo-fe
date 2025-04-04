@@ -444,15 +444,13 @@ export const getAllPost = async () => {
   }
 };
 
-//获取文件列表
+//资料站  获取文件列表
 export const getFileList = async (name: string) => {
   try {
-    const response = await api.get(`/files`, {
-      params: { name },
-      headers: {
-        Authorization: "Bearer " + longtoken,
-      },
-    });
+    const response = await api.post(`/files`, 
+      {"name":name},
+      { headers: { Authorization: "Bearer " + longtoken } }
+     );
     return response.data.data.files; // 返回的数据结构
   } catch (error) {
     console.error("获取文件列表失败", error);
@@ -460,7 +458,7 @@ export const getFileList = async (name: string) => {
   }
 };
 
-// 下载文件的封装函数
+//资料站 下载文件的封装函数
 export const downloadFile = async (item: {
   name: string;
   folder_id: number;
