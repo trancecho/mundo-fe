@@ -10,7 +10,7 @@ import { IconExport, IconClose } from "@arco-design/web-react/icon";
 import { Modal, Button } from "@arco-design/web-react";import { useSearch } from './SearchContext';
 
 const Header: React.FC = () => {
-  const { searchText, setSearchText } = useSearch();
+  const { searchText, setSearchText } = useSearch(); // 使用 useSearch 钩子获取和设置搜索文本
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const navigate = useNavigate();
