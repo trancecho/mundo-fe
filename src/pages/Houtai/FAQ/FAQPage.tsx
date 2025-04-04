@@ -121,91 +121,76 @@ export default function FAQPage() {
   }, []);
 
   return (
-    <div className="bg-slate-800 rounded-lg p-6 h-[80vh] overflow-auto">
-      <h2 className="mb-6 text-xl font-semibold text-white">
-        FAQ（更新问题时不能只改答案）
-      </h2>
-      <button
-        onClick={handleAdd}
-        className="px-4 py-2 mb-6 text-white transition-colors rounded-md bg-slate-600 hover:bg-slate-700"
-      >
-        添加问题
-      </button>
-
-      {faqData.map((item, index) =>
-        item.isEditing ? (
-          <div
-            key={item.id || index}
-            className="p-4 mb-4 rounded-lg shadow bg-slate-700"
-          >
-            <div className="mb-3">
-              <label className="block mb-1 text-white">问题: </label>
-              <input
-                type="text"
-                value={item.question}
-                className="w-full p-2 text-white border rounded-md bg-slate-800 border-slate-600"
-                onChange={(e) => {
-                  const updatedQuestion = e.target.value;
-                  setFaqData((prev) =>
-                    prev.map((q, i) =>
-                      i === index ? { ...q, question: updatedQuestion } : q
-                    )
-                  );
-                }}
-              />
+    <div>
+      <div className={styles.faqContainer}>
+        <h2 className="mb-4 text-lg font-semibold !block !text-black !opacity-100">
+          FAQ（更新问题时不能只改答案）
+        </h2>
+        <button onClick={handleAdd} className={styles.faqButton}>
+          添加问题
+        </button>
+        {faqData.map((item, index) =>
+          item.isEditing ? (
+            <div key={item.id || index} className={styles.faqItem}>
+              <div>
+                <label>问题: </label>
+                <input
+                  type="text"
+                  value={item.question}
+                  className="p-1 mr-2 border"
+                  onChange={(e) => {
+                    const updatedQuestion = e.target.value;
+                    setFaqData((prev) =>
+                      prev.map((q, i) =>
+                        i === index ? { ...q, question: updatedQuestion } : q
+                      )
+                    );
+                  }}
+                />
+              </div>
+              <div>
+                <label>回答: </label>
+                <input
+                  type="text"
+                  value={item.answers}
+                  className="p-1 mr-2 border"
+                  onChange={(e) => {
+                    const updatedAnswer = e.target.value;
+                    setFaqData((prev) =>
+                      prev.map((q, i) =>
+                        i === index ? { ...q, answers: updatedAnswer } : q
+                      )
+                    );
+                  }}
+                />
+              </div>
+              <button
+                onClick={() => handleSave(index, item.question, item.answers)}
+                className={styles.faqButton}
+              >
+                保存
+              </button>
             </div>
-            <div className="mb-3">
-              <label className="block mb-1 text-white">回答: </label>
-              <input
-                type="text"
-                value={item.answers}
-                className="w-full p-2 text-left text-white border rounded-md bg-slate-800 border-slate-600"
-                onChange={(e) => {
-                  const updatedAnswer = e.target.value;
-                  setFaqData((prev) =>
-                    prev.map((q, i) =>
-                      i === index ? { ...q, answers: updatedAnswer } : q
-                    )
-                  );
-                }}
-              />
-            </div>
-            <button
-              onClick={() => handleSave(index, item.question, item.answers)}
-              className="px-4 py-2 text-white transition-colors rounded-md bg-slate-900 hover:bg-slate-800"
-            >
-              保存
-            </button>
-          </div>
-        ) : (
-          <div
-            key={item.id || index}
-            className="p-4 mb-4 rounded-lg shadow bg-slate-700"
-          >
-            <p className="mb-2 text-left text-white">
-              <span className="font-medium">问题:</span> {item.question}
-            </p>
-            <p className="mb-4 text-left text-slate-300">
-              <span className="font-medium text-white">回答:</span>{" "}
-              {item.answers}
-            </p>
-            <div className="flex justify-between">
+          ) : (
+            <div key={item.id || index} className={styles.faqItem}>
+              <p className={styles.faqText}>问题: {item.question}</p>
+              <p className={styles.faqText}>回答: {item.answers}</p>
               <button
                 onClick={() => handleEdit(index)}
-                className="px-3 py-1 text-white transition-colors rounded-md bg-slate-600 hover:bg-slate-500"
+                className={styles.faqButton}
               >
                 更新问题
               </button>
               <button
                 onClick={() => handleDelete(index)}
-                className="px-3 py-1 text-white transition-colors bg-red-700 rounded-md hover:bg-red-600"
+                className={styles.faqButton}
               >
                 删除
               </button>
             </div>
-          </div>
-        )
-      )}
+          )
+        )}
+      </div>
     </div>
   );
 }
