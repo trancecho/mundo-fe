@@ -2,8 +2,8 @@
 import axios from "axios";
 
 const authApi = axios.create({
-  // baseURL : "https://auth.altar-echo.top/api",
-  baseURL: import.meta.env.VITE_authURL,
+  baseURL: "https://qgdoywhgtdnh.sealosbja.site/mundo-auth-hub/api/login?service=mundo",
+  // baseURL: import.meta.env.VITE_authURL,
   headers: {
     "Content-Type": "application/json",
   },
@@ -11,9 +11,8 @@ const authApi = axios.create({
 export const longtoken = localStorage.getItem("longtoken");
 console.log("Token:", longtoken);
 const api = axios.create({
-  // baseURL: "http://116.198.207.159:12349/api",
-  baseURL: import.meta.env.VITE_baseURL,
-
+  baseURL: "https://qgdoywhgtdnh.sealosbja.site/timerme/api",
+  // baseURL: import.meta.env.VITE_baseURL,
   headers: {
     "Content-Type": "application/json",
     Authorization: "Bearer " + longtoken, // 登录所需token
@@ -436,15 +435,13 @@ export const getAllPost = async () => {
   }
 };
 
-//获取文件列表
+//资料站  获取文件列表
 export const getFileList = async (name: string) => {
   try {
-    const response = await api.get(`/files`, {
-      params: { name },
-      headers: {
-        Authorization: "Bearer " + longtoken,
-      },
-    });
+    const response = await api.post(`/files`, 
+      {"name":name},
+      { headers: { Authorization: "Bearer " + longtoken } }
+     );
     return response.data.data.files; // 返回的数据结构
   } catch (error) {
     console.error("获取文件列表失败", error);
@@ -452,7 +449,7 @@ export const getFileList = async (name: string) => {
   }
 };
 
-// 下载文件的封装函数
+//资料站 下载文件的封装函数
 export const downloadFile = async (item: {
   name: string;
   folder_id: number;
