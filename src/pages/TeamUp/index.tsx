@@ -88,11 +88,13 @@ const TeamUp = () => {
   const { longtoken } = useAuth();
   const [data, setData] = useState<detail[]>([]);
   const [check, setcheck] = useState<number | undefined>(undefined);
-  const result = check !== undefined ? data.find(item => item.ID === check) : undefined; // 修改判断条件
+  const result = check ? data.find(item => item.ID === check) : undefined;
 
   const jumpto = (id: number | undefined) => {
     setcheck(id);
+    //console.log(id);
   };
+
   useEffect(() => {
     getteamup().then(data => {
       console.log(data.data.data.Team.Content);

@@ -1,12 +1,10 @@
 .answerWindow {
+
     position: fixed;
     bottom: 60px;
     right: 20px;
-    width: 80vw;
-    max-width: 350px;
-    height: 80vh;
-    max-height: 685px;
-    min-height: 400px;
+    width: 400px;
+    height: 685px;
     background: linear-gradient(to bottom, #3085f3 20%, #6a9bf3 30%, #fff 70%);
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -17,28 +15,6 @@
     overflow-y: auto
 }
 
-/* 媒体查询 - 小屏幕设备 */
-@media (max-width: 768px) {
-    .answerWindow {
-        width: 95vw;
-        height: 75vh;
-        bottom: 50px;
-        right: 10px;
-        padding: 15px;
-    }
-}
-
-/* 媒体查询 - 超小屏幕设备 */
-@media (max-width: 480px) {
-    .answerWindow {
-        width: 98vw;
-        height: 70vh;
-        bottom: 40px;
-        right: 5px;
-        padding: 10px;
-    }
-}
-
 .answerWindow_title {
     color: #f6f3f3;
     font-size: 1.5rem;
@@ -47,13 +23,13 @@
 }
 
 .box_styles_touchable {
-    @apply w-full p-1 transition-all rounded-md cursor-pointer hover:bg-blue-100;
+    @apply p-1 cursor-pointer rounded-md hover:bg-blue-100 transition-all w-full;
     background-color: white;
 }
 
 .box_styles_contain {
     @apply border border-gray-300 shadow;
-    @apply w-full p-2 mt-2 transition-all rounded-md;
+    @apply p-2 mt-2 rounded-md transition-all w-full;
     background-color: white;
 }
 

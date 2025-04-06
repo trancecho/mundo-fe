@@ -1,7 +1,7 @@
 .dashboard-container {
     width: 100%;
     min-height: 100vh;
-    background-color: transparent;
+    background-color: #ffae00; /* 淡灰色背景，营造简洁氛围 */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -10,30 +10,28 @@
 
 .body{
     width: 100%;
-    height: auto;
+    height:auto;
+    background-color: #a4c6f8; 
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
-
 .dashboard-header {
     text-align: center;
-    color: #e0e0e0;
+    color: #333; /* 深灰色文字 */
     margin-bottom: 20px;
 }
 
 .dashboard-welcome {
-    color: #b3b3b3;
+    color: #666; /* 中灰色文字 */
     margin-bottom: 30px;
 }
 
 .dashboard.dashboard-nav {
     width: 100%;
-    background-color: transparent;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    background-color: #fff; /* 白色导航栏背景 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 淡淡的投影增加层次感 */
     border-radius: 5px;
 }
 
@@ -46,36 +44,11 @@
 
 .dashboard-nav li {
     cursor: pointer;
-    color: #e0e0e0;
+    color: #333;
     font-size: 1rem;
-    transition: all 0.3s ease;
+    transition: color 0.3s ease; /* 鼠标悬停时颜色过渡效果 */
 }
 
 .dashboard-nav li:hover {
-    color: #4dabf7;
-    transform: translateY(-2px);
-}
-
-.sidebar {
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.menuItem {
-    padding: 12px 16px;
-    color: #e0e0e0;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border-left: 3px solid transparent;
-}
-
-.menuItem:hover {
-    background-color: #0f4c81; /* 藏青色 */
-    color: #4dabf7;
-}
-
-.active {
-    background-color: #0f4c81; /* 藏青色 */
-    color: #4dabf7;
-    border-left: 3px solid #4dabf7;
+    color: #007bff; /* 悬停时变为蓝色 */
 }

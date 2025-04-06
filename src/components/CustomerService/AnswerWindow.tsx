@@ -32,7 +32,7 @@ const AnswerWindow: React.FC = () => {
       <CustomerServiceButton onClick={toggleWindow} />
       {isOpen && (
         <div ref={windowRef} className={styles.answerWindow}>
-          <header className="mt-20">
+          <header className="mt-40">
             <BlurIn
               className={styles.answerWindow_title}
               word="有问题，就有答案"
@@ -50,12 +50,11 @@ const AnswerWindow: React.FC = () => {
               <HumanChat />
             </section>
           </main>
-          <footer className="flex justify-start w-full mt-5">
+          <footer className="mt-5 w-full flex justify-start">
             <QQLink />
           </footer>
-          <footer className="flex justify-start w-full mt-5">
+          <footer className="mt-5 w-full flex justify-start">
             <ConfettiButton
-              className="px-4 py-2 text-white bg-black rounded hover:bg-gray-800"
               options={{
                 get angle() {
                   return Math.random() * 360;
