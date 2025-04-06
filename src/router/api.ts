@@ -661,32 +661,29 @@ export const getparentFolderId = async (id: string) => {
   return response.data.data.parent_folder_id;
 };
 
-export interface Message {
-  id: number;
-  title: string;
-  content: string;
-  tags: string[];
-  view: number;
-  answer_count: number;
-  created_at: string;
-  is_official: boolean;
-  picture: string[];
-}
 
-export interface ResponseData {
-  hotPosts: Message[];
-  recentPosts: Message[];
-  total_count: number;
-}
-
-export const getMessages = async () => {
+// 获取消息列表
+export const getMessages = async (
+  filter: string,
+  page: number,
+  pageSize: number,
+  category?: string
+) => {
   try {
-      const response = await api.get("/question/post");
-      return response.data.data;
+    const response = await api.get("/question/post", {
+      params: {
+        filter,
+        page,
+        page_size: pageSize,
+        category,
+      },
+    });
+    return response.data;
   } catch (error) {
-      console.error('请求出错:', error);
-      throw error;
+    console.error("获取消息列表失败:", error);
+    throw error;
   }
+
 };
 
 export const getteamup = async ()=>{

@@ -15,11 +15,9 @@ const QAndA: React.FC = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [activeCategory, setActiveCategory] = useState('all');
     const [error, setError] = useState<string | null>(null);
-    const [showSubjectMenu, setShowSubjectMenu] = useState(false);
-    const [activeSubject, setActiveSubject] = useState('');
-    const [isSubjectButtonClicked, setIsSubjectButtonClicked] = useState(false);
 
     const categories = [
+        { id: 'all', name: '全部' },
         { id: 'tech', name: '技术' },
         { id: 'design', name: '设计' },
         { id:'research', name: '研究' },
@@ -31,10 +29,8 @@ const QAndA: React.FC = () => {
         { id: 'latest', name: '最新' },
         { id: 'popular', name: '热门' },
         { id: 'unanswered', name: '未回答' },
-        { id: 'official', name: '官方' },
+        { id: 'official', name: '官方' }
     ];
-
-    const subjects = ['大物', '高数', 'C语言'];
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
@@ -51,6 +47,7 @@ const QAndA: React.FC = () => {
         setError(null);
         try {
             const response: ResponseData = await getMessages();
+            console.log('服务器返回的数据:', response);
             const hotPosts = Array.isArray(response.hotPosts)? response.hotPosts : [];
             const recentPosts = Array.isArray(response.recentPosts)? response.recentPosts : [];
             const combinedMessages = [...hotPosts, ...recentPosts].map(message => ({
@@ -64,13 +61,6 @@ const QAndA: React.FC = () => {
                 filteredMessages = combinedMessages.filter(message => {
                     const tags = message.tags || [];
                     return tags.includes(activeCategory);
-                });
-            }
-
-            if (activeSubject) {
-                filteredMessages = filteredMessages.filter(message => {
-                    const tags = message.tags || [];
-                    return tags.includes(activeSubject);
                 });
             }
 
@@ -106,6 +96,14 @@ const QAndA: React.FC = () => {
             const endIndex = startIndex + pageSize;
             const paginatedMessages = filteredMessages.slice(startIndex, endIndex);
 
+            console.log('处理后的消息数据:', paginatedMessages);
+            if (paginatedMessages.length > 0) {
+                console.log('第一条消息的关键字段:', {
+                    title: paginatedMessages[0].title,
+                    content: paginatedMessages[0].content,
+                    created_at: paginatedMessages[0].created_at
+                });
+            }
             setMessages(paginatedMessages);
             setAllFilteredMessages(filteredMessages);
             const total = filteredMessages.length;
@@ -152,6 +150,7 @@ const QAndA: React.FC = () => {
             pathname: location.pathname,
             search: params.toString()
         });
+        // 滚动到对应按钮位置
         const button = document.querySelector(`button[onclick*="${categoryId}"]`);
         if (button) {
             button.scrollIntoView({ behavior: "smooth" });
@@ -165,23 +164,6 @@ const QAndA: React.FC = () => {
 
     const handleMessageClick = (messageId: number) => {
         navigate(`/qanda/detail/${messageId}`);
-    };
-
-    const handleSubjectButtonClick = () => {
-        setIsSubjectButtonClicked(!isSubjectButtonClicked);
-        setShowSubjectMenu(!showSubjectMenu);
-        if (!isSubjectButtonClicked) {
-            setActiveSubject('');
-        }
-        setCurrentPage(1);
-        fetchMessages();
-    };
-
-    const handleSubjectSelect = async (subject: string) => {
-        setActiveSubject(subject);
-        setCurrentPage(1);
-        setLoading(true); // 开始筛选时显示加载状态
-        await fetchMessages(); // 等待筛选完成
     };
 
     return (
@@ -210,27 +192,6 @@ const QAndA: React.FC = () => {
                                 {filter.name}
                             </button>
                         ))}
-                        <div className="subject-button-container">
-                            <button
-                                className={`ChooseButton ${isSubjectButtonClicked? 'clicked' : ''}`}
-                                onClick={handleSubjectButtonClick}
-                            >
-                                科目
-                            </button>
-                            {showSubjectMenu && (
-                                <div className="Choose">
-                                    {subjects.map((subject, index) => (
-                                        <button
-                                            key={index}
-                                            className={`ChooseButton ${activeSubject === subject? 'clicked' : ''}`}
-                                            onClick={() => handleSubjectSelect(subject)}
-                                        >
-                                            {subject}
-                                        </button>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
                     </div>
                     {loading? (
                         <div className="loading-container">
@@ -325,4 +286,4 @@ const QAndA: React.FC = () => {
     );
 };
 
-export default QAndA;    
+export default QAndA;
