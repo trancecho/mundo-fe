@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import styles from './article.module.css';
 import Header from '@/components/ui/Header/Header';
-import {
-    SearchProvider,
-    useSearch,
-} from "@/components/ui/Header/SearchContext";
 
 interface Article {
     id: number;
@@ -16,7 +12,7 @@ interface Article {
     category: string;
 }
 
-const ArticleContent: React.FC = () => {
+const Article: React.FC = () => {
     const [articles, setArticles] = useState<Article[]>([
         {
             id: 1,
@@ -53,27 +49,15 @@ const ArticleContent: React.FC = () => {
         }
     ]);
     const [selectedCategory, setSelectedCategory] = useState<string>('全部');
-    const { searchText } = useSearch();
     const categories = ['全部', '技术教程', '前沿科技', '社会发展', '文化艺术'];
 
-    const filteredArticles = articles.filter((article) => {
-        // 首先检查分类
-        const categoryMatch =
-          selectedCategory === "全部" || article.category === selectedCategory;
-    
-        // 然后检查搜索文本（标题、内容、作者、标签）
-        const searchMatch =
-          !searchText ||
-          [article.title, article.content, article.author, ...article.tags].some(
-            (text) => text.toLowerCase().includes(searchText.toLowerCase())
-          );
-    
-        // 同时满足分类和搜索条件
-        return categoryMatch && searchMatch;
-      });
-        
+    const filteredArticles = selectedCategory === '全部'
+        ? articles
+        : articles.filter(article => article.category === selectedCategory);
+
     return (
         <>
+            <Header />
             <div className={styles.container}>
             <div className={styles.header}>
                 <button
@@ -133,15 +117,6 @@ const ArticleContent: React.FC = () => {
             </div>
         </div>
         </>
-    );
-};
-
-const Article: React.FC = () => {
-    return (
-      <SearchProvider>
-        <Header />
-        <ArticleContent />
-      </SearchProvider>
     );
 };
 

@@ -7,10 +7,9 @@ import UserMenu from "./UserMenu";
 import { useAuth } from "../../../context/AuthContext";
 import { getAvatar } from "@/router/api";
 import { IconExport, IconClose } from "@arco-design/web-react/icon";
-import { Modal, Button } from "@arco-design/web-react";import { useSearch } from './SearchContext';
-
+import { Modal, Button } from "@arco-design/web-react";
 const Header: React.FC = () => {
-  const { searchText, setSearchText } = useSearch();
+  const [searchText, setSearchText] = useState<string>("");
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const navigate = useNavigate();
