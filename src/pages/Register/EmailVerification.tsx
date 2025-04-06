@@ -102,7 +102,8 @@ const EmailVerification: React.FC = () => {
           true,
         );
         setTimeout(() => {
-          window.location.href = import.meta.env.VITE_callback + "/login";
+          // window.location.href = import.meta.env.VITE_callback + "/login";
+          window.location.href = "/login";
         }, 3000);
       } else {
         showResult(data.message || "验证失败，请重新注册", false);

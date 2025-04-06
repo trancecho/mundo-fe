@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import randomatic from "randomatic";
+import { Message, Alert } from "@arco-design/web-react";
 // import style from "./Login.module.css";
 import style from "./Auth.module.css";
 import { useAuth } from "../../context/AuthContext.tsx";
@@ -23,7 +24,6 @@ import Header from "@/components/ui/Header/Header.tsx"; // 导入 AxiosError 类
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string>("");
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
@@ -40,7 +40,7 @@ const Login = () => {
   const [state, setState] = useState<string | null>(null);
   const emailbind = searchParams.get("email"); // 从 URL 获取 email
   const { external, setExternalFunc } = useAuth();
-
+  const [error, setError] = useState<string | null>(null);
   // 使用 useEffect 来确保 URL 中的 external 被同步到 Context 中
   useEffect(() => {
     const urlExternal = searchParams.get("external");
@@ -99,7 +99,7 @@ const Login = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    setError(null);
     try {
       const data = await loginUser(email, password); // 调用登录函数
       //console.log("登录成功:", data);
@@ -108,7 +108,7 @@ const Login = () => {
       setAuthtokenflag(true);
       navigate("/qanda");
     } catch (err) {
-      setError("登录失败，请检查您的电子邮件和密码");
+      Message.error(err?.response?.data?.message || "登录失败，请稍后重试");
     }
   };
   /*
@@ -172,9 +172,9 @@ const Login = () => {
           console.error("检查扫码登录状态失败:", error);
         }
       }
-    }, 3000); 
+    }, 3000);
 
-    setIntervalId(id); 
+    setIntervalId(id);
   };
 
   /*
@@ -405,100 +405,106 @@ const Login = () => {
   //   </div>
   // );
   return (
-      <>
-        <div className={style.authContainer}>
-          <Header/>
+    <>
+      <div className={style.authContainer}>
+        <Header />
 
-          <div className={style.gradientBackground}></div>
+        <div className={style.gradientBackground}></div>
 
-          <div className={style.authCard}>
-
-            <div className={style.authHeader}>
-              <h1 className={style.authTitle}>Welcome to <span>MUNDO</span></h1>
-              <p className={style.authSubtitle}>连接全球求知者 · 构建智慧共同体</p>
-            </div>
-
-            <div className={style.authBody}>
-              <div className={style.authMain}>
-                <div className={style.inputGroup}>
-                  <input
-                      title="email"
-                      type="email"
-                      className={style.authInput}
-                      placeholder=" "
-                      value={email}
-                      onChange={handleEmailChange}
-                  />
-                  <label className={style.inputLabel}>电子邮箱</label>
-                  <div className={style.inputUnderline}></div>
-                </div>
-
-                <div className={style.inputGroup}>
-                  <input
-                      title="password"
-                      type="password"
-                      className={style.authInput}
-                      placeholder=" "
-                      value={password}
-                      onChange={handlePasswordChange}
-                  />
-                  <label className={style.inputLabel}>登录密码</label>
-                  <div className={style.inputUnderline}></div>
-                </div>
-
-                <button className={style.primaryButton} onClick={handleLogin}>
-                  <span>立即登录</span>
-                  <div className={style.buttonHover}></div>
-                </button>
-
-                <div className={style.socialAuth}>
-                  <button
-                      className={`${style.socialButton} ${style.wechat}`}
-                      onClick={fetchQRCode}
-                  >
-                    <i className="icon-wechat"></i>
-                    微信登录
-                  </button>
-                  <button
-                      className={`${style.socialButton} ${style.hdu}`}
-                      onClick={handleHelperLogin}
-                  >
-                    <i className="icon-school"></i>
-                    HDU Helper
-                  </button>
-                </div>
-              </div>
-
-              <div className={style.authFooter}>
-                <div className={style.footerLinks}>
-                  <Link to="/register" className={style.footerLink}>创建新账号</Link>
-                  <div className={style.linkDivider}></div>
-                  <Link to="/findKey" className={style.footerLink}>找回密码</Link>
-                </div>
-              </div>
-            </div>
-
-            {qrCodeUrl && (
-                <div className={style.qrModal}>
-                  <div className={style.qrContainer}>
-                    <h3>微信扫码登录</h3>
-                    <img src={qrCodeUrl} alt="微信登录二维码"/>
-                    <p className={style.qrStatus}>{status}</p>
-                    {!polling && (
-                        <button
-                            className={style.secondaryButton}
-                            onClick={startPolling}
-                        >
-                          已扫码，开始验证
-                        </button>
-                    )}
-                  </div>
-                </div>
-            )}
+        <div className={style.authCard}>
+          <div className={style.authHeader}>
+            <h1 className={style.authTitle}>
+              Welcome to <span>MUNDO</span>
+            </h1>
+            <p className={style.authSubtitle}>
+              连接全球求知者 · 构建智慧共同体
+            </p>
           </div>
-        </div>
-      </>
 
+          <div className={style.authBody}>
+            <div className={style.authMain}>
+              <div className={style.inputGroup}>
+                <input
+                  title="email"
+                  type="email"
+                  className={style.authInput}
+                  placeholder=" "
+                  value={email}
+                  onChange={handleEmailChange}
+                />
+                <label className={style.inputLabel}>电子邮箱</label>
+                <div className={style.inputUnderline}></div>
+              </div>
+
+              <div className={style.inputGroup}>
+                <input
+                  title="password"
+                  type="password"
+                  className={style.authInput}
+                  placeholder=" "
+                  value={password}
+                  onChange={handlePasswordChange}
+                />
+                <label className={style.inputLabel}>登录密码</label>
+                <div className={style.inputUnderline}></div>
+              </div>
+
+              <button className={style.primaryButton} onClick={handleLogin}>
+                <span>立即登录</span>
+                <div className={style.buttonHover}></div>
+              </button>
+
+              <div className={style.socialAuth}>
+                <button
+                  className={`${style.socialButton} ${style.wechat}`}
+                  onClick={fetchQRCode}
+                >
+                  <i className="icon-wechat"></i>
+                  微信登录
+                </button>
+                <button
+                  className={`${style.socialButton} ${style.hdu}`}
+                  onClick={handleHelperLogin}
+                >
+                  <i className="icon-school"></i>
+                  HDU Helper
+                </button>
+              </div>
+            </div>
+
+            <div className={style.authFooter}>
+              <div className={style.footerLinks}>
+                <Link to="/register" className={style.footerLink}>
+                  创建新账号
+                </Link>
+                <div className={style.linkDivider}></div>
+                <Link to="/findKey" className={style.footerLink}>
+                  找回密码
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {qrCodeUrl && (
+            <div className={style.qrModal}>
+              <div className={style.qrContainer}>
+                <h3>微信扫码登录</h3>
+                <img src={qrCodeUrl} alt="微信登录二维码" />
+                <p className={style.qrStatus}>{status}</p>
+                {!polling && (
+                  <button
+                    className={style.secondaryButton}
+                    onClick={startPolling}
+                  >
+                    已扫码，开始验证
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </>
   );
 };
 
