@@ -42,7 +42,6 @@ const Registerr: React.FC = () => {
     };
     return (
         <div className={style.authContainer}>
-            <Header/>
             <div className={style.gradientBackground}></div>
 
             <div className={style.authCard}>
