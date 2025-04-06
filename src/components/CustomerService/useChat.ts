@@ -16,7 +16,7 @@ export const useChat = () => {
 
   const connectWebSocket = () => {
     if (connectedRef.current) return; // 避免重复连接
-    const socketUrl = `ws://116.198.207.159:12349/api/ws?toUid=9&token=${longtoken}&service=mundo`;
+    const socketUrl = `ws://116.198.207.159:12349/api/ws?toUid=8&token=${longtoken}&service=mundo`;
     const ws = new WebSocket(socketUrl);
     ws.onopen = () => {
       console.log("WebSocket 已连接");
@@ -57,6 +57,7 @@ export const useChat = () => {
     ws.onclose = () => {
       console.log("WebSocket 已关闭");
       localStorage.removeItem(STORAGE_KEY);
+      // console.log(localStorage.getItem(STORAGE_KEY));
       connectedRef.current = false;
     };
     socketRef.current = ws;

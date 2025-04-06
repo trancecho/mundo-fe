@@ -32,7 +32,7 @@ const ChatContext = createContext<ChatContextType | undefined>(undefined);
 interface ChatProviderProps {
   children: ReactNode;
 }
-const token = localStorage.getItem('longtoken');
+const token = localStorage.getItem("longtoken");
 const uid = token ? JSON.parse(atob(token.split(".")[1])).user_id : null;
 
 const WebSocketUrl = "ws://116.198.207.159:12349/api/ws";
@@ -64,8 +64,8 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
 
         const formattedContacts = uniqueFriends.map((friend) => ({
           id: friend.friend_id,
-          name: `用户${friend.friend_id}`, 
-          messages: [] as any[], 
+          name: `用户${friend.friend_id}`,
+          messages: [] as any[],
         }));
 
         setContacts(formattedContacts);
@@ -83,14 +83,14 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
     if (selectedContact) {
       // 清空当前联系人消息
       setContacts((prevContacts) =>
-        prevContacts.map(contact =>
+        prevContacts.map((contact) =>
           contact.id === selectedContact.id
-            ? { ...contact, messages: [] }  // 清空消息
+            ? { ...contact, messages: [] } // 清空消息
             : contact
         )
       );
     }
-  }, [selectedContact]);  // 监听 selectedContact 变化
+  }, [selectedContact]); // 监听 selectedContact 变化
 
   // 设置 WebSocket 连接，当选中的联系人发生变化时重新连接 WebSocket
   useEffect(() => {
