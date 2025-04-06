@@ -33,12 +33,10 @@ import FindKey from "@/pages/FindKey/FindKey"; //找回密码
 import "./App.css";
 import InfoManage from "@/pages/Info/page.tsx";
 import EmailVerification from "@/pages/Register/EmailVerification.tsx";
-import { SearchProvider } from "./components/ui/Header/SearchContext";
 
 const App: React.FC = () => {
   return (
     <AuthProvider>
-      <SearchProvider>
       <Router>
         <AnswerWindow /> {/*客服组件*/}
         <Routes>
@@ -75,7 +73,6 @@ const App: React.FC = () => {
           </Route>
         </Routes>
       </Router>
-      </SearchProvider>
     </AuthProvider>
   );
 };

@@ -17,6 +17,10 @@ export default defineConfig(({ mode }) => {
             modules: {
                 scopeBehaviour: 'local',
             },
+            devSourcemap: true,
+        },
+        build:{
+            sourcemap: true,
         },
         server: {
             port:env.VITE_port,
@@ -28,5 +32,8 @@ export default defineConfig(({ mode }) => {
             //     },
             // },
         },
+        esbuild:{
+            jsxDev:mode!=='production',
+        }
     }
 })
