@@ -4,174 +4,159 @@ import styles from './FrontPage.module.css';
 
 const FrontPage: React.FC = () => {
   return (
-      <div className={styles.container}>
-        {/* 固定导航栏 */}
-        <header className={styles.header}>
-          <div className={styles.headerContent}>
-            <div className={styles.logo}>
-              <span className={styles.logoText}>MUNDO</span>
-            </div>
-            <nav className={styles.nav}>
-              <Link to="/login" className={styles.navLink}>登录</Link>
-              <Link to="/register" className={styles.navLink}>注册</Link>
-              <Link to="/qanda" className={styles.navLink}>探索</Link>
-            </nav>
+    <div className={styles.container}>
+      <header className={styles.header}>
+        <div className={styles.headerContent}>
+          <div className={styles.logo}>
+            <span className={styles.logoText}>MUNDO</span>
           </div>
-        </header>
+          <nav className={styles.nav}>
+            <Link to="/login" className={styles.navLink}>登录</Link>
+            <Link to="/register" className={styles.navLink}>注册</Link>
+            <Link to="/qanda" className={styles.navLink}>探索</Link>
+          </nav>
+        </div>
+      </header>
 
-        {/* 首屏Hero部分 */}
-        <section className={styles.hero}>
-          <div className={styles.heroContent}>
-            <h1 className={styles.heroTitle}>
-              <span className={styles.titleGradient}>MUNDO</span>
-              <div className={styles.titleShadow} aria-hidden="true">MUNDO</div>
-            </h1>
-            <p className={styles.heroSubtitle}>连接全球求知者 · 构建智慧共同体</p>
+      <section className={styles.hero}>
+        <div className={styles.heroContent}>
+          <h1 className={styles.heroTitle}>
+            <span className={styles.titleGradient}>MUNDO</span>
+            <div className={styles.titleShadow} aria-hidden="true">MUNDO</div>
+          </h1>
+          <p className={styles.heroSubtitle}>
+            打造全方位的大学生学习助手
+            <br />
+            知识分享 · 资源互助 · 高效学习
+          </p>
 
-            <div className={styles.heroActions}>
-              <Link to="/register" className={styles.heroCta}>立即加入</Link>
-              <Link to="/qanda" className={styles.heroSecondaryCta}>先行探索 →</Link>
-            </div>
-
-            {/* 动态统计数字 */}
-            <div className={styles.stats}>
-              <div className={styles.statItem}>
-                <div className={styles.statNumber}>850K+</div>
-                <div className={styles.statLabel}>活跃用户</div>
-              </div>
-              <div className={styles.statItem}>
-                <div className={styles.statNumber}>2.1M+</div>
-                <div className={styles.statLabel}>优质内容</div>
-              </div>
-              <div className={styles.statItem}>
-                <div className={styles.statNumber}>150+</div>
-                <div className={styles.statLabel}>学科领域</div>
-              </div>
-            </div>
+          <div className={styles.heroActions}>
+            <Link to="/register" className={styles.heroCta}>立即加入</Link>
+            <Link to="/qanda" className={styles.heroSecondaryCta}>开始探索 →</Link>
           </div>
 
-          {/* 装饰性渐变背景 */}
-          <div className={styles.heroGradient}></div>
+          <div className={styles.stats}>
+            <div className={styles.statItem}>
+              <div className={styles.statNumber}>10K+</div>
+              <div className={styles.statLabel}>活跃用户</div>
+            </div>
+            <div className={styles.statItem}>
+              <div className={styles.statNumber}>5K+</div>
+              <div className={styles.statLabel}>问题解答</div>
+            </div>
+            <div className={styles.statItem}>
+              <div className={styles.statNumber}>1K+</div>
+              <div className={styles.statLabel}>学习小组</div>
+            </div>
+            <div className={styles.statItem}>
+              <div className={styles.statNumber}>100+</div>
+              <div className={styles.statLabel}>精品资料</div>
+            </div>
+          </div>
+        </div>
+        <div className={styles.heroGradient}></div>
+      </section>
+
+      <main className={styles.mainContent}>
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>全方位学习助手</h2>
+
+          <div className={styles.featuresGrid}>
+            <div className={styles.featureCard}>
+              <div className={styles.featureIcon}>💡</div>
+              <h3>在线答疑</h3>
+              <p>专业课程疑难解答，快速获得高质量解答，突破学习难点</p>
+              <Link to="/qanda" className={styles.featureLink}>立即提问 →</Link>
+            </div>
+
+            <div className={styles.featureCard}>
+              <div className={styles.featureIcon}>🌐</div>
+              <h3>学习论坛</h3>
+              <p>分享学习经验，讨论热门话题，建立知识社区</p>
+              <Link to="/forum" className={styles.featureLink}>加入讨论 →</Link>
+            </div>
+
+            <div className={styles.featureCard}>
+              <div className={styles.featureIcon}>👥</div>
+              <h3>组队学习</h3>
+              <p>找到志同道合的学习伙伴，组建高效学习小组，共同进步</p>
+              <Link to="/teamup" className={styles.featureLink}>寻找伙伴 →</Link>
+            </div>
+
+            <div className={styles.featureCard}>
+              <div className={styles.featureIcon}>📚</div>
+              <h3>资料共享</h3>
+              <p>海量优质学习资源，包含往年试题、笔记、实验报告等</p>
+              <Link to="/datastation" className={styles.featureLink}>浏览资料 →</Link>
+            </div>
+
+            <div className={styles.featureCard}>
+              <div className={styles.featureIcon}>⏱️</div>
+              <h3>TimerMe</h3>
+              <p>科学的时间管理工具，提高学习效率，养成良好习惯</p>
+              <Link to="/timerme" className={styles.featureLink}>开始计时 →</Link>
+            </div>
+          </div>
         </section>
 
-        {/* 主内容区 */}
-        <main className={styles.mainContent}>
-          {/* 核心功能模块 */}
-          <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>为什么选择 MUNDO？</h2>
-
-            <div className={styles.featuresGrid}>
-              <div className={styles.featureCard}>
-                <div className={styles.featureIcon}>🧠</div>
-                <h3>智能知识图谱</h3>
-                <p>通过AI构建的知识网络，精准连接问题与解决方案</p>
-                <div className={styles.featureHoverEffect}></div>
+        <section className={`${styles.section} ${styles.dynamicSection}`}>
+          <div className={styles.dynamicContent}>
+            <div className={styles.dynamicText}>
+              <h2>智慧学习新体验</h2>
+              <p>
+                突破传统学习方式的局限，打造全新的互助学习生态系统
+                <br />
+                <span className={styles.highlight}>答疑解惑快速响应，平均解答时间不超过30分钟</span>
+              </p>
+              <div className={styles.techStack}>
+                <span>实时答疑</span>
+                <span>资源共享</span>
+                <span>学习社区</span>
+                <span>团队协作</span>
+                <span>时间管理</span>
               </div>
-
-              <div className={styles.featureCard}>
-                <div className={styles.featureIcon}>🚀</div>
-                <h3>实时协作空间</h3>
-                <p>支持多人协同编辑、代码沙箱和虚拟白板</p>
-                <div className={styles.featureHoverEffect}></div>
-              </div>
-
-              <div className={styles.featureCard}>
-                <div className={styles.featureIcon}>🌐</div>
-                <h3>全球学习网络</h3>
-                <p>连接190+国家/地区的学者和实务专家</p>
-                <div className={styles.featureHoverEffect}></div>
-              </div>
-            </div>
-          </section>
-
-          {/* 动态展示区 */}
-          <section className={`${styles.section} ${styles.dynamicSection}`}>
-            <div className={styles.dynamicContent}>
-              <div className={styles.dynamicText}>
-                <h2>知识进化新范式</h2>
-                <p>
-                  通过我们的量子化知识引擎，实现问题求解效率的指数级提升。
-                  <span className={styles.highlight}>平均解决时间缩短67%</span>
-                </p>
-                <div className={styles.techStack}>
-                  <span>AI增强</span>
-                  <span>区块链存证</span>
-                  <span>量子计算</span>
-                </div>
-              </div>
-              <div className={styles.dynamicVisual}>
-                {/* 这里可以添加动态SVG或Canvas */}
-                <div className={styles.visualPlaceholder}></div>
-              </div>
-            </div>
-          </section>
-
-          {/* 用户见证模块 */}
-          <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>全球用户见证</h2>
-            <div className={styles.testimonials}>
-              <div className={styles.testimonialCard}>
-                <div className={styles.userMeta}>
-                  <div className={styles.userAvatar}>🐧</div>
-                  <div>
-                    <div className={styles.userName}>开源贡献者</div>
-                    <div className={styles.userTitle}>@LinuxDev</div>
-                  </div>
-                </div>
-                <p>"在这里找到了多个开源项目的核心贡献者，协作效率超乎想象！"</p>
-              </div>
-
-              <div className={styles.testimonialCard}>
-                <div className={styles.userMeta}>
-                  <div className={styles.userAvatar}>👩🔬</div>
-                  <div>
-                    <div className={styles.userName}>科研团队</div>
-                    <div className={styles.userTitle}>@QuantumResearch</div>
-                  </div>
-                </div>
-                <p>"跨学科的深度讨论帮助我们突破了量子计算的关键瓶颈"</p>
-              </div>
-            </div>
-          </section>
-        </main>
-
-        {/* 全局页脚 */}
-        <footer className={styles.footer}>
-          <div className={styles.footerContent}>
-            <div className={styles.footerMain}>
-              <div className={styles.footerBrand}>
-                <div className={styles.logo}>MUNDO</div>
-                <p>© 2024 梦渡幻响互联网信息服务工作室</p>
-              </div>
-              <div className={styles.footerLinks}>
-                <div className={styles.linkGroup}>
-                  <h4>探索</h4>
-                  <Link to="/discover">知识图谱</Link>
-                  <Link to="/trending">趋势话题</Link>
-                  <Link to="/events">学术活动</Link>
-                </div>
-                <div className={styles.linkGroup}>
-                  <h4>共建</h4>
-                  <Link to="/contribute">内容贡献</Link>
-                  <Link to="/moderation">社区治理</Link>
-                  <Link to="/research">研究合作</Link>
-                </div>
-                <div className={styles.linkGroup}>
-                  <h4>法律</h4>
-                  <Link to="/terms">服务条款</Link>
-                  <Link to="/privacy">隐私政策</Link>
-                  <Link to="/license">知识协议</Link>
-                </div>
-              </div>
-            </div>
-            <div className={styles.footerSocial}>
-              <button className={styles.socialButton}>𝕏</button>
-              <button className={styles.socialButton}>𝔽</button>
-              <button className={styles.socialButton}>𝕃</button>
             </div>
           </div>
-        </footer>
-      </div>
+        </section>
+
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>学习之旅从这里开始</h2>
+          <div className={styles.ctaSection}>
+            <div className={styles.ctaText}>
+              <p>加入MUNDO，与数万名大学生一起，开启你的高效学习之旅</p>
+            </div>
+            <Link to="/register" className={styles.ctaButton}>立即注册</Link>
+          </div>
+        </section>
+      </main>
+
+      <footer className={styles.footer}>
+        <div className={styles.footerContent}>
+          <div className={styles.footerMain}>
+            <div className={styles.footerBrand}>
+              <div className={styles.logo}>MUNDO</div>
+              <p>让大学学习更简单、更高效、更有趣</p>
+            </div>
+            <div className={styles.footerLinks}>
+              <div className={styles.linkGroup}>
+                <h4>核心功能</h4>
+                <Link to="/qanda">在线答疑</Link>
+                <Link to="/forum">学习论坛</Link>
+                <Link to="/teamup">组队学习</Link>
+                <Link to="/datastation">资料站</Link>
+                <Link to="/timerme">TimerMe</Link>
+              </div>
+              <div className={styles.linkGroup}>
+                <h4>快速入口</h4>
+                <Link to="/login">登录</Link>
+                <Link to="/register">注册</Link>
+                <Link to="/center">创作者中心</Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
   );
 };
 
