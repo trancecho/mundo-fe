@@ -122,8 +122,8 @@ const Login = () => {
       setStatus("请使用微信扫码登录");
       setQrCodeUrl(
         `https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${encodeURIComponent(
-          data.data.ticket
-        )}`
+          data.data.ticket,
+        )}`,
       );
       //console.log("二维码获取成功:", data);
       setPolling(false);
@@ -242,7 +242,7 @@ const Login = () => {
 
   //杭助跳转
   const handleHelperLogin = () => {
-    const url = `https://api.hduhelp.com/oauth/authorize?response_type=code&client_id=jvbarBgwFKD78LMh&redirect_uri=http://localhost:5173/login&state=1a`;
+    const url = `https://api.hduhelp.com/oauth/authorize?response_type=code&client_id=jvbarBgwFKD78LMh&redirect_uri=${import.meta.env.VITE_callbackURL}/login&state=1a`;
     window.location.href = url; //当前窗口打开
     // window.open(url,'_blank');//新窗口打开
   };
@@ -405,7 +405,6 @@ const Login = () => {
   //   </div>
   // );
   return (
-
     <>
       <div className={style.authContainer}>
         <Header />
