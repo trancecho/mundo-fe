@@ -11,8 +11,8 @@ const authApi = axios.create({
 export const longtoken = localStorage.getItem("longtoken");
 console.log("Token:", longtoken);
 const api = axios.create({
-  baseURL: "https://qgdoywhgtdnh.sealosbja.site/timerme/api",
-  // baseURL: import.meta.env.VITE_baseURL,
+  // baseURL: "https://qgdoywhgtdnh.sealosbja.site/timerme/api",
+  baseURL: import.meta.env.VITE_baseURL,
   headers: {
     "Content-Type": "application/json",
     Authorization: "Bearer " + longtoken, // 登录所需token
@@ -664,27 +664,27 @@ export const getparentFolderId = async (id: string) => {
 };
 
 // 获取消息列表
-export const getMessages = async (
-  filter: string,
-  page: number,
-  pageSize: number,
-  category?: string,
-) => {
-  try {
-    const response = await api.get("/question/post", {
-      params: {
-        filter,
-        page,
-        page_size: pageSize,
-        category,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("获取消息列表失败:", error);
-    throw error;
-  }
-};
+export const getMessages = async () =>
+  // filter: string,
+  // page: number,
+  // pageSize: number,
+  // category?: string,
+  {
+    try {
+      const response = await api.get("/question/post", {
+        // params: {
+        //   filter,
+        //   page,
+        //   page_size: pageSize,
+        //   category,
+        // },
+      });
+      return response.data.data;
+    } catch (error) {
+      console.error("获取消息列表失败:", error);
+      throw error;
+    }
+  };
 
 export const getteamup = async () => {
   const response = await api.get("/allteam?service=mundo", {
