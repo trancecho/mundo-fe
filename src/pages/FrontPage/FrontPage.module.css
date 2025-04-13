@@ -38,16 +38,119 @@
   gap: 2rem;
 }
 
+/* 导航链接样式优化 */
 .navLink {
   color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
   font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
   transition: all 0.3s ease;
+  position: relative;
 }
 
 .navLink:hover {
-  color: #3b82f6;
+  color: #fff;
+  background: rgba(124, 58, 237, 0.1);
   transform: translateY(-2px);
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #7c3aed, #3b82f6);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.navLink:hover::after {
+  width: 80%;
+}
+
+/* 功能卡片链接样式 */
+.featureLink {
+  display: inline-flex;
+  align-items: center;
+  color: #7c3aed;
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.featureLink:hover {
+  background: rgba(124, 58, 237, 0.1);
+  transform: translateX(5px);
+}
+
+/* 页脚链接样式优化 */
+.linkGroup a {
+  display: block;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  margin-bottom: 0.8rem;
+  transition: all 0.3s ease;
+  padding: 0.3rem 0;
+  position: relative;
+  width: fit-content;
+}
+
+.linkGroup a:hover {
+  color: #fff;
+  padding-left: 0.5rem;
+}
+
+.linkGroup a::before {
+  content: '→';
+  position: absolute;
+  left: -20px;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.linkGroup a:hover::before {
+  opacity: 1;
+  left: -10px;
+}
+
+/* 主要行动按钮优化 */
+.heroCta {
+  background: linear-gradient(45deg, #7c3aed, #3b82f6);
+  color: white;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.heroCta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #3b82f6, #7c3aed);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.heroCta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(124, 58, 237, 0.3);
+}
+
+.heroCta:hover::before {
+  opacity: 1;
 }
 
 /* 首屏Hero样式 */
@@ -385,4 +488,78 @@
     display: flex;
     justify-content: space-between;
     gap: 2rem;
+}
+
+.ctaSection {
+  text-align: center;
+  padding: 4rem 2rem;
+  position: relative;
+}
+
+.ctaText {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.ctaButton {
+  display: inline-block;
+  padding: 1.2rem 3rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(45deg, #7c3aed, #3b82f6, #7c3aed);
+  background-size: 200% 200%;
+  border-radius: 50px;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s ease;
+  animation: gradientShift 3s ease infinite;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+}
+
+.ctaButton::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #7c3aed, #3b82f6, #7c3aed);
+  background-size: 400% 400%;
+  border-radius: 50px;
+  z-index: -1;
+  animation: gradientShift 3s ease infinite;
+  filter: blur(10px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.ctaButton:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
+  letter-spacing: 1px;
+}
+
+.ctaButton:hover::before {
+  opacity: 1;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* 添加点击效果 */
+.ctaButton:active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.2);
 }

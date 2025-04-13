@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const authApi = axios.create({
-  // baseURL : "https://auth.altar-echo.top/api",
+  // baseURL: "https://qgdoywhgtdnh.sealosbja.site/mundo-auth-hub/api/login?service=mundo",
   baseURL: import.meta.env.VITE_authURL,
   headers: {
     "Content-Type": "application/json",
@@ -11,9 +11,8 @@ const authApi = axios.create({
 export const longtoken = localStorage.getItem("longtoken");
 console.log("Token:", longtoken);
 const api = axios.create({
-  // baseURL: "http://116.198.207.159:12349/api",
+  // baseURL: "https://qgdoywhgtdnh.sealosbja.site/timerme/api",
   baseURL: import.meta.env.VITE_baseURL,
-
   headers: {
     "Content-Type": "application/json",
     Authorization: "Bearer " + longtoken, // 登录所需token
@@ -25,7 +24,7 @@ api.interceptors.response.use(
   (error) => {
     console.error("请求失败:", error.response || error.message || error);
     return Promise.reject(error);
-  }
+  },
 );
 
 // 发送注册请求，发送邮箱验证码
@@ -33,7 +32,7 @@ export const registerUser = async (
   username: string,
   email: string,
   callback_url: string,
-  external?: string
+  external?: string,
 ) => {
   const response = await authApi.post("/register/v2", {
     username,
@@ -57,7 +56,7 @@ export const sendResetEmail = async (email: string, callback_url: string) => {
 export const verifyEmail = async (
   email: string,
   token: string,
-  password: string
+  password: string,
 ) => {
   const response = await authApi.post("/verify/v2", {
     email,
@@ -71,7 +70,7 @@ export const verifyEmail = async (
 export const ResetKey = async (
   email: string,
   token: string,
-  newPassword: string
+  newPassword: string,
 ) => {
   const response = await authApi.post("/find/verify", {
     email,
@@ -88,10 +87,10 @@ export const loginUser = async (email: string, password: string) => {
       email,
       password,
     });
-    return response.data; // 返回响应数据
+    return response.data;
   } catch (error) {
     console.error("登录失败:", error);
-    throw error; // 将错误抛出，以便在调用处处理
+    throw error;
   }
 };
 
@@ -156,7 +155,7 @@ export const bindWeChatEmail = async (token: string) => {
 export const bindHDUEmail = async (
   token: string,
   state: string,
-  code: string
+  code: string,
 ) => {
   //console.log(token, state, code);
   try {
@@ -170,7 +169,7 @@ export const bindHDUEmail = async (
         headers: {
           Authorization: "Bearer " + token,
         },
-      }
+      },
     );
     //console.log(response.data);
     return response.data;
@@ -258,7 +257,7 @@ export const updateAvatar = async (token: string, avatar: File) => {
           Authorization: "Bearer " + token,
           "Content-Type": "multipart/form-data",
         },
-      }
+      },
     );
     return response.data;
   } catch (error) {
@@ -277,7 +276,7 @@ export const updatePerson = async (token: string, name: string) => {
           Authorization: "Bearer " + token,
           "Content-Type": "application/json", // 改为 JSON 格式
         },
-      }
+      },
     );
     return response.data;
   } catch (error) {
@@ -294,7 +293,7 @@ export const addTeam = async (
   number: number,
   introduction: string,
   require: string,
-  contact: string
+  contact: string,
 ) => {
   try {
     const response = await api.post(
@@ -312,7 +311,7 @@ export const addTeam = async (
           Authorization: "Bearer " + token,
           "Content-Type": "application/json",
         },
-      }
+      },
     );
     return response.data;
   } catch (error) {
@@ -329,7 +328,7 @@ export const updateTeam = async (
   number: number,
   introduction: string,
   require: string,
-  contact: string
+  contact: string,
 ) => {
   try {
     const response = await api.put(
@@ -348,7 +347,7 @@ export const updateTeam = async (
           Authorization: "Bearer " + token,
           "Content-Type": "application/json",
         },
-      }
+      },
     );
     return response.data;
   } catch (error) {
@@ -445,15 +444,14 @@ export const getAllPost = async () => {
   }
 };
 
-//获取文件列表
+//资料站  获取文件列表
 export const getFileList = async (name: string) => {
   try {
-    const response = await api.get(`/files`, {
-      params: { name },
-      headers: {
-        Authorization: "Bearer " + longtoken,
-      },
-    });
+    const response = await api.post(
+      `/files`,
+      { name: name },
+      { headers: { Authorization: "Bearer " + longtoken } },
+    );
     return response.data.data.files; // 返回的数据结构
   } catch (error) {
     console.error("获取文件列表失败", error);
@@ -461,7 +459,7 @@ export const getFileList = async (name: string) => {
   }
 };
 
-// 下载文件的封装函数
+//资料站 下载文件的封装函数
 export const downloadFile = async (item: {
   name: string;
   folder_id: number;
@@ -470,7 +468,7 @@ export const downloadFile = async (item: {
     const response = await api.post(
       "/cloud_disk/download",
       { name: item.name, folder_id: item.folder_id },
-      { headers: { Authorization: `Bearer ${longtoken}` } }
+      { headers: { Authorization: `Bearer ${longtoken}` } },
     );
     return response.data;
   } catch (error) {
@@ -525,7 +523,7 @@ export const createQuestion = async (question: string, answer: string) => {
 export const updateQuestion = async (
   question: string,
   newQuestion: string,
-  newAnswer: string
+  newAnswer: string,
 ) => {
   try {
     const response = await api.post("/faq/update", {
@@ -612,7 +610,7 @@ export const deleteFile = async (id: number) => {
 export const uploadFile = async (
   file: File,
   name: string,
-  folderId: string
+  folderId: string,
 ) => {
   const formData = new FormData();
   formData.append("file", file); // 添加文件
@@ -646,7 +644,7 @@ export const getFiles = async (id: string) => {
 
 export const getFileUrl = async (
   folderId: number,
-  names: string
+  names: string,
 ): Promise<any> => {
   // 构建请求体
   const response = await api.post("/cloud_disk/download", {
@@ -666,27 +664,27 @@ export const getparentFolderId = async (id: string) => {
 };
 
 // 获取消息列表
-export const getMessages = async (
-  filter: string,
-  page: number,
-  pageSize: number,
-  category?: string
-) => {
-  try {
-    const response = await api.get("/question/post", {
-      params: {
-        filter,
-        page,
-        page_size: pageSize,
-        category,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("获取消息列表失败:", error);
-    throw error;
-  }
-};
+export const getMessages = async () =>
+  // filter: string,
+  // page: number,
+  // pageSize: number,
+  // category?: string,
+  {
+    try {
+      const response = await api.get("/question/post", {
+        // params: {
+        //   filter,
+        //   page,
+        //   page_size: pageSize,
+        //   category,
+        // },
+      });
+      return response.data.data;
+    } catch (error) {
+      console.error("获取消息列表失败:", error);
+      throw error;
+    }
+  };
 
 export const getteamup = async () => {
   const response = await api.get("/allteam?service=mundo", {
@@ -706,7 +704,7 @@ export const apply = async (id: number) => {
       headers: {
         Authorization: `Bearer ${longtoken}`,
       },
-    }
+    },
   );
   alert(response.data.message);
   return response;
@@ -754,7 +752,7 @@ export const sendAnswer = async (id: number, formDataToSend: FormData) => {
         Authorization: `Bearer ${longtoken}`,
         "Content-Type": "multipart/form-data",
       },
-    }
+    },
   );
   return response;
 };

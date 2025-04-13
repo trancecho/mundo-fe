@@ -102,7 +102,8 @@ const EmailVerification: React.FC = () => {
           true,
         );
         setTimeout(() => {
-          window.location.href = import.meta.env.VITE_callback + "/login";
+          // window.location.href = import.meta.env.VITE_callback + "/login";
+          window.location.href = "/login";
         }, 3000);
       } else {
         showResult(data.message || "验证失败，请重新注册", false);
@@ -189,7 +190,6 @@ const EmailVerification: React.FC = () => {
   return (
     <>
       <div className={style.authContainer}>
-        <Header />
         <div className={style.authCard}>
           <h1>邮箱验证</h1>
           <p>
