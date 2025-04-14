@@ -706,7 +706,6 @@ export const apply = async (id: number) => {
       },
     },
   );
-  alert(response.data.message);
   return response;
 };
 

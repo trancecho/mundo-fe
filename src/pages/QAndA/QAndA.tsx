@@ -172,7 +172,7 @@ const QAndA: React.FC = () => {
   };
 
   const handleMessageClick = (messageId: number) => {
-    navigate(`/qanda/detail/${messageId}`);
+    navigate(`/qanda/${messageId}`);
   };
 
   const handleSubjectButtonClick = () => {
