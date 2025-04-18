@@ -126,8 +126,8 @@ body {
 .Qandamessage {
   background: var(--surface);
   border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
+  padding: 1rem; /* 原来是1.5rem，稍微紧凑一点 */
+  margin-bottom: 1rem; /* 原来是1.5rem，减少垂直间距 */
   border: 1px solid var(--border-color);
   transition: all 0.3s ease;
   backdrop-filter: blur(12px);
@@ -166,6 +166,12 @@ body {
   line-height: 1.6;
   margin: 1rem 0;
 }
+.MessageUp {
+  display: flex;
+  align-items: flex-start; /* 👈 把居中改为顶部对齐 */
+  gap: 1rem;
+}
+
 
 .message-pictures {
   display: grid;
@@ -175,9 +181,10 @@ body {
 }
 
 .message-pictures img {
-  width: 30%;
-  border-radius: 8px;
-  transition: all 0.3s ease;
+  width: 100px;
+  height: auto;
+  object-fit: cover;
+  max-height: 100px;
 }
 
 .message-pictures img:hover {

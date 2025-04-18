@@ -16,8 +16,19 @@ type detail = {
 
 
 
-const Detail = ({ detail, jumpto, apply }: { detail: detail; jumpto: () => void; apply: () => void }) => {
+const Detail = ({ detail, jumpto, apply }: { detail: detail; jumpto: () => void; apply: () => Promise<any> }) => {
   const ref = useRef<HTMLDivElement | null>(null);
+  const applyto = () => {
+    apply().then(res => {
+      if (res.data.code === 200) {
+        alert('申请成功！');
+        jumpto(); 
+      }
+    }).catch(err => {
+      alert(err.response.data.message);
+      jumpto();
+    });
+  };
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
@@ -52,7 +63,7 @@ const Detail = ({ detail, jumpto, apply }: { detail: detail; jumpto: () => void;
         </div>
         <div className={style.teamMeta}>
           <div>人数：{detail.Number}</div>
-          <button className={style.joinButton} onClick={apply}>
+          <button className={style.joinButton} onClick={applyto}>
             <span>加入</span>
           </button>
         </div>
@@ -95,7 +106,6 @@ const TeamUp = () => {
   };
   useEffect(() => {
     getteamup().then(data => {
-      console.log(data.data.data.Team.Content);
       setData(data.data.data.Team.Content);
     });
   }, [longtoken]);
