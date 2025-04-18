@@ -13,19 +13,19 @@ const QAndA: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [activeCategory, setActiveCategory] = useState("all");
+  // const [activeCategory, setActiveCategory] = useState("all");
   const [error, setError] = useState<string | null>(null);
   const [showSubjectMenu, setShowSubjectMenu] = useState(false);
   const [activeSubject, setActiveSubject] = useState("");
   const [isSubjectButtonClicked, setIsSubjectButtonClicked] = useState(false);
 
-  const categories = [
-    { id: "tech", name: "技术" },
-    { id: "design", name: "设计" },
-    { id: "research", name: "研究" },
-    { id: "career", name: "职业发展" },
-    { id: "community", name: "社区" },
-  ];
+  // const categories = [
+  //   { id: "tech", name: "技术" },
+  //   { id: "design", name: "设计" },
+  //   { id: "research", name: "研究" },
+  //   { id: "career", name: "职业发展" },
+  //   { id: "community", name: "社区" },
+  // ];
 
   const filters = [
     { id: "latest", name: "最新" },
@@ -41,7 +41,7 @@ const QAndA: React.FC = () => {
     const filter = params.get("filter") || "latest";
     const category = params.get("category") || "all";
     setActiveFilter(filter);
-    setActiveCategory(category);
+    // setActiveCategory(category);
     fetchMessages();
   }, [location]);
 
@@ -64,12 +64,12 @@ const QAndA: React.FC = () => {
       }));
 
       let filteredMessages = combinedMessages;
-      if (activeCategory !== "all") {
-        filteredMessages = combinedMessages.filter((message) => {
-          const tags = message.tags || [];
-          return tags.includes(activeCategory);
-        });
-      }
+      // if (activeCategory !== "all") {
+      //   filteredMessages = combinedMessages.filter((message) => {
+      //     const tags = message.tags || [];
+      //     return tags.includes(activeCategory);
+      //   });
+      // }
 
       if (activeSubject) {
         filteredMessages = filteredMessages.filter((message) => {
@@ -139,7 +139,7 @@ const QAndA: React.FC = () => {
     setCurrentPage(1);
     const params = new URLSearchParams(location.search);
     params.set("filter", filterId);
-    params.set("category", activeCategory);
+    // params.set("category", activeCategory);
     navigate({
       pathname: location.pathname,
       search: params.toString(),
@@ -151,7 +151,7 @@ const QAndA: React.FC = () => {
   };
 
   const handleCategoryChange = (categoryId: string) => {
-    setActiveCategory(categoryId);
+    // setActiveCategory(categoryId);
     setCurrentPage(1);
     const params = new URLSearchParams(location.search);
     params.set("category", categoryId);
@@ -172,7 +172,7 @@ const QAndA: React.FC = () => {
   };
 
   const handleMessageClick = (messageId: number) => {
-    navigate(`/qanda/detail/${messageId}`);
+    navigate(`/qanda/${messageId}`);
   };
 
   const handleSubjectButtonClick = () => {
@@ -196,17 +196,17 @@ const QAndA: React.FC = () => {
     <>
       <Header />
       <div className="QandAContainer">
-        <div className="left">
-          {categories.map((category) => (
-            <button
-              key={category.id}
-              className={`MenuButton ${activeCategory === category.id ? "clicked" : ""}`}
-              onClick={() => handleCategoryChange(category.id)}
-            >
-              {category.name}
-            </button>
-          ))}
-        </div>
+        {/*<div className="left">*/}
+        {/*  {categories.map((category) => (*/}
+        {/*    <button*/}
+        {/*      key={category.id}*/}
+        {/*      className={`MenuButton ${activeCategory === category.id ? "clicked" : ""}`}*/}
+        {/*      onClick={() => handleCategoryChange(category.id)}*/}
+        {/*    >*/}
+        {/*      {category.name}*/}
+        {/*    </button>*/}
+        {/*  ))}*/}
+        {/*</div>*/}
         <div className="right">
           <div className="Choose">
             {filters.map((filter) => (
@@ -219,12 +219,12 @@ const QAndA: React.FC = () => {
               </button>
             ))}
             <div className="subject-button-container">
-              <button
-                className={`ChooseButton ${isSubjectButtonClicked ? "clicked" : ""}`}
-                onClick={handleSubjectButtonClick}
-              >
-                科目
-              </button>
+              {/*<button*/}
+              {/*  className={`ChooseButton ${isSubjectButtonClicked ? "clicked" : ""}`}*/}
+              {/*  onClick={handleSubjectButtonClick}*/}
+              {/*>*/}
+              {/*  科目*/}
+              {/*</button>*/}
               {showSubjectMenu && (
                 <div className="Choose">
                   {subjects.map((subject, index) => (
@@ -260,36 +260,43 @@ const QAndA: React.FC = () => {
                         className="Qandamessage"
                         onClick={() => handleMessageClick(message.id)}
                       >
-                        <div className="messtitle">{message.title}</div>
-                        <div className="con">
-                          {message.content.length > 150
-                            ? `${message.content.substring(0, 150)}...`
-                            : message.content}
-                        </div>
-                        <div className="TagBroad">
-                          {message.is_official && (
-                            <span className="tag">官方</span>
-                          )}
-                          {message.tags.map((tag, index) => (
-                            <span key={index} className="tag">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                        {message.picture && message.picture.length > 0 && (
-                          <div className="message-pictures">
-                            {message.picture.map((pic, index) => (
-                              <img
-                                key={index}
-                                src={`data:image/jpeg;base64,${pic}`}
-                                alt={`图片${index + 1}`}
-                                onError={() => {
-                                  console.error("图片加载失败:", pic);
-                                }}
-                              />
-                            ))}
+                        <div className="MessageUp">
+                          <div className="MessageLeft">
+                            <div className="TagBroad">
+                              {message.is_official && (
+                                <span className="tag">官方</span>
+                              )}
+                              {message.tags.map((tag, index) => (
+                                <span key={index} className="tag">
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                            {message.picture && message.picture.length > 0 && (
+                              <div className="message-pictures">
+                                {message.picture.map((pic, index) => (
+                                  <img
+                                    key={index}
+                                    src={`data:image/jpeg;base64,${pic}`}
+                                    alt={`图片${index + 1}`}
+                                    onError={() => {
+                                      console.error("图片加载失败:", pic);
+                                    }}
+                                  />
+                                ))}
+                              </div>
+                            )}
                           </div>
-                        )}
+                          <div className="MessageRight">
+                            <div className="messtitle">{message.title}</div>
+                            <div className="con">
+                              {message.content.length > 150
+                                ? `${message.content.substring(0, 150)}...`
+                                : message.content}
+                            </div>
+                          </div>
+                        </div>
+
                         <div className="message-stats">
                           <span>👁️ {message.view} 浏览</span>
                           <span>💬 {message.answer_count} 回复</span>
