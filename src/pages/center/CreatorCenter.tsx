@@ -92,11 +92,9 @@ const CreatorCenter: React.FC = () => {
                 formDataToSend.append('files', file);
             });
             post(formDataToSend).then(res=>{
-                if (res.status !== 200) {
-                    alert("发布失败");
-                    throw new Error("发布失败");
-                }
-                alert('发布成功！');
+                if(res.data.code== 200){
+                    alert('发布成功！');
+                }    
                 setFormData({
                     title: '',
                     content: '',
@@ -104,10 +102,11 @@ const CreatorCenter: React.FC = () => {
                     tags: [],
                     files: []
                 });
-            })
-            .then(() => {
                 setLoading(false);
-            });
+            }).catch(err=>{
+                alert('发布失败！');
+                setLoading(false);
+            })
     };
 
     return (
