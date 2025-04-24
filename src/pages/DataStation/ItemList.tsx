@@ -15,6 +15,8 @@ interface ItemData {
   hotness: number;
   size: number;
   url: string; // 下载链接
+  isDownloading?: boolean; // 是否正在下载
+  isDownloaded?: boolean; // 是否已下载
 }
 
 const ItemList: React.FC<ItemListProps> = ({ category }) => {
@@ -59,7 +61,11 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
       
       .catch((error) => {
         console.error("Error fetching data:", error);
-        setError("获取资料失败，请稍后再试");
+        if (error.response?.status === 500) {
+          setError("登陆后即可查看资料！若已登陆，请刷新页面～");
+        } else {
+          setError("获取资料失败，请刷新页面或稍后再试");
+        }
         setLoading(false);
       });
   }, [category]);
@@ -84,25 +90,58 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
     setSelectedTab(tab);
   };
 
-  const handleDownload = (item: ItemData) => {
-    //console.log('Downloading item:', item);  // 确保点击事件触发
-    downloadFile(item)
-      .then((response) => {
-        //console.log('Download response:', response.data);  // 查看响应数据
-        if (response.message === "下载结果") {
-          const newItems = items.map((i) =>
-            i.id === item.id ? { ...i, url: response.data.url } : i
-          );
-          setItems(newItems); // 更新 items 状态
-          //console.log('Updated items:', newItems);  // 确保 items 更新了
-        } else {
-          alert("今日请求次数超过限制");
-        }
-      })
-      .catch((error) => {
-        console.error("下载请求失败:", error);
+  const handleDownload = async (item: ItemData) => {
+    try {
+      // 设置下载中状态
+      const updatingItems = items.map((i) =>
+        i.id === item.id ? { ...i, isDownloading: true } : i
+      );
+      setItems(updatingItems);
+
+      const response = await downloadFile(item);
+      
+      if (response.message === "下载结果") {
+        const fileUrl = response.data.url;
+        const fileResponse = await fetch(fileUrl);
+        const blob = await fileResponse.blob();
+        
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = item.name;
+        document.body.appendChild(link);
+        link.click();
+        
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(link);
+        
+        // 更新状态为已下载
+        const newItems = items.map((i) =>
+          i.id === item.id ? { 
+            ...i, 
+            url: response.data.url,
+            isDownloading: false,
+            isDownloaded: true 
+          } : i
+        );
+        setItems(newItems);
+      } else {
+        // 如果下载失败，恢复按钮状态
+        const newItems = items.map((i) =>
+          i.id === item.id ? { ...i, isDownloading: false } : i
+        );
+        setItems(newItems);
         alert("下载失败，请稍后再试");
-      });
+      }
+    } catch (error) {
+      // 发生错误时，恢复按钮状态
+      const newItems = items.map((i) =>
+        i.id === item.id ? { ...i, isDownloading: false } : i
+      );
+      setItems(newItems);
+      console.error("下载请求失败:", error);
+      alert("下载失败，请稍后再试");
+    }
   };
 
   if (loading) return <p>加载中....</p>;
