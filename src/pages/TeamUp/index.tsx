@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import Header from '@/components/ui/Header/Header.tsx'
 import style from "./teamup.module.css";
 import { useAuth } from '@/context/AuthContext';
-import { getteamup, apply } from "../../router/api";
+import { getteamup } from "../../router/api";
+import { SearchProvider, useSearch } from "@/components/ui/Header/SearchContext";
 
 type detail = {
   ID: number
@@ -16,19 +17,19 @@ type detail = {
 
 
 
-const Detail = ({ detail, jumpto, apply }: { detail: detail; jumpto: () => void; apply: () => Promise<any> }) => {
+const Detail = ({ detail, jumpto }: { detail: detail; jumpto: () => void; }) => {
   const ref = useRef<HTMLDivElement | null>(null);
-  const applyto = () => {
-    apply().then(res => {
-      if (res.data.code === 200) {
-        alert('申请成功！');
-        jumpto(); 
-      }
-    }).catch(err => {
-      alert(err.response.data.message);
-      jumpto();
-    });
-  };
+  // const applyto = () => {
+  //   apply().then(res => {
+  //     if (res.data.code === 200) {
+  //       alert('申请成功！');
+  //       jumpto(); 
+  //     }
+  //   }).catch(err => {
+  //     alert(err.response.data.message);
+  //     jumpto();
+  //   });
+  // };
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
@@ -63,9 +64,9 @@ const Detail = ({ detail, jumpto, apply }: { detail: detail; jumpto: () => void;
         </div>
         <div className={style.teamMeta}>
           <div>人数：{detail.Number}</div>
-          <button className={style.joinButton} onClick={applyto}>
+          {/* <button className={style.joinButton} onClick={applyto}>
             <span>加入</span>
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
@@ -95,15 +96,29 @@ const Item = ({ detail, jumpto, check }: { detail: detail; jumpto: () => void; c
   );
 };
 
-const TeamUp = () => {
+const TeamContent = () => {
   const { longtoken } = useAuth();
   const [data, setData] = useState<detail[]>([]);
   const [check, setcheck] = useState<number | undefined>(undefined);
-  const result = check !== undefined ? data.find(item => item.ID === check) : undefined; // 修改判断条件
+  const { searchText } = useSearch();
+  const [selectedCategory, setSelectedCategory] = useState<string>('全部');
+  const result = check !== undefined ? data.find(item => item.ID === check) : undefined;
+
+  const filteredTeams = data.filter((team) => {
+    const categoryMatch = selectedCategory === '全部' || team.Require.includes(selectedCategory);
+    const searchMatch = !searchText || [
+      team.Name,
+      team.Introduction,
+      team.Publisher,
+      team.Require
+    ].some((text) => text.toLowerCase().includes(searchText.toLowerCase()));
+    return categoryMatch && searchMatch;
+  });
 
   const jumpto = (id: number | undefined) => {
     setcheck(id);
   };
+
   useEffect(() => {
     getteamup().then(data => {
       setData(data.data.data.Team.Content);
@@ -114,12 +129,20 @@ const TeamUp = () => {
     <div className={style.container}>
       <Header />
       <div className={style.teamGrid}>
-        {data.map((item) => (
+        {filteredTeams.map((item) => (
           <Item key={item.ID} detail={item} jumpto={() => jumpto(item.ID)} check={check} />
         ))}
       </div>
       {result && <Detail detail={result} jumpto={() => jumpto(undefined)} apply={() => apply(result.ID)} />}
     </div>
+  );
+};
+
+const TeamUp = () => {
+  return (
+    <SearchProvider>
+      <TeamContent />
+    </SearchProvider>
   );
 };
 
