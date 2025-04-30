@@ -407,7 +407,7 @@ const Login = () => {
   return (
     <>
       <div className={style.authContainer}>
-        <Header />
+        {/* <Header /> */}
 
         <div className={style.gradientBackground}></div>
 
