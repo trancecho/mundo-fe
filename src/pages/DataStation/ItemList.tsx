@@ -92,16 +92,19 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
 
   const handleDownload = async (item: ItemData) => {
     try {
-      // 设置下载中状态
-      const updatingItems = items.map((i) =>
-        i.id === item.id ? { ...i, isDownloading: true } : i
-      );
-      setItems(updatingItems);
-
       const response = await downloadFile(item);
       
       if (response.message === "下载结果") {
         const fileUrl = response.data.url;
+        const updateItems = items.map((i) =>
+          i.id === item.id ? { 
+            ...i, 
+            url: response.data.url,
+            isDownloading: true
+          } : i
+        );
+        setItems(updateItems);
+        console.log(fileUrl);
         const fileResponse = await fetch(fileUrl);
         const blob = await fileResponse.blob();
         
