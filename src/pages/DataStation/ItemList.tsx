@@ -92,16 +92,19 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
 
   const handleDownload = async (item: ItemData) => {
     try {
-      // 设置下载中状态
-      const updatingItems = items.map((i) =>
-        i.id === item.id ? { ...i, isDownloading: true } : i
-      );
-      setItems(updatingItems);
-
-      const response = await downloadFile(item);
+      const response = await downloadFile(item.id);
       
-      if (response.message === "下载结果") {
-        const fileUrl = response.data.url;
+      if (response.message === "生成下载链接成功") {
+        const fileUrl = response.data.downloadUrl;
+        const updateItems = items.map((i) =>
+          i.id === item.id ? { 
+            ...i, 
+            url: response.data.downloadUrl,
+            isDownloading: true
+          } : i
+        );
+        setItems(updateItems);
+        console.log(fileUrl);
         const fileResponse = await fetch(fileUrl);
         const blob = await fileResponse.blob();
         
@@ -209,3 +212,5 @@ styleSheet.textContent = `
 document.head.appendChild(styleSheet);
 
 export default ItemList;
+
+//nothing
