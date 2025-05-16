@@ -460,14 +460,11 @@ export const getFileList = async (name: string) => {
 };
 
 //资料站 下载文件的封装函数
-export const downloadFile = async (item: {
-  name: string;
-  folder_id: number;
-}) => {
+export const downloadFile = async (file_id: number) => {
   try {
     const response = await api.post(
-      "/cloud_disk/download",
-      { name: item.name, folder_id: item.folder_id },
+      "/sealos/generate-url",
+      { file_id: file_id},
       { headers: { Authorization: `Bearer ${longtoken}` } },
     );
     return response.data;
