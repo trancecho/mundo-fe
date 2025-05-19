@@ -15,7 +15,7 @@ import Reset from "@/pages/Register/Reset"; // 重置密码
 import DataStation from "@/pages/DataStation"; //资料站
 import Article from "@/pages/Article"; //时文
 import QAndA from "@/pages/QAndA/QAndA"; //答疑
-import TeamUp from "@/pages/TeamUp"; //组队
+import TeamUp from "@/pages/TeamUp/TeamUp.tsx"; //组队
 import Houtai from "./pages/Houtai/Houtai"; // 引入 Houtai.tsx
 import CreatorCenter from "@/pages/center/CreatorCenter"; //创作者中心
 import FrontPage from "@/pages/FrontPage/FrontPage"; //首页
@@ -39,42 +39,48 @@ const App: React.FC = () => {
   return (
     <AuthProvider>
       <SearchProvider>
-      <Router>
-        <AnswerWindow /> {/*客服组件*/}
-        <Routes>
-          <Route path="/" element={<FrontPage />} />
-          <Route path="/datastation" element={<DataStation />}>
-            <Route path="" element={<Navigate to="math" replace />} />
-            <Route path="math" element={<ItemList category="高数" />} />
-            <Route path="physics" element={<ItemList category="大物" />} />
-            <Route path="c-language" element={<ItemList category="C语言" />} />
-            <Route path="others" element={<ItemList category="其他" />} />
-          </Route>
-          <Route path="/article" element={<Article />} />
-          <Route path="/qanda" element={<QAndA />} />
-          <Route path="/qanda/:id" element={<DetailMessage />} />
-          <Route path="/center" element={<CreatorCenter />} />
-          <Route path="/teamup" element={<TeamUp />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/bindregister" element={<BindRegisterPage />} />
-          {/*<Route path="/register/verify/v2" element={<Verify/>}/>*/}
-          <Route path="/register/verify/v2" element={<EmailVerification />} />
-          <Route path="/register/verify/v1" element={<Reset />} />
-          <Route path="/review" element={<Review />} />
-          <Route path="/filemanager" element={<FileManager />} />
-          <Route path="/timerme" element={<Timerme />} />
-          <Route path="/info" element={<InfoManage />} />
-          <Route path="/findKey" element={<FindKey />} />
-          <Route path="/houtai" element={<Houtai />}>
-            <Route path="" element={<DashboardFrontpage />} />
-            <Route path="multiPersonChat" element={<MultiPersonChat />} />
-            <Route path="faq" element={<FAQ />} />
-            <Route path="check" element={<Check />} />
-            <Route path="dashboardfrontpage" element={<DashboardFrontpage />} />
-          </Route>
-        </Routes>
-      </Router>
+        <Router>
+          <AnswerWindow /> {/*客服组件*/}
+          <Routes>
+            <Route path="/" element={<FrontPage />} />
+            <Route path="/datastation" element={<DataStation />}>
+              <Route path="" element={<Navigate to="math" replace />} />
+              <Route path="math" element={<ItemList category="高数" />} />
+              <Route path="physics" element={<ItemList category="大物" />} />
+              <Route
+                path="c-language"
+                element={<ItemList category="C语言" />}
+              />
+              <Route path="others" element={<ItemList category="其他" />} />
+            </Route>
+            <Route path="/article" element={<Article />} />
+            <Route path="/qanda" element={<QAndA />} />
+            <Route path="/qanda/:id" element={<DetailMessage />} />
+            <Route path="/center" element={<CreatorCenter />} />
+            <Route path="/teamup" element={<TeamUp />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/bindregister" element={<BindRegisterPage />} />
+            {/*<Route path="/register/verify/v2" element={<Verify/>}/>*/}
+            <Route path="/register/verify/v2" element={<EmailVerification />} />
+            <Route path="/register/verify/v1" element={<Reset />} />
+            <Route path="/review" element={<Review />} />
+            <Route path="/filemanager" element={<FileManager />} />
+            <Route path="/timerme" element={<Timerme />} />
+            <Route path="/info" element={<InfoManage />} />
+            <Route path="/findKey" element={<FindKey />} />
+            <Route path="/houtai" element={<Houtai />}>
+              <Route path="" element={<DashboardFrontpage />} />
+              <Route path="multiPersonChat" element={<MultiPersonChat />} />
+              <Route path="faq" element={<FAQ />} />
+              <Route path="check" element={<Check />} />
+              <Route
+                path="dashboardfrontpage"
+                element={<DashboardFrontpage />}
+              />
+            </Route>
+          </Routes>
+        </Router>
       </SearchProvider>
     </AuthProvider>
   );
