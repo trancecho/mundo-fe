@@ -15,7 +15,7 @@ import Reset from "@/pages/Register/Reset"; // 重置密码
 import DataStation from "@/pages/DataStation"; //资料站
 import Article from "@/pages/Article"; //时文
 import QAndA from "@/pages/QAndA/QAndA"; //答疑
-import TeamUp from "@/pages/TeamUp/TeamUp.tsx"; //组队
+import TeamUp from "@/pages/TeamUp"; //组队
 import Houtai from "./pages/Houtai/Houtai"; // 引入 Houtai.tsx
 import CreatorCenter from "@/pages/center/CreatorCenter"; //创作者中心
 import FrontPage from "@/pages/FrontPage/FrontPage"; //首页
