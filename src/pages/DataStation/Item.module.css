@@ -66,6 +66,17 @@ h3 {
   align-self: flex-start;
 }
 
+.downloadButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* 可选：为不同状态添加不同的颜色 */
+.downloadButton[disabled]:hover {
+  transform: none !important;
+}
+
 .downloadButton:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
@@ -81,4 +92,32 @@ h3 {
   right: 10px;
   font-size: 15px;
   color: #a6a6a6;
+}
+
+.hasUrl {
+  position: relative;
+}
+
+.hasUrl:after {
+  content: '点击预览';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(44, 44, 44, 0.134);
+  color: rgba(154, 154, 154, 0.777);
+  padding: 8px 12px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  box-shadow: 1px 1px 10px #4859B6;
+}
+
+.hoveredWithUrl:after {
+  opacity: 1;
+}
+
+.hasUrl:hover {
+  background-color: rgba(0, 0, 0, 0.05);
 }

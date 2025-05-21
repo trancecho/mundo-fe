@@ -213,6 +213,10 @@ const Login = () => {
         //console.log("data", axiosError.response.data.data.code);
         // 确保 response 和 data 存在后再访问 code
         if (axiosError.response?.data?.data.code === 400001) {
+          localStorage.setItem(
+            "stuffid",
+            axiosError.response?.data?.data?.data?.id,
+          );
           setBind(true);
           navigate("/bindregister", { state: { external } }); // 使用 navigate() 进行路由跳转
         } else {
@@ -407,7 +411,7 @@ const Login = () => {
   return (
     <>
       <div className={style.authContainer}>
-        <Header />
+        {/* <Header /> */}
 
         <div className={style.gradientBackground}></div>
 
