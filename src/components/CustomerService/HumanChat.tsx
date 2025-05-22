@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
+import React, { useState } from "react"
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogDescription,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import styles from "./AnswerWindow.module.css";
-import { useChat } from "./useChat";
+  DialogTrigger
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import styles from "./AnswerWindow.module.css"
+import { useChat } from "./useChat"
 
 const HumanChat: React.FC = () => {
   const {
@@ -19,24 +19,24 @@ const HumanChat: React.FC = () => {
     sendMessage,
     clearHistory,
     connectWebSocket,
-    disconnectWebSocket,
-  } = useChat();
-  const [inputText, setInputText] = useState<string>("");
+    disconnectWebSocket
+  } = useChat()
+  const [inputText, setInputText] = useState<string>("")
 
   const handleSendMessage = () => {
     if (inputText.trim()) {
-      sendMessage(inputText);
-      setInputText("");
+      sendMessage(inputText)
+      setInputText("")
     }
-  };
+  }
 
   return (
     <Dialog
       onOpenChange={(isOpen) => {
         if (isOpen) {
-          connectWebSocket(); // 用户打开对话框时建立 WebSocket 连接
+          connectWebSocket() // 用户打开对话框时建立 WebSocket 连接
         } else {
-          disconnectWebSocket(); // 关闭对话框时断开 WebSocket 连接
+          disconnectWebSocket() // 关闭对话框时断开 WebSocket 连接
         }
       }}
     >
@@ -49,7 +49,7 @@ const HumanChat: React.FC = () => {
         <DialogHeader>
           <DialogTitle>人工客服</DialogTitle>
           <DialogDescription>
-            你可以与我们亲切的客服人员进行实时对话。
+            你可以与我们亲切的客服人员进行实时对话。<br></br>（记得先登录哦～）
           </DialogDescription>
         </DialogHeader>
         <ScrollArea>
@@ -99,7 +99,7 @@ const HumanChat: React.FC = () => {
         </div>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default HumanChat;
+export default HumanChat

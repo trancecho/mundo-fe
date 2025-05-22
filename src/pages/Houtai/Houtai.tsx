@@ -1,7 +1,7 @@
-import React from "react";
-import styles from "./Houtai.module.css"; // 引入CSS模块
-import DashboardNavigation from "@/components/Dashboard/DashboardNavigation";
-import { Outlet } from "react-router-dom";
+import React from "react"
+// import styles from "./Houtai.module.css"; // 引入CSS模块
+import DashboardNavigation from "@/components/Dashboard/DashboardNavigation"
+import { Outlet } from "react-router-dom"
 
 const Houtai: React.FC = () => {
   return (
@@ -20,7 +20,7 @@ const Houtai: React.FC = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Houtai;
+export default Houtai
