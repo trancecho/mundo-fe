@@ -1,39 +1,39 @@
-import React from "react";
-import { AuthProvider } from "./context/AuthContext";
+import React from "react"
+import { AuthProvider } from "./context/AuthContext"
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Link,
-  Navigate,
-} from "react-router-dom";
-import Login from "@/pages/Login/Login"; // 登录
-import RegisterPage from "@/pages/Register/Registerr"; // 注册
-import BindRegisterPage from "@/pages/Register/BindRegister"; // 注册
-import Verify from "@/pages/Register/Verify"; // 注册验证
-import Reset from "@/pages/Register/Reset"; // 重置密码
-import DataStation from "@/pages/DataStation"; //资料站
-import Article from "@/pages/Article"; //时文
-import QAndA from "@/pages/QAndA/QAndA"; //答疑
-import TeamUp from "@/pages/TeamUp"; //组队
-import Houtai from "./pages/Houtai/Houtai"; // 引入 Houtai.tsx
-import CreatorCenter from "@/pages/center/CreatorCenter"; //创作者中心
-import FrontPage from "@/pages/FrontPage/FrontPage"; //首页
-import AnswerWindow from "@/components/CustomerService/AnswerWindow"; // 导入答案窗口组件
-import DetailMessage from "./pages/QAndA/DetailMessage"; //帖子详情页
-import Review from "@/pages/Review/Review"; // 审核
-import Timerme from "@/pages/Timerme/Timerme"; // 计时器
-import MultiPersonChat from "@/pages/Houtai/BackstageChat/MultiPersonChat.tsx";
-import FAQ from "@/pages/Houtai/FAQ/FAQPage";
-import Check from "@/pages/Houtai/Check/Check";
-import DashboardFrontpage from "./pages/Houtai/DashboardFrontpage";
-import ItemList from "@/pages/DataStation/ItemList";
-import FileManager from "@/pages/FileManager/page";
-import FindKey from "@/pages/FindKey/FindKey"; //找回密码
-import "./App.css";
-import InfoManage from "@/pages/Info/page.tsx";
-import EmailVerification from "@/pages/Register/EmailVerification.tsx";
-import { SearchProvider } from "./components/ui/Header/SearchContext";
+  Navigate
+} from "react-router-dom"
+import Login from "@/pages/Login/Login" // 登录
+import RegisterPage from "@/pages/Register/Registerr" // 注册
+import BindRegisterPage from "@/pages/Register/BindRegister" // 注册
+import Verify from "@/pages/Register/Verify" // 注册验证
+import Reset from "@/pages/Register/Reset" // 重置密码
+import DataStation from "@/pages/DataStation" //资料站
+import Article from "@/pages/Article" //时文
+import QAndA from "@/pages/QAndA/QAndA" //答疑
+import TeamUp from "@/pages/TeamUp" //组队
+import Houtai from "./pages/Houtai/Houtai" // 引入 Houtai.tsx
+import CreatorCenter from "@/pages/Center/CreatorCenter" //创作者中心
+import FrontPage from "@/pages/FrontPage/FrontPage" //首页
+import AnswerWindow from "@/components/CustomerService/AnswerWindow" // 导入答案窗口组件
+import DetailMessage from "./pages/QAndA/DetailMessage" //帖子详情页
+import Review from "@/pages/Review/Review" // 审核
+import Timerme from "@/pages/Timerme/Timerme" // 计时器
+import MultiPersonChat from "@/pages/Houtai/BackstageChat/MultiPersonChat.tsx"
+import FAQ from "@/pages/Houtai/FAQ/FAQPage"
+import Check from "@/pages/Houtai/Check/Check"
+import DashboardFrontpage from "./pages/Houtai/DashboardFrontpage"
+import ItemList from "@/pages/DataStation/ItemList"
+import FileManager from "@/pages/FileManager/page"
+import FindKey from "@/pages/FindKey/FindKey" //找回密码
+import "./App.css"
+import InfoManage from "@/pages/Info/page.tsx"
+import EmailVerification from "@/pages/Register/EmailVerification.tsx"
+import { SearchProvider } from "./components/ui/Header/SearchContext"
 
 const App: React.FC = () => {
   return (
@@ -83,7 +83,7 @@ const App: React.FC = () => {
         </Router>
       </SearchProvider>
     </AuthProvider>
-  );
-};
+  )
+}
 
-export default App;
+export default App
