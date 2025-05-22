@@ -4,7 +4,7 @@
     "breadcrumbs.enabled": true,
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "prettier.configPath": ".prettierrc.js",
+    "prettier.configPath": ".prettierrc.cjs",
     "editor.codeActionsOnSave": {
       "source.fixAll": "explicit"
     },
@@ -29,5 +29,5 @@
       "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "svn.ignoreMissingSvnWarning": true
-  }
+}
   
