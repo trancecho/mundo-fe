@@ -82,7 +82,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  z-index: 9999;
 }
 
 .teamName {
@@ -253,3 +253,70 @@
   }
 }
 
+/* 虚拟滚动容器 */
+.ReactWindow__List {
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+/* 骨架屏样式 */
+.skeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.skeletonCard {
+  background: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  height: 240px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.skeletonTitle,
+.skeletonMeta,
+.skeletonLine,
+.skeletonFooter {
+  background: #f0f0f0;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  animation: shimmer 1.5s infinite linear;
+  background-size: 200% 100%;
+}
+
+.skeletonTitle {
+  height: 24px;
+  width: 60%;
+}
+
+.skeletonMeta {
+  height: 18px;
+  width: 40%;
+}
+
+.skeletonLine {
+  height: 16px;
+  width: 90%;
+}
+
+.skeletonFooter {
+  height: 20px;
+  width: 40%;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .teamGrid {
+    grid-template-columns: 1fr;
+  }
+}

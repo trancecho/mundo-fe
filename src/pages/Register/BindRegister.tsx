@@ -23,7 +23,9 @@ const BindRegister: React.FC = () => {
     const url = callbackURL + callbackPath;
     try {
       //console.log(inputEmail, external);
-      await registerUser(inputEmail, inputEmail, url, external);
+      //
+      const stuffid = localStorage.getItem("stuffid") as string;
+      await registerUser(inputEmail, inputEmail, url, external, stuffid);
       setIsEmailSent(true);
       alert("验证邮件已发送，请查收邮箱完成验证！");
       setEmailFunc(inputEmail);
