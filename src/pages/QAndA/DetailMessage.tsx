@@ -2,8 +2,12 @@ import React, { useEffect, useState, useRef } from "react";
 import Style from "./DetailMessage.module.css";
 import { useParams } from "react-router-dom";
 import { useAuth } from '@/context/AuthContext';
-import { Dispatch, SetStateAction } from "react";
-import { getDetail,sendAnswer } from "@/router/api";
+// import { Dispatch, SetStateAction } from "react";
+import { ImFilePicture } from "react-icons/im";
+import { TbPhotoOff } from "react-icons/tb";
+import { FaRegCommentDots } from "react-icons/fa";
+import { AiOutlineLike,AiFillLike } from "react-icons/ai";
+import { getDetail,sendAnswer,changelike,checklike } from "@/router/api";
 import Header from '@/components/ui/Header/Header.tsx';
 
 
@@ -17,6 +21,7 @@ interface Answer {
     tags: string[] | null;
     // 建议添加时间字段（如果后端返回）
     created_at?: string;
+    is_like?:boolean;
 }
 
 interface MessageDetail {
@@ -121,6 +126,19 @@ const SecureImage: React.FC<{ image: string }> = ({ image }) => {
 
 // 定义 DetailReply 组件类型，接收 answerData 作为属性，类型为 Answer
 const DetailReply: React.FC<{ answerData: Answer }> = ({ answerData }) => {
+    const [localAnswer, setLocalAnswer] = useState(answerData);
+    
+    function like(){
+        changelike(localAnswer.question_post_id, localAnswer.id)
+            .then(() => {
+                setLocalAnswer({
+                    ...localAnswer,
+                    is_like: !localAnswer.is_like,
+                    like: localAnswer.like + (localAnswer.is_like ? -1 : 1)
+                });
+            });
+    }
+
     return (
         <div className={Style.DetailReply}>
             <div className={Style.user}>
@@ -137,9 +155,21 @@ const DetailReply: React.FC<{ answerData: Answer }> = ({ answerData }) => {
                     </div>
                 )}
                 <div className={Style.information}>
-                    <div className=""><span>{answerData.created_at}</span></div>
-                    <div className=""><span className="material-symbols-outlined">thumb_up</span></div>
-                    <div className=""><span className="material-symbols-outlined">sms</span></div>
+
+                    <div className="">{localAnswer.created_at}</div>
+                    <div className={Style.lay}>
+                        {localAnswer.is_like ? 
+                            <AiFillLike
+                                onClick={like}
+                                className={Style.icon}
+                            />
+                        :<AiOutlineLike 
+                            onClick={like}
+                            className={Style.icon}
+                        />}
+                        <span>{localAnswer.like}</span>
+                    </div>
+                    <FaRegCommentDots className={Style.icon}/>
                 </div>
             </div>
         </div>
@@ -231,8 +261,8 @@ const Inputbox: React.FC<InputboxProps> = ({ id }) => {
             </div>
             <div className={Style.inputTools}>
                 <div className={Style.icons}>
-                    <label htmlFor="fileUpload" style={{ cursor: 'pointer' }}>
-                        <span className="material-symbols-outlined">add_photo_alternate</span>
+                    <label htmlFor="fileUpload">
+                        <ImFilePicture className={Style.icon}/>
                     </label>
                     <input
                         type="file"
@@ -242,13 +272,11 @@ const Inputbox: React.FC<InputboxProps> = ({ id }) => {
                         style={{ display: 'none' }}
                         id="fileUpload"
                     />
-                    <button className={Style.delete}>
-                        <span className="material-symbols-outlined" onClick={() =>
-                            setformdata((prev) => ({ ...prev, picture: [] }))
-                        }>
-                            delete
-                        </span>
-                    </button>
+                    <div className="">
+                        <TbPhotoOff className={Style.icon} onClick={() =>
+                           setformdata((prev) => ({ ...prev, picture: [] }))
+                        }/>
+                    </div>
 
                 </div>
                 <div>
@@ -291,20 +319,31 @@ const DetailMessage: React.FC = () => {
         getDetail(Number(id)).then((res) => {
             if (res.status >= 200 && res.status < 300) {
                 const apiData = res.data.data.QuestionPost;
-                console.log(res.data.data);
-                setFinalMessage({
-                  id: apiData.id,
-                  uid: apiData.uid,
-                  title: apiData.title,
-                  content: apiData.content,
-                  pictures: apiData.picture || [],
-                  views: apiData.view || 0,
-                  collection: apiData.collection,
-                  answer_count: apiData.answer_count,
-                  is_official: apiData.officials || false,
-                  created_at: apiData.created_at || new Date().toISOString(),
-                  tags: apiData.tags || [],
-                  answers: res.data.data.Answers || []
+                checklike(Number(id)).then(likeResponse => {
+                    const likesMap = new Map<number, boolean>();
+                    likeResponse.data.data.likes_status.forEach(item => {
+                        likesMap.set(item.answer_id, item.is_liked);
+                    });
+                    
+                    const answers = (res.data.data.Answers || []).map(answer => ({
+                        ...answer,
+                        is_like: likesMap.get(answer.id) || false
+                    }));
+                    
+                    setFinalMessage({
+                      id: apiData.id,
+                      uid: apiData.uid,
+                      title: apiData.title,
+                      content: apiData.content,
+                      pictures: apiData.picture || [],
+                      views: apiData.view || 0,
+                      collection: apiData.collection,
+                      answer_count: apiData.answer_count,
+                      is_official: apiData.officials || false,
+                      created_at: apiData.created_at || new Date().toISOString(),
+                      tags: apiData.tags || [],
+                      answers: answers  // 使用合并点赞状态后的answers数组
+                    });
                 });
             } else {
                 throw new Error(res.data?.message || "请求失败");
