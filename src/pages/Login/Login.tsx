@@ -100,6 +100,11 @@ const Login = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    // 新增校验逻辑
+    if (!isAgreed) {
+      Alert.error('请先勾选同意隐私条款和服务条款');
+      return;
+    }
     try {
       const data = await loginUser(email, password); // 调用登录函数
       //console.log("登录成功:", data);
@@ -213,6 +218,10 @@ const Login = () => {
         //console.log("data", axiosError.response.data.data.code);
         // 确保 response 和 data 存在后再访问 code
         if (axiosError.response?.data?.data.code === 400001) {
+          localStorage.setItem(
+            "stuffid",
+            axiosError.response?.data?.data?.data?.id,
+          );
           setBind(true);
           navigate("/bindregister", { state: { external } }); // 使用 navigate() 进行路由跳转
         } else {
@@ -339,6 +348,8 @@ const Login = () => {
     });
   };
 
+  const [isAgreed, setIsAgreed] = useState(false);
+
   // return (
   //   <div className={style.body}>
   //     <div className={style.loginBox}>
@@ -448,6 +459,33 @@ const Login = () => {
                 <label className={style.inputLabel}>登录密码</label>
                 <div className={style.inputUnderline}></div>
               </div>
+
+              <div className={style.inputGroup}>
+                <div className={`${style.checkboxWrapper} ${!isAgreed ? style.hasError : ''}`}>
+                  <input
+                    type="checkbox"
+                    id="agreement"
+                    className={style.checkboxInput}
+                    checked={isAgreed}
+                    onChange={(e) => setIsAgreed(e.target.checked)}
+                  />
+                  <label htmlFor="agreement" className={style.checkboxLabel}>
+                    我已阅读并同意
+                    <a href="/login/privacy" target="_blank" className={style.link}>
+                      《隐私条款》
+                    </a> 和
+                    <a href="/login/terms" target="_blank" className={style.link}>
+                      《服务条款》
+                    </a>
+                  </label>
+                  {/* 唯一错误提示 */}
+                  <p className={style.errorTip}>{!isAgreed && '请勾选同意隐私条款和服务条款'}</p>
+                </div>
+                  
+                  {!isAgreed && (
+                    <p className={style.errorTip}>请勾选同意隐私条款和服务条款</p>
+                  )}
+                </div>
 
               <button className={style.primaryButton} onClick={handleLogin}>
                 <span>立即登录</span>
