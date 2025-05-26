@@ -722,9 +722,33 @@ export const sendAnswer = async (id: number, formDataToSend: FormData) => {
     {
       headers: {
         Authorization: `Bearer ${longtoken}`,
-        "Content-Type": "multipart/form-data"
-      }
-    }
-  )
-  return response
+        "Content-Type": "multipart/form-data",
+      },
+    },
+  );
+  return response;
+};
+
+export const changelike = async (id:number,answerid:number) =>{
+  const response = await api.post(
+    `/question/posts/${id}/answers/${answerid}/like`,
+    {
+      headers: {
+        Authorization: `Bearer ${longtoken}`,
+      },
+    },
+  );
+  return response;
+}
+
+export const checklike = async (id:number) =>{
+  const response = await api.get(
+    `/question/posts/${id}/answers/like`,
+    {
+      headers: {
+        Authorization: `Bearer ${longtoken}`,
+      },
+    },
+  );
+  return response;
 }
