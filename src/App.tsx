@@ -28,6 +28,8 @@ import './App.css'
 import InfoManage from '@/pages/Info/page.tsx'
 import EmailVerification from '@/pages/Register/EmailVerification.tsx'
 import { SearchProvider } from './components/ui/Header/SearchContext'
+import HoutaiLogin from './pages/Houtai/HoutaiLogin.tsx'
+import HoutaiRequireAuth from './components/HoutaiRequireAuth'
 
 const App: React.FC = () => {
   return (
@@ -60,7 +62,15 @@ const App: React.FC = () => {
             <Route path='/timerme' element={<Timerme />} />
             <Route path='/info' element={<InfoManage />} />
             <Route path='/findKey' element={<FindKey />} />
-            <Route path='/houtai' element={<Houtai />}>
+            <Route path='/houtaiLogin' element={<HoutaiLogin />} />
+
+            <Route path='/houtai'
+              element={
+                <HoutaiRequireAuth>
+                  <Houtai />
+                </HoutaiRequireAuth>
+              }>
+
               <Route path='' element={<DashboardFrontpage />} />
               <Route path='multiPersonChat' element={<MultiPersonChat />} />
               <Route path='faq' element={<FAQ />} />
