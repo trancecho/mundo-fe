@@ -80,6 +80,20 @@ export const ResetKey = async (
   return response.data
 }
 
+// 管理员登录函数
+export const loginManager = async (email: string, password: string) => {
+  try {
+    const response = await authApi.post("/admin-login", {
+      email,
+      password
+    })
+    return response.data
+  } catch (error) {
+    console.error("登录失败:", error)
+    throw error
+  }
+}
+
 // 邮箱密码登录函数
 export const loginUser = async (email: string, password: string) => {
   try {
