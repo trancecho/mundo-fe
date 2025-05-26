@@ -59,7 +59,6 @@ const QAndA: React.FC = () => {
 
             let filteredMessages = combinedMessages;
 
-            // 先根据科目筛选
             if (activeSubject) {
                 filteredMessages = filteredMessages.filter((message) => {
                     const tags = message.tags || [];
@@ -67,7 +66,6 @@ const QAndA: React.FC = () => {
                 });
             }
 
-            // 再根据筛选条件筛选
             switch (activeFilter) {
                 case "latest":
                     filteredMessages.sort((a, b) => {
