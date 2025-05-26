@@ -30,6 +30,8 @@ import EmailVerification from '@/pages/Register/EmailVerification.tsx'
 import { SearchProvider } from './components/ui/Header/SearchContext'
 import HoutaiLogin from './pages/Houtai/HoutaiLogin.tsx'
 import HoutaiRequireAuth from './components/HoutaiRequireAuth'
+import PrivacyPolicy from "@/pages/Login/PrivacyPolicy";
+import TermsOfService from "@/pages/Login/TermsOfService";
 
 const App: React.FC = () => {
   return (
@@ -52,6 +54,8 @@ const App: React.FC = () => {
             <Route path='/center' element={<CreatorCenter />} />
             <Route path='/teamup' element={<TeamUp />} />
             <Route path='/login' element={<Login />} />
+            <Route path="/login/privacy" element={<PrivacyPolicy />} />
+            <Route path="/login/terms" element={<TermsOfService />} />
             <Route path='/register' element={<RegisterPage />} />
             <Route path='/bindregister' element={<BindRegisterPage />} />
             {/*<Route path="/register/verify/v2" element={<Verify/>}/>*/}
