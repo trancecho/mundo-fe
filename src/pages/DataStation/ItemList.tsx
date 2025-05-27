@@ -20,7 +20,8 @@ interface ItemData {
 }
 
 const ItemList: React.FC<ItemListProps> = ({ category }) => {
-  const [items, setItems] = useState<ItemData[]>([]);
+  const [originalItems, setOriginalItems] = useState<ItemData[]>([]); // 保存原始数据
+  const [sortedItems, setSortedItems] = useState<ItemData[]>([]); // 用于展示的排序后数据
   const [selectedTab, setSelectedTab] = useState<string>("hot");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -54,7 +55,8 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
     )
       .then((responses) => {
         const fetchedItems = responses.flat(); // 合并所有响应的数据照热度排序
-        setItems(fetchedItems); // 更新 items 状态
+        setOriginalItems(fetchedItems);
+        setSortedItems(getSortedItems(fetchedItems, selectedTab));
         setLoading(false);
       })
       
@@ -69,39 +71,45 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
       });
   }, [category]);
 
-  //排序
-  useEffect(() => {
-    let sortedItems = [...items];
-    if (selectedTab === "hot") {
-      sortedItems.sort((a, b) => b.hotness - a.hotness);
-    } else if (selectedTab === "new") {
-      sortedItems.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
+  // 排序逻辑抽取为独立函数
+  const getSortedItems = (items: ItemData[], tab: string) => {
+    const sorted = [...items];
+    if (tab === "hot") {
+      return sorted.sort((a, b) => b.hotness - a.hotness);
+    } else if (tab === "new") {
+      return sorted.sort((a, b) => 
+        new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+      );
     }
-    setItems(sortedItems);
-  }, [selectedTab]);
+    return sorted;
+  };
 
-  useEffect(() => {
-    //console.log('Fetched items:', items);  // 查看 items 数据
-  }, [items]);
-
-
+  // 处理排序切换
   const handleSort = (tab: string) => {
     setSelectedTab(tab);
+    setSortedItems(getSortedItems(originalItems, tab));
+  };
+
+  const updateItems = (updateFn: (items: ItemData[]) => ItemData[]) => {
+    setOriginalItems(prev => {
+      const newItems = updateFn(prev);
+      setSortedItems(getSortedItems(newItems, selectedTab));
+      return newItems;
+    });
   };
 
   const handleDownload = async (item: ItemData) => {
-    if (item.isDownloading || item.isDownloaded) {
-      return;
-    }
+    if (item.isDownloading || item.isDownloaded) return;
 
     try {
       const response = await downloadFile(item.id);
-      
       if (response.code === 200) {
-        const fileUrl = response.data.previewUrl;
-        setItems(prev => prev.map(i =>
+        // 设置下载中状态
+        updateItems(items => items.map(i =>
           i.id === item.id ? { ...i, isDownloading: true } : i
         ));
+
+        const fileUrl = response.data.previewUrl;
 
         const fileResponse = await fetch(fileUrl);
         if (!fileResponse.ok) {
@@ -120,7 +128,8 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
         window.URL.revokeObjectURL(url);
         document.body.removeChild(link);
         
-        setItems(prev => prev.map(i =>
+        // 设置完成状态
+        updateItems(items => items.map(i =>
           i.id === item.id ? { 
             ...i, 
             url: fileUrl,
@@ -128,12 +137,9 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
             isDownloaded: true 
           } : i
         ));
-      } else {
-        throw new Error(response.msg || '下载失败');
       }
     } catch (error) {
-      console.error("下载失败:", error);
-      setItems(prev => prev.map(i =>
+      updateItems(items => items.map(i =>
         i.id === item.id ? { ...i, isDownloading: false } : i
       ));
     }
@@ -145,7 +151,7 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
       if (response.code === 200) {
         const previewUrl = response.data.previewUrl;
         // 更新 items 状态,保存预览 URL
-        setItems(prev => prev.map(i =>
+        setOriginalItems(prev => prev.map(i =>
           i.id === item.id ? { ...i, previewUrl } : i
         ));
         return previewUrl;
@@ -183,9 +189,9 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
         display: "flex",
         flexDirection: "column"
       }}>
-        {items.length === 0 ? 
+        {sortedItems.length === 0 ? 
           <p>没有资料</p> : 
-          items.map(item => (
+          sortedItems.map(item => (
             <Item 
               key={item.id} 
               item={item} 

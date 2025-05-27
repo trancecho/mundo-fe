@@ -71,11 +71,15 @@ const Item: React.FC<ItemProps> = ({ item, onDownload, onPreview }) => {
         <p>
           下载链接:  
           <button 
-            className={styles.downloadButton} 
+            className={`${styles.downloadButton} ${
+              item.isDownloading ? styles.downloading : 
+              item.isDownloaded ? styles.downloaded : ''
+            }`}
             onClick={handleDownloadClick}
             disabled={item.isDownloading || item.isDownloaded}
           >
-            {item.isDownloading ? "正在下载..." : item.isDownloaded ? "已下载" : "点击下载"}
+            {item.isDownloading ? "正在下载..." : 
+             item.isDownloaded ? "已下载" : "点击下载"}
           </button>
         </p>
         <p>更新时间: {formatDate(item.updated_at)}</p>
