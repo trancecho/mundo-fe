@@ -2,8 +2,9 @@ import { Outlet } from 'react-router-dom';
 import Navbar from "./Navbar";
 import Header from '@/components/ui/Header/Header.tsx'
 import styles from './DataStation.module.css';
+import { SearchProvider } from "@/components/ui/Header/SearchContext";
 
-const DataStation: React.FC = () => {
+const DataStationContent: React.FC = () => {
     return (
         <div className={styles.container}>
             <Header/>
@@ -16,6 +17,14 @@ const DataStation: React.FC = () => {
                 </div>            
             </div>    
         </div>
+    );
+};
+
+const DataStation = () => {
+    return (
+        <SearchProvider>
+            <DataStationContent />
+        </SearchProvider>
     );
 };
 

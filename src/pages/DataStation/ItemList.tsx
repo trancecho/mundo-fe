@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Item from "./Item";
 import { getFileList, downloadFile,previewFile } from "@/router/api";
 import styles from './ItemList.module.css';
+import { useSearch } from "@/components/ui/Header/SearchContext";
 
 interface ItemListProps {
   category: string;
@@ -25,6 +26,14 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
   const [selectedTab, setSelectedTab] = useState<string>("hot");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const { searchText } = useSearch();
+  const [selectedCategory, setSelectedCategory] = useState<string>('全部');
+
+  const filteredItems = items.filter((item) => {
+    const categoryMatch = selectedCategory === '全部' || item.name.toString() === selectedCategory;
+    const searchMatch = !searchText || [item.name,].some((field) => field.toLowerCase().includes(searchText.toLowerCase()));
+    return categoryMatch && searchMatch;
+  });
 
   useEffect(() => {
     setLoading(true);
@@ -189,6 +198,7 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
         display: "flex",
         flexDirection: "column"
       }}>
+
         {sortedItems.length === 0 ? 
           <p>没有资料</p> : 
           sortedItems.map(item => (
@@ -199,6 +209,7 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
               onPreview={handlePreview}
             />
           ))
+
         }
       </div>
     </div>
