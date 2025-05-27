@@ -47,6 +47,7 @@
   "devDependencies": {
     "@types/axios": "^0.14.4",
     "@types/base-64": "^1.0.2",
+    "@types/lodash": "^4.17.17",
     "@types/node": "^22.9.0",
     "@types/randomatic": "^3.1.5",
     "@types/react": "^18.3.18",

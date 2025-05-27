@@ -1,48 +1,50 @@
-import React, { useState } from "react";
-import styles from './Item.module.css';
+import React, { useState } from 'react'
+import styles from './Item.module.css'
 
 interface ItemProps {
   item: {
-    id: number;
-    name: string;
-    updated_at: string;
-    folder_id: number;
-    hotness: number;
-    size: number;
-    url: string;  
-    isDownloading?: boolean;
-    isDownloaded?: boolean;
-  };
-  onDownload: (item: any) => void; // 下载处理函数
+    id: number
+    name: string
+    updated_at: string
+    folder_id: number
+    hotness: number
+    size: number
+    url: string
+    isDownloading?: boolean
+    isDownloaded?: boolean
+  }
+  onDownload: (item: any) => void // 下载处理函数
 }
 
 const Item: React.FC<ItemProps> = ({ item, onDownload }) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const sizeInMB = (item.size / 1024 / 1024).toFixed(2);    // 将文件大小转换为 MB，并保留两位小数
+  const [isHovered, setIsHovered] = useState(false)
+  const sizeInMB = (item.size / 1024 / 1024).toFixed(2) // 将文件大小转换为 MB，并保留两位小数
 
   // 格式化日期，返回 yyyy-mm-dd
   const formatDate = (dateString: string): string => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const day = date.getDate().toString().padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
+    const date = new Date(dateString)
+    const year = date.getFullYear()
+    const month = (date.getMonth() + 1).toString().padStart(2, '0')
+    const day = date.getDate().toString().padStart(2, '0')
+    return `${year}-${month}-${day}`
+  }
 
   const getButtonText = () => {
-    if (item.isDownloading) return "正在下载...";
-    if (item.isDownloaded) return "已下载";
-    return "点击下载";
-  };
+    if (item.isDownloading) return '正在下载...'
+    if (item.isDownloaded) return '已下载'
+    return '点击下载'
+  }
 
   const handleItemClick = () => {
+    let longtoken = localStorage.getItem('longtoken')
+    if (!item.url || !longtoken) return
     if (item.url) {
-      window.open(item.url, '_blank');
+      window.open(item.url, '_blank')
     }
-  };
+  }
 
   return (
-    <div 
+    <div
       className={`${styles.item} ${item.url ? styles.hasUrl : ''} ${isHovered && item.url ? styles.hoveredWithUrl : ''}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -53,9 +55,9 @@ const Item: React.FC<ItemProps> = ({ item, onDownload }) => {
         <h3 className={styles.title}>{item.name}</h3>
         <p>文件大小: {sizeInMB} MB</p>
         <p>
-          下载链接:  
-          <button 
-            className={styles.downloadButton} 
+          下载链接:
+          <button
+            className={styles.downloadButton}
             onClick={() => onDownload(item)}
             disabled={item.isDownloading || item.isDownloaded}
           >
@@ -66,7 +68,7 @@ const Item: React.FC<ItemProps> = ({ item, onDownload }) => {
       </div>
       <div className={styles.hotness}>热度: {item.hotness}</div>
     </div>
-  );
-};
+  )
+}
 
-export default Item;
+export default Item

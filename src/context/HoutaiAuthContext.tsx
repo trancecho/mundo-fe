@@ -24,7 +24,6 @@ export const HoutaiAuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const loginState = localStorage.getItem('houtaiLogin')
     if (token && loginState) {
       setIsLoggedIn(true)
-      setLoading(true)
     }
     setLoading(false)
   }, [])
