@@ -460,7 +460,22 @@ export const getFileList = async (name: string) => {
 export const downloadFile = async (file_id: number) => {
   try {
     const response = await api.post(
-      "/sealos/generate-url",
+      "sealos/generate-url",
+      { file_id: file_id },
+      { headers: { Authorization: `Bearer ${longtoken}` } },
+    );
+    return response.data;
+  } catch (error) {
+    console.error("下载文件失败", error);
+    throw error;
+  }
+};
+
+//资料站 预览文件的封装函数
+export const previewFile = async (file_id: number) => {
+  try {
+    const response = await api.post(
+      "/sealos/preview",
       { file_id: file_id },
       { headers: { Authorization: `Bearer ${longtoken}` } }
     )
