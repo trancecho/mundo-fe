@@ -94,12 +94,12 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
     try {
       const response = await downloadFile(item.id);
       
-      if (response.message === "生成下载链接成功") {
-        const fileUrl = response.data.downloadUrl;
+      if (response.code === 200) {
+        const fileUrl = response.data.previewUrl;
         const updateItems = items.map((i) =>
           i.id === item.id ? { 
             ...i, 
-            url: response.data.downloadUrl,
+            url: response.data.previewUrl,
             isDownloading: true
           } : i
         );
@@ -122,7 +122,7 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
         const newItems = items.map((i) =>
           i.id === item.id ? { 
             ...i, 
-            url: response.data.url,
+            url: response.data.previewUrl,
             isDownloading: false,
             isDownloaded: true 
           } : i
@@ -181,23 +181,8 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
   );
 };
 
-const tabStyle: React.CSSProperties = {
-  marginRight: "20px",
-  padding: "10px 20px",
-  cursor: "pointer",
-  border: "1px solid #ddd",
-  borderRadius: "5px",
-  backgroundColor: "balck",
-  color: "#000",
-  transition: "all 0.3s ease",
-  transform: "scale(1)",
-};
 
-const activeTabStyle: React.CSSProperties = {
-  ...tabStyle,
-  backgroundColor: "#e4e4e4",
-  fontWeight: "bold",
-};
+
 
 const styleSheet = document.createElement("style");
 styleSheet.textContent = `
@@ -213,4 +198,3 @@ document.head.appendChild(styleSheet);
 
 export default ItemList;
 
-//nothing

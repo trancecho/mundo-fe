@@ -465,7 +465,7 @@ export const getFileList = async (name: string) => {
 export const downloadFile = async (file_id: number) => {
   try {
     const response = await api.post(
-      "/sealos/generate-url",
+      "/sealos/preview",
       { file_id: file_id },
       { headers: { Authorization: `Bearer ${longtoken}` } },
     );
