@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Item from "./Item";
-import { getFileList, downloadFile } from "@/router/api";
+import { getFileList, downloadFile,previewFile } from "@/router/api";
 import styles from './ItemList.module.css';
 
 interface ItemListProps {
@@ -53,8 +53,7 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
       )
     )
       .then((responses) => {
-        const fetchedItems = responses.flat(); // 合并所有响应的数据
-        const sortedItems = fetchedItems.sort((a, b) => b.hotness - a.hotness); // 按照热度排序
+        const fetchedItems = responses.flat(); // 合并所有响应的数据照热度排序
         setItems(fetchedItems); // 更新 items 状态
         setLoading(false);
       })
@@ -91,23 +90,25 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
   };
 
   const handleDownload = async (item: ItemData) => {
+    if (item.isDownloading || item.isDownloaded) {
+      return;
+    }
+
     try {
       const response = await downloadFile(item.id);
       
       if (response.code === 200) {
         const fileUrl = response.data.previewUrl;
-        const updateItems = items.map((i) =>
-          i.id === item.id ? { 
-            ...i, 
-            url: response.data.previewUrl,
-            isDownloading: true
-          } : i
-        );
-        setItems(updateItems);
-        console.log(fileUrl);
+        setItems(prev => prev.map(i =>
+          i.id === item.id ? { ...i, isDownloading: true } : i
+        ));
+
         const fileResponse = await fetch(fileUrl);
+        if (!fileResponse.ok) {
+          throw new Error('文件下载失败');
+        }
+
         const blob = await fileResponse.blob();
-        
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
@@ -115,35 +116,45 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
         document.body.appendChild(link);
         link.click();
         
+        // 清理
         window.URL.revokeObjectURL(url);
         document.body.removeChild(link);
         
-        // 更新状态为已下载
-        const newItems = items.map((i) =>
+        setItems(prev => prev.map(i =>
           i.id === item.id ? { 
             ...i, 
-            url: response.data.previewUrl,
+            url: fileUrl,
             isDownloading: false,
             isDownloaded: true 
           } : i
-        );
-        setItems(newItems);
+        ));
       } else {
-        // 如果下载失败，恢复按钮状态
-        const newItems = items.map((i) =>
-          i.id === item.id ? { ...i, isDownloading: false } : i
-        );
-        setItems(newItems);
-        alert("下载失败，请稍后再试");
+        throw new Error(response.msg || '下载失败');
       }
     } catch (error) {
-      // 发生错误时，恢复按钮状态
-      const newItems = items.map((i) =>
+      console.error("下载失败:", error);
+      setItems(prev => prev.map(i =>
         i.id === item.id ? { ...i, isDownloading: false } : i
-      );
-      setItems(newItems);
-      console.error("下载请求失败:", error);
-      alert("下载失败，请稍后再试");
+      ));
+    }
+  };
+
+  const handlePreview = async (item: ItemData) => {
+    try {
+      const response = await previewFile(item.id);
+      if (response.code === 200) {
+        const previewUrl = response.data.previewUrl;
+        // 更新 items 状态,保存预览 URL
+        setItems(prev => prev.map(i =>
+          i.id === item.id ? { ...i, previewUrl } : i
+        ));
+        return previewUrl;
+      } else {
+        throw new Error(response.msg || '获取预览链接失败');
+      }
+    } catch (error) {
+      console.error('预览失败:', error);
+      throw error;
     }
   };
 
@@ -174,7 +185,14 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
       }}>
         {items.length === 0 ? 
           <p>没有资料</p> : 
-          items.map(item => <Item key={item.id} item={item} onDownload={handleDownload} />)
+          items.map(item => (
+            <Item 
+              key={item.id} 
+              item={item} 
+              onDownload={handleDownload}
+              onPreview={handlePreview}
+            />
+          ))
         }
       </div>
     </div>
