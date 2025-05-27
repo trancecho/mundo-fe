@@ -80,6 +80,20 @@ export const ResetKey = async (
   return response.data
 }
 
+// 管理员登录函数
+export const loginManager = async (email: string, password: string) => {
+  try {
+    const response = await authApi.post("/admin-login", {
+      email,
+      password
+    })
+    return response.data
+  } catch (error) {
+    console.error("登录失败:", error)
+    throw error
+  }
+}
+
 // 邮箱密码登录函数
 export const loginUser = async (email: string, password: string) => {
   try {
@@ -446,7 +460,22 @@ export const getFileList = async (name: string) => {
 export const downloadFile = async (file_id: number) => {
   try {
     const response = await api.post(
-      "/sealos/generate-url",
+      "sealos/generate-url",
+      { file_id: file_id },
+      { headers: { Authorization: `Bearer ${longtoken}` } },
+    );
+    return response.data;
+  } catch (error) {
+    console.error("下载文件失败", error);
+    throw error;
+  }
+};
+
+//资料站 预览文件的封装函数
+export const previewFile = async (file_id: number) => {
+  try {
+    const response = await api.post(
+      "/sealos/preview",
       { file_id: file_id },
       { headers: { Authorization: `Bearer ${longtoken}` } }
     )
@@ -722,9 +751,33 @@ export const sendAnswer = async (id: number, formDataToSend: FormData) => {
     {
       headers: {
         Authorization: `Bearer ${longtoken}`,
-        "Content-Type": "multipart/form-data"
-      }
-    }
-  )
-  return response
+        "Content-Type": "multipart/form-data",
+      },
+    },
+  );
+  return response;
+};
+
+export const changelike = async (id:number,answerid:number) =>{
+  const response = await api.post(
+    `/question/posts/${id}/answers/${answerid}/like`,
+    {
+      headers: {
+        Authorization: `Bearer ${longtoken}`,
+      },
+    },
+  );
+  return response;
+}
+
+export const checklike = async (id:number) =>{
+  const response = await api.get(
+    `/question/posts/${id}/answers/like`,
+    {
+      headers: {
+        Authorization: `Bearer ${longtoken}`,
+      },
+    },
+  );
+  return response;
 }

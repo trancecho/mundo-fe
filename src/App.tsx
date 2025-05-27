@@ -28,6 +28,10 @@ import './App.css'
 import InfoManage from '@/pages/Info/page.tsx'
 import EmailVerification from '@/pages/Register/EmailVerification.tsx'
 import { SearchProvider } from './components/ui/Header/SearchContext'
+import HoutaiLogin from './pages/Houtai/HoutaiLogin.tsx'
+import HoutaiRequireAuth from './components/HoutaiRequireAuth'
+import PrivacyPolicy from "@/pages/Login/PrivacyPolicy";
+import TermsOfService from "@/pages/Login/TermsOfService";
 
 const App: React.FC = () => {
   return (
@@ -50,6 +54,8 @@ const App: React.FC = () => {
             <Route path='/center' element={<CreatorCenter />} />
             <Route path='/teamup' element={<TeamUp />} />
             <Route path='/login' element={<Login />} />
+            <Route path="/login/privacy" element={<PrivacyPolicy />} />
+            <Route path="/login/terms" element={<TermsOfService />} />
             <Route path='/register' element={<RegisterPage />} />
             <Route path='/bindregister' element={<BindRegisterPage />} />
             {/*<Route path="/register/verify/v2" element={<Verify/>}/>*/}
@@ -60,7 +66,15 @@ const App: React.FC = () => {
             <Route path='/timerme' element={<Timerme />} />
             <Route path='/info' element={<InfoManage />} />
             <Route path='/findKey' element={<FindKey />} />
-            <Route path='/houtai' element={<Houtai />}>
+            <Route path='/houtaiLogin' element={<HoutaiLogin />} />
+
+            <Route path='/houtai'
+              element={
+                <HoutaiRequireAuth>
+                  <Houtai />
+                </HoutaiRequireAuth>
+              }>
+
               <Route path='' element={<DashboardFrontpage />} />
               <Route path='multiPersonChat' element={<MultiPersonChat />} />
               <Route path='faq' element={<FAQ />} />
