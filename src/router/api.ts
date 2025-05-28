@@ -754,3 +754,93 @@ export const sendAnswer = async (id: number, formDataToSend: FormData) => {
   );
   return response;
 };
+
+export const fetchPendingPosts = async () => {
+  const url = "/audit/question/posts";
+  //console.log("请求URL:", `${api.defaults.baseURL}${url}`);
+  try {
+    const response = await api.get(url);
+    return response.data;
+  } catch (error) {
+    console.error("获取待审核帖子失败", error);
+    return [];
+  }
+};
+
+export const fetchPendingUpdateRequests = async () => {
+  const url = "/audit/update/requests";
+  try {
+    const response = await api.get(url);
+    return response.data;
+  } catch (error) {
+    console.error("获取待审核更新请求失败", error);
+    return [];
+  }
+};
+
+export const fetchPendingAnswers = async () => {
+  const url = "/audit/answer";
+  try {
+    const response = await api.get(url);
+    return response.data;
+  } catch (error) {
+    console.error("获取待审核回答失败", error);
+    return [];
+  }
+};
+
+const baseAuditRequest = async (
+  endpoint: string,
+  id: string,
+  decision: 'approve' | 'reject',
+  rejection_reason?: string
+) => {
+  if (decision === 'reject' && !rejection_reason?.trim()) {
+    throw new Error('拒绝理由不能为空');
+  }
+
+  const url = `${endpoint}/${id}?service=mundo`;
+  //console.log("请求URL:", `${api.defaults.baseURL}/${url}`);
+  
+  const data = {
+    decision,
+    rejection_reason: rejection_reason?.trim()
+  };
+
+  try {
+    const response = await api.post(url, data, {
+      headers: {
+        Authorization: `Bearer ${longtoken}`,
+        'Content-Type': 'application/json',
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error(`审核 ${endpoint.split('/')[1]} ${decision} 失败`, error);
+    throw error;
+  }
+};
+
+export const reviewPost = async (
+  id: string,
+  decision: 'approve' | 'reject',
+  rejection_reason?: string
+) => {
+  return baseAuditRequest('audit/question/posts', id, decision, rejection_reason);
+};
+
+export const reviewUpdateRequest = async (
+  id: string,
+  decision: 'approve' | 'reject',
+  rejection_reason?: string
+) => {
+  return baseAuditRequest('audit/update/requests', id, decision, rejection_reason);
+};
+
+export const reviewAnswer = async (
+  id: string,
+  decision: 'approve' | 'reject',
+  rejection_reason?: string
+) => {
+  return baseAuditRequest('audit/answer', id, decision, rejection_reason);
+};  
