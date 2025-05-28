@@ -1,4 +1,4 @@
-.item {
+.itemContainer {
   margin-bottom: 1.5rem;
   padding: 15px 15px 10px 15px;
   border: 1px solid var(--border-color);
@@ -17,13 +17,13 @@
   margin-top: 10px;
 }
 
-.item:hover {
+.itemContainer:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 32px rgba(124, 58, 237, 0.2);
   background: var(--surface-light);
 }
 
-.item p {
+.itemContainer p {
   margin: 8px 0; /* 减小段落之间的间距 */
   text-align: left;
 }
@@ -94,11 +94,11 @@ h3 {
   color: #a6a6a6;
 }
 
-.hasUrl {
+.itemContainer {
   position: relative;
 }
 
-.hasUrl:after {
+.hovered:after  {
   content: '点击预览';
   position: absolute;
   top: 50%;
@@ -114,10 +114,10 @@ h3 {
   box-shadow: 1px 1px 10px #4859B6;
 }
 
-.hoveredWithUrl:after {
+.itemContainer:after {
   opacity: 1;
 }
 
-.hasUrl:hover {
+.itemContainer:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
