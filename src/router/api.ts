@@ -21,6 +21,7 @@ const authApi = axios.create({
   baseURL: import.meta.env.VITE_authURL,
   headers: {
     'Content-Type': 'application/json'
+    'Content-Type': 'application/json'
   }
 })
 export const longtoken = localStorage.getItem('longtoken')
@@ -29,6 +30,8 @@ console.log('Token:', longtoken)
 const api = axios.create({
   baseURL: import.meta.env.VITE_baseURL,
   headers: {
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + longtoken // 登录所需token
     'Content-Type': 'application/json',
     Authorization: 'Bearer ' + longtoken // 登录所需token
   }
@@ -492,12 +495,28 @@ export const getFileList = async (name: string) => {
 export const downloadFile = async (file_id: number) => {
   try {
     const response = await api.post(
-      '/sealos/generate-url',
+      'sealos/generate-url',
       { file_id: file_id },
       { headers: { Authorization: `Bearer ${longtoken}` } }
     )
     return response.data
   } catch (error) {
+    console.error('下载文件失败', error)
+    throw error
+  }
+}
+
+//资料站 预览文件的封装函数
+export const previewFile = async (file_id: number) => {
+  try {
+    const response = await api.post(
+      '/sealos/preview',
+      { file_id: file_id },
+      { headers: { Authorization: `Bearer ${longtoken}` } }
+    )
+    return response.data
+  } catch (error) {
+    console.error('下载文件失败', error)
     console.error('下载文件失败', error)
     throw error
   }
@@ -512,6 +531,8 @@ export const deleteChatHistory = async () => {
   } catch (error) {
     alert('删除聊天记录失败')
     console.error('Failed to delete history', error)
+    alert('删除聊天记录失败')
+    console.error('Failed to delete history', error)
     return []
   }
 }
@@ -520,8 +541,11 @@ export const deleteChatHistory = async () => {
 export const getQuestions = async () => {
   try {
     const response = await api.get('faq/read', {})
+    const response = await api.get('faq/read', {})
     return response.data.data.message.Content
   } catch (error) {
+    alert('问题列表访问失败')
+    console.error('Failed to fetch questions', error)
     alert('问题列表访问失败')
     console.error('Failed to fetch questions', error)
     return []
@@ -532,14 +556,18 @@ export const getQuestions = async () => {
 export const createQuestion = async (question: string, answer: string) => {
   try {
     const response = await api.post('/faq/create', {
+    const response = await api.post('/faq/create', {
       question,
       answer
     })
     alert('创建成功')
+    alert('创建成功')
     return response.data.data
   } catch (error: any) {
     const errorMessage = error?.response?.data?.message || '创建问题失败'
+    const errorMessage = error?.response?.data?.message || '创建问题失败'
     alert(errorMessage)
+    console.error('创建失败', error)
     console.error('创建失败', error)
     return []
   }
@@ -766,6 +794,96 @@ export const sendAnswer = async (id: number, formDataToSend: FormData) => {
     }
   )
   return response
+}
+
+export const fetchPendingPosts = async () => {
+  const url = '/audit/question/posts'
+  //console.log("请求URL:", `${api.defaults.baseURL}${url}`);
+  try {
+    const response = await api.get(url)
+    return response.data
+  } catch (error) {
+    console.error('获取待审核帖子失败', error)
+    return []
+  }
+}
+
+export const fetchPendingUpdateRequests = async () => {
+  const url = '/audit/update/requests'
+  try {
+    const response = await api.get(url)
+    return response.data
+  } catch (error) {
+    console.error('获取待审核更新请求失败', error)
+    return []
+  }
+}
+
+export const fetchPendingAnswers = async () => {
+  const url = '/audit/answer'
+  try {
+    const response = await api.get(url)
+    return response.data
+  } catch (error) {
+    console.error('获取待审核回答失败', error)
+    return []
+  }
+}
+
+const baseAuditRequest = async (
+  endpoint: string,
+  id: string,
+  decision: 'approve' | 'reject',
+  rejection_reason?: string
+) => {
+  if (decision === 'reject' && !rejection_reason?.trim()) {
+    throw new Error('拒绝理由不能为空')
+  }
+
+  const url = `${endpoint}/${id}?service=mundo`
+  //console.log("请求URL:", `${api.defaults.baseURL}/${url}`);
+
+  const data = {
+    decision,
+    rejection_reason: rejection_reason?.trim()
+  }
+
+  try {
+    const response = await api.post(url, data, {
+      headers: {
+        Authorization: `Bearer ${longtoken}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    return response.data
+  } catch (error) {
+    console.error(`审核 ${endpoint.split('/')[1]} ${decision} 失败`, error)
+    throw error
+  }
+}
+
+export const reviewPost = async (
+  id: string,
+  decision: 'approve' | 'reject',
+  rejection_reason?: string
+) => {
+  return baseAuditRequest('audit/question/posts', id, decision, rejection_reason)
+}
+
+export const reviewUpdateRequest = async (
+  id: string,
+  decision: 'approve' | 'reject',
+  rejection_reason?: string
+) => {
+  return baseAuditRequest('audit/update/requests', id, decision, rejection_reason)
+}
+
+export const reviewAnswer = async (
+  id: string,
+  decision: 'approve' | 'reject',
+  rejection_reason?: string
+) => {
+  return baseAuditRequest('audit/answer', id, decision, rejection_reason)
 }
 
 export const changelike = async (id: number, answerid: number) => {

@@ -89,8 +89,9 @@ const CreatorCenter: React.FC = () => {
       formDataToSend.append('tags', tag.name)
     })
     formData.files.forEach(file => {
-      formDataToSend.append('files', file)
+      formDataToSend.append(`picture`, file)
     })
+    console.log(formData)
     post(formDataToSend)
       .then(res => {
         if (res.data.code == 200) {
@@ -109,6 +110,13 @@ const CreatorCenter: React.FC = () => {
         alert('发布失败！')
         setLoading(false)
       })
+  }
+
+  const handleRemoveFile = (index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      files: prev.files.filter((_, i) => i !== index)
+    }))
   }
 
   return (
@@ -161,6 +169,7 @@ const CreatorCenter: React.FC = () => {
           <div className={styles.fileUpload}>
             <input
               type='file'
+              accept='image/*'
               multiple
               onChange={handleFileChange}
               className={styles.fileInput}
@@ -177,7 +186,15 @@ const CreatorCenter: React.FC = () => {
               {formData.files.map((file, index) => (
                 <div key={index} className={styles.fileItem}>
                   {file.type.startsWith('image/') ? (
-                    <img src={URL.createObjectURL(file)} alt={file.name} />
+                    <div style={{ position: 'relative' }}>
+                      <img src={URL.createObjectURL(file)} alt={file.name} />
+                      <button
+                        onClick={() => handleRemoveFile(index)}
+                        className={styles.removeButton}
+                      >
+                        ×
+                      </button>
+                    </div>
                   ) : (
                     <span className={styles.fileName}>{file.name}</span>
                   )}

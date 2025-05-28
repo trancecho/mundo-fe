@@ -1,4 +1,5 @@
 import React from 'react'
+
 // import styles from "./Houtai.module.css"; // 引入CSS模块
 import DashboardNavigation from '@/components/Dashboard/DashboardNavigation'
 import { Outlet } from 'react-router-dom'
@@ -18,6 +19,7 @@ const Houtai: React.FC = () => {
             window.location.href = '/houtaiLogin'
           }}
         />
+
       </div>
 
       <div className='flex flex-col px-4 py-6 mx-auto md:flex-row'>

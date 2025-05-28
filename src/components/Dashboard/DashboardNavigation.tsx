@@ -8,7 +8,7 @@ const menuItems = [
   { key: "dashboardfrontpage", label: "管理首页", icon: "📊" },
   { key: "multiPersonChat", label: "客服窗口", icon: "💬" },
   { key: "faq", label: "FAQ设置", icon: "❓" },
-  //{ key: "check", label: "内容审核", icon: "✅" },
+  { key: "check", label: "内容审核", icon: "✅" },
 ];
 
 export default function DashboardNavigation() {

@@ -295,3 +295,47 @@
     height: 1rem;
     background: rgba(255, 255, 255, 0.3);
 }
+
+.checkboxWrapper {
+  display: flex;
+  align-items: center;
+  margin: 15px 0 20px;
+  font-size: 0.9em;
+  color: #666;
+  position: relative; /* 为提示文字定位做准备 */
+}
+
+.checkboxInput {
+  width: 1.2em;
+  height: 1.2em;
+  margin-right: 8px;
+  accent-color: #409eff; /* 勾选框颜色 */
+}
+
+.checkboxLabel {
+  line-height: 1.6;
+}
+
+.checkboxLabel .link {
+  color: #409eff;
+  text-decoration: underline;
+  margin: 0 3px;
+}
+
+.errorTip {
+  color: #f5222d;
+  font-size: 0.85em;
+  margin-top: 5px;
+  display: none; /* 默认隐藏 */
+}
+
+/* 未勾选时显示错误提示 */
+.has-error .errorTip {
+  display: block;
+}
+
+/* 悬停或聚焦时强制显示提示（增强交互） */
+.checkboxWrapper:hover .errorTip,
+.checkboxWrapper:focus-within .errorTip {
+  display: block;
+}
