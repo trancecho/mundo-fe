@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from'react';
 import styles from './Check.module.css';
-import axios, { AxiosError } from 'axios';
+import { 
+  fetchPendingPosts, 
+  fetchPendingUpdateRequests, 
+  fetchPendingAnswers, 
+  reviewAnswer,
+  reviewUpdateRequest,
+  reviewPost
+} from '@/router/api';
 
-// 更新 PostData 接口以匹配新的数据类型
 interface PostData {
     id: number;
     title: string;
@@ -20,7 +26,6 @@ interface PostData {
     rejectionReason: string;
 }
 
-// 定义更新请求数据类型
 interface UpdateRequestData {
     id: number;
     title: string;
@@ -40,7 +45,7 @@ interface AnswerData {
     question_post_id: number;
     status: string;
     uid: number;
-    rejectionReason: string; // 用于存储拒绝理由
+    rejectionReason: string;
 }
 
 const deleteUnnecessaryCookies = () => {
@@ -48,102 +53,6 @@ const deleteUnnecessaryCookies = () => {
     unnecessaryCookies.forEach(cookieName => {
         document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
     });
-};
-
-const getLongToken = () => {
-    return localStorage.getItem("longtoken");
-};
-
-const api_register = axios.create({
-    baseURL: "/api",
-    headers: {}
-});
-
-api_register.interceptors.request.use(config => {
-    const longtoken = getLongToken();
-    if (longtoken &&!config.headers.Authorization) {
-        config.headers.Authorization = `Bearer ${longtoken}`;
-    }
-    delete config.headers['unnecessary-header'];
-
-    const headerSize = JSON.stringify(config.headers).length;
-    //console.log(`Request header size: ${headerSize}`);
-    return config;
-}, error => {
-    return Promise.reject(error);
-});
-
-// 类型守卫函数
-function isAxiosError(error: unknown): error is AxiosError {
-    return axios.isAxiosError(error);
-}
-
-// 获取待审核帖子及图片的函数
-const fetchPendingPosts = async () => {
-    try {
-        const response = await api_register.get("http://116.198.207.159:12349/api/audit/question/posts");
-        const data = response.data;
-        //console.log('获取到的待审核帖子内容:', data); 
-        return data;
-    } catch (error) {
-        console.error('获取消息数据失败', error);
-        return [];
-    }
-};
-
-// 获取待审核更新请求的函数
-const fetchPendingUpdateRequests = async () => {
-    try {
-        const response = await api_register.get("http://116.198.207.159:12349/api/audit/update/requests");
-        const data = response.data;
-        //console.log('获取到的待审核更新请求内容:', data); 
-        return response.data;
-    } catch (error) {
-        console.error('获取待审核更新请求失败', error);
-        return [];
-    }
-};
-
-// 获取待审核回答的函数
-const fetchPendingAnswers = async () => {
-    try {
-        const response = await api_register.get("http://116.198.207.159:12349/api/audit/answer");
-        const data = response.data;
-        //console.log('获取到的待审核回答内容:', data); 
-        return response.data;
-    } catch (error) {
-        console.error('获取待审核回答失败', error);
-        return [];
-    }
-};
-
-// 审核操作的函数
-const reviewItem = async (url: string, decision: string, rejectionReason: string) => {
-    const formdata = new FormData();
-    formdata.append("decision", decision);
-    formdata.append("rejection_reason", rejectionReason);
-    try {
-        const response = await api_register.post(url, formdata);
-        return response.data;
-    } catch (error) {
-        handleError(error, `审核 ${decision === 'approve'? '批准' : '拒绝'} 时`);
-        throw error;
-    }
-};
-
-// 统一的错误处理函数
-const handleError = (error: unknown, operation: string) => {
-    if (isAxiosError(error)) {
-        if (error.response) {
-            console.error(`${operation}服务器返回错误:`, error.response.status, error.response.statusText, error.response.data);
-        } else if (error.request) {
-            console.error(`${operation}没有收到服务器响应:`, error.request);
-        } else {
-            console.error(`${operation}请求出错:`, error.message);
-        }
-    } else {
-        console.error(`${operation}非 Axios 错误:`, error);
-    }
 };
 
 // 处理 Base64 图片的组件
@@ -233,30 +142,39 @@ const Check: React.FC = () => {
         }
     };
 
-    const handleReview = async (itemId: number, itemType: string, decision: string, index: number, dataArray: any[], setDataArray: (data: any[]) => void) => {
-        //console.log(`开始 ${decision === 'approve'? '批准' : '拒绝'} ${itemType}，ID: ${itemId}`);
-        const item = dataArray[index];
-        const rejectionReason = item.rejectionReason;
-        if (decision === 'reject' &&!rejectionReason.trim()) {
-            console.error('拒绝理由不能为空');
-            return;
-        }
-        let url = '';
-        if (itemType === 'post') {
-            url = `/audit/question/posts/${itemId}/?service=mundo`;
-        } else if (itemType === 'updateRequest') {
-            // 确保使用正确的接口路径
-            url = `/audit/update/requests/${itemId}`;
-        } else if (itemType === 'answer') {
-            url = `/audit/answer/${itemId}`;
-        }
+    const handleReview = async (
+        itemId: number,
+        itemType: 'post' | 'updateRequest' | 'answer',
+        decision: 'approve' | 'reject',
+        index: number,
+        dataArray: any[]
+    ) => {
         try {
-            await reviewItem(url, decision, rejectionReason);
-            //console.log(`${itemType} ID ${itemId} ${decision === 'approve'? '批准' : '拒绝'} 成功，重新获取数据...`);
+            const item = dataArray[index];
+            const rejectionReason = item.rejectionReason.trim();
+            
+            switch (itemType) {
+                case 'post':
+                    await reviewPost(itemId, decision, rejectionReason);
+                    break;
+                case 'updateRequest':
+                    await reviewUpdateRequest(itemId, decision, rejectionReason);
+                    break;
+                case 'answer':
+                    await reviewAnswer(itemId, decision, rejectionReason);
+                    break;
+                default:
+                    throw new Error('未知审核类型');
+            }
+            
+            // 刷新数据
             await fetchAllData();
-        } catch (err) {
-            const errorMessage = err instanceof Error? err.message : '未知错误';
-            setError(`${decision === 'approve'? '批准' : '拒绝'} ${itemType} 时出错`);
+        } catch (err: any) {
+            // 处理不同类型的错误
+            const errorMessage = 
+                err.message || 
+                (err.response?.data?.message || '审核操作失败，请检查网络连接');
+            setError(`审核失败：${errorMessage}`);
         }
     };
 
@@ -421,14 +339,14 @@ const Check: React.FC = () => {
                                         setAnswers(newAnswers);
                                     }}
                                     className={styles.rejectionReasonInput}
-                                    />
-                                </div>
+                                />
                             </div>
                         </div>
-                    ))}
-                </div>
+                    </div>
+                ))}
             </div>
-        );
-    };
-    
-    export default Check;
+        </div>
+    );
+};
+
+export default Check;
