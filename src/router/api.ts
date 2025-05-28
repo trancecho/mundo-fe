@@ -397,6 +397,24 @@ export const getMyTeam = async (token: string) => {
   }
 }
 
+// 获取Q&A首页所有帖子
+export const getPostList = async (
+  page: number,
+  pageSize: number,
+  category: string,
+  search: string,
+  sortby: string
+) => {
+  const response = await api.post(`/item`, {
+    page,
+    pageSize,
+    category,
+    search,
+    sortby
+  })
+  return response.data
+}
+
 export const getTasks = async () => {
   const response = await api.get('/tasks')
   return response.data.data.tasks
