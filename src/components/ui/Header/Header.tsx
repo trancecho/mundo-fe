@@ -65,19 +65,18 @@ const Header: React.FC = () => {
       }
     };
   }, [longtoken]);
+
   const onSearch = () => {
-    if (searchText.trim()) {
-      const currentPath = location.pathname;
-      if (currentPath.startsWith('/article')) {
-          setSearchText(searchText.trim());  // 更新搜索文本
-      } else if (currentPath.startsWith('/qa')) {
-          setSearchText(searchText.trim());
-      } else if (currentPath.startsWith('/teamup')) {
-          setSearchText(searchText.trim());
-      } else {
-          setSearchText(searchText.trim());
-      }
-  }
+    const currentPath = location.pathname;
+    const trimmedSearchText = searchText.trim();
+    setSearchText(trimmedSearchText);
+    
+    if (currentPath.startsWith('/teamup')) {
+      const searchEvent = new CustomEvent('doTeamSearch', {
+        detail: { searchText: trimmedSearchText }
+      });
+      window.dispatchEvent(searchEvent);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

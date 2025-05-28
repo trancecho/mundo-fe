@@ -781,3 +781,15 @@ export const checklike = async (id:number) =>{
   );
   return response;
 }
+
+export const searchTeam = async (search: string) => {
+  const response = await api.get('/myteam/search', {
+    params: {
+      search: search
+    },
+    headers: {
+      Authorization: `Bearer ${longtoken}`
+    }
+  })
+  return response
+}
