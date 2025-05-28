@@ -183,6 +183,12 @@ const Inputbox: React.FC<InputboxProps> = ({ id }) => {
         content: '',
         picture: []
     });
+    const handleRemoveImage = (index: number) => {
+        setformdata(prev => ({
+            ...prev,
+            picture: prev.picture.filter((_, i) => i !== index)
+        }));
+    };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0] || null;
@@ -255,6 +261,12 @@ const Inputbox: React.FC<InputboxProps> = ({ id }) => {
                                 alt={'图片预览'}
                                 style={{ width: 100, marginTop: '10px', marginRight: "10px" }}
                             />
+                            <button 
+                                onClick={() => handleRemoveImage(index)}
+                                className={Style.removeButton}
+                            >
+                                ×
+                            </button>
                         </div>)
                 }
                 )}
@@ -272,11 +284,6 @@ const Inputbox: React.FC<InputboxProps> = ({ id }) => {
                         style={{ display: 'none' }}
                         id="fileUpload"
                     />
-                    <div className="">
-                        <TbPhotoOff className={Style.icon} onClick={() =>
-                           setformdata((prev) => ({ ...prev, picture: [] }))
-                        }/>
-                    </div>
 
                 </div>
                 <div>
