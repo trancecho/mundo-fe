@@ -21,7 +21,6 @@ const authApi = axios.create({
   baseURL: import.meta.env.VITE_authURL,
   headers: {
     'Content-Type': 'application/json'
-    'Content-Type': 'application/json'
   }
 })
 export const longtoken = localStorage.getItem('longtoken')
@@ -30,8 +29,6 @@ console.log('Token:', longtoken)
 const api = axios.create({
   baseURL: import.meta.env.VITE_baseURL,
   headers: {
-    'Content-Type': 'application/json',
-    Authorization: 'Bearer ' + longtoken // 登录所需token
     'Content-Type': 'application/json',
     Authorization: 'Bearer ' + longtoken // 登录所需token
   }
@@ -541,7 +538,6 @@ export const deleteChatHistory = async () => {
 export const getQuestions = async () => {
   try {
     const response = await api.get('faq/read', {})
-    const response = await api.get('faq/read', {})
     return response.data.data.message.Content
   } catch (error) {
     alert('问题列表访问失败')
@@ -556,15 +552,12 @@ export const getQuestions = async () => {
 export const createQuestion = async (question: string, answer: string) => {
   try {
     const response = await api.post('/faq/create', {
-    const response = await api.post('/faq/create', {
       question,
       answer
     })
     alert('创建成功')
-    alert('创建成功')
     return response.data.data
   } catch (error: any) {
-    const errorMessage = error?.response?.data?.message || '创建问题失败'
     const errorMessage = error?.response?.data?.message || '创建问题失败'
     alert(errorMessage)
     console.error('创建失败', error)
