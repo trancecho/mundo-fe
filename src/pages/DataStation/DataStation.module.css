@@ -24,12 +24,13 @@
   background: radial-gradient(circle at 50% 100%, #0f172a, #020617);
   color: var(--text-primary);
   padding: 2rem;
+  padding-top: 96px;
 }
 
 .content {
   display: flex;
   flex-direction: row;
-  margin-top: 80px;
+  /* margin-top: 80px; */
   flex: 1;
   gap: 2rem;
   max-width: 1800px;

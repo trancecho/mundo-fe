@@ -8,7 +8,6 @@ import Verify from '@/pages/Register/Verify' // 注册验证
 import Reset from '@/pages/Register/Reset' // 重置密码
 import DataStation from '@/pages/DataStation' //资料站
 // import Article from '@/pages/Article' //时文
-import QAndA from '@/pages/QAndA/QAndA' //答疑
 import PostListView from '@/pages/QAndA/PostListView.tsx' //答疑帖子列表
 import TeamUp from '@/pages/TeamUp' //组队
 import Houtai from './pages/Houtai/Houtai' // 引入 Houtai.tsx

@@ -48,6 +48,7 @@ const InfoManage: React.FC = () => {
   const [TeamDiscribe, setTeamDiscribe] = useState<String | null>('')
   const [TeamRequest, setTeamRequest] = useState<String | null>('')
   const [TeamTel, setTeamTel] = useState<String | null>('')
+  const [TeamWay, setTeamWay] = useState<String | null>('')
   const [TeamNowNumber, setTeamNowNumber] = useState<number | null>(null)
   const [TeamTotalNumber, setTeamTotalNumber] = useState<number | null>(null)
 
@@ -69,7 +70,6 @@ const InfoManage: React.FC = () => {
   const fetchTeams = async () => {
     try {
       const data = await getMyTeam(token as string)
-      //console.log("队伍", data);
       const fetchedTeams: Team[] = data.map((team: any) => ({
         id: team.ID,
         teamname: team.Name,
@@ -217,7 +217,7 @@ const InfoManage: React.FC = () => {
         TeamTotalNumber as number,
         TeamDiscribe as string,
         TeamRequest as string,
-        TeamTel as string
+        TeamWay?.concat(':').concat(TeamTel as string) as string
       )
       fetchTeams()
     } catch (error) {
@@ -319,7 +319,7 @@ const InfoManage: React.FC = () => {
           </div>
 
           <div className='flex flex-col justify-center w-full p-[1.25rem]'>
-            <div className='flex flex-row justify-between relative w-full'>
+            <div className='flex flex-row justify-between items-center relative w-full'>
               <p className='font-bold text-[1.25rem] text-white'>我的队伍</p>
               <Dialog.Root>
                 <Dialog.Trigger asChild>
@@ -344,20 +344,20 @@ const InfoManage: React.FC = () => {
                       </div>
                       <div className='flex flex-row w-full  items-center'>
                         <p className='font-medium text-[1.25rem] text-black '>描述：</p>
-                        <input
+                        <textarea
                           title='描述'
-                          type='text'
+                          // type='text'
                           onChange={e => setTeamDiscribe(e.target.value)}
-                          className='mt-1 mx-2 flex-1 rounded-sm border border-gray-300 h-[6rem] focus:border-blue-500 focus:ring-blue-500'
+                          className='mt-1 mx-2 flex-1 p-[20px] rounded-sm border border-gray-300 h-[6rem] focus:border-blue-500 focus:ring-blue-500'
                         />
                       </div>
                       <div className='flex flex-row w-full  items-center'>
                         <p className='font-medium text-[1.25rem] text-black '>要求：</p>
-                        <input
+                        <textarea
                           title='要求'
-                          type='text'
+                          // type='text'
                           onChange={e => setTeamRequest(e.target.value)}
-                          className='mt-1 mx-2 flex-1 rounded-sm border border-gray-300 h-[6rem] focus:border-blue-500 focus:ring-blue-500'
+                          className='mt-1 mx-2 flex-1 p-[20px] rounded-sm border border-gray-300 h-[6rem] focus:border-blue-500 focus:ring-blue-500'
                         />
                       </div>
                       <div className='mt-4 flex flex-row w-full items-center'>
@@ -378,7 +378,7 @@ const InfoManage: React.FC = () => {
                         <input
                           type='text'
                           title='联系途径'
-                          onChange={e => setTeamTel(e.target.value)}
+                          onChange={e => setTeamWay(e.target.value)}
                           className='mt-1 mx-2 flex-1 rounded-sm border border-gray-300 h-[1.5rem] focus:border-blue-500 focus:ring-blue-500'
                         />
                       </div>
@@ -427,7 +427,11 @@ const InfoManage: React.FC = () => {
                 </Dialog.Portal>
               </Dialog.Root>
             </div>
-            <TeamList Teams={teamList} onUpdateTeam={handleUpdateTeam} />
+            <TeamList
+              Teams={teamList}
+              fetchTeams={fetchTeams}
+              onUpdateTeam={handleUpdateTeam}
+            />
           </div>
         </div>
       </div>

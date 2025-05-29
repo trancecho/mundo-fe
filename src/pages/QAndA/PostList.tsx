@@ -32,7 +32,7 @@ const PostList = ({ data, loading }: { data: Post[]; loading: boolean }) => {
             className='w-full h-[100px] px-[20px] py-[8px] flex gap-[1rem] border-b border-white/10'
             onClick={() => handleMessageClick(message.id)}
           >
-            <div className='w-[80%] flex flex-col gap-[10px]'>
+            <div className='w-full flex flex-1 flex-col gap-[10px]'>
               <div className='flex flex-col gap-[6px]'>
                 <div className='font-semibold text-[18px]  text-[--color-text-1] text-left overflow-hidden text-ellipsis whitespace-nowrap'>
                   {message.title ? message.title : '无标题'}
@@ -62,8 +62,8 @@ const PostList = ({ data, loading }: { data: Post[]; loading: boolean }) => {
                 </div>
               </div>
             </div>
-            <div className='flex w-[20%] h-full'>
-              {message.picture && message.picture.length > 0 && (
+            {message.picture && message.picture.length > 0 && (
+              <div className='flex w-[108px] h-[72px]'>
                 <img
                   src={`data:image/jpeg;base64,${message.picture[0]}`}
                   alt='Message'
@@ -72,8 +72,8 @@ const PostList = ({ data, loading }: { data: Post[]; loading: boolean }) => {
                     console.error('图片加载失败:', message.picture[0])
                   }}
                 />
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </>
       ))}

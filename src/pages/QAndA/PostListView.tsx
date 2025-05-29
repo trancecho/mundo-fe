@@ -67,9 +67,9 @@ const PostListView: React.FC = () => {
     <>
       <Header />
       <div className='QandAContainer'>
-        <div style={{ height: 600 }}>
+        <div style={{ height: 600, marginLeft: '20px' }}>
           <Menu
-            style={{ width: '12rem', height: '100%' }}
+            style={{ width: '16rem', height: '100%' }}
             defaultOpenKeys={['0']}
             defaultSelectedKeys={['0']}
             theme='dark'
@@ -111,7 +111,7 @@ const PostListView: React.FC = () => {
             ))}
           </Menu>
         </div>
-        <div className='right flex flex-col w-full gap-[16px]'>
+        <div className='right flex flex-col w-full gap-[16px] mr-[20px]'>
           <Tabs
             activeTab={sortby}
             onChange={key => {

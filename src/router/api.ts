@@ -323,7 +323,6 @@ export const addTeam = async (
   contact: string
 ) => {
   try {
-    debugger
     const response = await api.post(
       '/myteam',
       {
@@ -395,6 +394,12 @@ export const getMyTeam = async (token: string) => {
     console.error('获取个人队伍信息失败：', error)
     throw error
   }
+}
+
+//删除我的队伍
+export const deleteTeam = async (id: number) => {
+  const response = await api.delete('/myteam', { data: { id } })
+  return response.data
 }
 
 // 获取Q&A首页所有帖子

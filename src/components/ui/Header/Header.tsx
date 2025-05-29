@@ -196,7 +196,7 @@ const Header: React.FC = () => {
         >
           <div className='flex flex-col w-full gap-[10px]'>
             <div className='flex items-center justify-center w-full '>
-              <div className='text-[18px] font-medium text-black ml-[20px]'>
+              <div className='text-[18px] font-medium text-white ml-[20px]'>
                 确定要退出登录吗？
               </div>
             </div>
@@ -212,7 +212,7 @@ const Header: React.FC = () => {
               <Button
                 key='ok'
                 type='primary'
-                className='specialButton'
+                // className='specialButton'
                 // className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 onClick={() => {
                   setVisible(false)

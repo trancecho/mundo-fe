@@ -4,13 +4,14 @@
   min-height: 100vh;
   background: linear-gradient(135deg, #0f1729 0%, #0a0f1d 100%);
   padding: 2rem;
+  padding-top: 96px;
   font-family: 'Orbitron', sans-serif;
 }
 
 .creatorCenter {
   max-width: 1200px;
-  margin: 2rem auto;
-  padding: 2rem;
+  /* margin: 2rem auto; */
+  padding: 1rem;
   background: rgba(16, 23, 42, 0.7);
   backdrop-filter: blur(10px);
   border-radius: 20px;
@@ -200,7 +201,7 @@
   position: absolute;
   top: 5px;
   right: 5px;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   color: white;
   border: none;
   border-radius: 50%;
@@ -213,7 +214,7 @@
 }
 
 .removeButton:hover {
-  background: rgba(255,0,0,0.7);
+  background: rgba(255, 0, 0, 0.7);
 }
 
 .fileName {
