@@ -61,8 +61,6 @@ const App: React.FC = () => {
             <Route path="/center" element={<CreatorCenter />} />
             <Route path="/teamup" element={<TeamUp />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/login/privacy" element={<PrivacyPolicy />} />
-            <Route path="/login/terms" element={<TermsOfService />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/bindregister" element={<BindRegisterPage />} />
             {/*<Route path="/register/verify/v2" element={<Verify/>}/>*/}
