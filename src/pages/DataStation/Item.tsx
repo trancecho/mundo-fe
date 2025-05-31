@@ -5,17 +5,14 @@ interface ItemProps {
   item: {
     id: number
     name: string
-    updated_at: string
     folder_id: number
     hotness: number
     size: number
-    url?: string
-    previewUrl?: string
     isDownloading?: boolean
     isDownloaded?: boolean
   }
   onDownload: (item: any) => void
-  onPreview: (item: any) => Promise<string> // 新增预览处理函数
+  onPreview: (item: any) => Promise<string>
 }
 
 const Item: React.FC<ItemProps> = ({ item, onDownload, onPreview }) => {
@@ -24,22 +21,8 @@ const Item: React.FC<ItemProps> = ({ item, onDownload, onPreview }) => {
   const [previewError, setPreviewError] = useState<string | null>(null)
   const sizeInMB = (item.size / 1024 / 1024).toFixed(2)
 
-  // 格式化日期，返回 yyyy-mm-dd
-  const formatDate = (dateString: string): string => {
-    const date = new Date(dateString)
-    const year = date.getFullYear()
-    const month = (date.getMonth() + 1).toString().padStart(2, '0')
-    const day = date.getDate().toString().padStart(2, '0')
-    return `${year}-${month}-${day}`
-  }
-
   const handlePreview = async (e: React.MouseEvent) => {
     e.stopPropagation()
-
-    if (item.previewUrl) {
-      window.open(item.previewUrl, '_blank')
-      return
-    }
 
     try {
       setIsLoadingPreview(true)
@@ -54,7 +37,7 @@ const Item: React.FC<ItemProps> = ({ item, onDownload, onPreview }) => {
   }
 
   const handleDownloadClick = (e: React.MouseEvent) => {
-    e.stopPropagation() // 阻止事件冒泡，避免触发预览
+    e.stopPropagation()
     onDownload(item)
   }
 
@@ -87,7 +70,6 @@ const Item: React.FC<ItemProps> = ({ item, onDownload, onPreview }) => {
                 : '点击下载'}
           </button>
         </p>
-        <p>更新时间: {formatDate(item.updated_at)}</p>
         {isLoadingPreview && <span>加载预览中...</span>}
         {previewError && <span style={{ color: 'red' }}>{previewError}</span>}
       </div>
