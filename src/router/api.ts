@@ -479,14 +479,41 @@ export const getAllPost = async () => {
 }
 
 //资料站  获取文件列表
-export const getFileList = async (name: string) => {
+export const getFileList = async (
+  category: string,
+  page: number,
+  pageSize: number,
+  sortby: 'hot' | 'new'
+) => {
   try {
-    const response = await api.post(
-      `/files`,
-      { name: name },
-      { headers: { Authorization: 'Bearer ' + longtoken } }
-    )
-    return response.data.data.files // 返回的数据结构
+    let id: number
+    switch (category) {
+      case 'C语言':
+        id = 45
+        break
+      case '高数':
+        id = 46
+        break
+      case '大物':
+        id = 47
+        break
+      case '其他':
+        id = 48
+        break
+      default:
+        throw new Error('Invalid category')
+    }
+
+    const response = await api.get('/sealos/file', {
+      params: {
+        id,
+        page,
+        page_size: pageSize,
+        sortby
+      },
+      headers: { Authorization: 'Bearer ' + longtoken }
+    })
+    return response.data
   } catch (error) {
     console.error('获取文件列表失败', error)
     throw error
