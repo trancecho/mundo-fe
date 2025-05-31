@@ -63,7 +63,6 @@ const Item: React.FC<ItemProps> = ({ item, onDownload, onPreview }) => {
       className={`${styles.itemContainer}` + (isHovered ? ` ${styles.hovered}` : '')}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={handlePreview}
     >
       <div className={styles.mainContent}>
         <h3 className={styles.title}>{item.name}</h3>
@@ -91,6 +90,11 @@ const Item: React.FC<ItemProps> = ({ item, onDownload, onPreview }) => {
         <p>更新时间: {formatDate(item.updated_at)}</p>
         {isLoadingPreview && <span>加载预览中...</span>}
         {previewError && <span style={{ color: 'red' }}>{previewError}</span>}
+      </div>
+      <div className={styles.previewButtonContainer}>
+        <button className={styles.previewButton} onClick={handlePreview}>
+          预览
+        </button>
       </div>
       <div className={styles.hotness}>热度: {item.hotness}</div>
     </div>

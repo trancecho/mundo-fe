@@ -3,6 +3,7 @@ import Item from './Item'
 import { getFileList, downloadFile, previewFile } from '@/router/api'
 import styles from './ItemList.module.css'
 import { useSearch } from '@/components/ui/Header/SearchContext'
+import { Pagination } from '@arco-design/web-react'
 
 interface ItemListProps {
   category: string
@@ -28,6 +29,8 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
   const [error, setError] = useState<string | null>(null)
   const { searchText } = useSearch()
   const [selectedCategory, setSelectedCategory] = useState<string>('全部')
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const pageSize = 5
 
   // const filteredItems = items.filter((item) => {
   //   const categoryMatch = selectedCategory === '全部' || item.name.toString() === selectedCategory;
@@ -174,6 +177,18 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
     }
   }
 
+  // 获取当前页的数据
+  const getCurrentPageData = () => {
+    const startIndex = (currentPage - 1) * pageSize
+    const endIndex = startIndex + pageSize
+    return sortedItems.slice(startIndex, endIndex)
+  }
+
+  // 处理页码变化
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+  }
+
   if (loading) return <p>加载中....</p>
   if (error) return <p>{error}</p>
 
@@ -204,7 +219,7 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
         {sortedItems.length === 0 ? (
           <p>没有资料</p>
         ) : (
-          sortedItems.map(item => (
+          getCurrentPageData().map(item => (
             <Item
               key={item.id}
               item={item}
@@ -214,6 +229,16 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
           ))
         )}
       </div>
+      {sortedItems.length > 0 && (
+        <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
+          <Pagination
+            total={sortedItems.length}
+            current={currentPage}
+            pageSize={pageSize}
+            onChange={handlePageChange}
+          />
+        </div>
+      )}
     </div>
   )
 }

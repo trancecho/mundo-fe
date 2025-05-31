@@ -10,11 +10,21 @@
   width: 100%;
   backdrop-filter: blur(12px);
   transition: all 0.3s ease;
-  cursor: pointer;
   text-align: left;
   line-height: 1.2; /* 减小行间距 */
   position: relative;
   margin-top: 10px;
+}
+
+.previewButton {
+  position: absolute;
+  right: 100px;
+  bottom: 20px;
+  color: rgba(121, 85, 229, 0.865);
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 450;
 }
 
 .itemContainer:hover {
@@ -88,7 +98,7 @@ h3 {
 
 .hotness {
   position: absolute;
-  bottom: 21px;
+  bottom: 19px;
   right: 10px;
   font-size: 15px;
   color: #a6a6a6;
@@ -96,22 +106,6 @@ h3 {
 
 .itemContainer {
   position: relative;
-}
-
-.hovered:after  {
-  content: '点击预览';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(44, 44, 44, 0.134);
-  color: rgba(154, 154, 154, 0.777);
-  padding: 8px 12px;
-  border-radius: 4px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-  box-shadow: 1px 1px 10px #4859B6;
 }
 
 .itemContainer:after {
