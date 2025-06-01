@@ -1,25 +1,22 @@
-import React, { useState, useEffect, useRef } from "react";
-import Header from "@/components/ui/Header/Header.tsx";
-import style from "./teamup.module.css";
-import { useAuth } from "@/context/AuthContext";
-import { getteamup } from "../../router/api";
-import {
-  SearchProvider,
-  useSearch,
-} from "@/components/ui/Header/SearchContext";
-
+import React, { useState, useEffect, useRef } from 'react'
+import Header from '@/components/ui/Header/Header.tsx'
+import style from './teamup.module.css'
+import { useAuth } from '@/context/AuthContext'
+import { getteamup, searchTeam } from '../../router/api'
+import { SearchProvider } from '@/components/ui/Header/SearchContext'
+import { Notification } from '@arco-design/web-react'
 type detail = {
-  ID: number;
-  Name: string;
-  Introduction: string;
-  Require: string;
-  Contact: string;
-  Number: number;
-  Publisher: string;
-};
+  ID: number
+  Name: string
+  Introduction: string
+  Require: string
+  Contact: string
+  Number: number
+  Publisher: string
+}
 
 const Detail = ({ detail, jumpto }: { detail: detail; jumpto: () => void }) => {
-  const ref = useRef<HTMLDivElement | null>(null);
+  const ref = useRef<HTMLDivElement | null>(null)
   // const applyto = () => {
   //   apply().then(res => {
   //     if (res.data.code === 200) {
@@ -34,14 +31,14 @@ const Detail = ({ detail, jumpto }: { detail: detail; jumpto: () => void }) => {
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
-        jumpto();
+        jumpto()
       }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
+    }
+    document.addEventListener('mousedown', handleClickOutside)
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [jumpto, ref]);
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [jumpto, ref])
   return (
     <div className={style.mask}>
       <div className={style.teampick} ref={ref}>
@@ -72,17 +69,17 @@ const Detail = ({ detail, jumpto }: { detail: detail; jumpto: () => void }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const Item = ({
   detail,
   jumpto,
-  check,
+  check
 }: {
-  detail: detail;
-  jumpto: () => void;
-  check: number | undefined;
+  detail: detail
+  jumpto: () => void
+  check: number | undefined
 }) => {
   return (
     <div className={style.teamGrid}>
@@ -109,44 +106,84 @@ const Item = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const TeamContent = () => {
-  const { longtoken } = useAuth();
-  const [data, setData] = useState<detail[]>([]);
-  const [check, setcheck] = useState<number | undefined>(undefined);
-  const { searchText } = useSearch();
-  const [selectedCategory, setSelectedCategory] = useState<string>("全部");
-  const result =
-    check !== undefined ? data.find((item) => item.ID === check) : undefined;
-
-  const filteredTeams = data.filter((team) => {
-    const categoryMatch =
-      selectedCategory === "全部" || team.Require.includes(selectedCategory);
-    const searchMatch =
-      !searchText ||
-      [team.Name, team.Introduction, team.Publisher, team.Require].some(
-        (text) => text.toLowerCase().includes(searchText.toLowerCase()),
-      );
-    return categoryMatch && searchMatch;
-  });
+  const { longtoken } = useAuth()
+  const [data, setData] = useState<detail[]>([])
+  const [check, setcheck] = useState<number | undefined>(undefined)
+  const result = check !== undefined ? data.find(item => item.ID === check) : undefined
 
   const jumpto = (id: number | undefined) => {
-    setcheck(id);
-  };
+    let longtoken = localStorage.getItem('longtoken')
+    if (!longtoken) {
+      Notification.info({
+        closable: false,
+        title: '请先登录',
+        content: '请先登录后再进行操作。'
+      })
+      return
+    }
+    setcheck(id)
+  }
 
   useEffect(() => {
-    getteamup().then((data) => {
-      setData(data.data.data.Team.Content);
-    });
-  }, [longtoken]);
+    getteamup().then(data => {
+      setData(data.data.data.Team.Content)
+    })
+  }, [longtoken])
+
+  useEffect(() => {
+    const handleSearch = (event: CustomEvent<{ searchText: string }>) => {
+      const searchQuery = event.detail.searchText
+      if (searchQuery) {
+        searchTeam(searchQuery)
+          .then(response => {
+            if (response.data && response.data.data.FilteredTeam) {
+              const formattedData = response.data.data.FilteredTeam.map((item: any) => ({
+                ID: item.id,
+                Name: item.name,
+                Introduction: item.introduction,
+                Require: item.require,
+                Contact: item.contact,
+                Number: item.number,
+                Publisher: item.publisher
+              }))
+              setData(formattedData)
+            } else {
+              setData([])
+            }
+          })
+          .catch(error => {
+            setData([])
+          })
+      } else {
+        getteamup().then(data => {
+          if (
+            data.data &&
+            data.data.data &&
+            data.data.data.Team &&
+            data.data.data.Team.Content
+          ) {
+            setData(data.data.data.Team.Content)
+          }
+        })
+      }
+    }
+
+    window.addEventListener('doTeamSearch', handleSearch as EventListener)
+
+    return () => {
+      window.removeEventListener('doTeamSearch', handleSearch as EventListener)
+    }
+  }, [])
 
   return (
     <div className={style.container}>
       <Header />
       <div className={style.teamGrid}>
-        {filteredTeams.map((item) => (
+        {data.map(item => (
           <Item
             key={item.ID}
             detail={item}
@@ -163,15 +200,15 @@ const TeamContent = () => {
         />
       )}
     </div>
-  );
-};
+  )
+}
 
 const TeamUp = () => {
   return (
     <SearchProvider>
       <TeamContent />
     </SearchProvider>
-  );
-};
+  )
+}
 
-export default TeamUp;
+export default TeamUp

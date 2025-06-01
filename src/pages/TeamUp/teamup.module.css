@@ -20,6 +20,7 @@
   background: radial-gradient(circle at 50% 100%, #0f172a, #020617);
   color: var(--text-primary);
   padding: 2rem;
+  padding-top: 96px;
 }
 
 .header {
@@ -45,7 +46,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
-  padding: 1rem;
+  /* padding: 1rem; */
 }
 
 .teamCard {
@@ -310,8 +311,12 @@
 }
 
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 /* 响应式设计 */

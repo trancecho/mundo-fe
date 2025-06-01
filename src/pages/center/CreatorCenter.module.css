@@ -4,13 +4,14 @@
   min-height: 100vh;
   background: linear-gradient(135deg, #0f1729 0%, #0a0f1d 100%);
   padding: 2rem;
+  padding-top: 96px;
   font-family: 'Orbitron', sans-serif;
 }
 
 .creatorCenter {
   max-width: 1200px;
-  margin: 2rem auto;
-  padding: 2rem;
+  /* margin: 2rem auto; */
+  padding: 1rem;
   background: rgba(16, 23, 42, 0.7);
   backdrop-filter: blur(10px);
   border-radius: 20px;
@@ -173,16 +174,47 @@
 
 .fileItem {
   position: relative;
-  aspect-ratio: 1;
-  overflow: hidden;
-  border-radius: 10px;
-  border: 1px solid rgba(122, 58, 237, 0.3);
+  width: 100%;
+  min-height: 100px; /* 设置最小高度 */
 }
 
 .fileItem img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  max-height: 200px; /* 限制最大高度 */
+  object-fit: contain; /* 保持图片比例 */
+  display: block;
+}
+
+.fileName {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100px; /* 与图片区域高度一致 */
+  border: 1px dashed #ccc; /* 添加边框使区域更明显 */
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.removeButton {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.removeButton:hover {
+  background: rgba(255, 0, 0, 0.7);
 }
 
 .fileName {

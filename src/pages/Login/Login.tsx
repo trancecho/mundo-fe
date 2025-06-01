@@ -104,16 +104,16 @@ const Login = () => {
         return;
       }
     try {
-      const data = await loginUser(email, password); // 调用登录函数
+      const data = await loginUser(email, password) // 调用登录函数
       //console.log("登录成功:", data);
-      setTokenFunc(data.data.token as string);
-      setToken1(data.data.token);
-      setAuthtokenflag(true);
-      navigate("/qanda");
+      setTokenFunc(data.data.token as string)
+      setToken1(data.data.token)
+      setAuthtokenflag(true)
+      navigate('/qanda')
     } catch (err) {
-      Message.error(err?.response?.data?.message || "登录失败，请稍后重试");
+      Message.error(err?.response?.data?.message || '登录失败，请稍后重试')
     }
-  };
+  }
   /*
     三方登录——微信
   */
@@ -454,15 +454,17 @@ const Login = () => {
               </div>
 
               <div className={style.inputGroup}>
-                <div className={`${style.checkboxWrapper} ${!isAgreed ? style.hasError : ''}`}>
+                <div
+                  className={`${style.checkboxWrapper} ${!isAgreed ? style.hasError : ''}`}
+                >
                   <input
-                    type="checkbox"
-                    id="agreement"
+                    type='checkbox'
+                    id='agreement'
                     className={style.checkboxInput}
                     checked={isAgreed}
-                    onChange={(e) => setIsAgreed(e.target.checked)}
+                    onChange={e => setIsAgreed(e.target.checked)}
                   />
-                  <label htmlFor="agreement" className={style.checkboxLabel}>
+                  <label htmlFor='agreement' className={style.checkboxLabel}>
                     我已阅读并同意
                     <span className={style.link} onClick={() => setPrivacyModalVisible(true)}>
                       《隐私政策》
@@ -477,7 +479,6 @@ const Login = () => {
                       <p className={style.errorTip}>请先勾选同意隐私条款和服务条款</p>
                   )}
               </div>
-              
               <button className={style.primaryButton} onClick={handleLogin}>
                 <span>立即登录</span>
                 <div className={style.buttonHover}></div>
