@@ -19,7 +19,7 @@ import PrivacyPolicyModal from "@/components/PrivacyPolicy.tsx";
 import TermsOfServiceModal from "@/components/TermsOfService.tsx";
 import Header from '@/components/ui/Header/Header.tsx' // 导入 AxiosError 类型
 const Login = () => {
-  const [privacyModalVisible, setPrivacyModalVisible] = useState(false);
+    const [privacyModalVisible, setPrivacyModalVisible] = useState(false);
   const [termsModalVisible, setTermsModalVisible] = useState(false);
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
