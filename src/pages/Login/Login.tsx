@@ -15,12 +15,8 @@ import {
 } from '../../router/api.ts' // 导入登录函数
 import { useNavigate, useSearchParams, Link, useLocation } from 'react-router-dom'
 import { AxiosError } from 'axios'
-import PrivacyPolicyModal from "@/components/PrivacyPolicy.tsx";
-import TermsOfServiceModal from "@/components/TermsOfService.tsx";
 import Header from '@/components/ui/Header/Header.tsx' // 导入 AxiosError 类型
 const Login = () => {
-    const [privacyModalVisible, setPrivacyModalVisible] = useState(false);
-  const [termsModalVisible, setTermsModalVisible] = useState(false);
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
@@ -97,23 +93,24 @@ const Login = () => {
   }
 
   const handleLogin = async (e: React.FormEvent) => {
-      e.preventDefault();
-      setError(null);
-      if (!isAgreed) {
-        Message.error('请先勾选同意隐私条款和服务条款');
-        return;
-      }
-    try {
-      const data = await loginUser(email, password); // 调用登录函数
-      //console.log("登录成功:", data);
-      setTokenFunc(data.data.token as string);
-      setToken1(data.data.token);
-      setAuthtokenflag(true);
-      navigate("/qanda");
-    } catch (err) {
-      Message.error(err?.response?.data?.message || "登录失败，请稍后重试");
+    e.preventDefault()
+    setError(null)
+    // 新增校验逻辑
+    if (!isAgreed) {
+      Alert.error('请先勾选同意隐私条款和服务条款')
+      return
     }
-  };
+    try {
+      const data = await loginUser(email, password) // 调用登录函数
+      //console.log("登录成功:", data);
+      setTokenFunc(data.data.token as string)
+      setToken1(data.data.token)
+      setAuthtokenflag(true)
+      navigate('/qanda')
+    } catch (err) {
+      Message.error(err?.response?.data?.message || '登录失败，请稍后重试')
+    }
+  }
   /*
     三方登录——微信
   */
@@ -454,28 +451,35 @@ const Login = () => {
               </div>
 
               <div className={style.inputGroup}>
-                <div className={`${style.checkboxWrapper} ${!isAgreed ? style.hasError : ''}`}>
+                <div
+                  className={`${style.checkboxWrapper} ${!isAgreed ? style.hasError : ''}`}
+                >
                   <input
-                    type="checkbox"
-                    id="agreement"
+                    type='checkbox'
+                    id='agreement'
                     className={style.checkboxInput}
                     checked={isAgreed}
-                    onChange={(e) => setIsAgreed(e.target.checked)}
+                    onChange={e => setIsAgreed(e.target.checked)}
                   />
-                  <label htmlFor="agreement" className={style.checkboxLabel}>
+                  <label htmlFor='agreement' className={style.checkboxLabel}>
                     我已阅读并同意
-                    <span className={style.link} onClick={() => setPrivacyModalVisible(true)}>
-                      《隐私政策》
-                    </span> 和
-                    <span className={style.link} onClick={() => setTermsModalVisible(true)}>
+                    <a href='/login/privacy' target='_blank' className={style.link}>
+                      《隐私条款》
+                    </a>{' '}
+                    和
+                    <a href='/login/terms' target='_blank' className={style.link}>
                       《服务条款》
-                    </span>
+                    </a>
                   </label>
+                  {/* 唯一错误提示 */}
+                  <p className={style.errorTip}>
+                    {!isAgreed && '请勾选同意隐私条款和服务条款'}
+                  </p>
                 </div>
 
-                  {!isAgreed && (
-                      <p className={style.errorTip}>请先勾选同意隐私条款和服务条款</p>
-                  )}
+                {!isAgreed && (
+                  <p className={style.errorTip}>请勾选同意隐私条款和服务条款</p>
+                )}
               </div>
 
               <button className={style.primaryButton} onClick={handleLogin}>
@@ -530,16 +534,6 @@ const Login = () => {
           )}
         </div>
       </div>
-
-    <PrivacyPolicyModal 
-      visible={privacyModalVisible} 
-      onClose={() => setPrivacyModalVisible(false)} 
-    />
-    <TermsOfServiceModal 
-      visible={termsModalVisible} 
-      onClose={() => setTermsModalVisible(false)} 
-    />
-      
     </>
   )
 }
