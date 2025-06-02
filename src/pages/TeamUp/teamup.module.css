@@ -58,6 +58,14 @@
   overflow: hidden;
 }
 
+.teamCard .teamDescription {
+  color: var(--text-secondary);
+  overflow-wrap: break-word;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  left: 0;
+}
+
 .teamCard:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
@@ -71,6 +79,14 @@
   border-radius: 8px;
   max-width: 550px;
   width: 90%;
+}
+
+.teampick .teamDescription {
+  color: var(--text-secondary);
+  overflow-wrap: break-word;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  left: 0;
 }
 
 .mask {
@@ -96,12 +112,6 @@
   margin-bottom: 0;
 }
 
-.teamDescription {
-  color: var(--text-secondary);
-  margin-bottom: 1.5rem;
-  line-height: 1.6;
-  left: 0;
-}
 
 .teamMeta {
   display: flex;
