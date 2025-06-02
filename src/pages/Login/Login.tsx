@@ -15,8 +15,11 @@ import {
 } from '../../router/api.ts' // 导入登录函数
 import { useNavigate, useSearchParams, Link, useLocation } from 'react-router-dom'
 import { AxiosError } from 'axios'
-import Header from '@/components/Header/Header.tsx' // 导入 AxiosError 类型
+import PrivacyPolicyModal from "@/components/ui/PrivacyPolicy.tsx";
+import TermsOfServiceModal from "@/components/ui/TermsOfService.tsx";
 const Login = () => {
+  const [privacyModalVisible, setPrivacyModalVisible] = useState(false);
+  const [termsModalVisible, setTermsModalVisible] = useState(false);
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
@@ -89,16 +92,15 @@ const Login = () => {
   }
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value)
-  }
+    setPassword(e.target.value);
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError(null)
-    // 新增校验逻辑
+    e.preventDefault();
+    setError(null);
     if (!isAgreed) {
-      Alert.error('请先勾选同意隐私条款和服务条款')
-      return
+      Message.error('请先勾选同意隐私条款和服务条款');
+      return;
     }
     try {
       const data = await loginUser(email, password) // 调用登录函数
@@ -463,25 +465,19 @@ const Login = () => {
                   />
                   <label htmlFor='agreement' className={style.checkboxLabel}>
                     我已阅读并同意
-                    <a href='/login/privacy' target='_blank' className={style.link}>
-                      《隐私条款》
-                    </a>{' '}
-                    和
-                    <a href='/login/terms' target='_blank' className={style.link}>
+                    <span className={style.link} onClick={() => setPrivacyModalVisible(true)}>
+                      《隐私政策》
+                    </span> 和
+                    <span className={style.link} onClick={() => setTermsModalVisible(true)}>
                       《服务条款》
-                    </a>
+                    </span>
                   </label>
-                  {/* 唯一错误提示 */}
-                  <p className={style.errorTip}>
-                    {!isAgreed && '请勾选同意隐私条款和服务条款'}
-                  </p>
                 </div>
 
                 {!isAgreed && (
-                  <p className={style.errorTip}>请勾选同意隐私条款和服务条款</p>
+                  <p className={style.errorTip}>请先勾选同意隐私条款和服务条款</p>
                 )}
               </div>
-
               <button className={style.primaryButton} onClick={handleLogin}>
                 <span>立即登录</span>
                 <div className={style.buttonHover}></div>
@@ -534,6 +530,16 @@ const Login = () => {
           )}
         </div>
       </div>
+
+      <PrivacyPolicyModal
+        visible={privacyModalVisible}
+        onClose={() => setPrivacyModalVisible(false)}
+      />
+      <TermsOfServiceModal
+        visible={termsModalVisible}
+        onClose={() => setTermsModalVisible(false)}
+      />
+
     </>
   )
 }

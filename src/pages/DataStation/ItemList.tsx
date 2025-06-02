@@ -11,100 +11,57 @@ interface ItemListProps {
 
 interface ItemData {
   id: number
-  name: string // 文件名
-  updated_at: string // 更新时间
-  folder_id: number // 文件夹 ID
+  name: string
+  folder_id: number
   hotness: number
   size: number
-  url: string // 下载链接
-  isDownloading?: boolean // 是否正在下载
-  isDownloaded?: boolean // 是否已下载
+  isDownloading?: boolean
+  isDownloaded?: boolean
 }
 
 const ItemList: React.FC<ItemListProps> = ({ category }) => {
-  const [originalItems, setOriginalItems] = useState<ItemData[]>([]) // 保存原始数据
-  const [sortedItems, setSortedItems] = useState<ItemData[]>([]) // 用于展示的排序后数据
-  const [selectedTab, setSelectedTab] = useState<string>('hot')
+  const [items, setItems] = useState<ItemData[]>([])
+  const [selectedTab, setSelectedTab] = useState<'hot' | 'new'>('hot')
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
   const { searchText } = useSearch()
-  const [selectedCategory, setSelectedCategory] = useState<string>('全部')
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const pageSize = 5
-
-  // const filteredItems = items.filter((item) => {
-  //   const categoryMatch = selectedCategory === '全部' || item.name.toString() === selectedCategory;
-  //   const searchMatch = !searchText || [item.name,].some((field) => field.toLowerCase().includes(searchText.toLowerCase()));
-  //   return categoryMatch && searchMatch;
-  // });
+  const [total, setTotal] = useState<number>(0)
+  const pageSize = 7
 
   useEffect(() => {
-    setLoading(true)
-    setError(null)
-
-    let queries: string[] = []
-
-    // 根据 category 设置查询
-    switch (category) {
-      case '高数':
-        queries = ['高数上', '高数下']
-        break
-      case '大物':
-        queries = ['大物上', '大物下']
-        break
-      case 'C语言':
-        queries = ['C语言']
-        break
-      case '其他':
-        queries = ['其它']
-        break
-    }
-
-    // 发送多个请求
-    Promise.all(queries.map(name => getFileList(name)))
-      .then(responses => {
-        const fetchedItems = responses.flat() // 合并所有响应的数据照热度排序
-        setOriginalItems(fetchedItems)
-        setSortedItems(getSortedItems(fetchedItems, selectedTab))
-        setLoading(false)
-      })
-
-      .catch(error => {
+    const fetchData = async () => {
+      setLoading(true)
+      setError(null)
+      try {
+        const response = await getFileList(category, currentPage, pageSize, selectedTab)
+        if (response.code === 200) {
+          const fileData = selectedTab === 'hot' ? response.data.sortby.hot : response.data.sortby.new
+          setItems(fileData || [])
+          setTotal(response.data.pagination.total)
+        }
+      } catch (error: any) {
         console.error('Error fetching data:', error)
         if (error.response?.status === 500) {
           setError('登陆后即可查看资料！若已登陆，请刷新页面～')
         } else {
           setError('获取资料失败，请刷新页面或稍后再试')
         }
+      } finally {
         setLoading(false)
-      })
-  }, [category])
-
-  // 排序逻辑抽取为独立函数
-  const getSortedItems = (items: ItemData[], tab: string) => {
-    const sorted = [...items]
-    if (tab === 'hot') {
-      return sorted.sort((a, b) => b.hotness - a.hotness)
-    } else if (tab === 'new') {
-      return sorted.sort(
-        (a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
-      )
+      }
     }
-    return sorted
-  }
 
-  // 处理排序切换
-  const handleSort = (tab: string) => {
+    fetchData()
+  }, [category, currentPage, selectedTab])
+
+  const handleSort = (tab: 'hot' | 'new') => {
     setSelectedTab(tab)
-    setSortedItems(getSortedItems(originalItems, tab))
+    setCurrentPage(1) // 切换排序时重置页码
   }
 
   const updateItems = (updateFn: (items: ItemData[]) => ItemData[]) => {
-    setOriginalItems(prev => {
-      const newItems = updateFn(prev)
-      setSortedItems(getSortedItems(newItems, selectedTab))
-      return newItems
-    })
+    setItems(prev => updateFn(prev))
   }
 
   const handleDownload = async (item: ItemData) => {
@@ -113,12 +70,11 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
     try {
       const response = await downloadFile(item.id)
       if (response.code === 200) {
-        // 设置下载中状态
         updateItems(items =>
           items.map(i => (i.id === item.id ? { ...i, isDownloading: true } : i))
         )
 
-        const fileUrl = response.data.previewUrl
+        const fileUrl = response.data.downloadUrl
 
         const fileResponse = await fetch(fileUrl)
         if (!fileResponse.ok) {
@@ -133,20 +89,13 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
         document.body.appendChild(link)
         link.click()
 
-        // 清理
         window.URL.revokeObjectURL(url)
         document.body.removeChild(link)
 
-        // 设置完成状态
         updateItems(items =>
           items.map(i =>
             i.id === item.id
-              ? {
-                ...i,
-                url: fileUrl,
-                isDownloading: false,
-                isDownloaded: true
-              }
+              ? { ...i, isDownloading: false, isDownloaded: true }
               : i
           )
         )
@@ -163,10 +112,6 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
       const response = await previewFile(item.id)
       if (response.code === 200) {
         const previewUrl = response.data.previewUrl
-        // 更新 items 状态,保存预览 URL
-        setOriginalItems(prev =>
-          prev.map(i => (i.id === item.id ? { ...i, previewUrl } : i))
-        )
         return previewUrl
       } else {
         throw new Error(response.msg || '获取预览链接失败')
@@ -175,18 +120,6 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
       console.error('预览失败:', error)
       throw error
     }
-  }
-
-  // 获取当前页的数据
-  const getCurrentPageData = () => {
-    const startIndex = (currentPage - 1) * pageSize
-    const endIndex = startIndex + pageSize
-    return sortedItems.slice(startIndex, endIndex)
-  }
-
-  // 处理页码变化
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page)
   }
 
   if (loading) return <p>加载中....</p>
@@ -216,10 +149,10 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
           flexDirection: 'column'
         }}
       >
-        {sortedItems.length === 0 ? (
+        {items.length === 0 ? (
           <p>没有资料</p>
         ) : (
-          getCurrentPageData().map(item => (
+          items.map(item => (
             <Item
               key={item.id}
               item={item}
@@ -229,13 +162,13 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
           ))
         )}
       </div>
-      {sortedItems.length > 0 && (
+      {total > 0 && (
         <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
           <Pagination
-            total={sortedItems.length}
+            total={total}
             current={currentPage}
             pageSize={pageSize}
-            onChange={handlePageChange}
+            onChange={page => setCurrentPage(page)}
           />
         </div>
       )}

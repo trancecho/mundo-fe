@@ -97,7 +97,11 @@ const Item = ({
             <div className={style.image}></div>
           </div>
         </div>
-        <div className={style.teamDescription}>{detail.Introduction}</div>
+        <div className={style.teamDescription}>
+            {detail.Introduction.length > 100 
+                ? `${detail.Introduction.substring(0, 17)}...` 
+                : detail.Introduction}
+        </div>
         <div className={style.teamMeta}>
           <div>人数：{detail.Number}</div>
           <button className={style.joinButton} onClick={jumpto}>
