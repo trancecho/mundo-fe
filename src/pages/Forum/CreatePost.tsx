@@ -4,7 +4,7 @@ import Header from '@/components/ui/Header/Header';
 import { Input } from '@/components/ui/input';
 import styles from './forum.module.css';
 
-interface CreatePostProps {}
+interface CreatePostProps { }
 
 const CreatePost: React.FC<CreatePostProps> = () => {
   const navigate = useNavigate();
@@ -38,11 +38,11 @@ const CreatePost: React.FC<CreatePostProps> = () => {
 
     // 模拟发布帖子
     //console.log('发布帖子:', {
-      title,
-      content,
-      tags: selectedTags,
-      images
-    });
+    //   title,
+    //   content,
+    //   tags: selectedTags,
+    //   images
+    // });
 
     // 发布成功后跳转到论坛首页
     navigate('/forum');

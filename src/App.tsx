@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { AuthProvider } from './context/AuthContext'
-import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import Login from '@/pages/Login/Login' // 登录
 import RegisterPage from '@/pages/Register/Registerr' // 注册
 import BindRegisterPage from '@/pages/Register/BindRegister' // 注册
-import Verify from '@/pages/Register/Verify' // 注册验证
 import Reset from '@/pages/Register/Reset' // 重置密码
 import DataStation from '@/pages/DataStation' //资料站
 // import Article from '@/pages/Article' //时文
@@ -30,8 +29,8 @@ import EmailVerification from '@/pages/Register/EmailVerification.tsx'
 import { SearchProvider } from './components/ui/Header/SearchContext'
 import HoutaiLogin from './pages/Houtai/HoutaiLogin.tsx'
 import HoutaiRequireAuth from './components/HoutaiRequireAuth'
-import PrivacyPolicy from '@/pages/Login/PrivacyPolicy'
-import TermsOfService from '@/pages/Login/TermsOfService'
+import PrivacyPolicy from '@/components/ui/PrivacyPolicy'
+import TermsOfService from '@/components/ui/TermsOfService'
 
 const App: React.FC = () => {
   return (
@@ -55,8 +54,8 @@ const App: React.FC = () => {
             <Route path='/center' element={<CreatorCenter />} />
             <Route path='/teamup' element={<TeamUp />} />
             <Route path='/login' element={<Login />} />
-            <Route path='/login/privacy' element={<PrivacyPolicy />} />
-            <Route path='/login/terms' element={<TermsOfService />} />
+            {/* <Route path='/login/privacy' element={<PrivacyPolicy />} /> */}
+            {/* <Route path='/login/terms' element={<TermsOfService />} /> */}
             <Route path='/register' element={<RegisterPage />} />
             <Route path='/bindregister' element={<BindRegisterPage />} />
             {/*<Route path="/register/verify/v2" element={<Verify/>}/>*/}

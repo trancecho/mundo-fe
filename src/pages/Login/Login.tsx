@@ -15,8 +15,8 @@ import {
 } from '../../router/api.ts' // 导入登录函数
 import { useNavigate, useSearchParams, Link, useLocation } from 'react-router-dom'
 import { AxiosError } from 'axios'
-import PrivacyPolicyModal from "@/components/PrivacyPolicy.tsx";
-import TermsOfServiceModal from "@/components/TermsOfService.tsx";
+import PrivacyPolicyModal from "@/components/ui/PrivacyPolicy.tsx";
+import TermsOfServiceModal from "@/components/ui/TermsOfService.tsx";
 import Header from '@/components/ui/Header/Header.tsx' // 导入 AxiosError 类型
 const Login = () => {
   const [privacyModalVisible, setPrivacyModalVisible] = useState(false);
@@ -95,14 +95,14 @@ const Login = () => {
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
-  
+
   const handleLogin = async (e: React.FormEvent) => {
-      e.preventDefault();
-      setError(null);
-      if (!isAgreed) {
-        Message.error('请先勾选同意隐私条款和服务条款');
-        return;
-      }
+    e.preventDefault();
+    setError(null);
+    if (!isAgreed) {
+      Message.error('请先勾选同意隐私条款和服务条款');
+      return;
+    }
     try {
       const data = await loginUser(email, password) // 调用登录函数
       //console.log("登录成功:", data);
@@ -475,9 +475,9 @@ const Login = () => {
                   </label>
                 </div>
 
-                  {!isAgreed && (
-                      <p className={style.errorTip}>请先勾选同意隐私条款和服务条款</p>
-                  )}
+                {!isAgreed && (
+                  <p className={style.errorTip}>请先勾选同意隐私条款和服务条款</p>
+                )}
               </div>
               <button className={style.primaryButton} onClick={handleLogin}>
                 <span>立即登录</span>
@@ -532,15 +532,15 @@ const Login = () => {
         </div>
       </div>
 
-      <PrivacyPolicyModal 
-        visible={privacyModalVisible} 
-        onClose={() => setPrivacyModalVisible(false)} 
+      <PrivacyPolicyModal
+        visible={privacyModalVisible}
+        onClose={() => setPrivacyModalVisible(false)}
       />
-      <TermsOfServiceModal 
-        visible={termsModalVisible} 
-        onClose={() => setTermsModalVisible(false)} 
+      <TermsOfServiceModal
+        visible={termsModalVisible}
+        onClose={() => setTermsModalVisible(false)}
       />
-      
+
     </>
   )
 }
