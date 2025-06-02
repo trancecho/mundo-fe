@@ -16,7 +16,6 @@ interface ItemProps {
 }
 
 const Item: React.FC<ItemProps> = ({ item, onDownload, onPreview }) => {
-  const [isHovered, setIsHovered] = useState(false)
   const [isLoadingPreview, setIsLoadingPreview] = useState(false)
   const [previewError, setPreviewError] = useState<string | null>(null)
   const sizeInMB = (item.size / 1024 / 1024).toFixed(2)
@@ -42,11 +41,7 @@ const Item: React.FC<ItemProps> = ({ item, onDownload, onPreview }) => {
   }
 
   return (
-    <div
-      className={`${styles.itemContainer}` + (isHovered ? ` ${styles.hovered}` : '')}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <div className={styles.itemContainer}>
       <div className={styles.mainContent}>
         <h3 className={styles.title}>{item.name}</h3>
         <p>文件大小: {sizeInMB} MB</p>
