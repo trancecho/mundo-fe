@@ -4,52 +4,57 @@ interface AuthContextType {
   email: string | null;
   setEmailFunc: (email: string) => void;
   longtoken: string | null;
-  setTokenFunc: (longtoken: string) => void;
+  setTokenFunc: (token: string) => void;
   external: string | null;
   setExternalFunc: (external: string) => void;
   role: string | null;
   setRoleFunc: (role: string) => void;
+  logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [role, setRoleState] = useState<string | null>(
-    () => localStorage.getItem("role") // 初始值从 localStorage 中获取
-  );
+// 工具函数：读取本地缓存
+const getStoredValue = (key: string): string | null => {
+  return localStorage.getItem(key);
+};
 
-  const setRoleFunc = (role: string) => {
-    setRoleState(role);
-    localStorage.setItem("role", role); // 保存到 localStorage
-  };
-
-  const [email, setEmailState] = useState<string | null>(
-    () => localStorage.getItem("email") // 初始值从 localStorage 中获取
-  );
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [email, setEmailState] = useState<string | null>(() => getStoredValue("email"));
+  const [longtoken, setTokenState] = useState<string | null>(() => getStoredValue("longtoken"));
+  const [external, setExternalState] = useState<string | null>(() => getStoredValue("external"));
+  const [role, setRoleState] = useState<string | null>(() => getStoredValue("role"));
 
   const setEmailFunc = (email: string) => {
     setEmailState(email);
-    localStorage.setItem("email", email); // 保存到 localStorage
+    localStorage.setItem("email", email);
   };
 
-  const [longtoken, setTokenState] = useState<string | null>(
-    () => localStorage.getItem("longtoken") // 初始值从 localStorage 中获取
-  );
-
-  const setTokenFunc = (longtoken: string) => {
-    setTokenState(longtoken);
-    localStorage.setItem("longtoken", longtoken); // 保存到 localStorage
+  const setTokenFunc = (token: string) => {
+    setTokenState(token);
+    localStorage.setItem("longtoken", token);
   };
-
-  const [external, setExternalState] = useState<string | null>(
-    () => localStorage.getItem("external") // 初始值从 localStorage 中获取
-  );
 
   const setExternalFunc = (external: string) => {
     setExternalState(external);
-    localStorage.setItem("external", external); // 保存到 localStorage
+    localStorage.setItem("external", external);
+  };
+
+  const setRoleFunc = (role: string) => {
+    setRoleState(role);
+    localStorage.setItem("role", role);
+  };
+
+  const logout = () => {
+    setEmailState(null);
+    setTokenState(null);
+    setExternalState(null);
+    setRoleState(null);
+
+    localStorage.removeItem("email");
+    localStorage.removeItem("longtoken");
+    localStorage.removeItem("external");
+    localStorage.removeItem("role");
   };
 
   return (
@@ -63,6 +68,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         setExternalFunc,
         role,
         setRoleFunc,
+        logout,
       }}
     >
       {children}

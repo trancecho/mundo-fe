@@ -6,6 +6,7 @@
   margin-right: 2rem;
   border: 1px solid var(--border-color);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   color: var(--text-primary);
   display: flex;
   flex-direction: column;

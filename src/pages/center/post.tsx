@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "./post.module.css";
 import { useAuth } from "@/context/AuthContext";
-import Header from "@/components/ui/Header/Header.tsx";
+import Header from "@/components/Header/Header";
 
 type FormData = {
   title: string;
@@ -117,14 +117,14 @@ const Post = () => {
         tags: isSelected
           ? prev.tags.filter((tag) => tag.id !== tagId) // 如果已选中则取消
           : [
-              ...prev.tags,
-              {
-                id: tagId,
-                name: tags[tagId - 1].name,
-                category: tags[tagId - 1].category,
-                description: tags[tagId - 1].description,
-              },
-            ], // 如果未选中则添加
+            ...prev.tags,
+            {
+              id: tagId,
+              name: tags[tagId - 1].name,
+              category: tags[tagId - 1].category,
+              description: tags[tagId - 1].description,
+            },
+          ], // 如果未选中则添加
       };
     });
   }

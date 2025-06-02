@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Header from '@/components/ui/Header/Header';
+import Header from '@/components/Header/Header';
 import styles from './forum.module.css';
 
 interface Post {

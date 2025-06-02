@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '@/components/ui/Header/Header';
+import Header from '@/components/Header/Header';
 import { Input } from '@/components/ui/input';
 import styles from './forum.module.css';
 

@@ -19,6 +19,9 @@ export const useNavigation = () => {
             case 'dashboardfrontpage':
                 navigate('/houtai/dashboardfrontpage');
                 break;
+            case 'feedback':
+                navigate('/houtai/feedback');
+                break;
             default:
                 break;
         }

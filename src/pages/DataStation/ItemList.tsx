@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Item from './Item'
 import { getFileList, downloadFile, previewFile } from '@/router/api'
 import styles from './ItemList.module.css'
-import { useSearch } from '@/components/ui/Header/SearchContext'
+import { useSearch } from '@/components/Header/SearchContext'
 import { Pagination } from '@arco-design/web-react'
 
 interface ItemListProps {

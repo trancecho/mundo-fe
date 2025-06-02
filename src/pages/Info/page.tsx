@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import TeamList from '@/pages/Info/TeamList'
-import Header from '@/components/ui/Header/Header.tsx'
+import Header from '@/components/Header/Header'
 import { useNavigate } from 'react-router-dom'
 import * as Dialog from '@radix-ui/react-dialog'
 import { Cross2Icon, ReloadIcon } from '@radix-ui/react-icons'
@@ -13,7 +13,7 @@ import {
   getMyTeam,
   getProfile
 } from '@/router/api'
-import styles from '@/components/ui/Header/Header.module.css'
+import styles from '@/components/Header/Header.module.css'
 import { Contact } from 'lucide-react'
 import type { Team } from '@/pages/Info/TeamList'
 
@@ -227,7 +227,7 @@ const InfoManage: React.FC = () => {
   return (
     <>
       <div className='flex flex-col min-h-screen w-full mx-auto relative justify-center'>
-        <Header />
+        {/* <Header /> */}
         <div className='flex flex-col mt-[12vh]  items-center mb-8 p-8 rounded-xl bg-[var(--surface)] backdrop-blur-md border border-[var(--border-color)] shadow-lg flex-1 overflow-auto max-w-[900px] min-w-[600px] transition-all duration-300 ease-in-out mx-auto'>
           <div className='flex flex-row w-full relative'>
             <div className='w-[6.25rem] h-[6.25rem] rounded-full ml-[1.25rem] mt-[1.25rem] overflow-hidden'>
@@ -242,7 +242,7 @@ const InfoManage: React.FC = () => {
               <p className='text-[1rem] text-white'>{user?.email}</p>
             </div>
             <div className='flex p-[0.2rem_0.5rem] absolute right-[1rem] top-[1rem]'>
-              <button className={styles.searchButton}>
+              <div className={styles.searchButton}>
                 <Dialog.Root>
                   <Dialog.Trigger asChild>
                     <p className='text-[1rem] text-white cursor-pointer'>修改个人信息</p>
@@ -307,14 +307,14 @@ const InfoManage: React.FC = () => {
                         </div>
                       </div>
                       <Dialog.Close asChild>
-                        <button className='absolute top-2 right-2 p-1 text-gray-500 hover:text-gray-700'>
+                        <div className='absolute top-2 right-2 p-1 text-gray-500 hover:text-gray-700'>
                           <Cross2Icon />
-                        </button>
+                        </div>
                       </Dialog.Close>
                     </Dialog.Content>
                   </Dialog.Portal>
                 </Dialog.Root>
-              </button>
+              </div>
             </div>
           </div>
 
@@ -403,11 +403,10 @@ const InfoManage: React.FC = () => {
                         <Dialog.Close asChild>
                           <button
                             disabled={!isFormValid()}
-                            className={`px-8 py-2 rounded-md ${
-                              isFormValid()
-                                ? 'bg-blue-600 text-white'
-                                : 'bg-gray-400 text-gray-600 cursor-not-allowed'
-                            }`}
+                            className={`px-8 py-2 rounded-md ${isFormValid()
+                              ? 'bg-blue-600 text-white'
+                              : 'bg-gray-400 text-gray-600 cursor-not-allowed'
+                              }`}
                             onClick={handleSubmitTeamAdd}
                           >
                             提交表单

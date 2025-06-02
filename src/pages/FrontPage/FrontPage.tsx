@@ -54,7 +54,7 @@ const FrontPage: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className={styles.heroGradient}></div>
+        {/* <div className={styles.heroGradient}></div> */}
       </section>
 
       <main className={styles.mainContent}>
@@ -90,12 +90,12 @@ const FrontPage: React.FC = () => {
               <Link to="/datastation" className={styles.featureLink}>浏览资料 →</Link>
             </div>
 
-            <div className={styles.featureCard}>
+            {/* <div className={styles.featureCard}>
               <div className={styles.featureIcon}>⏱️</div>
               <h3>TimerMe</h3>
               <p>科学的时间管理工具，提高学习效率，养成良好习惯</p>
               <Link to="/timerme" className={styles.featureLink}>开始计时 →</Link>
-            </div>
+            </div> */}
           </div>
         </section>
 
@@ -112,8 +112,8 @@ const FrontPage: React.FC = () => {
                 <span>实时答疑</span>
                 <span>资源共享</span>
                 <span>学习社区</span>
-                <span>团队协作</span>
-                <span>时间管理</span>
+                <span>组队协作</span>
+                {/* <span>时间管理</span> */}
               </div>
             </div>
           </div>
@@ -144,13 +144,13 @@ const FrontPage: React.FC = () => {
                 <Link to="/forum">学习论坛</Link>
                 <Link to="/teamup">组队学习</Link>
                 <Link to="/datastation">资料站</Link>
-                <Link to="/timerme">TimerMe</Link>
+                {/* <Link to="/timerme">TimerMe</Link> */}
               </div>
               <div className={styles.linkGroup}>
                 <h4>快速入口</h4>
                 <Link to="/login">登录</Link>
                 <Link to="/register">注册</Link>
-                <Link to="/center">创作者中心</Link>
+                {/* <Link to="/center">创作者中心</Link> */}
               </div>
             </div>
           </div>

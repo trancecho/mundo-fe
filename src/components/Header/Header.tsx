@@ -4,24 +4,24 @@ import { IoSearchOutline } from 'react-icons/io5'
 import styles from './Header.module.css'
 import Menu from './Menu'
 import UserMenu from './UserMenu'
-import { useAuth } from '../../../context/AuthContext'
+import { useAuth } from '../../context/AuthContext'
 import { getAvatar } from '@/router/api'
 import { IconExport, IconClose } from '@arco-design/web-react/icon'
 import { Modal, Button } from '@arco-design/web-react'
 import { useSearch } from './SearchContext'
-
 const Header: React.FC = () => {
   const { searchText, setSearchText } = useSearch()
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const [isFocused, setIsFocused] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
-  const { longtoken } = useAuth()
+  const { longtoken, logout } = useAuth()
   const menuRef = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = React.useState(false)
   const DEFAULT_AVATAR =
     'https://cdn.pixabay.com/photo/2018/05/31/15/06/see-no-evil-3444212_1280.jpg'
   const [avatar, setAvatar] = useState<string | null>(DEFAULT_AVATAR)
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768); // 设置阈值
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -49,11 +49,14 @@ const Header: React.FC = () => {
           setAvatar(DEFAULT_AVATAR)
           return
         }
-        if (avatar) {
-          URL.revokeObjectURL(avatar)
-        }
         const avatarUrl = URL.createObjectURL(avatarBlob)
-        setAvatar(avatarUrl)
+        setAvatar(prev => {
+          if (prev && prev !== DEFAULT_AVATAR) {
+            URL.revokeObjectURL(prev)
+          }
+          return avatarUrl
+        })
+
       } catch (error) {
         console.error('获取头像失败', error)
         setAvatar(DEFAULT_AVATAR)
@@ -105,6 +108,14 @@ const Header: React.FC = () => {
       setIsUserMenuOpen(!isUserMenuOpen)
     }
   }
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <header className={styles.header}>
@@ -166,11 +177,6 @@ const Header: React.FC = () => {
         )}
         <Modal
           title={
-            // <div className="flex items-center justify-center w-full ">
-            //   <div className="text-[18px] font-medium text-black ml-[20px]">
-            //     确定要退出登录吗？
-            //   </div>
-            // </div>
             null
           }
           mask={true}
@@ -187,6 +193,7 @@ const Header: React.FC = () => {
           onOk={() => {
             setVisible(false)
             localStorage.setItem('longtoken', '')
+            logout()
             navigate('/')
           }}
           closable={true}

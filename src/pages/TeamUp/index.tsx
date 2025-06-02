@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
-import Header from '@/components/ui/Header/Header.tsx'
+import Header from '@/components/Header/Header'
 import style from './teamup.module.css'
 import { useAuth } from '@/context/AuthContext'
 import { getteamup, searchTeam } from '../../router/api'
-import { SearchProvider } from '@/components/ui/Header/SearchContext'
+import { SearchProvider } from '@/components/Header/SearchContext'
 import { Notification } from '@arco-design/web-react'
 type detail = {
   ID: number
@@ -98,9 +98,9 @@ const Item = ({
           </div>
         </div>
         <div className={style.teamDescription}>
-            {detail.Introduction.length > 100 
-                ? `${detail.Introduction.substring(0, 17)}...` 
-                : detail.Introduction}
+          {detail.Introduction.length > 100
+            ? `${detail.Introduction.substring(0, 17)}...`
+            : detail.Introduction}
         </div>
         <div className={style.teamMeta}>
           <div>人数：{detail.Number}</div>
@@ -185,7 +185,7 @@ const TeamContent = () => {
 
   return (
     <div className={style.container}>
-      <Header />
+      {/* <Header /> */}
       <div className={style.teamGrid}>
         {data.map(item => (
           <Item
@@ -209,9 +209,9 @@ const TeamContent = () => {
 
 const TeamUp = () => {
   return (
-    <SearchProvider>
-      <TeamContent />
-    </SearchProvider>
+    // <SearchProvider>
+    <TeamContent />
+    // </SearchProvider>
   )
 }
 

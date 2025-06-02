@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './article.module.css';
-import Header from '@/components/ui/Header/Header';
-import { SearchProvider, useSearch } from "@/components/ui/Header/SearchContext";
+import Header from '@/components/Header/Header';
+import { SearchProvider, useSearch } from "@/components/Header/SearchContext";
 
 interface Article {
     id: number;
@@ -56,89 +56,89 @@ const ArticleContent: React.FC = () => {
     const filteredArticles = articles.filter((article) => {
         // 首先检查分类
         const categoryMatch =
-          selectedCategory === "全部" || article.category === selectedCategory;
-    
+            selectedCategory === "全部" || article.category === selectedCategory;
+
         // 然后检查搜索文本（标题、内容、作者、标签）
         const searchMatch =
-          !searchText ||
-          [article.title, article.content, article.author, ...article.tags].some(
-            (text) => text.toLowerCase().includes(searchText.toLowerCase())
-          );
-    
+            !searchText ||
+            [article.title, article.content, article.author, ...article.tags].some(
+                (text) => text.toLowerCase().includes(searchText.toLowerCase())
+            );
+
         // 同时满足分类和搜索条件
         return categoryMatch && searchMatch;
-      });
+    });
 
     return (
         <>
             <div className={styles.container}>
-            <div className={styles.header}>
-                <button
-                    className={styles.createButton}
-                    onClick={() => window.location.href = '/article/create'}
-                >
-                    ✍️ 发布文章
-                </button>
-            </div>
-            <div className={styles.filters}>
-                {categories.map(category => (
+                <div className={styles.header}>
                     <button
-                        key={category}
-                        className={`${styles.filterButton} ${selectedCategory === category ? styles.active : ''}`}
-                        onClick={() => setSelectedCategory(category)}
+                        className={styles.createButton}
+                        onClick={() => window.location.href = '/article/create'}
                     >
-                        {category}
+                        ✍️ 发布文章
                     </button>
-                ))}            
-            </div>
-            <div className={styles.articleList}>
-                {filteredArticles.map(article => (
-                    <div key={article.id} className={styles.articleCard}>
-                        {article.coverImage && (
-                            <img 
-                                src={article.coverImage} 
-                                alt={article.title}
-                                style={{
-                                    width: '100%',
-                                    height: `${Math.floor(Math.random() * (300 - 150) + 150)}px`,
-                                    objectFit: 'cover',
-                                    borderRadius: '8px',
-                                    marginBottom: '16px'
-                                }}
-                            />
-                        )}
-                        <h2 className={styles.articleTitle}>
-                            <a href={`/article/${article.id}`}>{article.title}</a>
-                        </h2>
-                        <div className={styles.articleMeta}>
-                            <span>👤 {article.author}</span>
-                            <span>📅 {article.date}</span>
-                            <span>📚 {article.category}</span>
-                            <span>⏱️ {article.readTime}</span>
+                </div>
+                <div className={styles.filters}>
+                    {categories.map(category => (
+                        <button
+                            key={category}
+                            className={`${styles.filterButton} ${selectedCategory === category ? styles.active : ''}`}
+                            onClick={() => setSelectedCategory(category)}
+                        >
+                            {category}
+                        </button>
+                    ))}
+                </div>
+                <div className={styles.articleList}>
+                    {filteredArticles.map(article => (
+                        <div key={article.id} className={styles.articleCard}>
+                            {article.coverImage && (
+                                <img
+                                    src={article.coverImage}
+                                    alt={article.title}
+                                    style={{
+                                        width: '100%',
+                                        height: `${Math.floor(Math.random() * (300 - 150) + 150)}px`,
+                                        objectFit: 'cover',
+                                        borderRadius: '8px',
+                                        marginBottom: '16px'
+                                    }}
+                                />
+                            )}
+                            <h2 className={styles.articleTitle}>
+                                <a href={`/article/${article.id}`}>{article.title}</a>
+                            </h2>
+                            <div className={styles.articleMeta}>
+                                <span>👤 {article.author}</span>
+                                <span>📅 {article.date}</span>
+                                <span>📚 {article.category}</span>
+                                <span>⏱️ {article.readTime}</span>
+                            </div>
+                            <div className={styles.articleTags}>
+                                {article.tags.map(tag => (
+                                    <span key={tag} className={styles.tag}>{tag}</span>
+                                ))}
+                            </div>
+                            <p className={styles.articleExcerpt}>
+                                {article.content.slice(0, Math.floor(Math.random() * (150 - 50) + 50))}
+                                {article.content.length > 150 ? '...' : ''}
+                            </p>
                         </div>
-                        <div className={styles.articleTags}>
-                            {article.tags.map(tag => (
-                                <span key={tag} className={styles.tag}>{tag}</span>
-                            ))}
-                        </div>
-                        <p className={styles.articleExcerpt}>
-                            {article.content.slice(0, Math.floor(Math.random() * (150 - 50) + 50))}
-                            {article.content.length > 150 ? '...' : ''}
-                        </p>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
-        </div>
         </>
     );
 };
 
 const Article: React.FC = () => {
     return (
-      <SearchProvider>
-        <Header />
+        // <SearchProvider>
+        //     <Header />
         <ArticleContent />
-      </SearchProvider>
+        // </SearchProvider>
     );
 };
 

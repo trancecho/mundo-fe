@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import style from "@/pages/Login/Auth.module.css";
-import Header from "@/components/ui/Header/Header.tsx";
+import Header from "@/components/Header/Header";
 
 // 定义API响应类型
 interface ApiResponse {
