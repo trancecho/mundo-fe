@@ -518,15 +518,18 @@ export const getFileList = async (
         throw new Error('Invalid category')
     }
 
-    const response = await api.get('/sealos/file', {
-      params: {
+    const response = await api.post(
+      '/files',
+      {
         id,
         page,
         page_size: pageSize,
         sortby
       },
-      headers: { Authorization: 'Bearer ' + longtoken }
-    })
+      {
+        headers: { Authorization: 'Bearer ' + longtoken }
+      }
+    )
     return response.data
   } catch (error) {
     console.error('获取文件列表失败', error)
