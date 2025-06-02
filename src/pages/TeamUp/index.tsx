@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
-import Header from '@/components/ui/Header/Header.tsx'
+import Header from '@/components/Header/Header'
 import style from './teamup.module.css'
 import { useAuth } from '@/context/AuthContext'
 import { getteamup, searchTeam } from '../../router/api'
-import { SearchProvider } from '@/components/ui/Header/SearchContext'
+import { SearchProvider } from '@/components/Header/SearchContext'
 import { Notification } from '@arco-design/web-react'
 type detail = {
   ID: number
@@ -181,7 +181,7 @@ const TeamContent = () => {
 
   return (
     <div className={style.container}>
-      <Header />
+      {/* <Header /> */}
       <div className={style.teamGrid}>
         {data.map(item => (
           <Item

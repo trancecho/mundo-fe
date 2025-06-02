@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext.tsx';
 import { sendResetEmail } from '../../router/api.ts';
-import style from '../Login/Login.module.css';
+import style from './findKey.module.css';
 import { useNavigate, Link } from 'react-router-dom';
-
+import MobileFindKey from './MobileFindKey.tsx'
 const FindKey: React.FC = () => {
   const { setEmailFunc } = useAuth();
   const [inputEmail, setInputEmail] = useState('');
@@ -15,7 +15,7 @@ const FindKey: React.FC = () => {
       return;
     }
     const callbackURL = import.meta.env.VITE_callbackURL;
-    const callbackPath = "register/verify/v1";
+    const callbackPath = "/register/verify/v1";
     const url = callbackURL + callbackPath;
     try {
       //console.log(inputEmail);
@@ -29,8 +29,17 @@ const FindKey: React.FC = () => {
       alert('找回密码失败，请稍后再试！');
     }
   };
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768); // 设置阈值
 
-  return (
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return isMobile ? <MobileFindKey /> :
     <>
       <div className={style.body}>
 
@@ -43,7 +52,7 @@ const FindKey: React.FC = () => {
             ) : (
               <>
                 <div className={style.inputGroup}>
-                  <p  className="text-normal text-base text-white">邮箱：</p>
+                  <p className="text-normal text-base text-white">邮箱：</p>
                   <input
                     id="email"
                     type="email"
@@ -63,6 +72,6 @@ const FindKey: React.FC = () => {
 
     </>
 
-  );
+
 };
 export default FindKey;

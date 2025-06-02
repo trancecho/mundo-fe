@@ -420,6 +420,20 @@ export const getPostList = async (
   return response.data
 }
 
+//用户发送反馈
+export const createFeedBack = async (question: string) => {
+  const response = await api.post('/feedback/send', {
+    question: question,
+  })
+  return response.data
+}
+
+//后台拿到反馈
+export const getFeedBack=async()=>{
+  const response=await api.get('/feedback/admissionread')
+  return response.data.message.Content
+}
+
 export const getTasks = async () => {
   const response = await api.get('/tasks')
   return response.data.data.tasks

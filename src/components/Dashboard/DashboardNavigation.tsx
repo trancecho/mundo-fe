@@ -9,6 +9,7 @@ const menuItems = [
   { key: "multiPersonChat", label: "客服窗口", icon: "💬" },
   { key: "faq", label: "FAQ设置", icon: "❓" },
   { key: "check", label: "内容审核", icon: "✅" },
+  { key: "feedback", label: "用户反馈", icon: "❓" }
 ];
 
 export default function DashboardNavigation() {
@@ -36,9 +37,8 @@ export default function DashboardNavigation() {
         {menuItems.map((item) => (
           <div
             key={item.key}
-            className={`${dashboardStyles.menuItem} ${
-              activeView === item.key ? dashboardStyles.active : ""
-            } flex items-center gap-3 px-4 py-3`}
+            className={`${dashboardStyles.menuItem} ${activeView === item.key ? dashboardStyles.active : ""
+              } flex items-center gap-3 px-4 py-3`}
             onClick={() => handleClick(item.key)}
           >
             <span className="text-xl">{item.icon}</span>

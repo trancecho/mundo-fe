@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import styles from './Menu.module.css'
-import { useAuth } from '../../../context/AuthContext'
+import { useAuth } from '../../context/AuthContext'
 
 const baseMenuItems = [
   { path: '/qanda', label: '问答', icon: '💡' },

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useAuth } from '@/context/AuthContext'
-import Header from '@/components/ui/Header/Header'
+import Header from '@/components/Header/Header'
 import styles from './CreatorCenter.module.css'
 import { fetchTags, post } from '../../router/api'
 type ContentType = 'qanda' | 'article' | 'team' | 'resource'
@@ -121,7 +121,7 @@ const CreatorCenter: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <Header />
+      {/* <Header /> */}
       <div className={styles.creatorCenter}>
         <div className={styles.contentTypeSelector}>
           {contentTypes.map(type => (

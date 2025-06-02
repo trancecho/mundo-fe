@@ -1,0 +1,95 @@
+.body{
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    margin:0 auto;
+    justify-content: center;    /* 水平居中 */
+    background-color: #0f172a;
+}
+.loginBox {
+    margin-top: 40px;
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    height: 550px;
+}
+
+.loginTitle {
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: row;  /* 保持横向布局 */
+    align-items: center;  /* 垂直居中对齐 */
+    margin-bottom: 15px;
+}
+@media (max-width: 768px) {
+  .inputGroup{
+    margin-bottom: 10px;
+  }
+}
+
+.inputGroup label {
+    font-size: 14px;
+    color: #333;
+    margin-right: 10px;  /* label 和 input 之间的间距 */
+}
+
+.inputGroup input {
+    flex: 1;  /* 使输入框自适应宽度 */
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+
+.loginBtn {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    /* margin-top: 20px; */
+}
+
+.loginBtn:hover {
+    background-color: #45a049;
+}
+
+.otherLogin {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+}
+
+.loginOption {
+    padding: 10px;
+    margin: 5px 5px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+
+}
+
+.loginOption:hover {
+    background-color: #0056b3;
+}
+
+.registerLink{
+    margin-top: 10px;
+    font-size: 14px;
+}

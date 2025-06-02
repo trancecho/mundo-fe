@@ -1,8 +1,8 @@
 'use client';
 
 // import React, { useState, useEffect } from 'react';
-import  { useState, useEffect } from 'react';
-import Header from '@/components/ui/Header/Header.tsx'
+import { useState, useEffect } from 'react';
+import Header from '@/components/Header/Header'
 import './style.css'
 import {
   getTasks,
@@ -107,12 +107,12 @@ export default function Timerme() {
   const fetchTasks = async () => {
     try {
       const fetchedTasks = await getTasks();
-      for(let i=0;i<fetchedTasks.length;i++){
-        if(fetchedTasks[i].duration==null){
-          fetchedTasks[i].duration=0;
+      for (let i = 0; i < fetchedTasks.length; i++) {
+        if (fetchedTasks[i].duration == null) {
+          fetchedTasks[i].duration = 0;
         }
-        if(fetchedTasks[i].is_completed==null){
-          fetchedTasks[i].is_completed=false;
+        if (fetchedTasks[i].is_completed == null) {
+          fetchedTasks[i].is_completed = false;
         }
       }
       if (Array.isArray(fetchedTasks)) {
@@ -144,12 +144,12 @@ export default function Timerme() {
     try {
       const newTask = await createTask(newTaskName, totalTimeInSeconds);
       //console.log(newTask);
-        if(newTask.duration==null){
-            newTask.duration=0;
-        }
-        if(newTask.is_completed==null) {
-          newTask.is_completed = false;
-        }
+      if (newTask.duration == null) {
+        newTask.duration = 0;
+      }
+      if (newTask.is_completed == null) {
+        newTask.is_completed = false;
+      }
       setTasks([...tasks, newTask]);
       setNewTaskName('');
     } catch (error) {
@@ -179,11 +179,11 @@ export default function Timerme() {
   const handleStartTask = async (id: number) => {
     try {
       const task = await startTask(id);
-      if(task.duration==null){
-        task.duration=0;
+      if (task.duration == null) {
+        task.duration = 0;
       }
-      if(task.is_completed==null){
-        task.is_completed=false;
+      if (task.is_completed == null) {
+        task.is_completed = false;
       }
       // const startTime = Date.now();
       setTasks(
@@ -200,11 +200,11 @@ export default function Timerme() {
   const handlePauseTask = async (id: number) => {
     try {
       const task = await pauseTask(id);
-      if(task.duration==null){
-        task.duration=0;
+      if (task.duration == null) {
+        task.duration = 0;
       }
-      if(task.is_completed==null){
-        task.is_completed=false;
+      if (task.is_completed == null) {
+        task.is_completed = false;
       }
       stopTaskTimer(id); // Stop the timer first
       const currentDuration = tasks.find((t) => t.id === id)?.duration || 0;
@@ -232,11 +232,11 @@ export default function Timerme() {
     // 新增重置任务处理函数
     try {
       const task = await resetTask(id);
-      if(task.duration==null){
-        task.duration=0;
+      if (task.duration == null) {
+        task.duration = 0;
       }
-      if(task.is_completed==null){
-        task.is_completed=false;
+      if (task.is_completed == null) {
+        task.is_completed = false;
       }
       setTasks(tasks.map((t) => (t.id === id ? task : t)));
       stopTaskTimer(id);
@@ -246,19 +246,19 @@ export default function Timerme() {
   };
 
   return (
-      <>
+    <>
       <div className={'body'}>
-        <Header/>
-        <div style={{marginTop:'80px'}}>
+        <Header />
+        <div style={{ marginTop: '80px' }}>
           <h1 className="title">Welcome to TimerMe3!</h1>
 
           <div className={'container'}>
-          {/* <div className={'container mx-auto p-4 flex flex-col items-center w-full'}> */}
+            {/* <div className={'container mx-auto p-4 flex flex-col items-center w-full'}> */}
             {/*<h1 className={'text-2xl font-bold mb-4'}>Welcome to TimerMe!</h1>*/}
-            <br/>
+            <br />
             <div className={'mb-4 flex flex-col items-center w-full'}>
               <div className={'add-content-wrapper w-full'}>
-              {/* <div className={'flex mb-4 w-full'}> */}
+                {/* <div className={'flex mb-4 w-full'}> */}
                 <div className='flex flex-row add-content empty'>
                   <input
                     type={'text'}
@@ -268,16 +268,16 @@ export default function Timerme() {
                     className={'text-imput-border border-left-radius w-full'}
                   />
                   <input
-                      type={'number'}
-                      value={newTotalTime}
-                      onChange={(e) => setNewTotalTime(parseInt(e.target.value))}
-                      placeholder={'Duration(seconds)'}
-                      className={'text-imput-border w-full'}
+                    type={'number'}
+                    value={newTotalTime}
+                    onChange={(e) => setNewTotalTime(parseInt(e.target.value))}
+                    placeholder={'Duration(seconds)'}
+                    className={'text-imput-border w-full'}
                   />
                   <select
-                      value={timeUnit}
-                      onChange={(e) => setTimeUnit(e.target.value)}
-                      className='text-imput-border p-2 mr-2 w-full'
+                    value={timeUnit}
+                    onChange={(e) => setTimeUnit(e.target.value)}
+                    className='text-imput-border p-2 mr-2 w-full'
                   >
                     <option value='seconds'>Seconds</option>
                     <option value='minutes'>Minutes</option>
@@ -287,27 +287,27 @@ export default function Timerme() {
                 <button
                   onClick={handleCreateTask}
                   className={'submit-btn'}
-                  // className={'bg-blue-500 text-white p-2 rounded w-full'}
+                // className={'bg-blue-500 text-white p-2 rounded w-full'}
                 >
                   Add Task
                 </button>
               </div>
-              
+
               <TaskList
-                  tasks={tasks}
-                  handleStartTask={handleStartTask}
-                  handlePauseTask={handlePauseTask}
-                  handleCompleteTask={handleCompleteTask}
-                  handleDeleteTask={handleDeleteTask}
-                  handleResetTask={handleResetTask} // 传递重置任务处理函数
+                tasks={tasks}
+                handleStartTask={handleStartTask}
+                handlePauseTask={handlePauseTask}
+                handleCompleteTask={handleCompleteTask}
+                handleDeleteTask={handleDeleteTask}
+                handleResetTask={handleResetTask} // 传递重置任务处理函数
               />
             </div>
-          </div>        
-        </div>  
+          </div>
+        </div>
       </div>
-      
 
-      </>
+
+    </>
 
   );
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import Header from '@/components/ui/Header/Header';
+import Header from '@/components/Header/Header';
 import { Input } from '@/components/ui/input';
 import styles from './forum.module.css';
 
@@ -57,7 +57,7 @@ const PostDetail: React.FC = () => {
       ],
       created_at: '2024-03-15 10:00'
     };
-    
+
     setTimeout(() => {
       setPost(mockPost);
       setLoading(false);
@@ -96,16 +96,16 @@ const PostDetail: React.FC = () => {
             <span className={styles.username}>{post.author.username}</span>
             <span className={styles.date}>{post.created_at}</span>
           </div>
-          
+
           <h1 className={styles.postDetailTitle}>{post.title}</h1>
           <p className={styles.postDetailContent}>{post.content}</p>
-          
+
           <div className={styles.postTags}>
             {post.tags.map((tag) => (
               <span key={tag} className={styles.tag}>{tag}</span>
             ))}
           </div>
-          
+
           <div className={styles.postActions}>
             <button className={styles.likeButton}>👍 {post.likes}</button>
             <button className={styles.shareButton}>分享</button>
@@ -113,7 +113,7 @@ const PostDetail: React.FC = () => {
 
           <div className={styles.commentsSection}>
             <h3 className={styles.commentsTitle}>评论 ({post.comments.length})</h3>
-            
+
             <div className={styles.commentInput}>
               <Input
                 placeholder="写下你的评论..."
@@ -121,7 +121,7 @@ const PostDetail: React.FC = () => {
                 onChange={(e) => setNewComment(e.target.value)}
                 className={styles.input}
               />
-              <button 
+              <button
                 className={styles.submitButton}
                 onClick={handleSubmitComment}
                 disabled={!newComment.trim()}

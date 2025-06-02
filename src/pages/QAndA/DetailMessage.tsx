@@ -6,9 +6,9 @@ import { useAuth } from '@/context/AuthContext';
 import { ImFilePicture } from "react-icons/im";
 import { TbPhotoOff } from "react-icons/tb";
 import { FaRegCommentDots } from "react-icons/fa";
-import { AiOutlineLike,AiFillLike } from "react-icons/ai";
-import { getDetail,sendAnswer,changelike,checklike } from "@/router/api";
-import Header from '@/components/ui/Header/Header.tsx';
+import { AiOutlineLike, AiFillLike } from "react-icons/ai";
+import { getDetail, sendAnswer, changelike, checklike } from "@/router/api";
+import Header from '@/components/Header/Header';
 
 
 interface Answer {
@@ -21,7 +21,7 @@ interface Answer {
     tags: string[] | null;
     // 建议添加时间字段（如果后端返回）
     created_at?: string;
-    is_like?:boolean;
+    is_like?: boolean;
 }
 
 interface MessageDetail {
@@ -64,7 +64,7 @@ const QuestionContext = React.createContext<{
     tags: [],
 });
 
-const DetailQuestion: React.FC<DetailQuestionProps> = ({ title, question,views }) => {
+const DetailQuestion: React.FC<DetailQuestionProps> = ({ title, question, views }) => {
     const { picture, tags } = React.useContext(QuestionContext); // 通过上下文获取图片和标签数据
     return (
         <div className={Style.DetailQuestion}>
@@ -127,8 +127,8 @@ const SecureImage: React.FC<{ image: string }> = ({ image }) => {
 // 定义 DetailReply 组件类型，接收 answerData 作为属性，类型为 Answer
 const DetailReply: React.FC<{ answerData: Answer }> = ({ answerData }) => {
     const [localAnswer, setLocalAnswer] = useState(answerData);
-    
-    function like(){
+
+    function like() {
         changelike(localAnswer.question_post_id, localAnswer.id)
             .then(() => {
                 setLocalAnswer({
@@ -158,18 +158,18 @@ const DetailReply: React.FC<{ answerData: Answer }> = ({ answerData }) => {
 
                     <div className="">{localAnswer.created_at}</div>
                     <div className={Style.lay}>
-                        {localAnswer.is_like ? 
+                        {localAnswer.is_like ?
                             <AiFillLike
                                 onClick={like}
                                 className={Style.icon}
                             />
-                        :<AiOutlineLike 
-                            onClick={like}
-                            className={Style.icon}
-                        />}
+                            : <AiOutlineLike
+                                onClick={like}
+                                className={Style.icon}
+                            />}
                         <span>{localAnswer.like}</span>
                     </div>
-                    <FaRegCommentDots className={Style.icon}/>
+                    <FaRegCommentDots className={Style.icon} />
                 </div>
             </div>
         </div>
@@ -222,9 +222,9 @@ const Inputbox: React.FC<InputboxProps> = ({ id }) => {
             formDataToSend.append(`picture`, file);
         });
         setloading(true);
-        sendAnswer(Number(id),formDataToSend).then((response)=>{
+        sendAnswer(Number(id), formDataToSend).then((response) => {
             try {
-                if (response.status==200) {
+                if (response.status == 200) {
                     if (editableDivRef.current) {
                         editableDivRef.current.innerHTML = ''; // 清空内容
                     }
@@ -261,7 +261,7 @@ const Inputbox: React.FC<InputboxProps> = ({ id }) => {
                                 alt={'图片预览'}
                                 style={{ width: 100, marginTop: '10px', marginRight: "10px" }}
                             />
-                            <button 
+                            <button
                                 onClick={() => handleRemoveImage(index)}
                                 className={Style.removeButton}
                             >
@@ -274,7 +274,7 @@ const Inputbox: React.FC<InputboxProps> = ({ id }) => {
             <div className={Style.inputTools}>
                 <div className={Style.icons}>
                     <label htmlFor="fileUpload">
-                        <ImFilePicture className={Style.icon}/>
+                        <ImFilePicture className={Style.icon} />
                     </label>
                     <input
                         type="file"
@@ -331,25 +331,25 @@ const DetailMessage: React.FC = () => {
                     likeResponse.data.data.likes_status.forEach(item => {
                         likesMap.set(item.answer_id, item.is_liked);
                     });
-                    
+
                     const answers = (res.data.data.Answers || []).map(answer => ({
                         ...answer,
                         is_like: likesMap.get(answer.id) || false
                     }));
-                    
+
                     setFinalMessage({
-                      id: apiData.id,
-                      uid: apiData.uid,
-                      title: apiData.title,
-                      content: apiData.content,
-                      pictures: apiData.picture || [],
-                      views: apiData.view || 0,
-                      collection: apiData.collection,
-                      answer_count: apiData.answer_count,
-                      is_official: apiData.officials || false,
-                      created_at: apiData.created_at || new Date().toISOString(),
-                      tags: apiData.tags || [],
-                      answers: answers  // 使用合并点赞状态后的answers数组
+                        id: apiData.id,
+                        uid: apiData.uid,
+                        title: apiData.title,
+                        content: apiData.content,
+                        pictures: apiData.picture || [],
+                        views: apiData.view || 0,
+                        collection: apiData.collection,
+                        answer_count: apiData.answer_count,
+                        is_official: apiData.officials || false,
+                        created_at: apiData.created_at || new Date().toISOString(),
+                        tags: apiData.tags || [],
+                        answers: answers  // 使用合并点赞状态后的answers数组
                     });
                 });
             } else {
@@ -360,7 +360,7 @@ const DetailMessage: React.FC = () => {
 
     return (
         <div style={{ all: "initial" }}>
-            <Header />
+            {/* <Header /> */}
             {finalMessage.title.length > 0 && <div className={Style.background}>
                 <QuestionContext.Provider
                     value={{ picture: finalMessage.pictures, tags: finalMessage.tags }}
@@ -379,7 +379,7 @@ const DetailMessage: React.FC = () => {
                             <div className={Style.createNewReply}>
                                 回答 {finalMessage.answer_count}
                             </div>
-                            <Inputbox id={id}/>
+                            <Inputbox id={id} />
                             <div className={Style.replyList}>
                                 {finalMessage.answers.length > 0 ? (
                                     finalMessage.answers.map((answer, index) => (

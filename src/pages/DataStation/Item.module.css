@@ -9,6 +9,7 @@
   flex-direction: column;
   width: 100%;
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   transition: all 0.3s ease;
   text-align: left;
   line-height: 1.2; /* 减小行间距 */

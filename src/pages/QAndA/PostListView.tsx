@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import Header from '@/components/ui/Header/Header'
+import Header from '@/components/Header/Header'
 import './Post.css'
 // import { getMessages, Message, ResponseData } from '@/router/api'
 import { Notification } from '@arco-design/web-react'
@@ -65,7 +65,7 @@ const PostListView: React.FC = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div className='QandAContainer'>
         <div style={{ height: 600, marginLeft: '20px' }}>
           <Menu

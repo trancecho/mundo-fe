@@ -8,7 +8,7 @@ import CustomerServiceButton from "@/components/CustomerService/CustomerServiceB
 import BlurIn from "@/components/ui/blur-in"
 import { ConfettiButton } from "@/components/ui/confetti"
 import HumanChat from "./HumanChat"
-
+import FeedBack from "./FeedBack"
 const AnswerWindow: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false)
   const windowRef = useRef(null)
@@ -45,8 +45,11 @@ const AnswerWindow: React.FC = () => {
             <section>
               <AIChat />
             </section>
-            <section>
+            {/* <section>
               <HumanChat />
+            </section> */}
+            <section>
+              <FeedBack/>
             </section>
           </main>
           <footer className="flex justify-start w-full mt-5">

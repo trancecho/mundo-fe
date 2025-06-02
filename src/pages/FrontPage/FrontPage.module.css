@@ -1,4 +1,3 @@
-/* FrontPage.module.css */
 .container {
   min-height: 100vh;
   background: radial-gradient(circle at 50% 100%, #0f172a, #020617);
@@ -12,8 +11,62 @@
   width: 100%;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   z-index: 1000;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+@media (max-width: 768px) {
+  .nav {
+    gap: 0.5rem!important;
+  }
+
+  .navLink {
+    padding: 0.5rem 0.5rem!important;
+  }
+  .heroSubtitle{
+    margin-bottom: 1.5rem!important;
+  }
+  .heroAction{
+    gap:0.5rem!important;
+    margin-bottom: 2rem!important;
+  }
+  .heroCta{
+    padding: 0.5rem 1.2rem!important;
+  }
+  .heroSecondaryCta{
+    padding: 0.5rem 1.2rem!important;
+  }
+  .stats{
+    gap:1.2rem!important;
+    margin-top: 2rem!important;
+  }
+  .mainContent{
+    padding: 4rem 1rem 2rem!important;
+  }
+  .sectionTitle{
+    margin-bottom: 2rem!important;
+  }
+  .featureCard{
+    padding: 1rem!important;
+  }
+  .dynamicSection{
+    padding: 2rem!important;
+  }
+  .section{
+    margin: 0 auto 4rem!important;
+  }
+  .ctaSection{
+    padding: 2rem 1rem!important;
+  }
+  .footer{
+    padding: 2rem 1rem 1rem!important;
+  }
+  .ctaButton{
+    padding: 0.6rem 1.5rem!important;
+  }
+  .ctaText{
+    margin-bottom: 1rem!important;
+  }
 }
 
 .headerContent {
@@ -121,6 +174,8 @@
 
 /* 主要行动按钮优化 */
 .heroCta {
+  display: flex;
+  align-items: center;
   background: linear-gradient(45deg, #7c3aed, #3b82f6);
   color: white;
   padding: 1rem 2.5rem;
@@ -171,12 +226,18 @@
 }
 
 .heroTitle {
-  font-size: 6rem;
+  /* font-size: 6rem;
   font-weight: 900;
-  line-height: 1;
+  line-height: 1; */
+  font-size: clamp(3.5rem, 6vw, 4rem);
+  font-weight: 800;
+  line-height: 1.2;
   margin-bottom: 2rem;
   position: relative;
 }
+
+
+
 
 .titleGradient {
   background: linear-gradient(45deg, #7c3aed, #3b82f6);
@@ -196,10 +257,13 @@
 }
 
 .heroSubtitle {
-  font-size: 1.5rem;
+  /* font-size: 1.5rem; */
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  line-height: 1.6;
   color: rgba(255, 255, 255, 0.8);
   margin-bottom: 3rem;
 }
+
 
 .heroActions {
   display: flex;
@@ -224,6 +288,8 @@
 }
 
 .heroSecondaryCta {
+  display: flex;
+  align-items: center;
   color: rgba(255, 255, 255, 0.8);
   border: 2px solid rgba(255, 255, 255, 0.2);
   padding: 1rem 2rem;
@@ -249,7 +315,8 @@
 }
 
 .statNumber {
-  font-size: 2.5rem;
+  font-size: clamp(2rem, 6vw, 4rem);
+  /* font-size: 2.5rem; */
   font-weight: 700;
   background: linear-gradient(45deg, #7c3aed, #3b82f6);
   -webkit-background-clip: text;
@@ -258,7 +325,8 @@
 
 .statLabel {
   color: rgba(255, 255, 255, 0.6);
-  font-size: 0.9rem;
+  /* font-size: 0.9rem; */
+  font-size: clamp(0.8rem, 2vw, 0.9rem);
 }
 
 .heroGradient {
@@ -284,7 +352,8 @@
 }
 
 .sectionTitle {
-  font-size: 2.5rem;
+  /* font-size: 2.5rem; */
+  font-size: clamp(2rem, 6vw, 4rem);
   text-align: center;
   margin-bottom: 4rem;
   position: relative;
@@ -322,7 +391,8 @@
 }
 
 .featureIcon {
-  font-size: 3rem;
+  /* font-size: 3rem; */
+  font-size: clamp(2.5rem, 8vw, 3rem);
   margin-bottom: 1rem;
 }
 
@@ -349,14 +419,15 @@
 }
 
 .dynamicContent {
-  display: grid;
+  /* display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  gap: 4rem; */
   align-items: center;
 }
 
 .dynamicText h2 {
-  font-size: 2rem;
+  /* font-size: 2rem; */
+  font-size: clamp(2rem, 6vw, 4rem);
   margin-bottom: 1.5rem;
 }
 
@@ -369,13 +440,16 @@
   display: flex;
   gap: 1rem;
   margin-top: 2rem;
+  justify-content: center;
+  align-items: center;
 }
 
 .techStack span {
   background: rgba(59, 130, 246, 0.15);
   padding: 0.5rem 1rem;
   border-radius: 50px;
-  font-size: 0.9rem;
+  /* font-size: 0.9rem; */
+  font-size: clamp(0.8rem, 4vw, 0.9rem);
 }
 
 .visualPlaceholder {
@@ -406,7 +480,8 @@
 }
 
 .userAvatar {
-  font-size: 2rem;
+  /* font-size: 2rem; */
+  font-size: clamp(2rem, 6vw, 4rem);
 }
 
 .userName {
@@ -415,7 +490,8 @@
 
 .userTitle {
   color: rgba(255, 255, 255, 0.6);
-  font-size: 0.9rem;
+  /* font-size: 0.9rem; */
+  font-size: clamp(0.8rem, 4vw, 0.9rem);
 }
 
 /* 页脚 */
@@ -437,11 +513,13 @@
 }
 
 .footerBrand .logo {
-  font-size: 1.5rem;
+  /* font-size: 1.5rem; */
+  font-size: clamp(2rem, 3vw, 1.5rem);
   margin-bottom: 1rem;
 }
 
 .linkGroup {
+  padding: 1rem;
   margin-bottom: 2rem;
 }
 
@@ -497,7 +575,8 @@
 }
 
 .ctaText {
-  font-size: 1.8rem;
+  /* font-size: 1.8rem; */
+  font-size: clamp(1.5rem, 3vw, 1.8rem);
   margin-bottom: 2rem;
   color: rgba(255, 255, 255, 0.9);
 }
@@ -505,7 +584,8 @@
 .ctaButton {
   display: inline-block;
   padding: 1.2rem 3rem;
-  font-size: 1.2rem;
+  /* font-size: 1.2rem; */
+  font-size: clamp(1rem, 4vw, 1.2rem);
   font-weight: 600;
   color: #fff;
   background: linear-gradient(45deg, #7c3aed, #3b82f6, #7c3aed);

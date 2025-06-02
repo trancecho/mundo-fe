@@ -15,7 +15,7 @@ import {
 } from '../../router/api.ts' // 导入登录函数
 import { useNavigate, useSearchParams, Link, useLocation } from 'react-router-dom'
 import { AxiosError } from 'axios'
-import Header from '@/components/ui/Header/Header.tsx' // 导入 AxiosError 类型
+import Header from '@/components/Header/Header.tsx' // 导入 AxiosError 类型
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -492,14 +492,14 @@ const Login = () => {
                   className={`${style.socialButton} ${style.wechat}`}
                   onClick={fetchQRCode}
                 >
-                  <i className='icon-wechat'></i>
+                  {/* <i className='icon-wechat'></i> */}
                   微信登录
                 </button>
                 <button
                   className={`${style.socialButton} ${style.hdu}`}
                   onClick={handleHelperLogin}
                 >
-                  <i className='icon-school'></i>
+                  {/* <i className='icon-school'></i> */}
                   HDU Helper
                 </button>
               </div>
