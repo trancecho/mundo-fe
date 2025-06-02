@@ -1,4 +1,4 @@
-:root {
+/* body {
   --primary: #7c3aed;
   --primary-light: #a78bfa;
   --primary-dark: #6d28d9;
@@ -6,40 +6,45 @@
   --secondary-light: #60a5fa;
   --secondary-dark: #2563eb;
   --background: #0f172a;
-  --surface: rgba(255, 255, 255, 0.05);
+
   --surface-light: rgba(255, 255, 255, 0.08);
   --text-primary: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.8);
   --text-tertiary: rgba(255, 255, 255, 0.6);
   --border-color: rgba(255, 255, 255, 0.1);
+} */
+body {
+  background: radial-gradient(circle at 50% 100%, #0f172a, #020617);
+  color: var(--text-primary);
+  min-height: 100vh;
+  --color-text-1: hsla(0, 0%, 100%, 0.9);
+  --color-text-2: hsla(0, 0%, 100%, 0.7);
+  --color-text-3: hsla(0, 0%, 100%, 0.5);
 }
 
-.container {
+.QandAContainer {
   display: flex;
   min-height: 100vh;
   width: 100%;
   margin: 0 auto;
-  justify-content: center;
   position: relative;
-  background: radial-gradient(circle at 50% 100%, #0f172a, #020617);
-  color: var(--text-primary);
-  padding: 2rem;
+  padding-left: 2rem;
   padding-top: 96px;
-}
-
-.content {
-  display: flex;
-  flex-direction: row;
-  /* margin-top: 80px; */
-  flex: 1;
+  padding-bottom: 2rem;
   gap: 2rem;
-  max-width: 1800px;
 }
-
-.mainContent {
+.post-list-menu {
+  /* background-color: var(--surface) !important; */
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  --color-menu-dark-bg: rgba(255, 255, 255, 0.05) !important;
+}
+.right {
+  --surface: rgba(255, 255, 255, 0.05);
   display: flex;
-  justify-content: center;
-  padding: 2rem;
+  flex-direction: column;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
   border-radius: 12px;
   background: var(--surface);
   backdrop-filter: blur(12px);
@@ -47,19 +52,6 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   flex: 1;
   overflow: auto;
-  max-width: 900px;
+  max-width: 70%;
   transition: all 0.3s ease;
-}
-
-.mainContent:hover {
-  box-shadow: 0 12px 40px rgba(124, 58, 237, 0.2);
-  transform: translateY(-5px);
-}
-
-.outletContainer {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  flex: 1;
-  gap: 1.5rem;
 }

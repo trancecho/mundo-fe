@@ -20,6 +20,7 @@
   background: radial-gradient(circle at 50% 100%, #0f172a, #020617);
   color: var(--text-primary);
   padding: 2rem;
+  padding-top: 96px;
 }
 
 .header {
@@ -45,7 +46,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
-  padding: 1rem;
+  /* padding: 1rem; */
 }
 
 .teamCard {
@@ -55,6 +56,14 @@
   padding: 1.5rem;
   transition: all 0.3s ease;
   overflow: hidden;
+}
+
+.teamCard .teamDescription {
+  color: var(--text-secondary);
+  overflow-wrap: break-word;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  left: 0;
 }
 
 .teamCard:hover {
@@ -70,6 +79,14 @@
   border-radius: 8px;
   max-width: 550px;
   width: 90%;
+}
+
+.teampick .teamDescription {
+  color: var(--text-secondary);
+  overflow-wrap: break-word;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  left: 0;
 }
 
 .mask {
@@ -95,12 +112,6 @@
   margin-bottom: 0;
 }
 
-.teamDescription {
-  color: var(--text-secondary);
-  margin-bottom: 1.5rem;
-  line-height: 1.6;
-  left: 0;
-}
 
 .teamMeta {
   display: flex;
@@ -310,8 +321,12 @@
 }
 
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 /* 响应式设计 */
