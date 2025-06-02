@@ -98,9 +98,9 @@ const Item = ({
           </div>
         </div>
         <div className={style.teamDescription}>
-            {detail.Introduction.length > 100 
-                ? `${detail.Introduction.substring(0, 17)}...` 
-                : detail.Introduction}
+          {detail.Introduction.length > 100
+            ? `${detail.Introduction.substring(0, 17)}...`
+            : detail.Introduction}
         </div>
         <div className={style.teamMeta}>
           <div>人数：{detail.Number}</div>
@@ -209,9 +209,9 @@ const TeamContent = () => {
 
 const TeamUp = () => {
   return (
-    <SearchProvider>
-      <TeamContent />
-    </SearchProvider>
+    // <SearchProvider>
+    <TeamContent />
+    // </SearchProvider>
   )
 }
 

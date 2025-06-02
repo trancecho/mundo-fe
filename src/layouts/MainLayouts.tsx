@@ -18,6 +18,6 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <main>{children}</main>
     </div>
   );
-};
+}
 
 export default MainLayout;

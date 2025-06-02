@@ -1,5 +1,5 @@
 .header {
-  height: 64px;
+  height: 50px;
   width: 100%;
   position: fixed;
   top: 0;
@@ -8,20 +8,33 @@
   display: flex;
   align-items: center;
   padding: 0 24px;
-  gap: 24px;
+  gap: 10px;
   z-index: 100;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   margin: 0;
 }
-
+.footer {
+  height: 60px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: rgb(3, 3, 41);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 10px;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
 .logo {
   font-size: 24px;
   font-weight: 700;
   background: linear-gradient(45deg, var(--primary), var(--secondary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  padding-right: 24px;
 }
 
 .searchWrapper {
@@ -31,8 +44,10 @@
   background: rgba(255, 255, 255, 0.05);
   border-radius: 12px;
   padding: 4px;
-  width: 400px;
+  width: 100%;
+  max-width: 180px;
   transition: all 0.3s ease;
+  margin-left: 10px;
 }
 
 .searchWrapper.focused {
@@ -48,35 +63,24 @@
 
 .searchInput {
   flex: 1;
-  height: 40px;
+  height: 32px;
   background: transparent;
   border: none;
   color: var(--text-primary);
   font-size: 15px;
-  padding: 0 8px;
+  padding: 0 4px;
   outline: none;
   cursor: text; /* 添加文本输入光标 */
 }
 
-.searchWrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 4px;
-  width: 400px;
-  transition: all 0.3s ease;
-  cursor: text; /* 搜索框容器也使用文本输入光标 */
-}
 
 .searchInput::placeholder {
   color: var(--text-secondary);
 }
 
 .searchButton {
-  height: 40px;
-  padding: 0 24px;
+  height: 32px;
+  width: 40px;
   border: none;
   border-radius: 8px;
   background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -84,6 +88,10 @@
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
 }
 
 .searchButton:hover {
@@ -116,8 +124,8 @@
 }
 
 .avatar {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: linear-gradient(
     135deg,
@@ -173,19 +181,6 @@
   flex-direction: row;
 }
 
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.avatar:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.3);
-}
 
 /* 确保Modal在视口中央 */
 .custom-modal {

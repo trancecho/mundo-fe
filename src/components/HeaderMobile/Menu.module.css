@@ -13,13 +13,14 @@
     border: none;
     border-radius: 8px;
     background: transparent;
-    color: var(--text-secondary);
+    /* color: var(--text-secondary); */
     font-size: 15px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    animation: slideIn 0.3s ease;
 }
 
 .menuItem::before {
@@ -36,7 +37,7 @@
 }
 
 .menuItem:hover {
-    color: var(--text-primary);
+    /* color: var(--text-primary); */
     background: rgba(255, 255, 255, 0.05);
 }
 
@@ -46,7 +47,7 @@
 }
 
 .menuItem.active {
-    color: var(--text-primary);
+    /* color: var(--text-primary); */
     background: rgba(255, 255, 255, 0.1);
 }
 
@@ -69,14 +70,10 @@
 @keyframes slideIn {
     from {
         opacity: 0;
-        transform: translateY(-10px);
+        transform: translateY(10px);
     }
     to {
         opacity: 1;
         transform: translateY(0);
     }
-}
-
-.menuItem {
-    animation: slideIn 0.3s ease;
 }

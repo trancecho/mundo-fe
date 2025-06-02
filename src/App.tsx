@@ -33,8 +33,8 @@ import FeedBack from '@/pages/Houtai/FeedBack.tsx'
 import MainLayout from './layouts/MainLayouts.tsx'
 const App: React.FC = () => {
   return (
-    <AuthProvider>
-      <SearchProvider>
+    <SearchProvider>
+      <AuthProvider>
         <Router>
           <AnswerWindow /> {/*客服组件*/}
           <Routes>
@@ -84,8 +84,8 @@ const App: React.FC = () => {
             </Route>
           </Routes>
         </Router>
-      </SearchProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </SearchProvider>
   )
 }
 

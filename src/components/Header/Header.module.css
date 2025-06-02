@@ -31,7 +31,8 @@
   background: rgba(255, 255, 255, 0.05);
   border-radius: 12px;
   padding: 4px;
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
   transition: all 0.3s ease;
 }
 
@@ -58,17 +59,6 @@
   cursor: text; /* 添加文本输入光标 */
 }
 
-.searchWrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 4px;
-  width: 400px;
-  transition: all 0.3s ease;
-  cursor: text; /* 搜索框容器也使用文本输入光标 */
-}
 
 .searchInput::placeholder {
   color: var(--text-secondary);

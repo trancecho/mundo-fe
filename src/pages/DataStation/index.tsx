@@ -24,9 +24,9 @@ const DataStationContent: React.FC = () => {
 
 const DataStation = () => {
     return (
-        <SearchProvider>
-            <DataStationContent />
-        </SearchProvider>
+        // <SearchProvider>
+        <DataStationContent />
+        // </SearchProvider>
     );
 };
 

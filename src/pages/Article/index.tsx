@@ -135,10 +135,10 @@ const ArticleContent: React.FC = () => {
 
 const Article: React.FC = () => {
     return (
-        <SearchProvider>
-            <Header />
-            <ArticleContent />
-        </SearchProvider>
+        // <SearchProvider>
+        //     <Header />
+        <ArticleContent />
+        // </SearchProvider>
     );
 };
 
