@@ -33,6 +33,32 @@ body {
   padding-bottom: 2rem;
   gap: 2rem;
 }
+.mobileQandAContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  padding-top: 60px;
+  padding-bottom: 70px;
+  gap: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.menu-demo {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  overflow-y: hidden;
+  .arco-menu-inner {
+    overflow-y: hidden;
+    padding: 0px 5px !important;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+}
+
 .post-list-menu {
   /* background-color: var(--surface) !important; */
   border: 1px solid var(--border-color);
@@ -55,4 +81,25 @@ body {
   overflow: auto;
   max-width: 70%;
   transition: all 0.3s ease;
+}
+.mobileRight {
+  --surface: rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  flex: 1;
+  overflow: auto;
+  width: 100%;
+  transition: all 0.3s ease;
+  padding-bottom: 10px;
+}
+.mobileTabs {
+  .arco-tabs-content {
+    padding: 0px !important;
+  }
 }

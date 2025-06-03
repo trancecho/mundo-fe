@@ -12,13 +12,14 @@ import { IconCalendar, IconClockCircle, IconUser } from '@arco-design/web-react/
 import { usePostList } from './hooks/usePostData'
 import PostList from './PostList'
 import { Post } from '@/interfaces/post'
+import MobilePostListView from './MobilePostListView'
 const TabPane = Tabs.TabPane
 const PostListView: React.FC = () => {
   const { SubMenu, Item: MenuItem } = Menu
   const MenuItemGroup = Menu.ItemGroup
   const navigate = useNavigate()
   const location = useLocation()
-
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   const [category, setCategory] = useState('')
   const [sortby, setSortby] = useState('new')
   const [page, setPage] = useState(1)
@@ -31,7 +32,7 @@ const PostListView: React.FC = () => {
     search,
     sortby
   })
-
+  const { tagsGrouped, loading } = useTagsMenu()
   const total = data?.pageInfo.total || 0
   const postList = data?.posts || ([] as Array<Post>)
 
@@ -47,7 +48,11 @@ const PostListView: React.FC = () => {
     }
     navigate(`/qanda/${messageId}`)
   }
-  const { tagsGrouped, loading } = useTagsMenu()
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   // if (loading) return <div>加载中...</div>
 
@@ -62,120 +67,125 @@ const PostListView: React.FC = () => {
     })
     return map
   }, [tagsGrouped])
-
   return (
     <>
-      {/* <Header /> */}
-      <div className='QandAContainer'>
-        <div style={{ height: 600, marginLeft: '20px' }}>
-          <Menu
-            style={{ width: '16rem', height: '100%' }}
-            defaultOpenKeys={['0']}
-            defaultSelectedKeys={['0']}
-            theme='dark'
-            collapse={false}
-            hasCollapseButton={false}
-            className={'post-list-menu'}
-            onClickMenuItem={(key, e) => {
-              const tagName = keyToTagNameMap.get(key)
-              if (tagName) {
-                if (tagName === '综合') {
-                  setCategory('')
-                } else {
-                  setCategory(tagName)
-                }
-                setPage(1)
-              }
-            }}
-          >
-            <MenuItem key={`0`}>
-              {
-                <>
-                  <IconApps /> <span className='mr-[16px]'>综合</span>
-                </>
-              }
-            </MenuItem>
-            {Object.entries(tagsGrouped).map(([category, tags], catIndex) => (
-              <SubMenu
-                key={String(catIndex)}
-                title={
-                  <>
-                    <IconApps /> {category}
-                  </>
-                }
+      {isMobile ? (
+        <MobilePostListView />
+      ) : (
+        <>
+          {/* <Header /> */}
+          <div className='QandAContainer'>
+            <div style={{ height: 600, marginLeft: '20px' }}>
+              <Menu
+                style={{ width: '16rem', height: '100%' }}
+                defaultOpenKeys={['0']}
+                defaultSelectedKeys={['0']}
+                theme='dark'
+                collapse={false}
+                hasCollapseButton={false}
+                className={'post-list-menu'}
+                onClickMenuItem={(key, e) => {
+                  const tagName = keyToTagNameMap.get(key)
+                  if (tagName) {
+                    if (tagName === '综合') {
+                      setCategory('')
+                    } else {
+                      setCategory(tagName)
+                    }
+                    setPage(1)
+                  }
+                }}
               >
-                {tags.map((tag, tagIndex) => (
-                  <MenuItem key={`${catIndex}_${tagIndex}`}>{tag.name}</MenuItem>
+                <MenuItem key={`0`}>
+                  {
+                    <>
+                      <IconApps /> <span className='mr-[16px]'>综合</span>
+                    </>
+                  }
+                </MenuItem>
+                {Object.entries(tagsGrouped).map(([category, tags], catIndex) => (
+                  <SubMenu
+                    key={String(catIndex)}
+                    title={
+                      <>
+                        <IconApps /> {category}
+                      </>
+                    }
+                  >
+                    {tags.map((tag, tagIndex) => (
+                      <MenuItem key={`${catIndex}_${tagIndex}`}>{tag.name}</MenuItem>
+                    ))}
+                  </SubMenu>
                 ))}
-              </SubMenu>
-            ))}
-          </Menu>
-        </div>
-        <div className='right flex flex-col w-full gap-[16px] mr-[20px]'>
-          <Tabs
-            activeTab={sortby}
-            onChange={key => {
-              setSortby(key)
-              setPage(1)
-            }}
-          >
-            <TabPane
-              key='new'
-              title={
-                <>
-                  <IconCalendar /> 最新
-                </>
-              }
-            >
-              <PostList data={postList} loading={isLoading} />
-            </TabPane>
-            <TabPane
-              key='default'
-              title={
-                <>
-                  <IconClockCircle /> 热门
-                </>
-              }
-            >
-              <PostList data={postList} loading={isLoading} />
-            </TabPane>
-            <TabPane
-              key='noAnswer'
-              title={
-                <>
-                  <IconUser /> 未回答
-                </>
-              }
-            >
-              <PostList data={postList} loading={isLoading} />
-            </TabPane>
-            <TabPane
-              key='official'
-              title={
-                <>
-                  <IconUser /> 官方
-                </>
-              }
-            >
-              <PostList data={postList} loading={isLoading} />
-            </TabPane>
-          </Tabs>
+              </Menu>
+            </div>
+            <div className='right flex flex-col w-full gap-[16px] mr-[20px]'>
+              <Tabs
+                activeTab={sortby}
+                onChange={key => {
+                  setSortby(key)
+                  setPage(1)
+                }}
+              >
+                <TabPane
+                  key='new'
+                  title={
+                    <>
+                      <IconCalendar /> 最新
+                    </>
+                  }
+                >
+                  <PostList data={postList} loading={isLoading} />
+                </TabPane>
+                <TabPane
+                  key='default'
+                  title={
+                    <>
+                      <IconClockCircle /> 热门
+                    </>
+                  }
+                >
+                  <PostList data={postList} loading={isLoading} />
+                </TabPane>
+                <TabPane
+                  key='noAnswer'
+                  title={
+                    <>
+                      <IconUser /> 未回答
+                    </>
+                  }
+                >
+                  <PostList data={postList} loading={isLoading} />
+                </TabPane>
+                <TabPane
+                  key='official'
+                  title={
+                    <>
+                      <IconUser /> 官方
+                    </>
+                  }
+                >
+                  <PostList data={postList} loading={isLoading} />
+                </TabPane>
+              </Tabs>
 
-          <div className='w-full items-center justify-center flex'>
-            <Pagination
-              size='small'
-              total={total}
-              current={page}
-              pageSize={pageSize}
-              onChange={(current, size) => {
-                setPage(current)
-                setPageSize(size)
-              }}
-              style={{ textAlign: 'center' }}
-            />
+              <div className='w-full items-center justify-center flex'>
+                <Pagination
+                  size='small'
+                  total={total}
+                  current={page}
+                  pageSize={pageSize}
+                  onChange={(current, size) => {
+                    setPage(current)
+                    setPageSize(size)
+                  }}
+                  style={{ textAlign: 'center' }}
+                />
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </>
   )
 }
