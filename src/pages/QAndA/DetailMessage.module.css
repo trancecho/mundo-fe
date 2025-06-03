@@ -237,7 +237,11 @@
 .questionPictures {
   display: flex;
   gap: 1rem;
-  
+  flex-wrap: wrap;
+}
+
+.questionPictures img{
+    width: 16rem;
 }
 
 .information {
@@ -254,7 +258,7 @@
   gap:0.5rem;
 }
 /* Alert 样式 */
-.alert {
+/* .alert {
   background: var(--surface);
   border: 1px solid;
   padding: 1rem;
@@ -290,7 +294,7 @@
 
 .alert__close:hover {
   color: var(--text-primary);
-}
+} */
 
 /* 响应式设计 */
 @media screen and (max-width: 768px) {
@@ -349,9 +353,7 @@
 
 }
 
-.img {
-  width: 300px;
-}
+
 .imageModal {
     position: fixed;
     top: 0;

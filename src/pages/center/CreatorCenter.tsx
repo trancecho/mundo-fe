@@ -142,7 +142,7 @@ const CreatorCenter: React.FC = () => {
             name='title'
             value={formData.title}
             onChange={handleInputChange}
-            placeholder='输入标题'
+            placeholder='输入标题（必填）'
             className={styles.titleInput}
           />
 
@@ -162,7 +162,7 @@ const CreatorCenter: React.FC = () => {
             name='content'
             value={formData.content}
             onChange={handleInputChange}
-            placeholder='输入内容'
+            placeholder='输入内容（必填）'
             className={styles.contentInput}
           />
 
@@ -206,7 +206,7 @@ const CreatorCenter: React.FC = () => {
           <button
             className={styles.submitButton}
             onClick={handleSubmit}
-            disabled={loading}
+            disabled={loading || !formData.title.trim() || !formData.content.trim()}
           >
             {loading ? <div className={styles.loadingSpinner}></div> : '发布内容'}
           </button>
