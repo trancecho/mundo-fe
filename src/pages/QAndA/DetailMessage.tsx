@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { useAuth } from '@/context/AuthContext';
 // import { Dispatch, SetStateAction } from "react";
 import { ImFilePicture } from "react-icons/im";
-import { TbPhotoOff } from "react-icons/tb";
 import { FaRegCommentDots } from "react-icons/fa";
 import { AiOutlineLike, AiFillLike } from "react-icons/ai";
 import { getDetail, sendAnswer, changelike, checklike } from "@/router/api";
@@ -93,6 +92,7 @@ const DetailQuestion: React.FC<DetailQuestionProps> = ({ title, question, views 
 };
 
 const SecureImage: React.FC<{ image: string }> = ({ image }) => {
+    const [isOpen, setIsOpen] = useState(false);
     function base64ToBlobUrl(image: string) {
         let mimeType = "image/jpeg"; // 默认值
         if (image.startsWith("/9j/")) mimeType = "image/jpeg"; // JPG
@@ -121,7 +121,27 @@ const SecureImage: React.FC<{ image: string }> = ({ image }) => {
         }, 0); // 组件卸载时释放 URL
     }, [image]);
 
-    return imageUrl ? <img src={imageUrl} alt="Image" className={Style.img} /> : <p>加载中...</p>;
+    return (
+        <>
+            <img 
+                src={imageUrl} 
+                alt="Image" 
+                className={Style.img}
+                onClick={() => setIsOpen(true)}
+                style={{cursor: 'pointer'}}
+            />
+            {isOpen && (
+                <div className={Style.imageModal} onClick={() => setIsOpen(false)}>
+                    <img 
+                        src={imageUrl} 
+                        alt="Enlarged" 
+                        className={Style.modalImage}
+                        onClick={(e) => e.stopPropagation()}
+                    />
+                </div>
+            )}
+        </>
+    );
 }
 
 // 定义 DetailReply 组件类型，接收 answerData 作为属性，类型为 Answer
@@ -147,7 +167,7 @@ const DetailReply: React.FC<{ answerData: Answer }> = ({ answerData }) => {
             </div>
             <div className={Style.content}>
                 <div className={Style.replyTime}>{answerData.content}</div>
-                {answerData.picture.length > 0 && (
+                {answerData.picture?.length > 0 && (
                     <div className={Style.answerPictures}>
                         {answerData.picture.map((pic: string, index: number) => (
                             <SecureImage key={index} image={pic} />
