@@ -240,10 +240,6 @@
   flex-wrap: wrap;
 }
 
-.questionPictures img{
-    width: 16rem;
-}
-
 .information {
   display: flex;
   gap: 1.5rem;
@@ -373,4 +369,8 @@
     max-height: 90%;
     object-fit: contain;
     cursor: zoom-out;
+}
+.answerPictures .img {
+  width: 16rem;
+  height: auto;
 }
