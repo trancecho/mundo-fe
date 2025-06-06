@@ -4,11 +4,11 @@ import { useParams } from "react-router-dom";
 import { useAuth } from '@/context/AuthContext';
 // import { Dispatch, SetStateAction } from "react";
 import { ImFilePicture } from "react-icons/im";
-import { TbPhotoOff } from "react-icons/tb";
 import { FaRegCommentDots } from "react-icons/fa";
 import { AiOutlineLike, AiFillLike } from "react-icons/ai";
 import { getDetail, sendAnswer, changelike, checklike } from "@/router/api";
 import Header from '@/components/Header/Header';
+import { Carousel } from '@arco-design/web-react';
 
 
 interface Answer {
@@ -65,7 +65,8 @@ const QuestionContext = React.createContext<{
 });
 
 const DetailQuestion: React.FC<DetailQuestionProps> = ({ title, question, views }) => {
-    const { picture, tags } = React.useContext(QuestionContext); // 通过上下文获取图片和标签数据
+    const { picture, tags } = React.useContext(QuestionContext);
+    const [isOpen, setIsOpen] = useState(-1);
     return (
         <div className={Style.DetailQuestion}>
             <div className={Style.detailTitle}>
@@ -81,18 +82,37 @@ const DetailQuestion: React.FC<DetailQuestionProps> = ({ title, question, views 
             </div>
             <div className={Style.detailQuestion}>{question}</div>
             {picture.length > 0 && (
-                <div className={Style.questionPictures}>
+                <Carousel style={{ width: 500, height: 260 }}>
                     {picture.map((pic: string, index: number) =>
-                        <SecureImage key={index} image={pic} />
+                        <div className={Style.imgc} key={index}>
+                            <img
+                                src={pic}
+                                alt="Image"
+                                className={Style.img}
+                                onClick={() => setIsOpen(index)}
+                                style={{ cursor: 'pointer' }}
+                            />
+                        </div>
                     )}
-                </div>
+                </Carousel>
             )}
+            {isOpen>=0 && (
+                <div className={Style.imageModal} onClick={() => setIsOpen(-1)}>
+                    <img
+                        src={picture[isOpen]}
+                        alt="Enlarged"
+                        className={Style.modalImage}
+                        onClick={(e) => e.stopPropagation()}
+                    />
+                </div>
+)}
             <div className={Style.views}><span>view : {views}</span></div>
         </div>
     );
 };
 
 const SecureImage: React.FC<{ image: string }> = ({ image }) => {
+    const [isOpen, setIsOpen] = useState(false);
     function base64ToBlobUrl(image: string) {
         let mimeType = "image/jpeg"; // 默认值
         if (image.startsWith("/9j/")) mimeType = "image/jpeg"; // JPG
@@ -121,7 +141,27 @@ const SecureImage: React.FC<{ image: string }> = ({ image }) => {
         }, 0); // 组件卸载时释放 URL
     }, [image]);
 
-    return imageUrl ? <img src={imageUrl} alt="Image" className={Style.img} /> : <p>加载中...</p>;
+    return (
+        <>
+            <img 
+                src={imageUrl} 
+                alt="Image" 
+                className={Style.img}
+                onClick={() => setIsOpen(true)}
+                style={{cursor: 'pointer'}}
+            />
+            {isOpen && (
+                <div className={Style.imageModal} onClick={() => setIsOpen(false)}>
+                    <img 
+                        src={imageUrl} 
+                        alt="Enlarged" 
+                        className={Style.modalImage}
+                        onClick={(e) => e.stopPropagation()}
+                    />
+                </div>
+            )}
+        </>
+    );
 }
 
 // 定义 DetailReply 组件类型，接收 answerData 作为属性，类型为 Answer
@@ -147,7 +187,7 @@ const DetailReply: React.FC<{ answerData: Answer }> = ({ answerData }) => {
             </div>
             <div className={Style.content}>
                 <div className={Style.replyTime}>{answerData.content}</div>
-                {answerData.picture.length > 0 && (
+                {answerData.picture?.length > 0 && (
                     <div className={Style.answerPictures}>
                         {answerData.picture.map((pic: string, index: number) => (
                             <SecureImage key={index} image={pic} />
@@ -321,11 +361,29 @@ const DetailMessage: React.FC = () => {
         answers: []
     });
 
+
+    function base64ToArrayBuffer(base64: string) {
+        const binaryString = atob(base64);
+        const bytes = new Uint8Array(binaryString.length);
+        for (let i = 0; i < binaryString.length; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return bytes;
+    }
+
+
     useEffect(() => {
         // 调用获取详情的API函数
         getDetail(Number(id)).then((res) => {
             if (res.status >= 200 && res.status < 300) {
                 const apiData = res.data.data.QuestionPost;
+
+                // 转换图片数据为URL
+                const pictures = apiData.picture?.map(img => {
+                    const blob = new Blob([base64ToArrayBuffer(img)], { type: 'image/jpeg' });
+                    return URL.createObjectURL(blob);
+                }) || [];
+
                 checklike(Number(id)).then(likeResponse => {
                     const likesMap = new Map<number, boolean>();
                     likeResponse.data.data.likes_status.forEach(item => {
@@ -342,7 +400,7 @@ const DetailMessage: React.FC = () => {
                         uid: apiData.uid,
                         title: apiData.title,
                         content: apiData.content,
-                        pictures: apiData.picture || [],
+                        pictures: pictures || [],
                         views: apiData.view || 0,
                         collection: apiData.collection,
                         answer_count: apiData.answer_count,
@@ -357,6 +415,16 @@ const DetailMessage: React.FC = () => {
             }
         }).catch((error) => console.log("error", error));
     }, [id, longtoken]); // 依赖项：当id或longtoken变化时重新执行
+
+    useEffect(() => {
+        return () => {
+            // 清理所有创建的URL
+            finalMessage.pictures.forEach(url => URL.revokeObjectURL(url));
+            finalMessage.answers.forEach(answer => {
+                answer.picture?.forEach(url => URL.revokeObjectURL(url));
+            });
+        };
+    }, [finalMessage]);
 
     return (
         <div style={{ all: "initial" }}>
