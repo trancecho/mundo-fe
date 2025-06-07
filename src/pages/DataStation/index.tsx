@@ -6,27 +6,17 @@ import { SearchProvider } from '@/components/Header/SearchContext'
 
 const DataStationContent: React.FC = () => {
   return (
+    // <SearchProvider>
     <>
       <div className={styles.container}>
-        <div className={styles.content}>
-          <Navbar />
-          <div className={styles.mainContent}>
-            <div className={styles.outletContainer}>
-              <Outlet />
-            </div>
-          </div>
+        <Navbar />
+        <div className={styles.outletContainer}>
+          <Outlet />
         </div>
       </div>
     </>
-  )
-}
-
-const DataStation = () => {
-  return (
-    // <SearchProvider>
-    <DataStationContent />
     // </SearchProvider>
   )
 }
 
-export default DataStation
+export default DataStationContent
