@@ -39,19 +39,56 @@ const App: React.FC = () => {
           <AnswerWindow /> {/*客服组件*/}
           <Routes>
             <Route path='/' element={<FrontPage />} />
-            <Route path='/datastation' element={<MainLayout><DataStation /></MainLayout>}>
-              <Route path='' element={<Navigate to='math' replace />} />
-              <Route path='math' element={<ItemList category='高数' />} />
-              <Route path='physics' element={<ItemList category='大物' />} />
+            <Route
+              path='/datastation'
+              element={
+                <MainLayout>
+                  <DataStation />
+                </MainLayout>
+              }
+            >
+              <Route path='' element={<Navigate to='math1' replace />} />
+              <Route path='math1' element={<ItemList category='高数上' />} />
+              <Route path='math2' element={<ItemList category='高数下' />} />
+              <Route path='physics1' element={<ItemList category='大物上' />} />
+              <Route path='physics2' element={<ItemList category='大物下' />} />
               <Route path='c-language' element={<ItemList category='C语言' />} />
               <Route path='others' element={<ItemList category='其他' />} />
             </Route>
             {/* <Route path='/article' element={<Article />} /> */}
             {/* <Route path='/qanda' element={<QAndA />} /> */}
-            <Route path='/qanda' element={<MainLayout><PostListView /></MainLayout>} />
-            <Route path='/qanda/:id' element={<MainLayout><DetailMessage /></MainLayout>} />
-            <Route path='/center' element={<MainLayout><CreatorCenter /></MainLayout>} />
-            <Route path='/teamup' element={<MainLayout><TeamUp /></MainLayout>} />
+            <Route
+              path='/qanda'
+              element={
+                <MainLayout>
+                  <PostListView />
+                </MainLayout>
+              }
+            />
+            <Route
+              path='/qanda/:id'
+              element={
+                <MainLayout>
+                  <DetailMessage />
+                </MainLayout>
+              }
+            />
+            <Route
+              path='/center'
+              element={
+                <MainLayout>
+                  <CreatorCenter />
+                </MainLayout>
+              }
+            />
+            <Route
+              path='/teamup'
+              element={
+                <MainLayout>
+                  <TeamUp />
+                </MainLayout>
+              }
+            />
             <Route path='/login' element={<Login />} />
             {/* <Route path='/login/privacy' element={<PrivacyPolicy />} /> */}
             {/* <Route path='/login/terms' element={<TermsOfService />} /> */}
@@ -63,7 +100,14 @@ const App: React.FC = () => {
             <Route path='/review' element={<Review />} />
             {/* <Route path='/filemanager' element={<FileManager />} /> */}
             {/* <Route path='/timerme' element={<Timerme />} /> */}
-            <Route path='/info' element={<MainLayout><InfoManage /></MainLayout>} />
+            <Route
+              path='/info'
+              element={
+                <MainLayout>
+                  <InfoManage />
+                </MainLayout>
+              }
+            />
             <Route path='/findKey' element={<FindKey />} />
             <Route path='/houtaiLogin' element={<HoutaiLogin />} />
 
