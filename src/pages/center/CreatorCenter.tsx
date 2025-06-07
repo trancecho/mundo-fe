@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAuth } from '@/context/AuthContext'
 import Header from '@/components/Header/Header'
 import styles from './CreatorCenter.module.css'
 import { fetchTags, post } from '../../router/api'
+import MobileCreatorCenter from './MobileCreatorCenter'
 type ContentType = 'qanda' | 'article' | 'team' | 'resource'
 
 interface ContentForm {
@@ -25,6 +26,7 @@ const CreatorCenter: React.FC = () => {
   const [activeType, setActiveType] = useState<ContentType>('qanda')
   const [tags, setTags] = useState<Tag[]>([])
   const [loading, setLoading] = useState(false)
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   const [formData, setFormData] = useState<ContentForm>({
     title: '',
     content: '',
@@ -118,101 +120,112 @@ const CreatorCenter: React.FC = () => {
       files: prev.files.filter((_, i) => i !== index)
     }))
   }
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   return (
-    <div className={styles.container}>
-      {/* <Header /> */}
-      <div className={styles.creatorCenter}>
-        <div className={styles.contentTypeSelector}>
-          {contentTypes.map(type => (
-            <button
-              key={type.id}
-              className={`${styles.typeButton} ${activeType === type.id ? styles.active : ''}`}
-              onClick={() => handleTypeChange(type.id as ContentType)}
-            >
-              <span className={styles.typeIcon}>{type.icon}</span>
-              <span className={styles.typeName}>{type.name}</span>
-            </button>
-          ))}
-        </div>
-
-        <div className={styles.editorContainer}>
-          <input
-            type='text'
-            name='title'
-            value={formData.title}
-            onChange={handleInputChange}
-            placeholder='输入标题（必填）'
-            className={styles.titleInput}
-          />
-
-          <div className={styles.tagContainer}>
-            {tags.map(tag => (
-              <span
-                key={tag.id}
-                className={`${styles.tag} ${formData.tags.some(t => t.id === tag.id) ? styles.tagActive : ''}`}
-                onClick={() => handleTagToggle(tag)}
-              >
-                {tag.name}
-              </span>
-            ))}
-          </div>
-
-          <textarea
-            name='content'
-            value={formData.content}
-            onChange={handleInputChange}
-            placeholder='输入内容（必填）'
-            className={styles.contentInput}
-          />
-
-          <div className={styles.fileUpload}>
-            <input
-              type='file'
-              accept='image/*'
-              multiple
-              onChange={handleFileChange}
-              className={styles.fileInput}
-              id='fileUpload'
-            />
-            <label htmlFor='fileUpload' className={styles.fileLabel}>
-              <span className={styles.uploadIcon}>📎</span>
-              上传文件
-            </label>
-          </div>
-
-          {formData.files.length > 0 && (
-            <div className={styles.filePreview}>
-              {formData.files.map((file, index) => (
-                <div key={index} className={styles.fileItem}>
-                  {file.type.startsWith('image/') ? (
-                    <div style={{ position: 'relative' }}>
-                      <img src={URL.createObjectURL(file)} alt={file.name} />
-                      <button
-                        onClick={() => handleRemoveFile(index)}
-                        className={styles.removeButton}
-                      >
-                        ×
-                      </button>
-                    </div>
-                  ) : (
-                    <span className={styles.fileName}>{file.name}</span>
-                  )}
-                </div>
+    <>
+      {isMobile ? (
+        <MobileCreatorCenter />
+      ) : (
+        <div className={styles.container}>
+          {/* <Header /> */}
+          <div className={styles.creatorCenter}>
+            <div className={styles.contentTypeSelector}>
+              {contentTypes.map(type => (
+                <button
+                  key={type.id}
+                  className={`${styles.typeButton} ${activeType === type.id ? styles.active : ''}`}
+                  onClick={() => handleTypeChange(type.id as ContentType)}
+                >
+                  <span className={styles.typeIcon}>{type.icon}</span>
+                  <span className={styles.typeName}>{type.name}</span>
+                </button>
               ))}
             </div>
-          )}
 
-          <button
-            className={styles.submitButton}
-            onClick={handleSubmit}
-            disabled={loading || !formData.title.trim() || !formData.content.trim()}
-          >
-            {loading ? <div className={styles.loadingSpinner}></div> : '发布内容'}
-          </button>
+            <div className={styles.editorContainer}>
+              <input
+                type='text'
+                name='title'
+                value={formData.title}
+                onChange={handleInputChange}
+                placeholder='输入标题（必填）'
+                className={styles.titleInput}
+              />
+
+              <div className={styles.tagContainer}>
+                {tags.map(tag => (
+                  <span
+                    key={tag.id}
+                    className={`${styles.tag} ${formData.tags.some(t => t.id === tag.id) ? styles.tagActive : ''}`}
+                    onClick={() => handleTagToggle(tag)}
+                  >
+                    {tag.name}
+                  </span>
+                ))}
+              </div>
+
+              <textarea
+                name='content'
+                value={formData.content}
+                onChange={handleInputChange}
+                placeholder='输入内容（必填）'
+                className={styles.contentInput}
+              />
+
+              <div className={styles.fileUpload}>
+                <input
+                  type='file'
+                  accept='image/*'
+                  multiple
+                  onChange={handleFileChange}
+                  className={styles.fileInput}
+                  id='fileUpload'
+                />
+                <label htmlFor='fileUpload' className={styles.fileLabel}>
+                  <span className={styles.uploadIcon}>📎</span>
+                  上传文件
+                </label>
+              </div>
+
+              {formData.files.length > 0 && (
+                <div className={styles.filePreview}>
+                  {formData.files.map((file, index) => (
+                    <div key={index} className={styles.fileItem}>
+                      {file.type.startsWith('image/') ? (
+                        <div style={{ position: 'relative' }}>
+                          <img src={URL.createObjectURL(file)} alt={file.name} />
+                          <button
+                            onClick={() => handleRemoveFile(index)}
+                            className={styles.removeButton}
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ) : (
+                        <span className={styles.fileName}>{file.name}</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <button
+                className={styles.submitButton}
+                onClick={handleSubmit}
+                disabled={loading || !formData.title.trim() || !formData.content.trim()}
+              >
+                {loading ? <div className={styles.loadingSpinner}></div> : '发布内容'}
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   )
 }
 
