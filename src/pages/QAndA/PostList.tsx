@@ -35,7 +35,7 @@ const PostList = ({ data, loading }: { data: Post[]; loading: boolean }) => {
                 <div className='font-semibold text-[18px]  text-[--color-text-1] text-left overflow-hidden text-ellipsis whitespace-nowrap'>
                   {message.title ? message.title : '无标题'}
                 </div>
-                <div className='font-bold text-[15px] leading-[22px] text-[--color-text-2] text-left overflow-hidden text-ellipsis whitespace-nowrap'>
+                <div className='font-medium text-[15px] leading-[22px] text-[--color-text-2] text-left overflow-hidden text-ellipsis whitespace-nowrap'>
                   {message.content ? message.content : '无内容'}
                 </div>
               </div>

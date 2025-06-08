@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Menu } from '@arco-design/web-react'
 import styles from './Navbar.module.css'
-import MobileNavbar from './MobileNavbar'
+
 const Navbar: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const currentPath = location.pathname.split('/').pop()
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
 
   const categories = [
     { path: 'math1', label: '高数上' },
@@ -19,19 +18,26 @@ const Navbar: React.FC = () => {
   ]
 
   return (
-    <>
+    <div className='menu-demo w-full overflow-x-auto'>
       <Menu
+        mode={'horizontal'}
         className={styles.navbar}
         selectedKeys={[currentPath || '']}
         onClickMenuItem={key => navigate(`/datastation/${key}`)}
-        style={{ width: '16rem' }}
+        style={{
+          width: '100%',
+          display: 'inline-flex',
+          whiteSpace: 'nowrap',
+          height: '100%'
+        }}
         theme='dark'
+        ellipsis={false}
       >
         {categories.map(({ path, label }) => (
           <Menu.Item key={path}>{label}</Menu.Item>
         ))}
       </Menu>
-    </>
+    </div>
   )
 }
 

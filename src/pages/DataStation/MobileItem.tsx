@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styles from './Item.module.css'
+import styles from './MobileItem.module.css'
 
 interface ItemProps {
   item: {

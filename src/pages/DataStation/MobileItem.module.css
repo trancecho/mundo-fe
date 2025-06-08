@@ -1,5 +1,5 @@
 .itemContainer {
-  padding: 8px 20px;
+  padding: 8px 0px;
   border-bottom: 1.4px solid var(--border-color);
   transition: all 0.3s ease;
   line-height: 1.2;

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import Item from './Item'
+import Item from './MobileItem'
 import { getFileList, downloadFile, previewFile } from '@/router/api'
-import styles from './ItemList.module.css'
+import styles from './MobileItemList.module.css'
 import { useSearch } from '@/components/Header/SearchContext'
 import { Pagination, Tabs, Spin } from '@arco-design/web-react'
 import { IconFire, IconClockCircle } from '@arco-design/web-react/icon'
-import MobileItemList from './MobileItemList'
+
 interface ItemListProps {
   category: string
 }
@@ -29,12 +29,7 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [total, setTotal] = useState<number>(0)
   const pageSize = 10
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 768)
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
@@ -128,71 +123,63 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
   }
 
   return (
-    <>
-      {isMobile ? (
-        <MobileItemList category={category} />
-      ) : (
-        <div className={styles.container}>
-          <Tabs
-            activeTab={selectedTab} // 将 defaultActiveTab 改为 activeTab
-            onChange={key => handleSort(key as 'hot' | 'new')}
-          >
-            <Tabs.TabPane
-              key='hot'
-              title={
-                <span>
-                  <IconFire style={{ marginRight: 6 }} />
-                  最热
-                </span>
-              }
-            />
-            <Tabs.TabPane
-              key='new'
-              title={
-                <span>
-                  <IconClockCircle style={{ marginRight: 6 }} />
-                  最新
-                </span>
-              }
-            />
-          </Tabs>
+    <div className={styles.container}>
+      <Tabs
+        activeTab={selectedTab} // 将 defaultActiveTab 改为 activeTab
+        onChange={key => handleSort(key as 'hot' | 'new')}
+      >
+        <Tabs.TabPane
+          key='hot'
+          title={
+            <span>
+              <IconFire style={{ marginRight: 6 }} />
+              最热
+            </span>
+          }
+        />
+        <Tabs.TabPane
+          key='new'
+          title={
+            <span>
+              <IconClockCircle style={{ marginRight: 6 }} />
+              最新
+            </span>
+          }
+        />
+      </Tabs>
 
-          <div className={styles.itemList}>
-            {error ? (
-              <p>{error}</p>
-            ) : loading ? (
-              <div
-                style={{ display: 'flex', justifyContent: 'center', padding: '20px 0' }}
-              >
-                <Spin />
-              </div>
-            ) : items.length === 0 ? (
-              <p>没有资料</p>
-            ) : (
-              items.map(item => (
-                <Item
-                  key={item.id}
-                  item={item}
-                  onDownload={handleDownload}
-                  onPreview={handlePreview}
-                />
-              ))
-            )}
+      <div className={styles.itemList}>
+        {error ? (
+          <p>{error}</p>
+        ) : loading ? (
+          <div style={{ display: 'flex', justifyContent: 'center', padding: '20px 0' }}>
+            <Spin />
           </div>
+        ) : items.length === 0 ? (
+          <p>没有资料</p>
+        ) : (
+          items.map(item => (
+            <Item
+              key={item.id}
+              item={item}
+              onDownload={handleDownload}
+              onPreview={handlePreview}
+            />
+          ))
+        )}
+      </div>
 
-          {total > 0 && (
-            <div className={styles.paginationContainer}>
-              <Pagination
-                total={total}
-                current={currentPage}
-                pageSize={pageSize}
-                onChange={page => setCurrentPage(page)}
-              />
-            </div>
-          )}
+      {total > 0 && (
+        <div className={styles.paginationContainer}>
+          <Pagination
+            total={total}
+            current={currentPage}
+            pageSize={pageSize}
+            onChange={page => setCurrentPage(page)}
+          />
         </div>
       )}
-    </>
+    </div>
   )
 }
 
