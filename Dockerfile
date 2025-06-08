@@ -1,6 +1,8 @@
 # 使用 Node.js 作为构建环境
 FROM node:20-alpine AS builder
 
+
+ARG BUILD_ENV=prod
 # 设置工作目录
 WORKDIR /app
 
@@ -11,7 +13,8 @@ COPY . .
 RUN npm install
 
 # 构建项目
-RUN npm run build:prod
+RUN #npm run build:prod
+RUN npm run build:${BUILD_ENV}
 
 ## 清理缓存
 #RUN npm cache clean --force
