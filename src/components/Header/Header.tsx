@@ -15,13 +15,14 @@ const Header: React.FC = () => {
   const [isFocused, setIsFocused] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
-  const { longtoken, logout } = useAuth()
+  const { logout } = useAuth()
+  const longtoken = localStorage.getItem('longtoken')
   const menuRef = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = React.useState(false)
   const DEFAULT_AVATAR =
     'https://cdn.pixabay.com/photo/2018/05/31/15/06/see-no-evil-3444212_1280.jpg'
   const [avatar, setAvatar] = useState<string | null>(DEFAULT_AVATAR)
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768); // 设置阈值
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768) // 设置阈值
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -56,7 +57,6 @@ const Header: React.FC = () => {
           }
           return avatarUrl
         })
-
       } catch (error) {
         console.error('获取头像失败', error)
         setAvatar(DEFAULT_AVATAR)
@@ -117,11 +117,11 @@ const Header: React.FC = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+      setIsMobile(window.innerWidth <= 768)
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   return (
     <header className={styles.header}>
@@ -182,9 +182,7 @@ const Header: React.FC = () => {
           </>
         )}
         <Modal
-          title={
-            null
-          }
+          title={null}
           mask={true}
           maskClosable={true}
           maskStyle={{
@@ -225,11 +223,10 @@ const Header: React.FC = () => {
               <Button
                 key='ok'
                 type='primary'
-                // className='specialButton'
-                // className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 onClick={() => {
                   setVisible(false)
                   localStorage.setItem('longtoken', '')
+                  logout()
                   navigate('/')
                 }}
               >

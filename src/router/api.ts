@@ -1,4 +1,3 @@
-// api.ts
 import axios from 'axios'
 import { Notification } from '@arco-design/web-react'
 import { AxiosResponse } from 'axios'
@@ -7,6 +6,7 @@ import debounce from 'lodash/debounce'
 // 防抖Notification
 const showLoginNotification = debounce(
   () => {
+    // localStorage.removeItem('longtoken')
     Notification.info({
       closable: false,
       title: '请先登录',
@@ -16,14 +16,15 @@ const showLoginNotification = debounce(
   1000,
   { leading: true, trailing: false }
 )
+export const longtoken = localStorage.getItem('longtoken')
 
 const authApi = axios.create({
   baseURL: import.meta.env.VITE_authURL,
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + longtoken
   }
 })
-export const longtoken = localStorage.getItem('longtoken')
 // console.log('Token:', longtoken)
 
 const api = axios.create({
@@ -295,16 +296,7 @@ export const updateAvatar = async (token: string, avatar: File) => {
 // 更新个人信息
 export const updatePerson = async (token: string, name: string) => {
   try {
-    const response = await authApi.put(
-      '/profile',
-      { name },
-      {
-        headers: {
-          Authorization: 'Bearer ' + token,
-          'Content-Type': 'application/json' // 改为 JSON 格式
-        }
-      }
-    )
+    const response = await authApi.put('/profile', { name })
     return response.data
   } catch (error) {
     console.error('更新个人信息出错：', error)
@@ -323,23 +315,14 @@ export const addTeam = async (
   contact: string
 ) => {
   try {
-    const response = await api.post(
-      '/myteam',
-      {
-        name,
-        number,
-        introduction,
-        require,
-        contact,
-        now_number
-      },
-      {
-        headers: {
-          Authorization: 'Bearer ' + token,
-          'Content-Type': 'application/json'
-        }
-      }
-    )
+    const response = await api.post('/myteam', {
+      name,
+      number,
+      introduction,
+      require,
+      contact,
+      now_number
+    })
     return response.data
   } catch (error) {
     console.error('创建队伍出错：', error)
@@ -358,24 +341,15 @@ export const updateTeam = async (
   contact: string
 ) => {
   try {
-    const response = await api.put(
-      '/myteam',
-      {
-        id,
-        name,
-        number,
-        introduction,
-        require,
-        contact,
-        now_number
-      },
-      {
-        headers: {
-          Authorization: 'Bearer ' + token,
-          'Content-Type': 'application/json'
-        }
-      }
-    )
+    const response = await api.put('/myteam', {
+      id,
+      name,
+      number,
+      introduction,
+      require,
+      contact,
+      now_number
+    })
     return response.data
   } catch (error) {
     console.error('创建队伍出错：', error)
@@ -897,12 +871,7 @@ const baseAuditRequest = async (
   }
 
   try {
-    const response = await api.post(url, data, {
-      headers: {
-        Authorization: `Bearer ${longtoken}`,
-        'Content-Type': 'application/json'
-      }
-    })
+    const response = await api.post(url, data)
     return response.data
   } catch (error) {
     console.error(`审核 ${endpoint.split('/')[1]} ${decision} 失败`, error)

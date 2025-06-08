@@ -44,9 +44,9 @@ const Item: React.FC<ItemProps> = ({ item, onDownload, onPreview }) => {
     <div className={styles.itemContainer}>
       <div className={styles.mainContent}>
         <h3 className={styles.title}>{item.name}</h3>
-        <p>文件大小: {sizeInMB} MB</p>
+        <div className={styles.textp}>文件大小: {sizeInMB} MB</div>
         <div className='flex w-full justify-between items-center'>
-          <span>热度: {item.hotness}</span>
+          <div className={styles.textspan}>热度: {item.hotness}</div>
           <div className={styles.previewButtonContainer}>
             <button className={styles.previewButton} onClick={handlePreview}>
               预览
@@ -70,8 +70,12 @@ const Item: React.FC<ItemProps> = ({ item, onDownload, onPreview }) => {
             </button>
           </div>
         </div>
-        {isLoadingPreview && <span>加载预览中...</span>}
-        {previewError && <span style={{ color: 'red' }}>{previewError}</span>}
+        {isLoadingPreview && <div className={styles.textspan}>加载预览中...</div>}
+        {previewError && (
+          <div className={styles.textspan} style={{ color: 'red' }}>
+            {previewError}
+          </div>
+        )}
       </div>
     </div>
   )

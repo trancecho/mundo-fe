@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Menu } from '@arco-design/web-react'
 import styles from './Navbar.module.css'
-import MobileNavbar from './MobileNavbar'
+import MobileNavbar from './mobile/MobileNavbar'
 const Navbar: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()

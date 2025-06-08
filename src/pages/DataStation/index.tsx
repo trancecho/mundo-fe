@@ -3,7 +3,7 @@ import Navbar from './Navbar'
 import Header from '@/components/Header/Header'
 import styles from './DataStation.module.css'
 import React, { useEffect, useState } from 'react'
-import MobileNavbar from './MobileNavbar'
+import MobileNavbar from './mobile/MobileNavbar'
 const DataStationContent: React.FC = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   useEffect(() => {

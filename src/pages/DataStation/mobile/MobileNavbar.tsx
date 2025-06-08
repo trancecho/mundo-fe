@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Menu } from '@arco-design/web-react'
-import styles from './Navbar.module.css'
+import styles from '../Navbar.module.css'
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate()

@@ -5,7 +5,7 @@ import styles from './ItemList.module.css'
 import { useSearch } from '@/components/Header/SearchContext'
 import { Pagination, Tabs, Spin } from '@arco-design/web-react'
 import { IconFire, IconClockCircle } from '@arco-design/web-react/icon'
-import MobileItemList from './MobileItemList'
+import MobileItemList from './mobile/MobileItemList'
 interface ItemListProps {
   category: string
 }

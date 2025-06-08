@@ -28,7 +28,6 @@ const InfoManage: React.FC = () => {
   const DEFAULT_AVATAR =
     'https://cdn.pixabay.com/photo/2018/05/31/15/06/see-no-evil-3444212_1280.jpg'
   const [avatar, setAvatar] = useState<string | null>(DEFAULT_AVATAR)
-  const navigate = useNavigate()
   const token = localStorage.getItem('longtoken')
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const [username, setUsername] = useState('')
@@ -158,7 +157,6 @@ const InfoManage: React.FC = () => {
   const handleGenerateAvatar = async () => {
     try {
       const response = await generateAvatar(token as string)
-      //console.log("avatar", response);
       if (response.code === 200) {
         const avatarData = await getAvatar(token as string)
         const avatarUrl = URL.createObjectURL(avatarData as Blob)
@@ -205,7 +203,7 @@ const InfoManage: React.FC = () => {
     try {
       const response = await updatePerson(token as string, username)
       setVisible(false)
-      //console.log('更新成功:', response.data);
+      Message.success('更新成功')
     } catch (error) {
       console.error('更新失败:', error)
     }

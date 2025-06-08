@@ -17,14 +17,15 @@
   text-align: left;
 }
 
-p {
+.textp {
   font-size: 15px;
   font-weight: 500;
   color: var(--text-secondary);
   line-height: 1.6;
+  text-align: left;
   margin: 0;
 }
-span {
+.textspan {
   font-size: 15px;
   font-weight: 400;
   color: var(--text-secondary);

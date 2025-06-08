@@ -5,7 +5,7 @@ import { useAuth } from '@/context/AuthContext'
 import { ImFilePicture } from 'react-icons/im'
 import { AiOutlineLike, AiFillLike } from 'react-icons/ai'
 import { getDetail, sendAnswer, changelike, checklike } from '@/router/api'
-import { Carousel, Notification } from '@arco-design/web-react'
+import { Carousel, Notification, Message } from '@arco-design/web-react'
 import RichInput from './RichInput'
 interface Answer {
   id: number
@@ -14,7 +14,8 @@ interface Answer {
   question_post_id: number
   picture: string[]
   like: number
-  tags: string[] | null
+  avatar: string
+  tags?: string[] | null
   // 建议添加时间字段（如果后端返回）
   created_at?: string
   is_like?: boolean
@@ -159,8 +160,7 @@ const SecureImage: React.FC<{ image: string }> = ({ image }) => {
   )
 }
 
-// 定义 DetailReply 组件类型，接收 answerData 作为属性，类型为 Answer
-const DetailReply: React.FC<{ answerData: Answer }> = ({ answerData }) => {
+const ReplyItem: React.FC<{ answerData: Answer }> = ({ answerData }) => {
   const [localAnswer, setLocalAnswer] = useState(answerData)
 
   function like() {
@@ -176,8 +176,12 @@ const DetailReply: React.FC<{ answerData: Answer }> = ({ answerData }) => {
   return (
     <div className={Style.DetailReply}>
       <div className={Style.user}>
-        <div className={Style.profile}></div>
-        <div className={Style.username}>用户名</div>
+        <img
+          src={answerData.avatar}
+          alt='User Avatar'
+          style={{ width: 40, height: 20, borderRadius: '50%' }}
+        />
+        <div className={Style.username}>{answerData.id}</div>
       </div>
       <div className={Style.content}>
         <div className={Style.replyTime}>{answerData.content}</div>
@@ -198,7 +202,6 @@ const DetailReply: React.FC<{ answerData: Answer }> = ({ answerData }) => {
             )}
             <span>{localAnswer.like}</span>
           </div>
-          {/* <FaRegCommentDots className={Style.icon} /> */}
         </div>
       </div>
     </div>
@@ -444,7 +447,7 @@ const DetailMessage: React.FC = () => {
                   <div className={Style.replyList}>
                     {finalMessage.answers.length > 0 ? (
                       finalMessage.answers.map((answer, index) => (
-                        <DetailReply key={index} answerData={answer} />
+                        <ReplyItem key={index} answerData={answer} />
                       ))
                     ) : (
                       <div className={Style.noAnswerTip}>暂时没有回答</div>
