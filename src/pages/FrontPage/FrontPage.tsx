@@ -1,6 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import styles from './FrontPage.module.css';
+import React from 'react'
+import { Link } from 'react-router-dom'
+import styles from './FrontPage.module.css'
 
 const FrontPage: React.FC = () => {
   return (
@@ -11,9 +11,15 @@ const FrontPage: React.FC = () => {
             <span className={styles.logoText}>MUNDO</span>
           </div>
           <nav className={styles.nav}>
-            <Link to="/login" className={styles.navLink}>登录</Link>
-            <Link to="/register" className={styles.navLink}>注册</Link>
-            <Link to="/qanda" className={styles.navLink}>探索</Link>
+            <Link to='/login' className={styles.navLink}>
+              登录
+            </Link>
+            <Link to='/register' className={styles.navLink}>
+              注册
+            </Link>
+            <Link to='/qanda' className={styles.navLink}>
+              探索
+            </Link>
           </nav>
         </div>
       </header>
@@ -22,17 +28,23 @@ const FrontPage: React.FC = () => {
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
             <span className={styles.titleGradient}>MUNDO</span>
-            <div className={styles.titleShadow} aria-hidden="true">MUNDO</div>
+            <div className={styles.titleShadow} aria-hidden='true'>
+              MUNDO
+            </div>
           </h1>
           <p className={styles.heroSubtitle}>
-            打造全方位的大学生学习助手
+            未央学社打造的全方位的大学生学习社区
             <br />
             知识分享 · 资源互助 · 高效学习
           </p>
 
           <div className={styles.heroActions}>
-            <Link to="/register" className={styles.heroCta}>立即加入</Link>
-            <Link to="/qanda" className={styles.heroSecondaryCta}>开始探索 →</Link>
+            <Link to='/register' className={styles.heroCta}>
+              立即加入
+            </Link>
+            <Link to='/qanda' className={styles.heroSecondaryCta}>
+              开始探索 →
+            </Link>
           </div>
 
           <div className={styles.stats}>
@@ -66,28 +78,36 @@ const FrontPage: React.FC = () => {
               <div className={styles.featureIcon}>💡</div>
               <h3>在线答疑</h3>
               <p>专业课程疑难解答，快速获得高质量解答，突破学习难点</p>
-              <Link to="/qanda" className={styles.featureLink}>立即提问 →</Link>
+              <Link to='/qanda' className={styles.featureLink}>
+                立即提问 →
+              </Link>
             </div>
 
             <div className={styles.featureCard}>
               <div className={styles.featureIcon}>🌐</div>
               <h3>学习论坛</h3>
               <p>分享学习经验，讨论热门话题，建立知识社区</p>
-              <Link to="/forum" className={styles.featureLink}>加入讨论 →</Link>
+              <Link to='/forum' className={styles.featureLink}>
+                加入讨论 →
+              </Link>
             </div>
 
             <div className={styles.featureCard}>
               <div className={styles.featureIcon}>👥</div>
               <h3>组队学习</h3>
               <p>找到志同道合的学习伙伴，组建高效学习小组，共同进步</p>
-              <Link to="/teamup" className={styles.featureLink}>寻找伙伴 →</Link>
+              <Link to='/teamup' className={styles.featureLink}>
+                寻找伙伴 →
+              </Link>
             </div>
 
             <div className={styles.featureCard}>
               <div className={styles.featureIcon}>📚</div>
               <h3>资料共享</h3>
               <p>海量优质学习资源，包含往年试题、笔记、实验报告等</p>
-              <Link to="/datastation" className={styles.featureLink}>浏览资料 →</Link>
+              <Link to='/datastation' className={styles.featureLink}>
+                浏览资料 →
+              </Link>
             </div>
 
             {/* <div className={styles.featureCard}>
@@ -106,7 +126,9 @@ const FrontPage: React.FC = () => {
               <p>
                 突破传统学习方式的局限，打造全新的互助学习生态系统
                 <br />
-                <span className={styles.highlight}>答疑解惑快速响应，平均解答时间不超过30分钟</span>
+                <span className={styles.highlight}>
+                  答疑解惑快速响应，平均解答时间不超过30分钟
+                </span>
               </p>
               <div className={styles.techStack}>
                 <span>实时答疑</span>
@@ -125,7 +147,9 @@ const FrontPage: React.FC = () => {
             <div className={styles.ctaText}>
               <p>加入MUNDO，与数万名大学生一起，开启你的高效学习之旅</p>
             </div>
-            <Link to="/register" className={styles.ctaButton}>立即注册</Link>
+            <Link to='/register' className={styles.ctaButton}>
+              立即注册
+            </Link>
           </div>
         </section>
       </main>
@@ -140,24 +164,36 @@ const FrontPage: React.FC = () => {
             <div className={styles.footerLinks}>
               <div className={styles.linkGroup}>
                 <h4>核心功能</h4>
-                <Link to="/qanda">在线答疑</Link>
-                <Link to="/forum">学习论坛</Link>
-                <Link to="/teamup">组队学习</Link>
-                <Link to="/datastation">资料站</Link>
-                {/* <Link to="/timerme">TimerMe</Link> */}
+                <Link to='/qanda'>在线答疑</Link>
+                <Link to='/forum'>学习论坛</Link>
+                <Link to='/teamup'>组队学习</Link>
+                <Link to='/datastation'>资料站</Link>
               </div>
               <div className={styles.linkGroup}>
                 <h4>快速入口</h4>
-                <Link to="/login">登录</Link>
-                <Link to="/register">注册</Link>
-                {/* <Link to="/center">创作者中心</Link> */}
+                <Link to='/login'>登录</Link>
+                <Link to='/register'>注册</Link>
               </div>
+            </div>
+          </div>
+
+          {/* 新增备案信息区块 */}
+          <div className={styles.footerRecord}>
+            <div className={styles.recordContent}>
+              <span>©2025 未央学社 MUNDO</span>
+              <a
+                href='https://beian.miit.gov.cn'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                浙ICP备2024090241号-2
+              </a>
             </div>
           </div>
         </div>
       </footer>
     </div>
-  );
-};
+  )
+}
 
-export default FrontPage;
+export default FrontPage
