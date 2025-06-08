@@ -33,7 +33,7 @@ export default defineConfig(({ mode }) => {
       // },
     },
     esbuild: {
-      jsxDev: mode === 'development' || mode === 'test'
+      jsxDev: mode === 'development'
     }
   }
 })
