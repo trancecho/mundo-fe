@@ -36,6 +36,19 @@ const PostListView: React.FC = () => {
   const total = data?.pageInfo.total || 0
   const postList = data?.posts || ([] as Array<Post>)
 
+  useEffect(() => {
+    const handleSearch = (event: CustomEvent<{ searchText: string }>) => {
+      const searchQuery = event.detail.searchText
+      setSearch(searchQuery)
+      setPage(1)
+    }
+
+    window.addEventListener('doQandaSearch', handleSearch as EventListener)
+    return () => {
+      window.removeEventListener('doQandaSearch', handleSearch as EventListener)
+    }
+  }, [])
+
   const handleMessageClick = (messageId: number) => {
     let longtoken = localStorage.getItem('longtoken')
     if (!longtoken) {

@@ -65,6 +65,12 @@ const MobileHeader: React.FC = () => {
       })
       window.dispatchEvent(searchEvent)
     }
+    if (currentPath.startsWith('/qanda')) {
+      const searchEvent = new CustomEvent('doQandaSearch', {
+        detail: { searchText: trimmedSearchText }
+      })
+      window.dispatchEvent(searchEvent)
+    }
   }
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
