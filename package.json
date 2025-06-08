@@ -12,6 +12,7 @@
     "preview": "vite preview",
     "build:dev": "vite build --mode development",
     "build:prod": "vite build --mode production",
+    "build:test": "vite build --mode test",
     "env": "npm install dotenv --save"
   },
   "dependencies": {

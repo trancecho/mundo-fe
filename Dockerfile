@@ -1,6 +1,10 @@
 # 使用 Node.js 作为构建环境
 FROM node:20-alpine AS builder
 
+# 接收构建环境参数（默认为 prod）
+ARG BUILD_ENV=prod
+ENV BUILD_ENV=${BUILD_ENV}
+
 # 设置工作目录
 WORKDIR /app
 
@@ -10,17 +14,8 @@ COPY . .
 # 安装依赖
 RUN npm install
 
-# 构建项目
-RUN npm run build:prod
-
-## 清理缓存
-#RUN npm cache clean --force
-#
-## 复制项目文件
-#COPY . .
-#
-## 检查构建输出
-#RUN ls -l /app/dist
+# 根据传入的 BUILD_ENV 参数执行对应构建命令
+RUN npm run build:$BUILD_ENV
 
 # 使用 Nginx 作为生产环境
 FROM nginx:alpine
