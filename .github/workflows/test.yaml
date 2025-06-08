@@ -25,5 +25,5 @@ jobs:
       - name: Build and push Docker image
         run: |
           export DOCKER_CONTENT_TRUST=0
-          docker build -t ${{ secrets.HARBOR_URL }}/mundo/mundo-fe-test:latest --build-arg BUILD_ENV=test .
+          docker build --build-arg BUILD_ENV=test -t ${{ secrets.HARBOR_URL }}/mundo/mundo-fe-test:latest  .
           docker push ${{ secrets.HARBOR_URL }}/mundo/mundo-fe-test:latest
