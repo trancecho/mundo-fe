@@ -5,6 +5,7 @@ import { useAuth } from '@/context/AuthContext'
 import { getteamup, searchTeam } from '../../router/api'
 import { SearchProvider } from '@/components/Header/SearchContext'
 import { Notification } from '@arco-design/web-react'
+import MobileTeamUp from './MobileTeamUP'
 type detail = {
   ID: number
   Name: string
@@ -118,6 +119,7 @@ const TeamContent = () => {
   const [data, setData] = useState<detail[]>([])
   const [check, setcheck] = useState<number | undefined>(undefined)
   const result = check !== undefined ? data.find(item => item.ID === check) : undefined
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
 
   const jumpto = (id: number | undefined) => {
     let longtoken = localStorage.getItem('longtoken')
@@ -131,6 +133,11 @@ const TeamContent = () => {
     }
     setcheck(id)
   }
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   useEffect(() => {
     getteamup().then(data => {
@@ -182,28 +189,33 @@ const TeamContent = () => {
       window.removeEventListener('doTeamSearch', handleSearch as EventListener)
     }
   }, [])
-
   return (
-    <div className={style.container}>
-      {/* <Header /> */}
-      <div className={style.teamGrid}>
-        {data.map(item => (
-          <Item
-            key={item.ID}
-            detail={item}
-            jumpto={() => jumpto(item.ID)}
-            check={check}
-          />
-        ))}
-      </div>
-      {result && (
-        <Detail
-          detail={result}
-          jumpto={() => jumpto(undefined)}
-          apply={() => apply(result.ID)}
-        />
+    <>
+      {isMobile ? (
+        <MobileTeamUp />
+      ) : (
+        <div className={style.container}>
+          {/* <Header /> */}
+          <div className={style.teamGrid}>
+            {data.map(item => (
+              <Item
+                key={item.ID}
+                detail={item}
+                jumpto={() => jumpto(item.ID)}
+                check={check}
+              />
+            ))}
+          </div>
+          {result && (
+            <Detail
+              detail={result}
+              jumpto={() => jumpto(undefined)}
+              apply={() => apply(result.ID)}
+            />
+          )}
+        </div>
       )}
-    </div>
+    </>
   )
 }
 

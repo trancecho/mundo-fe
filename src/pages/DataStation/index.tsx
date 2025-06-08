@@ -1,33 +1,22 @@
-import { Outlet } from 'react-router-dom';
-import Navbar from "./Navbar";
+import { Outlet } from 'react-router-dom'
+import Navbar from './Navbar'
 import Header from '@/components/Header/Header'
-import styles from './DataStation.module.css';
-import { SearchProvider } from "@/components/Header/SearchContext";
+import styles from './DataStation.module.css'
+import { SearchProvider } from '@/components/Header/SearchContext'
 
 const DataStationContent: React.FC = () => {
-    return (
-        <>
-            <div className={styles.container}>
-                {/* <Header /> */}
-                <div className={styles.content}>
-                    <Navbar />
-                    <div className={styles.mainContent}>
-                        <div className={styles.outletContainer}>
-                            <Outlet />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </>
-    );
-};
+  return (
+    // <SearchProvider>
+    <>
+      <div className={styles.container}>
+        <Navbar />
+        <div className={styles.outletContainer}>
+          <Outlet />
+        </div>
+      </div>
+    </>
+    // </SearchProvider>
+  )
+}
 
-const DataStation = () => {
-    return (
-        // <SearchProvider>
-        <DataStationContent />
-        // </SearchProvider>
-    );
-};
-
-export default DataStation;
+export default DataStationContent

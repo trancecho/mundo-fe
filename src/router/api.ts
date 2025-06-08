@@ -423,14 +423,14 @@ export const getPostList = async (
 //用户发送反馈
 export const createFeedBack = async (question: string) => {
   const response = await api.post('/feedback/send', {
-    question: question,
+    question: question
   })
   return response.data
 }
 
 //后台拿到反馈
-export const getFeedBack=async()=>{
-  const response=await api.get('/feedback/admissionread')
+export const getFeedBack = async () => {
+  const response = await api.get('/feedback/admissionread')
   return response.data.message.Content
 }
 
@@ -505,11 +505,17 @@ export const getFileList = async (
       case 'C语言':
         id = 45
         break
-      case '高数':
-        id = 46
+      case '高数上':
+        id = 49
         break
-      case '大物':
-        id = 47
+      case '高数下':
+        id = 50
+        break
+      case '大物上':
+        id = 51
+        break
+      case '大物下':
+        id = 52
         break
       case '其他':
         id = 48

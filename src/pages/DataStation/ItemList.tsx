@@ -3,7 +3,8 @@ import Item from './Item'
 import { getFileList, downloadFile, previewFile } from '@/router/api'
 import styles from './ItemList.module.css'
 import { useSearch } from '@/components/Header/SearchContext'
-import { Pagination } from '@arco-design/web-react'
+import { Pagination, Tabs, Spin } from '@arco-design/web-react'
+import { IconFire, IconClockCircle } from '@arco-design/web-react/icon'
 
 interface ItemListProps {
   category: string
@@ -36,7 +37,8 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
       try {
         const response = await getFileList(category, currentPage, pageSize, selectedTab)
         if (response.code === 200) {
-          const fileData = selectedTab === 'hot' ? response.data.sortby.hot : response.data.sortby.new
+          const fileData =
+            selectedTab === 'hot' ? response.data.sortby.hot : response.data.sortby.new
           setItems(fileData || [])
           setTotal(response.data.pagination.total)
         }
@@ -94,9 +96,7 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
 
         updateItems(items =>
           items.map(i =>
-            i.id === item.id
-              ? { ...i, isDownloading: false, isDownloaded: true }
-              : i
+            i.id === item.id ? { ...i, isDownloading: false, isDownloaded: true } : i
           )
         )
       }
@@ -122,34 +122,41 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
     }
   }
 
-  if (loading) return <p>加载中....</p>
-  if (error) return <p>{error}</p>
-
   return (
     <div className={styles.container}>
-      <div className={styles.buttonContainer}>
-        <button
-          onClick={() => handleSort('hot')}
-          className={`${styles.button} ${selectedTab === 'hot' ? styles.activeButton : ''}`}
-        >
-          最热
-        </button>
-        <button
-          onClick={() => handleSort('new')}
-          className={`${styles.button} ${selectedTab === 'new' ? styles.activeButton : ''}`}
-        >
-          最新
-        </button>
-      </div>
-      <div
-        style={{
-          flex: 1,
-          overflow: 'auto',
-          display: 'flex',
-          flexDirection: 'column'
-        }}
+      <Tabs
+        activeTab={selectedTab} // 将 defaultActiveTab 改为 activeTab
+        onChange={key => handleSort(key as 'hot' | 'new')}
+        className={styles.tabContainer}
       >
-        {items.length === 0 ? (
+        <Tabs.TabPane
+          key='hot'
+          title={
+            <span style={{ fontSize: '17px' }}>
+              <IconFire style={{ marginRight: 6 }} />
+              最热
+            </span>
+          }
+        />
+        <Tabs.TabPane
+          key='new'
+          title={
+            <span style={{ fontSize: '17px' }}>
+              <IconClockCircle style={{ marginRight: 6 }} />
+              最新
+            </span>
+          }
+        />
+      </Tabs>
+
+      <div className={styles.itemList}>
+        {error ? (
+          <p>{error}</p>
+        ) : loading ? (
+          <div style={{ display: 'flex', justifyContent: 'center', padding: '20px 0' }}>
+            <Spin />
+          </div>
+        ) : items.length === 0 ? (
           <p>没有资料</p>
         ) : (
           items.map(item => (
@@ -162,8 +169,9 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
           ))
         )}
       </div>
+
       {total > 0 && (
-        <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
+        <div className={styles.paginationContainer}>
           <Pagination
             total={total}
             current={currentPage}
@@ -175,17 +183,5 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
     </div>
   )
 }
-
-const styleSheet = document.createElement('style')
-styleSheet.textContent = `
-    button {
-        transition: all 0.3s ease !important;
-    }
-    
-    button:hover:not(:disabled) {
-        transform: scale(1.05) !important;
-    }
-`
-document.head.appendChild(styleSheet)
 
 export default ItemList

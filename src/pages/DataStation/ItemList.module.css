@@ -1,8 +1,8 @@
 .container {
   width: 100%;
-  padding: 2rem;
+  max-height: 85vh;
   border-radius: 12px;
-  background: var(--surface);
+  background: rgb(21, 24, 41);
   color: var(--text-primary);
   display: flex;
   flex-direction: column;
@@ -13,32 +13,22 @@
   -webkit-backdrop-filter: blur(12px);
 }
 
-.buttonContainer {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.button {
-  padding: 0.75rem 1.5rem;
-  cursor: pointer;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  background: var(--surface);
-  color: var(--text-secondary);
-  transition: all 0.3s ease;
+.tabContainer {
+  margin-top: 10px;
+  margin-bottom: 14px;
   font-weight: 500;
 }
 
-.button:hover {
-  background: var(--surface-light);
-  color: var(--text-primary);
-  transform: translateY(-2px);
+.itemList {
+  flex: 1;
+  overflow-y: scroll;
+  min-height: 0;
 }
 
-.activeButton {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: white;
-  border: none;
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  border-top: 1px solid var(--border-color);
 }
