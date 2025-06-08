@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {
-  getFeedBack
-} from '@/router/api'
+import { getFeedBack } from '@/router/api'
 
 interface QuestionResponse {
   question: string
@@ -20,9 +18,9 @@ export default function FAQPage() {
     try {
       const fetchedQuestions = await getFeedBack()
       setFaqData(
-        fetchedQuestions.map((q: QuestionResponse[], index: number) => ({
+        fetchedQuestions.map((q: QuestionResponse, index: number) => ({
           ...q,
-          id: index + 1,
+          id: index + 1
         }))
       )
     } catch (error) {
@@ -36,21 +34,13 @@ export default function FAQPage() {
 
   return (
     <div className='bg-slate-800 rounded-lg p-6 h-[80vh] overflow-auto'>
-      <h2 className='mb-6 text-xl font-semibold text-white'>
-        FeedBack
-      </h2>
+      <h2 className='mb-6 text-xl font-semibold text-white'>FeedBack</h2>
 
       {faqData.map((item, index) => (
         <div key={item.id || index} className='p-4 mb-4 rounded-lg shadow bg-slate-700'>
-          <p className='mb-2 text-left text-white'>
-            <span className='font-medium'>问题:</span> {item.question}
-          </p>
-          <p className='mb-4 text-left text-slate-300'>
-            <span className='font-medium text-white'>回答:</span> {item.answers}
-          </p>
+          <p className='mb-2 text-left text-white'>{item.question}</p>
         </div>
-      )
-      )}
+      ))}
     </div>
   )
 }

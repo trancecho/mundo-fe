@@ -24,7 +24,7 @@ const authApi = axios.create({
   }
 })
 export const longtoken = localStorage.getItem('longtoken')
-console.log('Token:', longtoken)
+// console.log('Token:', longtoken)
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_baseURL,
@@ -431,7 +431,7 @@ export const createFeedBack = async (question: string) => {
 //后台拿到反馈
 export const getFeedBack = async () => {
   const response = await api.get('/feedback/admissionread')
-  return response.data.message.Content
+  return response.data.data.message.Content
 }
 
 export const getTasks = async () => {
