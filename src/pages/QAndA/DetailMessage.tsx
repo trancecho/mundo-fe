@@ -2,12 +2,11 @@ import React, { useEffect, useState, useRef } from 'react'
 import Style from './DetailMessage.module.css'
 import { useParams } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
-// import { Dispatch, SetStateAction } from "react";
 import { ImFilePicture } from 'react-icons/im'
 import { FaRegCommentDots } from 'react-icons/fa'
 import { AiOutlineLike, AiFillLike } from 'react-icons/ai'
 import { getDetail, sendAnswer, changelike, checklike } from '@/router/api'
-import { Carousel } from '@arco-design/web-react'
+import { Carousel, Message } from '@arco-design/web-react'
 import MobileDetailMessage from './MobileDetailMessage'
 
 interface Answer {
@@ -17,8 +16,8 @@ interface Answer {
   question_post_id: number
   picture: string[]
   like: number
-  tags: string[] | null
-  // 建议添加时间字段（如果后端返回）
+  avatar: string
+  tags?: string[] | null
   created_at?: string
   is_like?: boolean
 }
@@ -81,17 +80,19 @@ const DetailQuestion: React.FC<DetailQuestionProps> = ({ title, question, views 
       </div>
       <div className={Style.detailQuestion}>{question}</div>
       {picture.length > 0 && (
-        <Carousel style={{ width: 500, height: 260 }}>
+        <Carousel style={{ width: '100%', height: 360 }}>
           {picture.map((pic: string, index: number) => (
-            <div className={Style.imgc} key={index}>
-              <img
-                src={pic}
-                alt='Image'
-                className={Style.img}
-                onClick={() => setIsOpen(index)}
-                style={{ cursor: 'pointer' }}
-              />
-            </div>
+            <img
+              src={pic}
+              alt='Image'
+              onClick={() => setIsOpen(index)}
+              style={{
+                width: '100',
+                height: '100%',
+                objectFit: 'cover',
+                cursor: 'pointer'
+              }}
+            />
           ))}
         </Carousel>
       )}
@@ -113,6 +114,7 @@ const DetailQuestion: React.FC<DetailQuestionProps> = ({ title, question, views 
 }
 
 const SecureImage: React.FC<{ image: string }> = ({ image }) => {
+  //放大图片
   const [isOpen, setIsOpen] = useState(false)
   function base64ToBlobUrl(image: string) {
     let mimeType = 'image/jpeg' // 默认值
@@ -165,10 +167,8 @@ const SecureImage: React.FC<{ image: string }> = ({ image }) => {
   )
 }
 
-// 定义 DetailReply 组件类型，接收 answerData 作为属性，类型为 Answer
-const DetailReply: React.FC<{ answerData: Answer }> = ({ answerData }) => {
+const ReplyItem: React.FC<{ answerData: Answer }> = ({ answerData }) => {
   const [localAnswer, setLocalAnswer] = useState(answerData)
-
   function like() {
     changelike(localAnswer.question_post_id, localAnswer.id).then(() => {
       setLocalAnswer({
@@ -182,8 +182,12 @@ const DetailReply: React.FC<{ answerData: Answer }> = ({ answerData }) => {
   return (
     <div className={Style.DetailReply}>
       <div className={Style.user}>
-        <div className={Style.profile}></div>
-        <div className={Style.username}>用户名</div>
+        <img
+          src={answerData.avatar}
+          alt='User Avatar'
+          style={{ width: 40, height: 40, borderRadius: '50%' }}
+        />
+        <div className={Style.username}>{answerData.id}</div>
       </div>
       <div className={Style.content}>
         <div className={Style.replyTime}>{answerData.content}</div>
@@ -195,7 +199,7 @@ const DetailReply: React.FC<{ answerData: Answer }> = ({ answerData }) => {
           </div>
         )}
         <div className={Style.information}>
-          <div className=''>{localAnswer.created_at}</div>
+          {/* <div className=''>{answerData.created_at}</div> */}
           <div className={Style.lay}>
             {localAnswer.is_like ? (
               <AiFillLike onClick={like} className={Style.icon} />
@@ -204,7 +208,6 @@ const DetailReply: React.FC<{ answerData: Answer }> = ({ answerData }) => {
             )}
             <span>{localAnswer.like}</span>
           </div>
-          <FaRegCommentDots className={Style.icon} />
         </div>
       </div>
     </div>
@@ -263,7 +266,7 @@ const Inputbox: React.FC<InputboxProps> = ({ id }) => {
           if (editableDivRef.current) {
             editableDivRef.current.innerHTML = '' // 清空内容
           }
-          console.log('上传成功：', response)
+          Message.success('发表成功，等待审核通过后展示')
           setformdata({
             content: '',
             picture: []
@@ -271,7 +274,6 @@ const Inputbox: React.FC<InputboxProps> = ({ id }) => {
         }
       } catch (error) {
         alert('上传失败')
-        console.error('上传失败：', error)
       } finally {
         console.log(formdata)
         setloading(false)
@@ -461,7 +463,7 @@ const DetailMessage: React.FC = () => {
                     <div className={Style.replyList}>
                       {finalMessage.answers.length > 0 ? (
                         finalMessage.answers.map((answer, index) => (
-                          <DetailReply key={index} answerData={answer} />
+                          <ReplyItem key={index} answerData={answer} />
                         ))
                       ) : (
                         <div className={Style.noAnswerTip}>暂时没有回答</div>

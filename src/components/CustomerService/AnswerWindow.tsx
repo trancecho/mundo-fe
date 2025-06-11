@@ -1,19 +1,19 @@
-import React, { useEffect, useRef, useState } from "react"
-import gsap from "gsap"
-import QuestionList from "./QuestionList"
-import { QQLink } from "./QQLink"
-import AIChat from "./AiChat"
-import styles from "./AnswerWindow.module.css"
-import CustomerServiceButton from "@/components/CustomerService/CustomerServiceButton"
-import BlurIn from "@/components/ui/blur-in"
-import { ConfettiButton } from "@/components/ui/confetti"
-import HumanChat from "./HumanChat"
-import FeedBack from "./FeedBack"
+import React, { useEffect, useRef, useState } from 'react'
+import gsap from 'gsap'
+import QuestionList from './QuestionList'
+import { QQLink } from './QQLink'
+import AIChat from './AiChat'
+import styles from './AnswerWindow.module.css'
+import CustomerServiceButton from '@/components/CustomerService/CustomerServiceButton'
+import BlurIn from '@/components/ui/blur-in'
+import { ConfettiButton } from '@/components/ui/confetti'
+// import HumanChat from './HumanChat'
+import FeedBack from './FeedBack'
 const AnswerWindow: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false)
   const windowRef = useRef(null)
   const toggleWindow = () => {
-    setIsOpen((prev) => !prev) // 切换客服答案窗口的显示和隐藏
+    setIsOpen(prev => !prev) // 切换客服答案窗口的显示和隐藏
   }
 
   useEffect(() => {
@@ -31,10 +31,10 @@ const AnswerWindow: React.FC = () => {
       <CustomerServiceButton onClick={toggleWindow} />
       {isOpen && (
         <div ref={windowRef} className={styles.answerWindow}>
-          <header className="mt-20">
+          <header className='mt-20'>
             <BlurIn
               className={styles.answerWindow_title}
-              word="有问题，就有答案"
+              word='有问题，就有答案'
               duration={0.75}
             />
           </header>
@@ -49,15 +49,15 @@ const AnswerWindow: React.FC = () => {
               <HumanChat />
             </section> */}
             <section>
-              <FeedBack/>
+              <FeedBack />
             </section>
           </main>
-          <footer className="flex justify-start w-full mt-5">
+          <footer className='flex justify-start w-full mt-5'>
             <QQLink />
           </footer>
-          <footer className="flex justify-start w-full mt-5">
+          <footer className='flex justify-start w-full mt-5'>
             <ConfettiButton
-              className="px-4 py-2 text-white bg-black rounded hover:bg-gray-800"
+              className='px-4 py-2 text-white bg-black rounded hover:bg-gray-800'
               options={{
                 get angle() {
                   return Math.random() * 360

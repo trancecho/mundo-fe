@@ -123,7 +123,7 @@ const FrontPage: React.FC = () => {
           <div className={styles.dynamicContent}>
             <div className={styles.dynamicText}>
               <h2>智慧学习新体验</h2>
-              <p>
+              <p className='text-[1rem]'>
                 突破传统学习方式的局限，打造全新的互助学习生态系统
                 <br />
                 <span className={styles.highlight}>

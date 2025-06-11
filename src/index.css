@@ -4,7 +4,6 @@
 
 /* ... */
 
-
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -35,8 +34,7 @@ body {
   /* place-items: center; */
   min-width: 320px;
   min-height: 100vh;
-  background-color: #F2F3F5;
-  
+  background-color: #f2f3f5;
 }
 
 h1 {
@@ -47,11 +45,6 @@ h1 {
 h2 {
   font-size: 2.8em;
   line-height: 1.2;
-}
-
-p {
-  font-size: 1.6em;
-  line-height: 1.5;
 }
 
 button {
@@ -69,7 +62,7 @@ button:hover {
   border-color: #646cff;
 }
 button:focus,
-button:focus-visible { 
+button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
@@ -82,7 +75,7 @@ button:focus-visible {
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border-color);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  overflow: auto; 
+  overflow: auto;
   max-width: 900px;
   max-height: 900px;
   transition: all 0.3s ease;
@@ -105,7 +98,7 @@ button:focus-visible {
 }
 
 .authTitle {
-  font-size: 2.5rem; 
+  font-size: 2.5rem;
   font-weight: 800;
   background: linear-gradient(45deg, #7c3aed, #3b82f6);
   -webkit-background-clip: text;
@@ -114,8 +107,8 @@ button:focus-visible {
   margin-bottom: 0.5rem;
 }
 @media (max-width: 768px) {
-  .authTitle{
-    font-size: 2rem!important;
+  .authTitle {
+    font-size: 2rem !important;
   }
 }
 @media (prefers-color-scheme: light) {
