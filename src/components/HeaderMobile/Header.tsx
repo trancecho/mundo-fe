@@ -69,6 +69,12 @@ const MobileHeader: React.FC = () => {
       })
       window.dispatchEvent(searchEvent)
     }
+    if (currentPath.startsWith('/datastation')) {
+      const searchEvent = new CustomEvent('doDataStationSearch', {
+        detail: { searchText: trimmedSearchText }
+      })
+      window.dispatchEvent(searchEvent)
+    }
   }
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

@@ -471,7 +471,8 @@ export const getFileList = async (
   category: string,
   page: number,
   pageSize: number,
-  sortby: 'hot' | 'new'
+  sortby: 'hot' | 'new',
+  search_text: string
 ) => {
   try {
     let id: number
@@ -504,7 +505,8 @@ export const getFileList = async (
         id,
         page,
         page_size: pageSize,
-        sortby
+        sortby,
+        search_text
       },
       {
         headers: { Authorization: 'Bearer ' + longtoken }
