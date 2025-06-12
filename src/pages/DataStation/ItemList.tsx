@@ -35,32 +35,40 @@ const ItemList: React.FC<ItemListProps> = ({ category }) => {
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true)
-      setError(null)
-      try {
-        const response = await getFileList(category, currentPage, pageSize, selectedTab)
-        if (response.code === 200) {
-          const fileData =
-            selectedTab === 'hot' ? response.data.sortby.hot : response.data.sortby.new
-          setItems(fileData || [])
-          setTotal(response.data.pagination.total)
-        }
-      } catch (error: any) {
-        console.error('Error fetching data:', error)
-        if (error.response?.status === 500) {
-          setError('登陆后即可查看资料！若已登陆，请刷新页面～')
-        } else {
-          setError('获取资料失败，请刷新页面或稍后再试')
-        }
-      } finally {
-        setLoading(false)
-      }
-    }
 
+  const fetchData = async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const response = await getFileList(category, currentPage, pageSize, selectedTab, searchText)
+      if (response.code === 200) {
+        const fileData =
+          selectedTab === 'hot' ? response.data.sortby.hot : response.data.sortby.new
+        setItems(fileData || [])
+        setTotal(response.data.pagination.total)
+      }
+    } catch (error: any) {
+      console.error('Error fetching data:', error)
+      if (error.response?.status === 500) {
+        setError('登陆后即可查看资料！若已登陆，请刷新页面～')
+      } else {
+        setError('获取资料失败，请刷新页面或稍后再试')
+      }
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
     fetchData()
   }, [category, currentPage, selectedTab])
+
+  useEffect(() => {
+    window.addEventListener('doDataStationSearch', fetchData as EventListener)
+    return () => {
+      window.removeEventListener('doDataStationSearch', fetchData as EventListener)
+    }
+  }, [searchText])
 
   const handleSort = (tab: 'hot' | 'new') => {
     setSelectedTab(tab)

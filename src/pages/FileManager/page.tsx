@@ -12,6 +12,7 @@ interface File {
     modifiedTime: string;
     size: string;
     fileUrl: string; // 文件下载的 URL
+    searchText: string;
 }
 
 interface Folder {
