@@ -8,6 +8,7 @@ import * as process from 'node:process'
 import Header from '@/components/Header/Header.tsx'
 import PrivacyPolicyModal from '@/components/ui/PrivacyPolicy.tsx'
 import TermsOfServiceModal from '@/components/ui/TermsOfService.tsx'
+import { Message } from '@arco-design/web-react'
 
 const Registerr: React.FC = () => {
   const [privacyModalVisible, setPrivacyModalVisible] = useState(false)
@@ -34,19 +35,27 @@ const Registerr: React.FC = () => {
     const url = callbackURL + callbackPath
 
     try {
-      //console.log(inputEmail);
-      // if (import.meta.env.VITE_mode === 'dev') {
-      //     await registerUser(inputEmail, inputEmail, url);
-      // } else {
-      //     //console.log('registerUser-prod');
-      // }
       await registerUser(inputEmail, inputEmail, url)
       setIsEmailSent(true)
       alert('验证邮件已发送，请查收邮箱完成验证！')
       setEmailFunc(inputEmail)
     } catch (error) {
       console.error('注册失败:', error)
-      alert('注册失败，请稍后再试！')
+      let message = '注册失败，请稍后再试！'
+
+      // @ts-ignore
+      if (error.response && error.response.data && error.response.data.message) {
+        // @ts-ignore
+        message = error.response.data.message
+      } else {
+        // @ts-ignore
+        if (error.message) {
+          // @ts-ignore
+          message = error.message
+        }
+      }
+
+      Message.error(message)
     }
   }
 
