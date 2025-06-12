@@ -11,15 +11,16 @@ import {
   bindWeChatEmail,
   bindHDUEmail,
   checkHelperLoginCallback,
-  verifyEmail
+  verifyEmail,
+  refreshLongToken
 } from '../../router/api.ts' // 导入登录函数
 import { useNavigate, useSearchParams, Link, useLocation } from 'react-router-dom'
 import { AxiosError } from 'axios'
-import PrivacyPolicyModal from "@/components/ui/PrivacyPolicy.tsx";
-import TermsOfServiceModal from "@/components/ui/TermsOfService.tsx";
+import PrivacyPolicyModal from '@/components/ui/PrivacyPolicy.tsx'
+import TermsOfServiceModal from '@/components/ui/TermsOfService.tsx'
 const Login = () => {
-  const [privacyModalVisible, setPrivacyModalVisible] = useState(false);
-  const [termsModalVisible, setTermsModalVisible] = useState(false);
+  const [privacyModalVisible, setPrivacyModalVisible] = useState(false)
+  const [termsModalVisible, setTermsModalVisible] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
@@ -92,15 +93,15 @@ const Login = () => {
   }
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
+    setPassword(e.target.value)
+  }
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
+    e.preventDefault()
+    setError(null)
     if (!isAgreed) {
-      Message.error('请先勾选同意隐私条款和服务条款');
-      return;
+      Message.error('请先勾选同意隐私条款和服务条款')
+      return
     }
     try {
       const data = await loginUser(email, password) // 调用登录函数
@@ -108,6 +109,7 @@ const Login = () => {
       setTokenFunc(data.data.token as string)
       setToken1(data.data.token)
       setAuthtokenflag(true)
+      refreshLongToken()
       navigate('/qanda')
     } catch (err) {
       Message.error(err?.response?.data?.message || '登录失败，请稍后重试')
@@ -151,6 +153,7 @@ const Login = () => {
           setTokenFunc(result.data.token as string)
           setToken1(result.data.token)
           setAuthtokenflag(true)
+          refreshLongToken()
           navigate('/qanda')
           setPolling(false)
           if (intervalId) clearInterval(intervalId)
@@ -200,6 +203,7 @@ const Login = () => {
           setTokenFunc(result.data.token as string)
           setToken1(result.data.token)
           setAuthtokenflag(true)
+          refreshLongToken()
           navigate('/qanda')
           setPolling(false)
           if (intervalId) clearInterval(intervalId)
@@ -317,6 +321,7 @@ const Login = () => {
             return handleBindEmail(newtoken as string)
           })
           .then(data => {
+            refreshLongToken()
             //console.log("绑定成功:", data);
             navigate('/qanda')
             resolve() // 绑定成功时返回成功
@@ -329,6 +334,7 @@ const Login = () => {
       } else {
         handleBindEmail(longtoken as string)
           .then(data => {
+            refreshLongToken()
             //console.log("绑定成功:", data);
             navigate('/qanda')
             resolve() // 绑定成功时返回成功
@@ -465,10 +471,17 @@ const Login = () => {
                   />
                   <label htmlFor='agreement' className={style.checkboxLabel}>
                     我已阅读并同意
-                    <span className={style.link} onClick={() => setPrivacyModalVisible(true)}>
+                    <span
+                      className={style.link}
+                      onClick={() => setPrivacyModalVisible(true)}
+                    >
                       《隐私政策》
-                    </span> 和
-                    <span className={style.link} onClick={() => setTermsModalVisible(true)}>
+                    </span>{' '}
+                    和
+                    <span
+                      className={style.link}
+                      onClick={() => setTermsModalVisible(true)}
+                    >
                       《服务条款》
                     </span>
                   </label>
@@ -539,7 +552,6 @@ const Login = () => {
         visible={termsModalVisible}
         onClose={() => setTermsModalVisible(false)}
       />
-
     </>
   )
 }

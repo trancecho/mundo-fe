@@ -13,7 +13,6 @@ import { Post } from '@/interfaces/post'
 const TabPane = Tabs.TabPane
 const PostListView: React.FC = () => {
   const { SubMenu, Item: MenuItem } = Menu
-  const navigate = useNavigate()
   const [category, setCategory] = useState('')
   const [sortby, setSortby] = useState('new')
   const [page, setPage] = useState(1)
@@ -31,10 +30,6 @@ const PostListView: React.FC = () => {
   const postList = data?.posts || ([] as Array<Post>)
 
   useEffect(() => {
-    console.log("this is mobile post list view")
-  }, [])
-
-  useEffect(() => {
     const handleSearch = (event: CustomEvent<{ searchText: string }>) => {
       const searchQuery = event.detail.searchText
       setSearch(searchQuery)
@@ -47,18 +42,6 @@ const PostListView: React.FC = () => {
     }
   }, [])
 
-  const handleMessageClick = (messageId: number) => {
-    let longtoken = localStorage.getItem('longtoken')
-    if (!longtoken) {
-      Notification.info({
-        closable: false,
-        title: '请先登录',
-        content: '请先登录后再进行操作。'
-      })
-      return
-    }
-    navigate(`/qanda/${messageId}`)
-  }
   const { tagsGrouped, loading } = useTagsMenu()
 
   const keyToTagNameMap = useMemo(() => {
@@ -124,9 +107,13 @@ const PostListView: React.FC = () => {
         </div>
         <div className='mobileRight flex flex-col w-full gap-[16px]'>
           <Tabs
-            activeTab={sortby}
+            activeTab={sortby ? sortby : 'default'}
             onChange={key => {
-              setSortby(key)
+              if (key === 'default') {
+                setSortby('')
+              } else {
+                setSortby(key)
+              }
               setPage(1)
             }}
           >

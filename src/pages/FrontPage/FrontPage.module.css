@@ -17,55 +17,55 @@
 }
 @media (max-width: 768px) {
   .nav {
-    gap: 0.5rem!important;
+    gap: 0.5rem !important;
   }
 
   .navLink {
-    padding: 0.5rem 0.5rem!important;
+    padding: 0.5rem 0.5rem !important;
   }
-  .heroSubtitle{
-    margin-bottom: 1.5rem!important;
+  .heroSubtitle {
+    margin-bottom: 1.5rem !important;
   }
-  .heroAction{
-    gap:0.5rem!important;
-    margin-bottom: 2rem!important;
+  .heroAction {
+    gap: 0.5rem !important;
+    margin-bottom: 2rem !important;
   }
-  .heroCta{
-    padding: 0.5rem 1.2rem!important;
+  .heroCta {
+    padding: 0.5rem 1.2rem !important;
   }
-  .heroSecondaryCta{
-    padding: 0.5rem 1.2rem!important;
+  .heroSecondaryCta {
+    padding: 0.5rem 1.2rem !important;
   }
-  .stats{
-    gap:1.2rem!important;
-    margin-top: 2rem!important;
+  .stats {
+    gap: 1.2rem !important;
+    margin-top: 2rem !important;
   }
-  .mainContent{
-    padding: 4rem 1rem 2rem!important;
+  .mainContent {
+    padding: 4rem 1rem 2rem !important;
   }
-  .sectionTitle{
-    margin-bottom: 2rem!important;
+  .sectionTitle {
+    margin-bottom: 1rem !important;
   }
-  .featureCard{
-    padding: 1rem!important;
+  .featureCard {
+    padding: 1rem !important;
   }
-  .dynamicSection{
-    padding: 2rem!important;
+  .dynamicSection {
+    padding: 2rem !important;
   }
-  .section{
-    margin: 0 auto 4rem!important;
+  .section {
+    margin: 0 auto 4rem !important;
   }
-  .ctaSection{
-    padding: 2rem 1rem!important;
+  .ctaSection {
+    padding: 2rem 1rem !important;
   }
-  .footer{
-    padding: 2rem 1rem 1rem!important;
+  .footer {
+    padding: 2rem 1rem 1rem !important;
   }
-  .ctaButton{
-    padding: 0.6rem 1.5rem!important;
+  .ctaButton {
+    padding: 0.6rem 1.5rem !important;
   }
-  .ctaText{
-    margin-bottom: 1rem!important;
+  .ctaText {
+    margin-bottom: 1rem !important;
   }
 }
 
@@ -202,10 +202,7 @@
 .heroCta:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 20px rgba(124, 58, 237, 0.3);
-}
-
-.heroCta:hover::before {
-  opacity: 1;
+  color: white;
 }
 
 /* 首屏Hero样式 */
@@ -236,9 +233,6 @@
   position: relative;
 }
 
-
-
-
 .titleGradient {
   background: linear-gradient(45deg, #7c3aed, #3b82f6);
   -webkit-background-clip: text;
@@ -264,29 +258,12 @@
   margin-bottom: 3rem;
 }
 
-
 .heroActions {
   display: flex;
   gap: 1.5rem;
   justify-content: center;
   margin-bottom: 4rem;
 }
-
-.heroCta {
-  background: linear-gradient(45deg, #7c3aed, #3b82f6);
-  color: white;
-  padding: 1rem 2.5rem;
-  border-radius: 50px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: transform 0.3s ease;
-}
-
-.heroCta:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(124, 58, 237, 0.3);
-}
-
 .heroSecondaryCta {
   display: flex;
   align-items: center;
@@ -353,9 +330,9 @@
 
 .sectionTitle {
   /* font-size: 2.5rem; */
-  font-size: clamp(2rem, 6vw, 4rem);
+  font-size: clamp(2rem, 6vw, 3rem);
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 1rem;
   position: relative;
 }
 
@@ -427,7 +404,7 @@
 
 .dynamicText h2 {
   /* font-size: 2rem; */
-  font-size: clamp(2rem, 6vw, 4rem);
+  font-size: clamp(2rem, 6vw, 3rem);
   margin-bottom: 1.5rem;
 }
 
@@ -561,11 +538,11 @@
   background: #3b82f6;
   transform: translateY(-3px);
 }
-.footerLinks{
-/*  水平排列*/
-    display: flex;
-    justify-content: space-between;
-    gap: 2rem;
+.footerLinks {
+  /*  水平排列*/
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
 }
 
 .ctaSection {

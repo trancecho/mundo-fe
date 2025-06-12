@@ -25,13 +25,36 @@
   color: var(--text-primary);
   padding: 2rem;
   padding-top: 96px;
+  gap: 2rem;
+  padding-right: 0px;
 }
-
+.mobileContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  margin: 0 auto;
+  justify-content: center;
+  position: relative;
+  background: radial-gradient(circle at 50% 100%, #0f172a, #020617);
+  color: var(--text-primary);
+  padding: 10px;
+  padding-top: 60px;
+  padding-bottom: 70px;
+  gap: 10px;
+}
 .outletContainer {
   display: flex;
-  width: 80%;
-  max-width: 1000px;
+  width: 100%;
+  max-width: 70%;
   flex-direction: column;
   flex: 1;
   gap: 1.5rem;
+}
+.mobileOutletContainer {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  flex: 1;
+  gap: 20px;
 }

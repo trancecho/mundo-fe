@@ -366,7 +366,31 @@
   object-fit: contain;
   cursor: zoom-out;
 }
-.answerPictures .img {
-  width: 16rem;
+.answerPictures {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* 所有图片初始为 100% 宽度 */
+.img {
+  width: 100%;
   height: auto;
+  object-fit: cover;
+}
+
+/* 当有 2 张图时，每张 50% 宽度 */
+.answerPictures:has(.img:nth-child(2)) .img {
+  width: 48%;
+}
+
+/* 当有 3 张图时，每张 33.333% 宽度 */
+.answerPictures:has(.img:nth-child(3)) .img {
+  width: 31%;
+}
+
+/* 超过 3 张图仍每张 33.333%（可选） */
+.answerPictures:has(.img:nth-child(4)) .img {
+  width: 31%;
 }

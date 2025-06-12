@@ -1,9 +1,7 @@
 .navbar {
   width: 250px;
   background: rgb(21, 24, 41);
-  padding: 1rem;
   border-radius: 8px;
-  margin-right: 2rem;
   border: 1px solid var(--border-color);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -11,11 +9,10 @@
   display: flex;
   flex-direction: column;
   height: fit-content;
-  position: sticky;
-  top: 2rem;
+  --color-menu-dark-bg: rgba(255, 255, 255, 0.05) !important;
 }
 
-.navItem {
+.navbar :global(.arco-menu-item) {
   text-align: center;
   padding: 0.75rem 1rem;
   cursor: pointer;
@@ -24,17 +21,17 @@
   transition: all 0.2s ease;
   margin: 0.5rem 0;
   color: #63656f;
-  font-size: 1rem;
+  font-size: 14px;
   font-weight: 500;
   background: #1e2230;
 }
 
-.navItem:hover:not(.active) {
+.navbar :global(.arco-menu-item:hover:not(.arco-menu-selected)) {
   background: var(--surface-light);
   color: var(--text-primary);
 }
 
-.active {
+.navbar :global(.arco-menu-selected) {
   background-color: rgb(51, 53, 68);
   color: white;
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import style from '@/pages/Login/Auth.module.css'
+import style from './Register.module.css'
 import Header from '@/components/Header/Header'
-import MobileEmailVerification from './MobileEmailVerification'
+
 // 定义API响应类型
 interface ApiResponse {
   code?: number
@@ -158,29 +158,20 @@ const EmailVerification: React.FC = () => {
     checkToken()
   }, [])
 
-  // // 加载Turnstile脚本
-  // useEffect(() => {
-  //   const script = document.createElement('script')
-  //   script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js'
-  //   script.async = true
-  //   script.defer = true
-  //   document.body.appendChild(script)
-  //
-  //   return () => {
-  //     document.body.removeChild(script)
-  //   }
-  // }, [])
+  // 加载Turnstile脚本
+  useEffect(() => {
+    const script = document.createElement('script')
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js'
+    script.async = true
+    script.defer = true
+    document.body.appendChild(script)
+
+    return () => {
+      document.body.removeChild(script)
+    }
+  }, [])
 
   // 声明Turnstile回调函数到window对象
-  // useEffect(() => {
-  //   ;(window as any).turnstileCallback = (token: string) => {
-  //     updateState({ turnstileToken: token })
-  //   }
-  //
-  //   return () => {
-  //     delete (window as any).turnstileCallback
-  //   }
-  // }, [])
   useEffect(() => {
     ;(window as any).turnstileCallback = (token: string) => {
       updateState({ turnstileToken: token })
@@ -190,22 +181,11 @@ const EmailVerification: React.FC = () => {
       delete (window as any).turnstileCallback
     }
   }, [])
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768) // 设置阈值
 
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     setIsMobile(window.innerWidth <= 768)
-  //   }
-  //   window.addEventListener('resize', handleResize)
-  //   return () => window.removeEventListener('resize', handleResize)
-  // }, [])
-
-  return isMobile ? (
-    <MobileEmailVerification />
-  ) : (
+  return (
     <>
       <div className={style.authContainer}>
-        <div className={style.authCard}>
+        <div className={style.authCardTitle}>
           <h1>邮箱验证</h1>
           <p>您正在验证 Mundo 账号的邮箱地址。请设置您的账号密码并完成人机验证。</p>
           <div className={style.authCard}>
@@ -234,19 +214,19 @@ const EmailVerification: React.FC = () => {
                 />
               </div>
 
-              {/*{state.tokenValid && (*/}
-              {/*  <div className='turnstile'>*/}
-              {/*    <div*/}
-              {/*      className='cf-turnstile'*/}
-              {/*      data-sitekey='0x4AAAAAABCu_mdkNh8Woksu'*/}
-              {/*      data-callback='turnstileCallback'*/}
-              {/*    ></div>*/}
-              {/*  </div>*/}
-              {/*)}*/}
+              {state.tokenValid && (
+                <div className='turnstile'>
+                  <div
+                    className='cf-turnstile'
+                    data-sitekey='0x4AAAAAABCu_mdkNh8Woksu'
+                    data-callback='turnstileCallback'
+                  ></div>
+                </div>
+              )}
 
               <button
                 type='submit'
-                // disabled={!validateForm() || state.isLoading}
+                disabled={!validateForm() || state.isLoading}
                 className={style.primaryButton}
               >
                 {state.isLoading ? '处理中...' : '完成验证'}

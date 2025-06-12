@@ -1,12 +1,13 @@
-// api.ts
 import axios from 'axios'
 import { Notification } from '@arco-design/web-react'
 import { AxiosResponse } from 'axios'
 import debounce from 'lodash/debounce'
+import { useState, useEffect } from 'react'
 
 // 防抖Notification
 const showLoginNotification = debounce(
   () => {
+    // localStorage.removeItem('longtoken')
     Notification.info({
       closable: false,
       title: '请先登录',
@@ -17,13 +18,24 @@ const showLoginNotification = debounce(
   { leading: true, trailing: false }
 )
 
+let longtoken: string | null = localStorage.getItem('longtoken')
+
+// 获取当前缓存的值（初始值）
+export const getLongToken = (): string | null => longtoken
+
+// 手动刷新（重新从 localStorage 读取）
+export const refreshLongToken = (): string | null => {
+  longtoken = localStorage.getItem('longtoken')
+  return longtoken
+}
+
 const authApi = axios.create({
   baseURL: import.meta.env.VITE_authURL,
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + longtoken
   }
 })
-export const longtoken = localStorage.getItem('longtoken')
 // console.log('Token:', longtoken)
 
 const api = axios.create({
@@ -295,16 +307,7 @@ export const updateAvatar = async (token: string, avatar: File) => {
 // 更新个人信息
 export const updatePerson = async (token: string, name: string) => {
   try {
-    const response = await authApi.put(
-      '/profile',
-      { name },
-      {
-        headers: {
-          Authorization: 'Bearer ' + token,
-          'Content-Type': 'application/json' // 改为 JSON 格式
-        }
-      }
-    )
+    const response = await authApi.put('/profile', { name })
     return response.data
   } catch (error) {
     console.error('更新个人信息出错：', error)
@@ -323,23 +326,14 @@ export const addTeam = async (
   contact: string
 ) => {
   try {
-    const response = await api.post(
-      '/myteam',
-      {
-        name,
-        number,
-        introduction,
-        require,
-        contact,
-        now_number
-      },
-      {
-        headers: {
-          Authorization: 'Bearer ' + token,
-          'Content-Type': 'application/json'
-        }
-      }
-    )
+    const response = await api.post('/myteam', {
+      name,
+      number,
+      introduction,
+      require,
+      contact,
+      now_number
+    })
     return response.data
   } catch (error) {
     console.error('创建队伍出错：', error)
@@ -358,24 +352,15 @@ export const updateTeam = async (
   contact: string
 ) => {
   try {
-    const response = await api.put(
-      '/myteam',
-      {
-        id,
-        name,
-        number,
-        introduction,
-        require,
-        contact,
-        now_number
-      },
-      {
-        headers: {
-          Authorization: 'Bearer ' + token,
-          'Content-Type': 'application/json'
-        }
-      }
-    )
+    const response = await api.put('/myteam', {
+      id,
+      name,
+      number,
+      introduction,
+      require,
+      contact,
+      now_number
+    })
     return response.data
   } catch (error) {
     console.error('创建队伍出错：', error)
@@ -497,7 +482,8 @@ export const getFileList = async (
   category: string,
   page: number,
   pageSize: number,
-  sortby: 'hot' | 'new'
+  sortby: 'hot' | 'new',
+  search_text: string
 ) => {
   try {
     let id: number
@@ -530,7 +516,8 @@ export const getFileList = async (
         id,
         page,
         page_size: pageSize,
-        sortby
+        sortby,
+        search_text
       },
       {
         headers: { Authorization: 'Bearer ' + longtoken }
@@ -897,12 +884,7 @@ const baseAuditRequest = async (
   }
 
   try {
-    const response = await api.post(url, data, {
-      headers: {
-        Authorization: `Bearer ${longtoken}`,
-        'Content-Type': 'application/json'
-      }
-    })
+    const response = await api.post(url, data)
     return response.data
   } catch (error) {
     console.error(`审核 ${endpoint.split('/')[1]} ${decision} 失败`, error)
