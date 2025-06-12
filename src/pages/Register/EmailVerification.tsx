@@ -158,29 +158,29 @@ const EmailVerification: React.FC = () => {
     checkToken()
   }, [])
 
-  // 加载Turnstile脚本
-  useEffect(() => {
-    const script = document.createElement('script')
-    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js'
-    script.async = true
-    script.defer = true
-    document.body.appendChild(script)
-
-    return () => {
-      document.body.removeChild(script)
-    }
-  }, [])
+  // // 加载Turnstile脚本
+  // useEffect(() => {
+  //   const script = document.createElement('script')
+  //   script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js'
+  //   script.async = true
+  //   script.defer = true
+  //   document.body.appendChild(script)
+  //
+  //   return () => {
+  //     document.body.removeChild(script)
+  //   }
+  // }, [])
 
   // 声明Turnstile回调函数到window对象
-  useEffect(() => {
-    ;(window as any).turnstileCallback = (token: string) => {
-      updateState({ turnstileToken: token })
-    }
-
-    return () => {
-      delete (window as any).turnstileCallback
-    }
-  }, [])
+  // useEffect(() => {
+  //   ;(window as any).turnstileCallback = (token: string) => {
+  //     updateState({ turnstileToken: token })
+  //   }
+  //
+  //   return () => {
+  //     delete (window as any).turnstileCallback
+  //   }
+  // }, [])
 
   return (
     <>
@@ -214,19 +214,19 @@ const EmailVerification: React.FC = () => {
                 />
               </div>
 
-              {state.tokenValid && (
-                <div className='turnstile'>
-                  <div
-                    className='cf-turnstile'
-                    data-sitekey='0x4AAAAAABCu_mdkNh8Woksu'
-                    data-callback='turnstileCallback'
-                  ></div>
-                </div>
-              )}
+              {/*{state.tokenValid && (*/}
+              {/*  <div className='turnstile'>*/}
+              {/*    <div*/}
+              {/*      className='cf-turnstile'*/}
+              {/*      data-sitekey='0x4AAAAAABCu_mdkNh8Woksu'*/}
+              {/*      data-callback='turnstileCallback'*/}
+              {/*    ></div>*/}
+              {/*  </div>*/}
+              {/*)}*/}
 
               <button
                 type='submit'
-                disabled={!validateForm() || state.isLoading}
+                // disabled={!validateForm() || state.isLoading}
                 className={style.primaryButton}
               >
                 {state.isLoading ? '处理中...' : '完成验证'}
