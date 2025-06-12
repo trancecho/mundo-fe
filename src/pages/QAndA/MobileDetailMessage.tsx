@@ -16,9 +16,9 @@ interface Answer {
   like: number
   avatar: string
   tags?: string[] | null
-  // 建议添加时间字段（如果后端返回）
   created_at?: string
   is_like?: boolean
+  username?: string
 }
 
 interface MessageDetail {
@@ -34,6 +34,7 @@ interface MessageDetail {
   pictures: string[]
   answer_count: number
   answers: Answer[]
+  username?: string
 }
 
 interface FormData {
@@ -179,9 +180,9 @@ const ReplyItem: React.FC<{ answerData: Answer }> = ({ answerData }) => {
         <img
           src={answerData.avatar}
           alt='User Avatar'
-          style={{ width: 40, height: 20, borderRadius: '50%' }}
+          style={{ width: 30, height: 30, borderRadius: '50%' }}
         />
-        <div className={Style.username}>{answerData.id}</div>
+        <div className={Style.username}>{answerData.username}</div>
       </div>
       <div className={Style.content}>
         <div className={Style.replyTime}>{answerData.content}</div>
@@ -344,7 +345,8 @@ const DetailMessage: React.FC = () => {
     is_official: false,
     created_at: '',
     tags: [],
-    answers: []
+    answers: [],
+    username: ''
   })
   function base64ToArrayBuffer(base64: string) {
     const binaryString = atob(base64)
@@ -399,6 +401,7 @@ const DetailMessage: React.FC = () => {
             is_official: apiData.officials || false,
             created_at: apiData.created_at || new Date().toISOString(),
             tags: apiData.tags || [],
+            username: apiData.username || '神秘用户',
             answers
           })
         } else {

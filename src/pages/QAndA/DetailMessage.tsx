@@ -12,6 +12,7 @@ import MobileDetailMessage from './MobileDetailMessage'
 interface Answer {
   id: number
   uid: number
+  username?: string | null
   content: string
   question_post_id: number
   picture: string[]
@@ -25,6 +26,7 @@ interface Answer {
 interface MessageDetail {
   id: number
   uid: number
+  username?: string | null
   title: string
   content: string
   tags: string[]
@@ -187,7 +189,7 @@ const ReplyItem: React.FC<{ answerData: Answer }> = ({ answerData }) => {
           alt='User Avatar'
           style={{ width: 40, height: 40, borderRadius: '50%' }}
         />
-        <div className={Style.username}>{answerData.id}</div>
+        <div className={Style.username}>{answerData.username}</div>
       </div>
       <div className={Style.content}>
         <div className={Style.replyTime}>{answerData.content}</div>
@@ -359,7 +361,8 @@ const DetailMessage: React.FC = () => {
     is_official: false,
     created_at: '',
     tags: [],
-    answers: []
+    answers: [],
+    username: ''
   })
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
 
@@ -400,6 +403,7 @@ const DetailMessage: React.FC = () => {
             setFinalMessage({
               id: apiData.id,
               uid: apiData.uid,
+              username: apiData.username || '神秘用户',
               title: apiData.title,
               content: apiData.content,
               pictures: pictures || [],
