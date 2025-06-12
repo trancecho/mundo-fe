@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Cross2Icon, ReloadIcon } from '@radix-ui/react-icons'
 import { deleteTeam, getMyTeam } from '@/router/api'
 import { Popconfirm, Message, Button, Modal, Input } from '@arco-design/web-react'
 
@@ -23,7 +22,6 @@ const TeamList: React.FC<TeamProps> = ({ Teams, onUpdateTeam, fetchTeams }) => {
   const [currentTeam, setCurrentTeam] = useState<Team | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [editModalVisible, setEditModalVisible] = useState(false)
-  const token = localStorage.getItem('longtoken')
 
   const handleEditClick = (team: Team) => {
     setCurrentTeam(team)

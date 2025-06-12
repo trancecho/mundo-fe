@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import Header from '@/components/Header/Header'
 import './Post.css'
-// import { getMessages, Message, ResponseData } from '@/router/api'
-import { Notification } from '@arco-design/web-react'
 import { Menu } from '@arco-design/web-react'
-import { IconApps, IconBug, IconBulb } from '@arco-design/web-react/icon'
+import { IconApps } from '@arco-design/web-react/icon'
 import { useTagsMenu } from './hooks/useTagsMenu'
-import { Tabs, Typography, Pagination } from '@arco-design/web-react'
+import { Tabs, Pagination } from '@arco-design/web-react'
 import { IconCalendar, IconClockCircle, IconUser } from '@arco-design/web-react/icon'
 import { usePostList } from './hooks/usePostData'
 import PostList from './PostList'
@@ -16,9 +13,6 @@ import MobilePostListView from './MobilePostListView'
 const TabPane = Tabs.TabPane
 const PostListView: React.FC = () => {
   const { SubMenu, Item: MenuItem } = Menu
-  const MenuItemGroup = Menu.ItemGroup
-  const navigate = useNavigate()
-  const location = useLocation()
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   const [category, setCategory] = useState('')
   const [sortby, setSortby] = useState('new')
@@ -36,18 +30,18 @@ const PostListView: React.FC = () => {
   const total = data?.pageInfo.total || 0
   const postList = data?.posts || ([] as Array<Post>)
 
-  const handleMessageClick = (messageId: number) => {
-    let longtoken = localStorage.getItem('longtoken')
-    if (!longtoken) {
-      Notification.info({
-        closable: false,
-        title: '请先登录',
-        content: '请先登录后再进行操作。'
-      })
-      return
+  useEffect(() => {
+    const handleSearch = (event: CustomEvent<{ searchText: string }>) => {
+      const searchQuery = event.detail.searchText
+      setSearch(searchQuery)
+      setPage(1)
     }
-    navigate(`/qanda/${messageId}`)
-  }
+
+    window.addEventListener('doQandaSearch', handleSearch as EventListener)
+    return () => {
+      window.removeEventListener('doQandaSearch', handleSearch as EventListener)
+    }
+  }, [])
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768)
     window.addEventListener('resize', handleResize)
@@ -73,7 +67,6 @@ const PostListView: React.FC = () => {
         <MobilePostListView />
       ) : (
         <>
-          {/* <Header /> */}
           <div className='QandAContainer'>
             <div style={{ height: 600, marginLeft: '20px' }}>
               <Menu
@@ -121,9 +114,13 @@ const PostListView: React.FC = () => {
             </div>
             <div className='right flex flex-col w-full gap-[16px] mr-[20px]'>
               <Tabs
-                activeTab={sortby}
+                activeTab={sortby ? sortby : 'default'}
                 onChange={key => {
-                  setSortby(key)
+                  if (key === 'default') {
+                    setSortby('')
+                  } else {
+                    setSortby(key)
+                  }
                   setPage(1)
                 }}
               >

@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { IoSearchOutline } from 'react-icons/io5'
 import styles from './MobileHeader.module.css'
 import { useAuth } from '../../context/AuthContext'
 import { getAvatar } from '@/router/api'
-import { IconExport, IconClose, IconSearch } from '@arco-design/web-react/icon'
+import { IconSearch } from '@arco-design/web-react/icon'
 import { Modal, Button, Input, Dropdown, Menu as NavManu } from '@arco-design/web-react'
 import { useSearch } from '../Header/SearchContext'
 import Menu from './MobileMenu'
@@ -14,13 +13,12 @@ const MobileHeader: React.FC = () => {
   const [isFocused, setIsFocused] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
-  const { longtoken } = useAuth()
+  const longtoken = localStorage.getItem('longtoken')
+  const { logout } = useAuth()
   const [visible, setVisible] = React.useState(false)
   const DEFAULT_AVATAR =
     'https://cdn.pixabay.com/photo/2018/05/31/15/06/see-no-evil-3444212_1280.jpg'
   const [avatar, setAvatar] = useState<string | null>(DEFAULT_AVATAR)
-
-
 
   // const onSearchChange: React.ChangeEventHandler<HTMLInputElement> = event => {
   //   setSearchText(event.target.value)
@@ -65,6 +63,18 @@ const MobileHeader: React.FC = () => {
       })
       window.dispatchEvent(searchEvent)
     }
+    if (currentPath.startsWith('/qanda')) {
+      const searchEvent = new CustomEvent('doQandaSearch', {
+        detail: { searchText: trimmedSearchText }
+      })
+      window.dispatchEvent(searchEvent)
+    }
+    if (currentPath.startsWith('/datastation')) {
+      const searchEvent = new CustomEvent('doDataStationSearch', {
+        detail: { searchText: trimmedSearchText }
+      })
+      window.dispatchEvent(searchEvent)
+    }
   }
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -75,7 +85,7 @@ const MobileHeader: React.FC = () => {
 
   const getSearchPlaceholder = () => {
     // const currentPath = location.pathname
-    return ""
+    return ''
     // if (currentPath.startsWith('/article')) {
     //   return '搜索文章...'
     // } else if (currentPath.startsWith('/qa')) {
@@ -95,9 +105,15 @@ const MobileHeader: React.FC = () => {
   }
   const dropList = (
     <NavManu>
-      <NavManu.Item key='1' onClick={() => navigate('/info')}>个人主页</NavManu.Item>
-      <NavManu.Item key='2' onClick={() => navigate('/center')}>创作者中心</NavManu.Item>
-      <NavManu.Item key='3' onClick={() => setVisible(true)}>登出</NavManu.Item>
+      <NavManu.Item key='1' onClick={() => navigate('/info')}>
+        个人主页
+      </NavManu.Item>
+      <NavManu.Item key='2' onClick={() => navigate('/center')}>
+        创作者中心
+      </NavManu.Item>
+      <NavManu.Item key='3' onClick={() => setVisible(true)}>
+        登出
+      </NavManu.Item>
     </NavManu>
   )
   return (
@@ -112,7 +128,7 @@ const MobileHeader: React.FC = () => {
             type='text'
             placeholder={getSearchPlaceholder()}
             value={searchText}
-            onChange={(value) => setSearchText(value)}
+            onChange={value => setSearchText(value)}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             onPressEnter={onSearch}
@@ -125,7 +141,10 @@ const MobileHeader: React.FC = () => {
         <div className={styles.userActions}>
           {!longtoken ? (
             <>
-              <Button className={`${styles.authButton} ${styles.registerButton}`} onClick={() => navigate('/login')}>
+              <Button
+                className={`${styles.authButton} ${styles.registerButton}`}
+                onClick={() => navigate('/login')}
+              >
                 登录
               </Button>
             </>
@@ -143,9 +162,7 @@ const MobileHeader: React.FC = () => {
             </>
           )}
           <Modal
-            title={
-              null
-            }
+            title={null}
             mask={true}
             maskClosable={true}
             maskStyle={{
@@ -188,6 +205,7 @@ const MobileHeader: React.FC = () => {
                   onClick={() => {
                     setVisible(false)
                     localStorage.setItem('longtoken', '')
+                    logout()
                     navigate('/')
                   }}
                 >

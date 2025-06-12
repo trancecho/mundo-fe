@@ -59,7 +59,6 @@
   cursor: text; /* 添加文本输入光标 */
 }
 
-
 .searchInput::placeholder {
   color: var(--text-secondary);
 }
@@ -74,6 +73,8 @@
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
 }
 
 .searchButton:hover {
@@ -109,11 +110,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(
-    135deg,
-    var(--primary-light),
-    var(--secondary-light)
-  );
+  background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -149,11 +146,7 @@
 }
 
 .registerButton:hover {
-  background: linear-gradient(
-    135deg,
-    var(--primary-dark),
-    var(--secondary-dark)
-  );
+  background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
   box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
 }
 
