@@ -22,29 +22,41 @@ let longtoken: string | null = localStorage.getItem('longtoken')
 
 // 获取当前缓存的值（初始值）
 export const getLongToken = (): string | null => longtoken
-
-// 手动刷新（重新从 localStorage 读取）
-export const refreshLongToken = (): string | null => {
-  longtoken = localStorage.getItem('longtoken')
-  return longtoken
-}
-
-const authApi = axios.create({
+let authApi = axios.create({
   baseURL: import.meta.env.VITE_authURL,
   headers: {
     'Content-Type': 'application/json',
     Authorization: 'Bearer ' + longtoken
   }
 })
-// console.log('Token:', longtoken)
 
-const api = axios.create({
+let api = axios.create({
   baseURL: import.meta.env.VITE_baseURL,
   headers: {
     'Content-Type': 'application/json',
-    Authorization: 'Bearer ' + longtoken // 登录所需token
+    Authorization: 'Bearer ' + longtoken
   }
 })
+
+// 手动刷新（重新从 localStorage 读取）
+export const refreshLongToken = (): string | null => {
+  longtoken = localStorage.getItem('longtoken')
+  authApi = axios.create({
+    baseURL: import.meta.env.VITE_authURL,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + longtoken
+    }
+  })
+  api = axios.create({
+    baseURL: import.meta.env.VITE_baseURL,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + longtoken
+    }
+  })
+  return longtoken
+}
 
 function handleUnauthorizedResponse<T = any>(response: AxiosResponse<T>) {
   const data: any = response.data
