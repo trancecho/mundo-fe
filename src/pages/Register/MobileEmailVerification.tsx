@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import style from '@/pages/Login/Auth.module.css'
+import style from './Register.module.css'
 import Header from '@/components/Header/Header'
-import MobileEmailVerification from './MobileEmailVerification'
+
 // 定义API响应类型
 interface ApiResponse {
   code?: number
@@ -181,22 +181,11 @@ const EmailVerification: React.FC = () => {
       delete (window as any).turnstileCallback
     }
   }, [])
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768) // 设置阈值
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768)
-    }
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
-
-  return isMobile ? (
-    <MobileEmailVerification />
-  ) : (
+  return (
     <>
       <div className={style.authContainer}>
-        <div className={style.authCard}>
+        <div className={style.authCardTitle}>
           <h1>邮箱验证</h1>
           <p>您正在验证 Mundo 账号的邮箱地址。请设置您的账号密码并完成人机验证。</p>
           <div className={style.authCard}>
