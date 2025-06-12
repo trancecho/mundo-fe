@@ -4,8 +4,6 @@ import { registerUser } from '../../router/api.ts'
 // import style from '../Login/Login.module.css';
 import style from '@/pages/Login/Auth.module.css'
 import { useNavigate, Link } from 'react-router-dom'
-import * as process from 'node:process'
-import Header from '@/components/Header/Header.tsx'
 import PrivacyPolicyModal from '@/components/ui/PrivacyPolicy.tsx'
 import TermsOfServiceModal from '@/components/ui/TermsOfService.tsx'
 import { Message } from '@arco-design/web-react'
@@ -66,7 +64,7 @@ const Registerr: React.FC = () => {
       <div className={style.gradientBackground}></div>
 
       <div className={style.authCard}>
-        <div className={style.authHeader}>
+        <div className={style.authHeader} style={{ marginBottom: '10px' }}>
           <h1 className={style.authTitle}>
             加入<span>MUNDO</span>
           </h1>
@@ -76,8 +74,8 @@ const Registerr: React.FC = () => {
         <div className={style.authBody}>
           {isEmailSent ? (
             <div className={style.successState}>
-              <div className={style.successIcon}>✓</div>
-              <h2>验证邮件已发送</h2>
+              <span className='text-[20px] mr-[10px]'>✓</span>
+              <span className='text-[20px]'>验证邮件已发送</span>
               <p>请检查 {inputEmail} 的收件箱完成验证</p>
               <button
                 className={style.secondaryButton}
