@@ -2,6 +2,7 @@ import axios from 'axios'
 import { Notification } from '@arco-design/web-react'
 import { AxiosResponse } from 'axios'
 import debounce from 'lodash/debounce'
+import { useState, useEffect } from 'react'
 
 // 防抖Notification
 const showLoginNotification = debounce(
@@ -16,7 +17,17 @@ const showLoginNotification = debounce(
   1000,
   { leading: true, trailing: false }
 )
-export const longtoken = localStorage.getItem('longtoken')
+
+let longtoken: string | null = localStorage.getItem('longtoken')
+
+// 获取当前缓存的值（初始值）
+export const getLongToken = (): string | null => longtoken
+
+// 手动刷新（重新从 localStorage 读取）
+export const refreshLongToken = (): string | null => {
+  longtoken = localStorage.getItem('longtoken')
+  return longtoken
+}
 
 const authApi = axios.create({
   baseURL: import.meta.env.VITE_authURL,
