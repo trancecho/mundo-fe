@@ -7,6 +7,7 @@ interface ApiResponse {
   code?: number
   err_code?: number
   message?: string
+  data?: any
 }
 
 // 定义URL参数类型
@@ -62,7 +63,7 @@ const EmailVerification: React.FC = () => {
 
   // 验证表单是否可提交
   const validateForm = (): boolean => {
-    return validatePasswords() && state.turnstileToken.length > 0
+    return validatePasswords()
   }
 
   // 处理表单提交
@@ -98,7 +99,10 @@ const EmailVerification: React.FC = () => {
         showResult('邮箱验证成功！您的账号已创建，3秒后将跳转到登录页面...', true)
         setTimeout(() => {
           // window.location.href = import.meta.env.VITE_callback + "/login";
-          window.location.href = '/login'
+          localStorage.setItem('longtoken', data.data?.token || '')
+          localStorage.setItem('email', params.email || '')
+          localStorage.setItem('username', data.data?.username || '')
+          window.location.href = '/qanda'
         }, 3000)
       } else {
         showResult(data.message || '验证失败，请重新注册', false)
@@ -207,7 +211,8 @@ const EmailVerification: React.FC = () => {
       <div className={style.authContainer}>
         <div className={style.authCard}>
           <h1>邮箱验证</h1>
-          <p>您正在验证 Mundo 账号的邮箱地址。请设置您的账号密码并完成人机验证。</p>
+          <p>您正在验证 Mundo 账号的邮箱地址。请设置您的账号密码。</p>
+          <br></br>
           <div className={style.authCard}>
             <form onSubmit={handleSubmit}>
               <div className={style.inputGroup}>
@@ -246,7 +251,7 @@ const EmailVerification: React.FC = () => {
 
               <button
                 type='submit'
-                // disabled={!validateForm() || state.isLoading}
+                disabled={!validateForm() || state.isLoading}
                 className={style.primaryButton}
               >
                 {state.isLoading ? '处理中...' : '完成验证'}
