@@ -20,10 +20,18 @@ export default defineConfig(({ mode }) => {
       devSourcemap: true
     },
     build: {
-      sourcemap: true
+      sourcemap: true,
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          // 生产环境移除 console
+          drop_console: true,
+          drop_debugger: true
+        }
+      }
     },
     server: {
-      port: env.VITE_port
+      port: Number(env.VITE_port)
       // proxy: {
       //     '/api': {
       //         target: process.env.baseURL,

@@ -5,7 +5,7 @@
   line-height: 1.2;
   position: relative;
   background: rgb(21, 24, 41);
-  height: 100px;
+  /* height: 120px; */
 }
 
 .itemContainer:hover {

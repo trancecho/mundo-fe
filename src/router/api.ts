@@ -329,7 +329,6 @@ export const updatePerson = async (token: string, name: string) => {
 
 // 创建队伍
 export const addTeam = async (
-  token: string,
   name: string,
   now_number: number,
   number: number,

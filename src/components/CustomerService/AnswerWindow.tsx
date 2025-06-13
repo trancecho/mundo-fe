@@ -31,7 +31,7 @@ const AnswerWindow: React.FC = () => {
       <CustomerServiceButton onClick={toggleWindow} />
       {isOpen && (
         <div ref={windowRef} className={styles.answerWindow}>
-          <header className='mt-20'>
+          <header>
             <BlurIn
               className={styles.answerWindow_title}
               word='有问题，就有答案'
