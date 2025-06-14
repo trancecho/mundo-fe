@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import TeamList from '@/pages/Info/TeamList'
+import './specialCss.css'
 import { ReloadIcon } from '@radix-ui/react-icons'
-import { Modal, Input, Message } from '@arco-design/web-react'
+import { Modal, Input, Message, Form } from '@arco-design/web-react'
 import {
   getAvatar,
   generateAvatar,
@@ -20,6 +21,7 @@ interface User {
   name: string
   email: string
 }
+const FormItem = Form.Item
 
 const InfoManage: React.FC = () => {
   const [user, setUser] = useState<User | null>(null)
@@ -32,38 +34,47 @@ const InfoManage: React.FC = () => {
   const [username, setUsername] = useState('')
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
 
-  //以下是组队资料
-  const [TeamTitle, setTeamTitle] = useState<String | null>('')
-  const [TeamDiscribe, setTeamDiscribe] = useState<String | null>('')
-  const [TeamRequest, setTeamRequest] = useState<String | null>('')
-  const [TeamTel, setTeamTel] = useState<String | null>('')
-  const [TeamWay, setTeamWay] = useState<String | null>('')
-  const [TeamNowNumber, setTeamNowNumber] = useState<number | null>(null)
-  const [TeamTotalNumber, setTeamTotalNumber] = useState<number | null>(null)
+  const [form] = Form.useForm()
   const [visible, setVisible] = useState(false)
   const [teamModalVisible, setTeamModalVisible] = useState(false)
   const resetForm = () => {
-    setTeamTitle('')
-    setTeamDiscribe('')
-    setTeamRequest('')
-    setTeamTel('')
-    setTeamWay('')
-    setTeamNowNumber(null)
-    setTeamTotalNumber(null)
+    form.resetFields()
   }
-  const isFormValid = () => {
-    return (
-      TeamTitle !== null &&
-      TeamTitle.trim() !== '' &&
-      TeamDiscribe !== null &&
-      TeamDiscribe.trim() !== '' &&
-      TeamRequest !== null &&
-      TeamRequest.trim() !== '' &&
-      TeamTel !== null &&
-      TeamTel.trim() !== '' &&
-      TeamNowNumber !== null &&
-      TeamTotalNumber !== null
-    )
+  const handleSubmitTeamAdd = async () => {
+    try {
+      const values = await form.validate()
+      const {
+        title,
+        description,
+        requirements,
+        contact,
+        contactWay,
+        currentNumber,
+        totalNumber
+      } = values
+
+      const fullContact = `${contactWay}:${contact}`
+
+      const response = await addTeam(
+        title,
+        Number(currentNumber),
+        Number(totalNumber),
+        description,
+        requirements,
+        fullContact
+      )
+      if (response.code === 200) {
+        await fetchTeams()
+        Message.success('创建成功')
+        setTeamModalVisible(false)
+        resetForm()
+      } else {
+        Message.error('创建失败,请稍后重试')
+      }
+    } catch (error) {
+      // 校验失败自动中断，无需额外处理
+      Message.error('请检查输入内容')
+    }
   }
   // 获取队伍列表
   const fetchTeams = async () => {
@@ -206,26 +217,6 @@ const InfoManage: React.FC = () => {
     }
   }
 
-  // 新建队伍
-  const handleSubmitTeamAdd = async () => {
-    try {
-      await addTeam(
-        token as string,
-        TeamTitle as string,
-        TeamNowNumber as number,
-        TeamTotalNumber as number,
-        TeamDiscribe as string,
-        TeamRequest as string,
-        TeamWay?.concat(':').concat(TeamTel as string) as string
-      )
-      fetchTeams()
-      Message.success('创建成功')
-      setTeamModalVisible(false)
-      resetForm()
-    } catch (error) {
-      //console.log('添加组队信息失败', error);
-    }
-  }
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768)
     window.addEventListener('resize', handleResize)
@@ -345,80 +336,107 @@ const InfoManage: React.FC = () => {
             autoFocus={false}
             focusLock={true}
             style={{ width: '384px' }}
-            okButtonProps={{ disabled: !isFormValid() }}
+            okButtonProps={{ disabled: !form.validate() }}
           >
             <div className='flex flex-col gap-1.5'>
-              <div className='mt-4 flex flex-row w-full items-center'>
-                <p className='font-medium text-[16px] text-white'>标题：</p>
-                <Input
-                  type='text'
-                  title='标题'
-                  value={TeamTitle as string}
-                  onChange={e => setTeamTitle(e)}
-                  style={{ marginLeft: '8px', flex: 1 }}
-                />
-              </div>
-              <div className='flex flex-row w-full items-start'>
-                <p className='font-medium text-[16px] mt-0 text-white'>描述：</p>
-                <Input.TextArea
-                  title='描述'
-                  value={TeamDiscribe as string}
-                  onChange={e => setTeamDiscribe(e)}
-                  style={{ marginLeft: '8px', flex: 1, height: '60px' }}
-                />
-              </div>
-              <div className='flex flex-row w-full items-start'>
-                <p className='font-medium text-[16px] mt-0 text-white'>要求：</p>
-                <Input.TextArea
-                  title='要求'
-                  value={TeamRequest as string}
-                  onChange={e => setTeamRequest(e)}
-                  style={{ marginLeft: '8px', flex: 1, height: '60px' }}
-                />
-              </div>
-              <div className='mt-4 flex flex-row w-full items-center'>
-                <p className='font-medium text-[16px] text-white'>联系方式：</p>
-                <Input
-                  type='text'
-                  title='联系方式'
-                  value={TeamTel as string}
-                  onChange={e => setTeamTel(e)}
-                  style={{ marginLeft: '8px', flex: 1 }}
-                />
-              </div>
-              <div className='mt-4 flex flex-row w-full items-center'>
-                <p className='font-medium text-[16px] text-white'>联系途径：</p>
-                <Input
-                  type='text'
-                  title='联系途径'
-                  value={TeamWay as string}
-                  onChange={e => setTeamWay(e)}
-                  style={{ marginLeft: '8px', flex: 1 }}
-                />
-              </div>
-              <div className='flex flex-row w-full items-center'>
-                <p className='font-medium text-[16px] text-white'>人数：</p>
-                <Input
-                  title='人数1'
-                  type='number'
-                  value={TeamNowNumber?.toString()}
-                  onChange={e => setTeamNowNumber(Number(e))}
-                  style={{
-                    marginLeft: '8px',
-                    width: '40px',
-                    paddingLeft: '2px',
-                    paddingRight: '2px'
-                  }}
-                />
-                <p className='font-medium text-[16px] text-white mx-2'>/</p>
-                <Input
-                  title='人数2'
-                  type='number'
-                  value={TeamTotalNumber?.toString()}
-                  onChange={e => setTeamTotalNumber(Number(e))}
-                  style={{ width: '40px', paddingLeft: '2px', paddingRight: '2px' }}
-                />
-              </div>
+              <Form
+                form={form}
+                layout='horizontal'
+                style={{ width: '100%', gap: '10px' }}
+                className='specialModal'
+                initialValues={{
+                  title: '',
+                  description: '',
+                  requirements: '',
+                  contact: '',
+                  contactWay: '',
+                  currentNumber: 0,
+                  totalNumber: 0
+                }}
+                labelCol={{ span: 6 }}
+                wrapperCol={{ span: 18 }}
+              >
+                <FormItem
+                  label='标题'
+                  field='title'
+                  style={{ marginTop: 0, marginBottom: 0 }}
+                  rules={[{ required: true, message: '请输入标题' }]}
+                >
+                  <Input type='text' title='标题' style={{ flex: 1 }} />
+                </FormItem>
+
+                <FormItem
+                  label='描述'
+                  field='description'
+                  style={{ margin: 0 }}
+                  rules={[{ required: true, message: '请输入描述' }]}
+                >
+                  <Input.TextArea title='描述' style={{ flex: 1, height: '60px' }} />
+                </FormItem>
+
+                <FormItem
+                  label='要求'
+                  field='requirements'
+                  style={{ margin: 0 }}
+                  rules={[{ required: true, message: '请输入要求' }]}
+                >
+                  <Input.TextArea title='要求' style={{ flex: 1, height: '60px' }} />
+                </FormItem>
+
+                <FormItem
+                  label='联系途径'
+                  field='contactWay'
+                  style={{ margin: 0 }}
+                  rules={[{ required: true, message: '请输入联系途径' }]}
+                >
+                  <Input
+                    type='text'
+                    title='联系途径'
+                    placeholder='如：QQ'
+                    style={{ flex: 1 }}
+                  />
+                </FormItem>
+                <FormItem
+                  label='联系方式'
+                  field='contact'
+                  style={{ margin: 0 }}
+                  rules={[{ required: true, message: '请输入联系方式' }]}
+                >
+                  <Input
+                    type='text'
+                    title='联系方式'
+                    placeholder='如：1234567890'
+                    style={{ flex: 1 }}
+                  />
+                </FormItem>
+                <FormItem
+                  label='人数(当前/总需)'
+                  field='numbers'
+                  rules={[
+                    {
+                      validator(value, callback) {
+                        const cur = form.getFieldValue('currentNumber')
+                        const total = form.getFieldValue('totalNumber')
+                        if (cur == null || total == null) {
+                          callback('请输入人数')
+                        } else {
+                          callback()
+                        }
+                      }
+                    }
+                  ]}
+                >
+                  <div className='flex items-center'>
+                    <FormItem field='currentNumber' noStyle>
+                      <Input type='number' style={{ width: '60px' }} />
+                    </FormItem>
+                    <span className='mx-2 text-white'>/</span>
+                    <FormItem field='totalNumber' noStyle>
+                      <Input type='number' style={{ width: '60px' }} />
+                    </FormItem>
+                  </div>
+                </FormItem>
+              </Form>
             </div>
           </Modal>
         </>
