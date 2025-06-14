@@ -229,8 +229,8 @@ const InfoManage: React.FC = () => {
         <MobilePage />
       ) : (
         <>
-          <div className='flex flex-col min-h-screen w-full mx-auto relative justify-center'>
-            <div className='flex flex-col mt-[12vh]  items-center mb-8 p-8 rounded-xl bg-[var(--surface)] backdrop-blur-md border border-[var(--border-color)] shadow-lg flex-1 overflow-auto max-w-[900px] min-w-[600px] transition-all duration-300 ease-in-out mx-auto'>
+          <div className='flex flex-col min-h-screen pt-[96px] pb-[2rem] w-full mx-auto relative justify-center'>
+            <div className='flex flex-col p-8 mx-auto items-center rounded-xl bg-[var(--surface)] backdrop-blur-md border border-[var(--border-color)] shadow-lg flex-1 overflow-auto w-[80vw] transition-all duration-300 ease-in-out mx-auto'>
               <div className='flex flex-row w-full relative'>
                 <div className='w-[6.25rem] h-[6.25rem] rounded-full ml-[1.25rem] mt-[1.25rem] overflow-hidden'>
                   <img
