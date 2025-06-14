@@ -1,17 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogTrigger
-} from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
+import { Input } from '@arco-design/web-react'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { Modal } from '@arco-design/web-react'
 import * as base64 from 'base-64'
 import styles from './AnswerWindow.module.css'
+
 interface AIResponseChoice {
   content: string
 }
@@ -19,6 +13,7 @@ interface AIResponseChoice {
 const AIChat: React.FC = () => {
   const [messages, setMessages] = useState<{ sender: 'user' | 'ai'; text: string }[]>([])
   const [inputText, setInputText] = useState<string>('')
+  const [visible, setVisible] = useState(false)
   const connectedRef = useRef<boolean>(false) // WebSocket连接状态的Ref
   const socketRef = useRef<WebSocket | null>(null) // Persistent WebSocket reference
 
@@ -158,61 +153,64 @@ const AIChat: React.FC = () => {
   }
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <div className={styles.box_styles_touchable}>
-          <div className={styles.font_styles}>开始AI聊天</div>
-        </div>
-      </DialogTrigger>
-      <DialogContent className='sm:max-w-[425px]'>
-        <DialogHeader>
-          <DialogTitle>AI 聊天</DialogTitle>
-          <DialogDescription>
-            你可以与 AI 进行对话，获取自动化的帮助。<br></br>（记得先登陆哦～）
-          </DialogDescription>
-        </DialogHeader>
-        <ScrollArea>
-          {/* 聊天区 */}
-          <div className='flex flex-col space-y-2 max-h-[300px] overflow-y-auto mb-4'>
-            {messages.map((message, index) => (
-              <div
-                key={index}
-                className={`flex ${
-                  message.sender === 'user' ? 'justify-end' : 'justify-start'
-                } gap-2`}
-              >
-                <div
-                  className={`p-3 rounded-lg max-w-xs ${
-                    message.sender === 'user'
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-gray-300 text-gray-800'
-                  }`}
-                >
-                  <strong>{message.sender === 'user' ? '你: ' : 'AI: '}</strong>
-                  <span>{message.text}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </ScrollArea>
+    <>
+      <div className={styles.box_styles_touchable} onClick={() => setVisible(true)}>
+        <div className={styles.font_styles}>开始AI聊天</div>
+      </div>
 
-        {/* 输入框和发送按钮 */}
-        <div className='flex items-center space-x-2'>
-          <Input
-            value={inputText}
-            onChange={e => setInputText(e.target.value)}
-            className='flex-1 p-2 border rounded-md'
-            placeholder='输入你的问题...'
-          />
-          <Button
-            onClick={handleSendMessage}
-            className='text-white bg-blue-500 hover:bg-blue-600'
-          >
-            发送
-          </Button>
+      <Modal
+        title='AI 聊天'
+        visible={visible}
+        onCancel={() => setVisible(false)}
+        footer={null}
+        style={{ maxWidth: '80vw' }}
+      >
+        <div className='w-full h-full flex flex-col'>
+          <div className='text-[14px] mb-4'>
+            (来跟妲己玩耍吧~,记得先登陆哦~)<br></br>你可以与 AI 进行对话。
+          </div>
+
+          <ScrollArea>
+            <div className='flex flex-col space-y-2 max-h-[300px] overflow-y-auto mb-4'>
+              {messages.map((message, index) => (
+                <div
+                  key={index}
+                  className={`flex ${
+                    message.sender === 'user' ? 'justify-end' : 'justify-start'
+                  } gap-2`}
+                >
+                  <div
+                    className={`p-3 rounded-lg max-w-xs ${
+                      message.sender === 'user'
+                        ? 'bg-blue-500 text-white'
+                        : 'bg-gray-300 text-gray-800'
+                    }`}
+                  >
+                    <strong>{message.sender === 'user' ? '你: ' : 'AI: '}</strong>
+                    <span>{message.text}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </ScrollArea>
+
+          <div className='flex items-center space-x-2'>
+            <Input
+              value={inputText}
+              onChange={e => setInputText(e.target.value)}
+              className='flex-1 p-2 border rounded-md'
+              placeholder='输入你的问题...'
+            />
+            <Button
+              onClick={handleSendMessage}
+              className='text-white bg-blue-500 hover:bg-blue-600'
+            >
+              发送
+            </Button>
+          </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      </Modal>
+    </>
   )
 }
 

@@ -1,0 +1,11 @@
+.specialModal {
+  .arco-form-label-item > label {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+  }
+  .arco-form-item > .arco-form-label-item {
+    padding-right: 5px;
+    text-align: left;
+  }
+}
