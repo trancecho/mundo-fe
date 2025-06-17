@@ -62,7 +62,7 @@ const EmailVerification: React.FC = () => {
 
   // 验证表单是否可提交
   const validateForm = (): boolean => {
-    return validatePasswords() && state.turnstileToken.length > 0
+    return validatePasswords()
   }
 
   // 处理表单提交
@@ -158,18 +158,18 @@ const EmailVerification: React.FC = () => {
     checkToken()
   }, [])
 
-  // 加载Turnstile脚本
-  useEffect(() => {
-    const script = document.createElement('script')
-    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js'
-    script.async = true
-    script.defer = true
-    document.body.appendChild(script)
-
-    return () => {
-      document.body.removeChild(script)
-    }
-  }, [])
+  // // 加载Turnstile脚本
+  // useEffect(() => {
+  //   const script = document.createElement('script')
+  //   script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js'
+  //   script.async = true
+  //   script.defer = true
+  //   document.body.appendChild(script)
+  //
+  //   return () => {
+  //     document.body.removeChild(script)
+  //   }
+  // }, [])
 
   // 声明Turnstile回调函数到window对象
   useEffect(() => {
@@ -214,15 +214,15 @@ const EmailVerification: React.FC = () => {
                 />
               </div>
 
-              {state.tokenValid && (
-                <div className='turnstile'>
-                  <div
-                    className='cf-turnstile'
-                    data-sitekey='0x4AAAAAABCu_mdkNh8Woksu'
-                    data-callback='turnstileCallback'
-                  ></div>
-                </div>
-              )}
+              {/*{state.tokenValid && (*/}
+              {/*  <div className='turnstile'>*/}
+              {/*    <div*/}
+              {/*      className='cf-turnstile'*/}
+              {/*      data-sitekey='0x4AAAAAABCu_mdkNh8Woksu'*/}
+              {/*      data-callback='turnstileCallback'*/}
+              {/*    ></div>*/}
+              {/*  </div>*/}
+              {/*)}*/}
 
               <button
                 type='submit'
