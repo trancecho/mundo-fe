@@ -5,7 +5,7 @@ import styles from './CreatorCenter.module.css'
 import { fetchTags, post } from '../../router/api'
 import MobileCreatorCenter from './MobileCreatorCenter'
 type ContentType = 'qanda' | 'article' | 'team' | 'resource'
-
+import Editor from '@/components/QuillEditor'
 interface ContentForm {
   title: string
   content: string
@@ -176,7 +176,7 @@ const CreatorCenter: React.FC = () => {
                 placeholder='输入内容（必填）'
                 className={styles.contentInput}
               />
-
+              {/* <Editor /> */}
               <div className={styles.fileUpload}>
                 <input
                   type='file'
