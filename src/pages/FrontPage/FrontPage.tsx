@@ -76,21 +76,21 @@ const FrontPage: React.FC = () => {
           <div className={styles.featuresGrid}>
             <div className={styles.featureCard}>
               <div className={styles.featureIcon}>💡</div>
-              <h3>在线答疑</h3>
+              <h3>论坛答疑</h3>
               <p>专业课程疑难解答，快速获得高质量解答，突破学习难点</p>
               <Link to='/qanda' className={styles.featureLink}>
                 立即提问 →
               </Link>
             </div>
 
-            <div className={styles.featureCard}>
+            {/* <div className={styles.featureCard}>
               <div className={styles.featureIcon}>🌐</div>
               <h3>学习论坛</h3>
               <p>分享学习经验，讨论热门话题，建立知识社区</p>
               <Link to='/forum' className={styles.featureLink}>
                 加入讨论 →
               </Link>
-            </div>
+            </div> */}
 
             <div className={styles.featureCard}>
               <div className={styles.featureIcon}>👥</div>
@@ -131,7 +131,7 @@ const FrontPage: React.FC = () => {
                 </span>
               </p>
               <div className={styles.techStack}>
-                <span>实时答疑</span>
+                <span>论坛答疑</span>
                 <span>资源共享</span>
                 <span>学习社区</span>
                 <span>组队协作</span>
@@ -165,7 +165,7 @@ const FrontPage: React.FC = () => {
               <div className={styles.linkGroup}>
                 <h4>核心功能</h4>
                 <Link to='/qanda'>在线答疑</Link>
-                <Link to='/forum'>学习论坛</Link>
+                {/* <Link to='/forum'>学习论坛</Link> */}
                 <Link to='/teamup'>组队学习</Link>
                 <Link to='/datastation'>资料站</Link>
               </div>

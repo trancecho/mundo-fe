@@ -413,7 +413,7 @@ const DetailMessage: React.FC = () => {
     }
 
     fetchData()
-  }, [])
+  }, [id])
 
   useEffect(() => {
     return () => {

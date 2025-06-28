@@ -197,7 +197,7 @@ const AIChat: React.FC = () => {
           <div className='flex items-center space-x-2'>
             <Input
               value={inputText}
-              onChange={e => setInputText(e.target.value)}
+              onChange={e => setInputText(e)}
               className='flex-1 p-2 border rounded-md'
               placeholder='输入你的问题...'
             />

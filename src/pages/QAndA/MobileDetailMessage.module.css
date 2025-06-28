@@ -64,6 +64,9 @@
 .questionMessage {
   text-align: left;
   font-size: 14px;
+  width: 100%;
+  text-wrap: auto;
+  overflow-wrap: break-word;
 }
 
 .Title {
