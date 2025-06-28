@@ -287,3 +287,52 @@
     transform: rotate(360deg);
   }
 }
+
+.editorTypeSelector {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.editorTypeButton {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.editorTypeButton:hover {
+  background: #f5f5f5;
+}
+
+.editorTypeButton.active {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.editorWrapper {
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.richEditor {
+  height: 300px;
+}
+
+.richEditor :global(.ql-container) {
+  height: 250px;
+  font-size: 16px;
+}
+
+.markdownEditor {
+  height: 300px;
+}
+
+.markdownEditor :global(.w-md-editor) {
+  height: 100%;
+}
