@@ -48,9 +48,9 @@ const Item: React.FC<ItemProps> = ({ item, onDownload, onPreview }) => {
         <div className='flex w-full justify-between items-center'>
           <div className={styles.textspan}>热度: {item.hotness}</div>
           <div className={styles.previewButtonContainer}>
-            <button className={styles.previewButton} onClick={handlePreview}>
+            {/* <button className={styles.previewButton} onClick={handlePreview}>
               预览
-            </button>
+            </button> */}
             <button
               className={`${styles.downloadButton} ${
                 item.isDownloading

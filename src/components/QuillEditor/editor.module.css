@@ -1,0 +1,115 @@
+.specialEditor {
+  height: 50vh;
+}
+
+/* svg的样式 */
+.specialEditor :global(button svg .ql-stroke) {
+  stroke: var(--color-neutral-8);
+}
+
+.specialEditor :global(button svg polyline),
+.specialEditor :global(button svg path),
+.specialEditor :global(button svg rect),
+.specialEditor :global(button svg line) {
+  stroke: var(--color-neutral-8);
+}
+
+.specialEditor :global(svg g.ql-fill) * {
+  stroke: var(--color-neutral-8);
+  fill: var(--color-neutral-8);
+  opacity: 0.4;
+}
+
+.specialEditor :global(.ql-picker) {
+  color: var(--color-neutral-8) !important;
+}
+
+.specialEditor :global(.ql-stroke) {
+  stroke: var(--color-neutral-8) !important;
+}
+
+.specialEditor :global(.ql-snow .ql-picker-options) {
+  background-color: var(--color-bg-2);
+  color: var(--color-neutral-8);
+  border: none !important;
+}
+
+.specialEditor :global(.ql-toolbar) {
+  border: 1px solid rgba(122, 58, 237, 0.3);
+  background-color: var(--color-fill-3);
+}
+
+.specialEditor :global(.ql-container) {
+  border: 1px solid rgba(122, 58, 237, 0.3);
+  background-color: var(--color-fill-2);
+}
+
+/* 字体样式 */
+.specialEditor :global(.ql-editor) {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+}
+
+.specialEditor :global(.ql-font-sofia) {
+  font-family: 'Sofia', cursive !important;
+}
+
+.specialEditor :global(.ql-font-slabo) {
+  font-family: 'Slabo 27px', serif !important;
+}
+
+.specialEditor :global(.ql-font-roboto) {
+  font-family: 'Roboto', sans-serif !important;
+}
+
+.specialEditor :global(.ql-font-inconsolata) {
+  font-family: 'Inconsolata', monospace !important;
+}
+
+.specialEditor :global(.ql-font-ubuntu) {
+  font-family: 'Ubuntu', sans-serif !important;
+}
+
+/* 下拉菜单预览样式 */
+.specialEditor :global(.ql-font .ql-picker-label[data-value='sofia']::before),
+.specialEditor :global(.ql-font .ql-picker-item[data-value='sofia']::before) {
+  content: 'Sofia';
+  font-family: 'Sofia', cursive;
+}
+
+.specialEditor :global(.ql-font .ql-picker-label[data-value='slabo']::before),
+.specialEditor :global(.ql-font .ql-picker-item[data-value='slabo']::before) {
+  content: 'Slabo';
+  font-family: 'Slabo 27px', serif;
+}
+
+.specialEditor :global(.ql-font .ql-picker-label[data-value='roboto']::before),
+.specialEditor :global(.ql-font .ql-picker-item[data-value='roboto']::before) {
+  content: 'Roboto';
+  font-family: 'Roboto', sans-serif;
+}
+
+.specialEditor :global(.ql-font .ql-picker-label[data-value='inconsolata']::before),
+.specialEditor :global(.ql-font .ql-picker-item[data-value='inconsolata']::before) {
+  content: 'Inconsolata';
+  font-family: 'Inconsolata', monospace;
+}
+
+.specialEditor :global(.ql-font .ql-picker-label[data-value='ubuntu']::before),
+.specialEditor :global(.ql-font .ql-picker-item[data-value='ubuntu']::before) {
+  content: 'Ubuntu';
+  font-family: 'Ubuntu', sans-serif;
+}
+
+/* 选中状态的样式 */
+.specialEditor :global(.ql-font .ql-picker-label::before) {
+  content: 'Font';
+}
+
+.specialEditor :global(.ql-font .ql-picker-label[data-value]::before) {
+  content: attr(data-value);
+}
+
+.editorContainer {
+  height: 55vh;
+}
